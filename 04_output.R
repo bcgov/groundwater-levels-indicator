@@ -10,7 +10,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
-library(envreportutils)
 library(ggplot2)
 
 # Export data files and charts
@@ -38,9 +37,9 @@ dev.off()
 # dev.off()
 # 
 # png(status.reg.aq.png, width=930, height=330)
-# multiplot(reg.plot + theme(legend.position="none"), 
-#                 aq.plot + theme(legend.position="none"), 
-#                 cols=2, colwidths=c(3,2))
+# envreportutils::multiplot(reg.plot + theme(legend.position="none"), 
+#                           aq.plot + theme(legend.position="none"), 
+#                           cols=2, colwidths=c(3,2))
 # dev.off()
 
 # Write data files

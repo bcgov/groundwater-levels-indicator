@@ -20,7 +20,7 @@
 
 # First, install the packages we will need:
 list.of.packages <- c("dplyr", "rgdal", "sp", "lubridate", "zoo", "ggplot2", 
-                      "grid", "scales", "ggmap", "devtools", "rvest")
+                      "grid", "scales", "ggmap", "devtools", "rvest", "RColorBrewer")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
