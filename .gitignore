@@ -1,0 +1,8 @@
+.Rproj.user
+.Rhistory
+.RData
+print_ver/*.pdf
+/data
+/out
+/tmp
+README.html
