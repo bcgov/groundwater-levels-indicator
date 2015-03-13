@@ -158,5 +158,6 @@ monthlywells.ts$Well_Num[to_simple] <- gsub("([0-9]+)\\s[a-z]+", "\\1",
 
 ## These processes all take a long time, so it's a good idea to save them in a
 ## temporary directory:
+dir.create("tmp", showWarnings = FALSE)
 save.image("tmp/raw_data.RData")
 
