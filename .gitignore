@@ -4,4 +4,6 @@
 print_ver/*.pdf
 /out
 /tmp
+/data/BCGW_NRO_reg/
+/data/BCGW_Wells/
 README.html
