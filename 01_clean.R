@@ -112,26 +112,42 @@ obs_wells_attr$REGION_NM <- sapply(strsplit(obs_wells_attr$REGION_NM, " Region")
 # Import and process the groundwater level data. When you download the data from 
 # the GWL tool, name each file with the well's EMS_ID like so: "[EMS_ID].csv",
 # so you can then pass in the EMS_ID to readGWLdata. Save them all in the same 
-# directory (well_files subdirectory of your data.dir specified above)
+# directory (well_files subdirectory of your data.dir specified above).
+#
+# If you do not want to download the # raw data, a copy of the cleaned, monthly 
+# data is available at: 
+# http://www.data.gov.bc.ca/dbc/catalogue/detail.page?config=dbc&P110=recorduid:179324.
+# Set download_monthly to TRUE if you want to start with the aggregated monthly 
+# data from DataBC
 ###############################################################################
 
-# Get a list of all the files in the directory
-wellfiles <- list.files(file.path(data.dir, "well_files"), pattern="\\.csv", full.names = TRUE)
+downloadMonthly <- FALSE # Set to TRUE to start with monthly data from DataBC
 
-# import each csv using the 'readGWLdata' function.
-wells_raw <- lapply(wellfiles, function(x) {
-  tryCatch(
-    readGWLdata(path=x, emsID=gsub("\\.csv", "", basename(x)))
-    , error=function(e) NULL)
+if (downloadMonthly) {
+  
+  monthlywells <- read.csv("http://pub.data.gov.bc.ca/datasets/179324/GWL_monthly.csv", 
+                           stringsAsFactors = FALSE)
+  monthlywells <- split(monthlywells, monthlywells$EMS_ID)
+  
+} else {
+  # Get a list of all the files in the directory
+  wellfiles <- list.files(file.path(data.dir, "well_files"), pattern="\\.csv", full.names = TRUE)
+  
+  # import each csv using the 'readGWLdata' function.
+  wells_raw <- lapply(wellfiles, function(x) {
+    tryCatch(
+      readGWLdata(path=x, emsID=gsub("\\.csv", "", basename(x)))
+      , error=function(e) NULL)
+  }
+  )
+  
+  ################################################################################
+  # Create monthly time series for each well.
+  ################################################################################
+  
+  # Use 'monthlyValues' function to create monthly values
+  monthlywells <- lapply(compact(wells_raw), monthlyValues)
 }
-)
-
-################################################################################
-# Create monthly time series for each well
-################################################################################
-
-# Use 'monthlyValues' function to create monthly values
-monthlywells <- lapply(compact(wells_raw), monthlyValues)
 
 # Create full monthly time series, interpolating missing values
 monthlywellts <- lapply(monthlywells, function(x)

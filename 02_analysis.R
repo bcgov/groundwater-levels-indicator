@@ -13,9 +13,7 @@
 ###############################################################################
 # This script works on data that has been downloaded from the GWL tool 
 # (http://www.env.gov.bc.ca/wsd/data_searches/obswell/index.html) and has been 
-# processed to have 1 observation per month using the 01_clean.R script. 
-# For testing purposes, a copy of the cleaned, monthly data is available at: 
-# http://www.data.gov.bc.ca/dbc/catalogue/detail.page?config=dbc&P110=recorduid:179324
+# processed to have 1 observation per month using the 01_clean.R script.
 ###############################################################################
 
 ###############################################################################
