@@ -46,7 +46,7 @@ wells_attr <- read.csv("data/BCGW_Wells/GW_WW_WRBC/GW_WW_WRBC.csv",
                        na.strings = "", stringsAsFactors = FALSE)
 
 ## Get the details about this data from the DataBC metadata, using rvest:
-tbls <- html(file.path(data.dir, "BCGW_Water_Wells/metadata_GW_WW_WRBC.html")) %>% 
+tbls <- html("data/BCGW_Wells/metadata_GW_WW_WRBC.html") %>% 
   html_nodes("#object-description .table") %>% 
   html_table
 metadata <- tbls[[1]]
@@ -110,7 +110,7 @@ obs_wells_attr$REGION_NM <- sapply(strsplit(obs_wells_attr$REGION_NM, " Region")
 # data from DataBC
 ###############################################################################
 
-downloadMonthly <- FALSE # Set to TRUE to use monthly data from DataBC
+downloadMonthly <- TRUE # Set to TRUE to use monthly data from DataBC
 # set the directory where your data is stored:
 data.dir <- "D:/data/water/groundwater/well_files"
 
