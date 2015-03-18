@@ -18,6 +18,11 @@
 # http://www.env.gov.bc.ca/soe/archive/print_ver/water/2014_GWL_Trends_methods.pdf
 ################################################################################
 
+downloadMonthly <- TRUE # Set to TRUE to use monthly data from DataBC
+
+# if downloadMonthly is FALSE, (i.e., using raw data), set the directory where your data is stored:
+data.dir <- "data/well_files"
+
 # First, install the packages we will need:
 list.of.packages <- c("dplyr", "rgdal", "sp", "lubridate", "zoo", "ggplot2", 
                       "grid", "scales", "ggmap", "devtools", "rvest", "RColorBrewer")
@@ -109,10 +114,6 @@ obs_wells_attr$REGION_NM <- sapply(strsplit(obs_wells_attr$REGION_NM, " Region")
 # Set download_monthly to TRUE if you want to start with the aggregated monthly 
 # data from DataBC
 ###############################################################################
-
-downloadMonthly <- TRUE # Set to TRUE to use monthly data from DataBC
-# set the directory where your data is stored:
-data.dir <- "D:/data/water/groundwater/well_files"
 
 if (downloadMonthly) {
   
