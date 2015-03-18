@@ -20,8 +20,9 @@
 
 downloadMonthly <- TRUE # Set to TRUE to use monthly data from DataBC
 
-# if downloadMonthly is FALSE, (i.e., using raw data), set the directory where your data is stored:
-data.dir <- "data/well_files"
+# if downloadMonthly is FALSE, (i.e., using raw data), set the directory where
+# your raw data files are stored:
+data_raw_dir <- "data/well_files"
 
 # First, install the packages we will need:
 list.of.packages <- c("dplyr", "rgdal", "sp", "lubridate", "zoo", "ggplot2", 
@@ -45,9 +46,11 @@ source("func.R")
 # Get attribute data from Ground Water Wells data (from DataBC). 
 # http://catalogue.data.gov.bc.ca/dataset/ground-water-wells-spatial-view-with-attribute-info
 ################################################################################
-
-unzip("data/BCGW_GW_Wells_csv.zip", exdir = "data/BCGW_Wells")
-wells_attr <- read.csv("data/BCGW_Wells/GW_WW_WRBC/GW_WW_WRBC.csv", 
+attr_dir <- file.path("data", "BCGW_Wells")
+if (!file.exists(file.path(attr_dir, "GW_WW_WRBC", "GW_WW_WRBC.csv"))) {
+  unzip(file.path("data", "BCGW_GW_Wells_csv.zip"), exdir =attr_dir)
+}
+wells_attr <- read.csv(file.path(attr_dir, "GW_WW_WRBC", "GW_WW_WRBC.csv"), 
                        na.strings = "", stringsAsFactors = FALSE)
 
 ## Get the details about this data from the DataBC metadata, using rvest:
@@ -87,8 +90,11 @@ obs_wells_attr$OBSERVATION_WELL_NUMBER[obs_wells_attr$WELL_TAG_NUMBER == 90213] 
 # Get NRO region information into the attributes file.
 # http://catalogue.data.gov.bc.ca/dataset/natural-resource-operations-regions
 ################################################################################
-unzip("data/BCGW_NRO_reg_shp.zip", exdir = "data/BCGW_NRO_reg")
-regions.poly <- readOGR("data/BCGW_NRO_reg/NRO_REG", "NRO_REG_polygon", 
+reg_dir <- file.path("data", "BCGW_NRO_reg")
+if (!file.exists(file.path(reg_dir, "NRO_REG", "NRO_REG_polygon.shp"))) {
+  unzip(file.path("data", "BCGW_NRO_reg_shp.zip"), exdir = reg_dir)
+}
+regions.poly <- readOGR(file.path(reg_dir, "NRO_REG"), "NRO_REG_polygon", 
                         stringsAsFactors = FALSE)
 
 # Make obs_wells_attr spatial
@@ -106,7 +112,7 @@ obs_wells_attr$REGION_NM <- sapply(strsplit(obs_wells_attr$REGION_NM, " Region")
 # Import and process the groundwater level data. When you download the data from 
 # the GWL tool, name each file with the well's EMS_ID like so: "[EMS_ID].csv",
 # so you can then pass in the EMS_ID to readGWLdata. Save them all in the same 
-# directory (data.dir set below).
+# directory (data_raw_dir set below).
 #
 # If you do not want to download the # raw data, a copy of the cleaned, monthly 
 # data is available at: 
@@ -124,7 +130,7 @@ if (downloadMonthly) {
   
 } else {
   # Get a list of all the files in the directory
-  wellfiles <- list.files(data.dir, pattern="\\.csv", full.names = TRUE)
+  wellfiles <- list.files(data_raw_dir, pattern="\\.csv", full.names = TRUE)
   
   # import each csv using the 'readGWLdata' function.
   wells_raw <- lapply(wellfiles, function(x) {
