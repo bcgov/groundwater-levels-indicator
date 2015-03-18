@@ -6,4 +6,5 @@ print_ver/*.pdf
 /tmp
 /data/BCGW_NRO_reg/
 /data/BCGW_Wells/
+/data/GWL_monthly.csv
 README.html
