@@ -99,17 +99,17 @@ reg.plot <- ggplot(sum.data.reg, aes(x=category, y=prop, fill=category)) +
 
 # Summarize by aquifer type
 
-sum.data.aq <- attr.viz[attr.viz$Aquifer_Type != "Unknown",] %>%
-  group_by(Aquifer_Type, category) %>%
-  summarise(Freq = n()) %>%
-  mutate(prop=Freq/sum(Freq), 
-         aq_lab = paste0(Aquifer_Type, "\n(", 
-                         nLabeller(sum(Freq), "well"), ")"))
-
-## Plot with percentage on y and sample size labels
-aq.plot <- ggplot(sum.data.aq, aes(x=category, y=prop, fill=category)) + 
-  geom_bar(stat='identity') + facet_grid(~ aq_lab) + 
-  labs(title="Trends in groundwater levels by aquifer type", 
-       x=element_blank(), y="Percent of wells") + 
-  scale_fill_manual(values=colour.scale) +
-  scale_y_continuous(labels=percent, limits=c(0,1))
+# sum.data.aq <- attr.viz[attr.viz$Aquifer_Type != "Unknown",] %>%
+#   group_by(Aquifer_Type, category) %>%
+#   summarise(Freq = n()) %>%
+#   mutate(prop=Freq/sum(Freq), 
+#          aq_lab = paste0(Aquifer_Type, "\n(", 
+#                          nLabeller(sum(Freq), "well"), ")"))
+# 
+# ## Plot with percentage on y and sample size labels
+# aq.plot <- ggplot(sum.data.aq, aes(x=category, y=prop, fill=category)) + 
+#   geom_bar(stat='identity') + facet_grid(~ aq_lab) + 
+#   labs(title="Trends in groundwater levels by aquifer type", 
+#        x=element_blank(), y="Percent of wells") + 
+#   scale_fill_manual(values=colour.scale) +
+#   scale_y_continuous(labels=percent, limits=c(0,1))
