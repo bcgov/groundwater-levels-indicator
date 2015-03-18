@@ -1,4 +1,4 @@
-<a rel="delivery" href="https://github.com/BCDevExchange/docs/wiki/Project-States"><img alt="In production, but maybe in Alpha or Beta. Intended to persist and be supported." style="border-width:0" src="https://img.shields.io/badge/BCDevExchange-Delivery-brightgreen.svg" title="In production, but maybe in Alpha or Beta. Intended to persist and be supported." /></a>
+<a rel="Delivery" href="https://github.com/BCDevExchange/docs/blob/master/discussion/projectstates.md"><img alt="In production, but maybe in Alpha or Beta. Intended to persist and be supported." style="border-width:0" src="http://bcdevexchange.org/badge/3.svg" title="In production, but maybe in Alpha or Beta. Intended to persist and be supported." /></a>
 
 ---
 
@@ -57,3 +57,9 @@ If you would like to contribute, please see our [CONTRIBUTING](CONTRIBUTING.md) 
 ### License
 
 Apache 2.0. See our [license](LICENSE) for more details.
+
+----------
+
+###### BCDevExchange Search Tags ######
+
+BCDevExchange-Resource, BCDevExchange-Delivery
