@@ -21,7 +21,7 @@ The analysis uses a package we developed called **bcgroundwater**, also availabl
       [DataBC](http://catalogue.data.gov.bc.ca/dataset/monthly-water-levels-in-groundwater-observation-wells).
       If you would prefer to run the analysis beginning with these data rather than 
       downloading the individual raw data files, set the `downloadMonthly` variable
-      to `TRUE` on line 113 of `01_clean.R`
+      to `TRUE` at the top of `01_clean.R`
 - Well attribute data are included as a zip file in the `data` folder. They are available from 
   [DataBC](http://catalogue.data.gov.bc.ca/dataset/ground-water-wells-spatial-view-with-attribute-info),
    under the [Open Government License–British Columbia](http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf)
