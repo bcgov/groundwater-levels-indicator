@@ -116,9 +116,10 @@ obs_wells_attr$REGION_NM <- sapply(strsplit(obs_wells_attr$REGION_NM, " Region")
 ###############################################################################
 
 if (downloadMonthly) {
-  
-  monthlywells <- read.csv("http://pub.data.gov.bc.ca/datasets/179324/GWL_monthly.csv", 
-                           stringsAsFactors = FALSE)
+  monthlycsv <- "data/GWL_monthly.csv"
+  download.file("http://pub.data.gov.bc.ca/datasets/179324/GWL_monthly.csv", 
+                destfile = monthlycsv)
+  monthlywells <- read.csv(monthlycsv, stringsAsFactors = FALSE)
   monthlywells <- split(monthlywells, monthlywells$EMS_ID)
   
 } else {
