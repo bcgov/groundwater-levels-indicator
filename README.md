@@ -4,10 +4,11 @@
 
 # Analysis of trends in groundwater levels in BC
 
-These scripts produce the 2013 analysis of trends in groundwater levels, presented on 
-[Environmental Reporting BC](http://www.env.gov.bc.ca/soe/indicators/water/wells/index.html?WT.ac=GH_wells).
+## [Groundwater trends analysis](https://github.com/bcgov/groundwater_levels/)
 
-The analysis uses a package we developed called **bcgroundwater**, also available on [GitHub](https://github.com/bcgov/bcgroundwater).
+This is a set of [R](http://www.r-project.org) scripts to reproduce the 2013 analysis of trends in groundwater levels, presented on [Environmental Reporting BC](http://www.env.gov.bc.ca/soe/indicators/water/wells/index.html?WT.ac=GH_wells). 
+
+The scripts use the [bcgroundwater](https://github.com/bcgov/bcgroundwater/) package and groundwater monitoring data from the [ B.C. observation well network](http://www.env.gov.bc.ca/wsd/data_searches/obswell/index.html) to analyze long-term trends of groundwater levels and produce summary visualizations as well as individual well statistics.
 
 ### Usage
 
