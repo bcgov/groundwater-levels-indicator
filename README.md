@@ -2,9 +2,7 @@
 
 ---
 
-# Analysis of trends in groundwater levels in BC
-
-## [Groundwater trends analysis](https://github.com/bcgov/groundwater_levels/)
+## Analysis of trends in groundwater levels in BC
 
 This is a set of [R](http://www.r-project.org) scripts to reproduce the 2013 analysis of trends in groundwater levels, presented on [Environmental Reporting BC](http://www.env.gov.bc.ca/soe/indicators/water/wells/index.html?WT.ac=GH_wells). 
 
