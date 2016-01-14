@@ -73,8 +73,4 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 This repository is maintained by [Environmental Reporting BC](http://www.env.gov.bc.ca/soe/). Click [here](https://github.com/bcgov/EnvReportBC-RepoList) for a complete list of our repositories on GitHub.
 
-----------
 
-###### BCDevExchange Search Tags ######
-
-BCDevExchange-Resource, BCDevExchange-Delivery
