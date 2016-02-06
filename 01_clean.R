@@ -68,12 +68,12 @@ cols <- c("OBSERVATION_WELL_NUMBER", "CHEMISTRY_SITE_ID", "WELL_TAG_NUMBER",
           "MINISTRY_OBSERVATION_WELL_STAT", "AQUIFER_LITHOLOGY_CODE", 
           "DEPTH_WELL_DRILLED", "WATER_DEPTH", "LONGITUDE", "LATITUDE")
 
-wells_attr <- wells_attr[, col_names[cols]]
-names(wells_attr) <- cols
+obs_wells_attr <- wells_attr[, col_names[cols]]
+names(obs_wells_attr) <- cols
 
-obs_wells_attr <- wells_attr %>%
-  filter(!is.na(wells_attr$MINISTRY_OBSERVATION_WELL_STAT) | 
-           !is.na(wells_attr$OBSERVATION_WELL_NUMBER)) %>% 
+obs_wells_attr %<>%
+  filter(!is.na(MINISTRY_OBSERVATION_WELL_STAT) | 
+           !is.na(OBSERVATION_WELL_NUMBER)) %>% 
   mutate(LONGITUDE = -LONGITUDE) # LONGITUDE needs to be negative
 
 ## Check for duplicate Well numbers:
