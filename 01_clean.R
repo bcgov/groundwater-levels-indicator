@@ -54,7 +54,7 @@ wells_attr <- read.csv(file.path(attr_dir, "GW_WW_WRBC", "GW_WW_WRBC.csv"),
                        na.strings = "", stringsAsFactors = FALSE)
 
 ## Get the details about this data from the DataBC metadata, using rvest:
-tbls <- html("data/BCGW_Wells/metadata_GW_WW_WRBC.html") %>% 
+tbls <- read_html("data/BCGW_Wells/metadata_GW_WW_WRBC.html") %>% 
   html_nodes("#object-description .table") %>% 
   html_table
 metadata <- tbls[[1]]
