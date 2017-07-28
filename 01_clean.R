@@ -54,7 +54,7 @@ wells_attr <- read.csv(file.path(attr_dir, "GW_WW_WRBC", "GW_WW_WRBC.csv"),
                        na.strings = "", stringsAsFactors = FALSE)
 
 ## Get the details about this data from the DataBC metadata, using rvest:
-tbls <- html("data/BCGW_Wells/metadata_GW_WW_WRBC.html") %>% 
+tbls <- read_html("data/BCGW_Wells/metadata_GW_WW_WRBC.html") %>% 
   html_nodes("#object-description .table") %>% 
   html_table
 metadata <- tbls[[1]]
@@ -68,12 +68,12 @@ cols <- c("OBSERVATION_WELL_NUMBER", "CHEMISTRY_SITE_ID", "WELL_TAG_NUMBER",
           "MINISTRY_OBSERVATION_WELL_STAT", "AQUIFER_LITHOLOGY_CODE", 
           "DEPTH_WELL_DRILLED", "WATER_DEPTH", "LONGITUDE", "LATITUDE")
 
-wells_attr <- wells_attr[, col_names[cols]]
-names(wells_attr) <- cols
+obs_wells_attr <- wells_attr[, col_names[cols]]
+names(obs_wells_attr) <- cols
 
-obs_wells_attr <- wells_attr %>%
-  filter(!is.na(wells_attr$MINISTRY_OBSERVATION_WELL_STAT) | 
-           !is.na(wells_attr$OBSERVATION_WELL_NUMBER)) %>% 
+obs_wells_attr %<>%
+  filter(!is.na(MINISTRY_OBSERVATION_WELL_STAT) | 
+           !is.na(OBSERVATION_WELL_NUMBER)) %>% 
   mutate(LONGITUDE = -LONGITUDE) # LONGITUDE needs to be negative
 
 ## Check for duplicate Well numbers:
@@ -123,7 +123,7 @@ obs_wells_attr$REGION_NM <- sapply(strsplit(obs_wells_attr$REGION_NM, " Region")
 
 if (downloadMonthly) {
   monthlycsv <- "data/GWL_monthly.csv"
-  download.file("http://pub.data.gov.bc.ca/datasets/179324/GWL_monthly.csv", 
+  download.file("https://catalogue.data.gov.bc.ca/dataset/84c06668-8a1e-4629-90a3-051bba903f22/resource/c8c3c750-bf4d-4213-be58-42c6f42510e8/download/gwlmonthly.csv", 
                 destfile = monthlycsv)
   monthlywells <- read.csv(monthlycsv, stringsAsFactors = FALSE)
   monthlywells <- split(monthlywells, monthlywells$EMS_ID)
