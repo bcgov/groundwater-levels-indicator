@@ -113,3 +113,25 @@ reg.plot <- ggplot(sum.data.reg, aes(x=category, y=prop, fill=category)) +
 #        x=element_blank(), y="Percent of wells") + 
 #   scale_fill_manual(values=colour.scale) +
 #   scale_y_continuous(labels=percent, limits=c(0,1))
+# Get maps ----------------------------------------------------------------
+
+styles <- 'feature:all|element:all|saturation:-75'
+
+# Get BC basemap
+BCextent <- c(-139,48,-114,60)
+names(BCextent) <- c("left", "bottom", "right", "top")
+fourCorners <- expand.grid(as.data.frame(matrix(BCextent, ncol=2, byrow=TRUE,
+                                                dimnames=list(NULL, c("Long", "Lat")))))
+BCcenter <- c(mean(BCextent[c("left","right")]), 
+              mean(BCextent[c("top","bottom")]))
+ggMapBC <- get_googlemap(center=BCcenter, zoom=5, scale=1, 
+                         maptype='roadmap', visible=fourCorners, style=styles)
+
+# Create list of well maps
+wellMaps <- as.list(rep(NA, nrow(results_viz)))
+for(w in 1:nrow(results_viz)) {
+  wellMaps[[w]] <- tryCatch(get_googlemap(center = c(results_viz$Long[w], results_viz$Lat[w]), 
+                                          zoom = 8, scale = 1, maptype = 'roadmap', style = styles), 
+                            error = function(e) NULL)
+}
+
