@@ -133,7 +133,7 @@ ggMapBC <- get_googlemap(center=BCcenter, zoom=5, scale=1,
                          maptype='roadmap', visible=fourCorners, style=styles)
 
 # Create list of well maps
-wellMaps <- as.list(rep(NA, nrow(results_viz)))
+wellMaps <- list()
 for(w in unique(results_viz$Well_Num)) {
   well <- filter(results_viz, Well_Num == w)
   wellMaps[[w]] <- tryCatch(get_googlemap(center = c(well$Long[1], well$Lat[1]), 
