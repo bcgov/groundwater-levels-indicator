@@ -76,3 +76,23 @@ simpleCap <- function(x) {
   
   gsub("\\s\\s"," \\(",s)
 }
+
+construct_url <- function(obj, epsg, query) {
+  baseurl <- "https://openmaps.gov.bc.ca/geo/pub/{obj}/ows?service=WFS&version=2.0.0&request=GetFeature&typeName={obj}&SRSNAME=epsg:{epsg}&outputFormat=json{query}"
+  
+  if (!is.null(query)) {
+    query <- paste0("&CQL_FILTER=", query)
+  } else {
+    query <- ""
+  }
+  URLencode(glue::glue(baseurl, obj = obj, epsg = epsg, query = query))
+}
+
+bcdc_map <- function(id, epsg = 3005, query = NULL) {
+  url <- construct_url(id, epsg, query)
+  tmp <- tempfile(fileext = ".json")
+  on.exit(unlink(tmp))
+  res <- httr::GET(url, httr::write_disk(tmp))
+  httr::stop_for_status(res)
+  sf::st_read(tmp)
+}

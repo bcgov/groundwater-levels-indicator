@@ -1,0 +1,323 @@
+---
+title: Water
+subtitle: Long-Term Trends in Groundwater Levels in B.C.
+output: envreportutils.internal::print_ver
+header-includes:
+  - \usepackage{xcolor,colortbl}
+  - \usepackage{longtable, booktabs}
+---
+
+```{r set-options, echo = FALSE, warning = FALSE, message = FALSE}
+# 
+# envreportutils.internal::print_ver
+knitr::opts_chunk$set(cache = TRUE)
+library(dplyr)
+library(ggplot2)
+library(grid)
+library(RColorBrewer)
+library(scales)
+library(ggmap)
+library(bcgroundwater)
+library(envreportutils)
+library(gridExtra)
+
+base_theme <- theme_get()
+
+load('../tmp/raw_data.RData')
+load('../tmp/analysis_data.RData')
+load('../tmp/map_data.RData')
+load('../tmp/figs.RData')
+
+attr_wells <- results_out[results_out$category != "N/A",]
+
+attr_wells$state <- factor(attr_wells$state,
+                           levels = c("Increasing", "Stable",
+                                      "Moderate rate of decline",
+                                      "Large rate of decline"),
+                           ordered = TRUE)
+
+attr_wells$category <- factor(attr_wells$category, 
+                              levels = c("Stable or Increasing", 
+                                         "Moderate rate of decline",
+                                         "Large rate of decline"),
+                              ordered = TRUE)
+
+state.summary <- table(attr_wells$state)
+state.summary <- cbind(n = state.summary, prop = prop.table(state.summary))
+
+theme_set(theme_classic() + 
+            theme(text = element_text(colour = "#666666"),
+                  axis.line = element_blank(),
+                  axis.ticks = element_blank(),
+                  panel.grid.major = element_line(colour = "grey85", size = 0.5,
+                                                  linetype = 1),
+                  panel.grid.minor = element_line(colour = "grey90", size = 0.5,
+                                                  linetype = 1),
+                  panel.grid.major.x = element_blank(),
+                  panel.spacing = unit(0.6, "lines"),
+                  plot.title = element_text(vjust = 2),
+                  axis.title = element_text(vjust = 0.1),
+                  legend.position = "bottom", legend.title = element_blank(),
+                  axis.text.x = element_blank(),
+                  strip.background = element_blank()))
+
+label.colour <- "#3d3d3d"
+colour.scale <- brewer.pal(3,"Blues")
+
+updateDate <- format(Sys.Date(), "%B %Y")
+```
+
+Introduction
+============
+
+Up to 1 million British Columbians are estimated to consume groundwater,
+and hundreds of groundwater aquifers provide water for industries,
+municipalities, farms, and rural homeowners in B.C. British Columbia
+operates a provincial observation well network of over 180 wells, which
+was established in 1961 to monitor groundwater availability in areas of
+high human use.
+
+-   Observation wells are not used for domestic or commercial use, but
+instead provide information on groundwater levels over time.
+
+-   Monitoring groundwater levels allows us to know how much groundwater
+is available given human use patterns, aquifer characteristics,
+weather and climate patterns.
+
+-   This indicator presents a statistical analysis of long-term trends
+in groundwater levels recorded at `r nrow(attr_wells)` observation wells 
+that have been monitored for ten years or more and were active as of 2018.
+
+-   `r round(sum(state.summary[c("Stable","Increasing"),"prop"]*100))`% of 
+observation wells examined have water levels that are stable
+or increasing (with `r state.summary["Increasing","n"]` wells showing 
+increasing trends); `r round(state.summary["Large rate of decline","prop"]*100)`% 
+of observation wells show a large rate of decline in water levels (more
+than 10 cm per year), with a further 
+`r round(state.summary["Moderate rate of decline","prop"]*100)`% of wells 
+showing a moderate rate of decline in water levels (between 3 and 10 cm per year).
+
+Provincial summaries
+====================
+
+The charts below summarise the proportions of observation wells with
+groundwater levels in three long-term trend categories: large rate of
+decline (more than 10 cm/year), moderate rate of decline (3 to 10
+cm/year), and stable or increasing. These summaries are also presented
+by region and aquifer type.
+
+```{r pie, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 5, fig.height = 6, fig.align = 'center'}
+plot(pie_plot)
+```
+
+
+```{r summaries, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE}
+plot(regional_plot)
+```
+
+Individual well statistics
+==========================
+
+Groundwater levels are sensitive to precipitation, aquifer storage
+capacity, recharge rate, and human withdrawal. Groundwater level trends
+presented here indicate long-term changes in water level, but have not
+been corrected for changes in precipitation patterns or other factors.
+Thus, any significant trends are not necessarily directly attributable
+to human use. However, information on long-term trends can be useful for
+prompting further research and informing decision-making.
+
+Locations of `r nrow(attr_wells)` groundwater observation wells that were included in the analysis
+---------------------------------------------------------------------------------
+
+```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.height = 6}
+ggmap(ggMapBC, extent = "device") + 
+  coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
+  geom_point(data = attr_wells, aes(x = Long, y = Lat, fill = category), 
+             shape = 21, size = 2.5, colour = colour.scale[3]) + 
+  scale_fill_manual(values = colour.scale) + 
+  theme(legend.position = "bottom", legend.title = element_blank())
+```
+\newpage
+
+\definecolor{stable}{HTML}{`r substr(colour.scale[1], 2, 7)`}
+\definecolor{moderate}{HTML}{`r substr(colour.scale[2], 2, 7)`}
+\definecolor{large}{HTML}{`r substr(colour.scale[3], 2, 7)`}
+
+\small
+```{r table, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis'}
+library(xtable)
+library(lubridate)
+
+out.table <- attr_wells[,c("REGION_NAME", "Well_Num", "start_date", "last_date",  
+                           "trend_line_slope", "sig", "state")]
+
+out.table$date_range <- paste(year(out.table$start_date), "-", 
+                              year(out.table$last_date))
+
+out.table <- arrange(out.table, REGION_NAME, as.numeric(Well_Num))
+
+out.table$trend_line_slope <- -out.table$trend_line_slope
+
+out.table <- out.table %>%
+  select(REGION_NAME, Well_Num, date_range, trend_line_slope, sig, state)
+
+names(out.table) <- c("Region", "Well", "Date Range", 
+                      "Slope (m/yr)", "Sig", "State")
+
+out.table$Sig <- ifelse(out.table$Sig < 0.05, "p < 0.05", 
+                        round(out.table$Sig,3))
+
+x.table <- xtable(out.table, digits = 2)
+
+# Set the slope column as fixed width
+align(x.table) <- c('l', rep('l', 3), 'p{0.5in}', rep('l', 2))
+
+# Define colours of rows based on state
+HL_col <- ifelse(out.table$State == "Large rate of decline", "\\rowcolor{large}", 
+                 ifelse(out.table$State == "Moderate rate of decline", 
+                        "\\rowcolor{moderate}", "\\rowcolor{stable}"))
+HL_rows <- seq(0, length(HL_col)-1, by = 1)
+HL_col[1] <- paste0("\\hline ", HL_col[1]) # Hack to get a hline below headings
+
+print(x.table, tabular.environment = 'longtable', floating = FALSE,
+      hline.after = c(-1,nrow(x.table)), 
+      add.to.row = list(pos = list(as.list(HL_rows))[[1]], 
+                        command = HL_col), 
+      booktabs = TRUE, 
+      include.rownames = FALSE, sanitize.colnames.function = NULL, 
+      sanitize.text.function = NULL, comment = FALSE)
+```
+
+References and Other Useful Links
+=================================
+
+-   Provincial Observation Well Network homepage:
+<http://www.env.gov.bc.ca/wsd/data_searches/obswell/index.html>
+
+-   WELLS - Ground Water Wells and Aquifer Database:
+<http://www.env.gov.bc.ca/wsd/data_searches/wells/>
+
+-   B.C. Water Information and Tools:
+<http://www2.gov.bc.ca/gov/topic.page?id=F281F036D5394460B4C3CC01F47833A7>
+
+-   Wei, M., D. Allen, A. Kohut, S. Grasby, K. Ronneseth, and B. Turner.
+2009. Understanding the Types of Aquifers in the Canadian Cordillera
+Hydrogeologic Region to Better Manage and Protect Groundwater.
+Streamline Water Management Bulletin. 13 (1): 10-18.
+<http://forrex.org/sites/default/files/publications/articles/Streamline_Vol13_No1_Art3.pdf>
+
+Data
+====
+
+\*By accessing these datasets, you agree to the license associated with
+each file, as indicated in parentheses below.
+
+-   [Observation Well
+Attributes](http://pub.data.gov.bc.ca/datasets/179325/GW_Well_Attributes.csv)
+(License: [B.C.
+OGL](http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf)).
+[Dataset
+Details](http://www.data.gov.bc.ca/dbc/catalogue/detail.page?config=dbc&P110=recorduid:179325)
+
+-   [Observation Well Groundwater Level
+Data](http://pub.data.gov.bc.ca/datasets/179324/GWL_monthly.csv)
+(License: [B.C.
+OGL](http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf)).
+[Dataset
+Details](http://www.data.gov.bc.ca/dbc/catalogue/detail.page?config=dbc&P110=recorduid:179324)
+
+Published and Available On-Line at Environmental Reporting BC (`r updateDate`): <http://www.env.gov.bc.ca/soe/indicators/water/wells/index.html>
+
+Appendix: Individual well maps and graphs
+=========================================
+
+Three plots were created for each well, including a map of the well’s
+location (upper left).
+
+The graph to the right of the map shows the monthly groundwater levels
+relative to the annual average. This illustrates the seasonal nature of
+water levels recorded in that well; many wells will have higher than
+average water levels in the spring, and lower than average levels in the
+late summer and fall. The shaded blue area shows the range of variation
+within which 90% of observations in that month fall.
+
+The bottom plot (called a "hydrograph") on each page shows the monthly
+groundwater levels for the history of the well, with the orange line
+representing the calculated trend in annual average groundwater levels.
+The slope and significance of the trend are given below the title. Red
+dots show missing values which were interpolated (see methods).
+
+\newpage
+
+```{r well_plots, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.height = 7.5}
+knitr_latex_char <- function(x) {
+  y <- gsub("\\\\", "\\\\textbackslash{}", x) # backslash has to be first!
+  y <- gsub("([#$%&_])", "\\\\\\1", y) # Doesdn't deal with { or } because of function{}
+  y <- gsub("\\^", "\\\\textasciicircum{}", y)
+  y <- gsub("~", "\\\\textasciitilde{}", y)
+  return(y)
+}
+
+theme_set(base_theme)
+
+for (reg in sort(unique(attr_wells$REGION_NAME))) {
+  cat(paste0('\\subsection{',reg,'}'))
+  regdata <- filter(attr_wells, REGION_NAME == reg)
+  
+  for (well in regdata$Well_Num) {
+    if (is.na(well)) next
+
+    well.attr <- filter(regdata, Well_Num == well)
+    wellLong <- well.attr$Long
+    wellLat <- well.attr$Lat
+    wellColour <- with(well.attr, ifelse(category == "Large rate of decline",
+                                         colour.scale[3],
+                                         ifelse(category=="Stable or Increasing",
+                                                colour.scale[1],
+                                                colour.scale[2])))
+    wellname <- well.attr$Well_Name
+    
+    cat(paste0('\\subsubsection*{', 
+               knitr_latex_char(wellname),
+               '}'))
+    
+    cat(paste0("This well is drilled into a ", well.attr$AQUIFER_TYPE, 
+               " aquifer, to a depth of ", well.attr$wellDepth_m, 
+               "m and has a period of record from ", 
+               format(well.attr$start_date, format = "%B %d %Y"), 
+               " to ", format(well.attr$last_date, format = "%B %d %Y"),
+               " \\newline "))
+    
+    plotdata <- monthlywells_ts[monthlywells_ts$Well_Num == well,]
+
+    mapplot <- plotPointWithInset(long = wellLong, lat = wellLat,
+                                  pointColour = wellColour,
+                                  bigMap = wellMaps[well][[1]],
+                                  overviewMap = ggMapBC,
+                                  overviewExtent = BCextent,
+                                  opts = theme(plot.margin = unit(c(0.5,0.5,0.5,0.01),
+                                                                  "cm")))
+    
+    areaplot <- gwlAreaPlot(data = plotdata, trend = well.attr$trend_line_slope,
+                            intercept = well.attr$trend_line_int,
+                            state = well.attr$state, sig = well.attr$sig,
+                            showInterpolated = TRUE, save = FALSE,
+                            mkperiod = "monthly",
+                            opts = theme(plot.margin = unit(c(0.5,0.5,0.5,0.01),
+                                                            "cm")))
+    
+    monthplot <- gwlMonthlyPlot(dataframe = plotdata, splines = TRUE, save = FALSE,
+                                opts = theme(plot.margin = unit(c(0.5,0.01,0.5,0.01),
+                                                                "cm")))
+    
+    grid.arrange(mapplot + theme(text = element_text(size = 10)),
+                 monthplot + theme(text = element_text(size = 10),
+                                   axis.title.y = element_text(hjust = 0.3)),
+                 areaplot + theme(text = element_text(size = 10)),
+                 layout_matrix = matrix(c(1,2,3,3), nrow = 2, byrow = TRUE))
+    
+    cat('\\newpage ')
+  }
+  
+}
+```
