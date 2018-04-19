@@ -23,12 +23,12 @@
 # Install the packages we will need from CRAN:
 package_list <- c("dplyr", "rgdal", "sp", "lubridate", "zoo", "ggplot2", "stringr",
                   "grid", "scales", "ggmap", "devtools", "rvest", "RColorBrewer",
-                  "purrr", "sf", "gridExtra")
+                  "purrr", "sf", "gridExtra", "bcmaps")
 package_new <- package_list[!(package_list %in% installed.packages()[,"Package"])]
 if(length(package_new)) install.packages(package_new)
 
 # Install the packages we will need from GitHub:
-package_github <- c("bcmaps", "bcgroundwater", "envreportutils")
+package_github <- c("bcgroundwater", "envreportutils")
 package_new <- package_github[!(package_github %in% installed.packages()[,"Package"])]
 if(length(package_new)) devtools::install_github(paste0("bcgov/", package_new))
 
