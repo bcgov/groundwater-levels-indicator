@@ -66,7 +66,7 @@ annualwells_ts <- monthlywells_ts %>%
   filter(Well_Num %in% wells_nums)
 
 # Perform the analysis
-results_annual <- gwlZypTest(dataframe = annualwells_ts, by = "Well_Num", 
+results_annual <- gwlZypTest(dataframe = annualwells_ts, byID = "Well_Num", 
                              col = "mean_GWL", method = "both") %>%
   mutate(Well_Num = as.numeric(Well_Num)) %>%
   filter(test_type == "yuepilon")
