@@ -89,6 +89,7 @@ obs_wells <- filter(obs_wells, WELL_TAG_NUMBER != 93712)
 
 # Raw well data (warnings reflect wells with no data)
 wells_raw <- get_gwl(wells = obs_wells$OBSERVATION_WELL_NUMBER, which = "all")
+dir.create("tmp", showWarnings = FALSE)
 save(wells_raw, file = "./tmp/raw_well_data.RData") #backup, just in case
 
 # Nest data by Well_Num
