@@ -1,6 +1,6 @@
 ---
-title: Water
-subtitle: Long-Term Trends in Groundwater Levels in B.C.
+topic: "water"
+title: "Long-Term Trends in Groundwater Levels in B.C."
 output: envreportutils.internal::print_ver
 header-includes:
   - \usepackage{xcolor,colortbl}
