@@ -46,7 +46,7 @@ welldata_attr <- monthlywells_ts %>%
 # Analysis of mean annual groundwater levels, using a Mann-Kendall trend test
 # with trend-free prewhitening, as implemented in the package 'zyp'. Methods are 
 # documented here: 
-# http://www.env.gov.bc.ca/soe/archive/print_ver/water/2014_GWL_Trends_methods.pdf
+# http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html
 ###############################################################################
 
 # Only use wells with relatively current data, more than 10 years of data, and 
