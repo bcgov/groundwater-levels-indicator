@@ -13,11 +13,17 @@
 # the License.
 
 ################################################################################
-# This script uses bcgroundwater to download ground water level data from  BC
-# Ministry of environment's Groundwater Observation Well data access tool 
-# (http://www.env.gov.bc.ca/wsd/data_searches/obswell/index.html), and processes
-# the data for annual trend analysis, following the methods documented here: 
-# http://www.env.gov.bc.ca/soe/archive/print_ver/water/2014_GWL_Trends_methods.pdf
+# This script uses the bcgroundwater R package 
+# (https://github.com/bcgov/bcgroundwater)
+# to download ground water level data from the B.C. Data Catalogue 
+# (https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685), 
+# provided under the Open Government Licence-BC.
+# The data is generated through the B.C. Ministry of Environment's
+# Provincial Groundwater Observation Well Nework Monitoring Program
+# (https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836). The 
+# script processes the data for annual trend analysis, following the methods  
+# documented here: 
+# http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html,
 ################################################################################
 
 # Install the packages we will need from CRAN:
