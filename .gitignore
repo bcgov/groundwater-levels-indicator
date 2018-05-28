@@ -8,3 +8,5 @@ print_ver/*.pdf
 /data/BCGW_Wells/
 /data/GWL_monthly.csv
 README.html
+/print_ver/2018_gwl_cache/
+/print_ver/2018_gwl_files/
