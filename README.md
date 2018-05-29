@@ -2,20 +2,26 @@
 
 # Long-term Trends in Groundwater Levels in B.C.
 
-This is a set of [R](http://www.r-project.org) scripts to reproduce the 2018 analysis of long-term trends in groundwater levels published on [Environmental Reporting BC](http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html). 
+This repository contains [R](http://www.r-project.org) code that calculates long-term trends in groundwater levels. It supports an indicator published on [Environmental Reporting BC](http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html). 
 
-The scripts use the [bcgroundwater](https://github.com/bcgov/bcgroundwater/) package and groundwater monitoring data from the [B.C. Observation Well Network](http://www.env.gov.bc.ca/wsd/data_searches/obswell/index.html) to analyze long-term trends of groundwater levels and produce summary visualizations as well as individual well statistics.
+The scripts use the [bcgroundwater R package](https://github.com/bcgov/bcgroundwater/) and groundwater monitoring data from the [B.C. Observation Well Network](http://www.env.gov.bc.ca/wsd/data_searches/obswell/index.html) to:
+
+- analyze long-term trends of groundwater levels
+- produce provincial-scale and individual well summary statistics
+- generate supporting data visualizations
 
 ## Usage
 
 ### Data
 
-- Raw groundwater level data are automatically downloaded from the 
-  [B.C. Data Catalogue](https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685) via the [`bcgroundwater`](https://github.com/bcgov/bcgroundwater) R package
-- Well attribute data are downloaded from the
+All the data sourced for the analysis is provided under the [Open Government Licence – British Columbia](http://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61).
+
+- Groundwater level monitoring data are downloaded from the 
+  [B.C. Data Catalogue](https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685) via the [`bcgroundwater` R package](https://github.com/bcgov/bcgroundwater)
+- Groundwater well attribute data are downloaded directly from the
   [B.C. Data Catalogue](https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778)
-- Natural Resource Regions used in the summaries are found in the [`bcmaps`](https://github.com/bcgov/bcmaps) R package
-- All data is provided under the [Open Government Licence – British Columbia](http://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61)
+- Natural Resource Regions used in the summaries are sourced from the [`bcmaps` R package](https://cran.r-project.org/web/packages/bcmaps/index.html)
+
 
 ### Code
 
