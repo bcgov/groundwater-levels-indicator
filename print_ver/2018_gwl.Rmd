@@ -9,9 +9,17 @@ header-includes:
 <!--
 Copyright 2018 Province of British Columbia
 
-This work is licensed under the Creative Commons Attribution 4.0 International License.
-To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
 -->
+
 
 ```{r set-options, echo = FALSE, warning = FALSE, message = FALSE}
 # 
@@ -38,14 +46,14 @@ attr_wells <- results_out[results_out$category != "N/A",]
 
 attr_wells$state <- factor(attr_wells$state,
                            levels = c("Increasing", "Stable",
-                                      "Moderate rate of decline",
-                                      "Large rate of decline"),
+                                      "Moderate Rate of Decline",
+                                      "Large Rate of Decline"),
                            ordered = TRUE)
 
 attr_wells$category <- factor(attr_wells$category, 
                               levels = c("Stable or Increasing", 
-                                         "Moderate rate of decline",
-                                         "Large rate of decline"),
+                                         "Moderate Rate of Decline",
+                                         "Large Rate of Decline"),
                               ordered = TRUE)
 
 state.summary <- table(attr_wells$state)
@@ -73,13 +81,11 @@ colour.scale <- brewer.pal(3,"Blues")
 updateDate <- format(Sys.Date(), "%B %Y")
 ```
 
-Introduction
-============
 
 Up to 1 million British Columbians are estimated to consume groundwater,
 and hundreds of groundwater aquifers provide water for industries,
 municipalities, farms, and rural homeowners in B.C. British Columbia
-operates a provincial observation well network of over 180 wells, which
+operates a provincial observation well monitoring network of over 180 wells, which
 was established in 1961 to monitor groundwater availability in areas of
 high human use.
 
@@ -97,14 +103,13 @@ that have been monitored for ten years or more and were active as of 2018.
 -   `r round(sum(state.summary[c("Stable","Increasing"),"prop"]*100))`% of 
 observation wells examined have water levels that are stable
 or increasing (with `r state.summary["Increasing","n"]` wells showing 
-increasing trends); `r round(state.summary["Large rate of decline","prop"]*100)`% 
+increasing trends); `r round(state.summary["Large Rate of Decline","prop"]*100)`% 
 of observation wells show a large rate of decline in water levels (more
 than 10 cm per year), with a further 
-`r round(state.summary["Moderate rate of decline","prop"]*100)`% of wells 
+`r round(state.summary["Moderate Rate of Decline","prop"]*100)`% of wells 
 showing a moderate rate of decline in water levels (between 3 and 10 cm per year).
 
-Provincial summaries
-====================
+## Provincial summaries
 
 The charts below summarise the proportions of observation wells with
 groundwater levels in three long-term trend categories: large rate of
@@ -179,8 +184,8 @@ x.table <- xtable(out.table, digits = 2)
 align(x.table) <- c('l', rep('l', 3), 'p{0.5in}', rep('l', 2))
 
 # Define colours of rows based on state
-HL_col <- ifelse(out.table$State == "Large rate of decline", "\\rowcolor{large}", 
-                 ifelse(out.table$State == "Moderate rate of decline", 
+HL_col <- ifelse(out.table$State == "Large Rate of Decline", "\\rowcolor{large}", 
+                 ifelse(out.table$State == "Moderate Rate of Decline", 
                         "\\rowcolor{moderate}", "\\rowcolor{stable}"))
 HL_rows <- seq(0, length(HL_col)-1, by = 1)
 HL_col[1] <- paste0("\\hline ", HL_col[1]) # Hack to get a hline below headings
@@ -215,10 +220,10 @@ Streamline Water Management Bulletin. 13 (1): 10-18.
 Data
 ====
 
-\*By accessing these datasets, you agree to the license associated with
+\*By accessing these datasets, you agree to the licence associated with
 each file, as indicated in parentheses below.
 
--   [Observation Well
+-   [Indicator Restults Data: Observation Well
 Attributes](http://pub.data.gov.bc.ca/datasets/179325/GW_Well_Attributes.csv)
 (License: [B.C.
 OGL](http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf)).
@@ -234,7 +239,7 @@ Details](http://www.data.gov.bc.ca/dbc/catalogue/detail.page?config=dbc&P110=rec
 
 Published and Available On-Line at Environmental Reporting BC (`r updateDate`): <http://www.env.gov.bc.ca/soe/indicators/water/wells/index.html>
 
-Appendix: Individual well maps and graphs
+Appendix: Individual Groundwater Well Maps & Graphs
 =========================================
 
 Three plots were created for each well, including a map of the well’s
