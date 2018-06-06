@@ -78,8 +78,8 @@ wells_results <- full_join(results_annual, welldata_attr, by = "Well_Num")
 # Assign each well to a trend category according to the slope and significance 
 # of the trend
 wells_results <- mutate(wells_results,
-                        state = case_when(trend >= 0.1 & sig < 0.05 ~ "Large rate of decline",
-                                          trend >= 0.03 & trend < 0.1 & sig < 0.05 ~ "Moderate rate of decline",
+                        state = case_when(trend >= 0.1 & sig < 0.05 ~ "Large Rate of Decline",
+                                          trend >= 0.03 & trend < 0.1 & sig < 0.05 ~ "Moderate Rate of Decline",
                                           trend <= -0.03 & sig < 0.05 ~ "Increasing",
                                           TRUE ~ "Stable"))
 

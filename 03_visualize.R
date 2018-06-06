@@ -46,12 +46,12 @@ colour.scale <- brewer.pal(3,"Blues")
 results_viz <- results_out[results_out$category != "N/A",] %>%
   mutate(state = factor(state, levels = c("Increasing", 
                                           "Stable",
-                                          "Moderate rate of decline",
-                                          "Large rate of decline"),
+                                          "Moderate Rate of Decline",
+                                          "Large Rate of Decline"),
                         ordered = TRUE),
          category = factor(category, levels = c("Stable or Increasing", 
-                                                "Moderate rate of decline",
-                                                "Large rate of decline"),
+                                                "Moderate Rate of Decline",
+                                                "Large Rate of Decline"),
                            ordered = TRUE))
 
 # overall summary
@@ -73,7 +73,7 @@ pie_plot <- ggplot(results_viz, aes(x = factor(1), fill = category)) +
   geom_text(data = sum_data,
             aes(x = 1.2, y = pos, label = paste0(per,"%")),
             colour = label.colour) + 
-  ggtitle("Percentage of observation wells in three different\ncategories of long-term trends in water levels")
+  ggtitle("Percentage of Groundwater Wells in Three Different\nCategories of Long-term Trends in Groundwater Levels")
 
 # Summarize by region
 
@@ -94,8 +94,8 @@ sum_data_reg <- results_viz %>%
 ## Plot with percentage on y and sample size labels
 regional_plot <- ggplot(sum_data_reg, aes(x = category, y = prop, fill = category)) + 
   geom_bar(stat = 'identity') + facet_grid(~ region_lab) + 
-  labs(title = "Trends in groundwater levels by region", 
-       x = element_blank(), y = "Percent of wells") + 
+  labs(title = "Trends in Groundwater Levels by Region", 
+       x = element_blank(), y = "Percent of Groundwater Wells") + 
   scale_fill_manual(values = colour.scale) +
   scale_y_continuous(labels = percent, limits = c(0,1))
 
@@ -112,8 +112,8 @@ sum_data_aq <- results_viz %>%
 ## Plot with percentage on y and sample size labels
 aq_plot <- ggplot(sum_data_aq, aes(x = category, y = prop, fill = category)) +
   geom_bar(stat = 'identity') + facet_grid(~ aq_lab) +
-  labs(title = "Trends in groundwater levels by aquifer type",
-       x = element_blank(), y = "Percent of wells") +
+  labs(title = "Trends in Groundwater Levels by Aquifer Type",
+       x = element_blank(), y = "Percent of Groundwater Wells") +
   scale_fill_manual(values = colour.scale) +
   scale_y_continuous(labels = percent, limits = c(0,1))
 
