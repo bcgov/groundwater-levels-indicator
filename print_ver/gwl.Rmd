@@ -120,8 +120,8 @@ prompting further research and informing decision-making.
 ## Trends in Groundwater Levels - Provincial Summaries
 
 The charts below summarise the proportions of groundwater observation wells with
-groundwater levels in three long-term trend categories: stable or increasing, moderate rate of decline (3 to 10 cm/year), and large rate of decline (more than 10 cm/year). These summaries are also presented
-by region and aquifer type.
+groundwater levels in three long-term trend categories: Stable or Increasing, Moderate Rate of Decline (3 to 10 cm/year), and Large Rate of Decline (more than 10 cm/year). These summaries are also presented
+by natural resource region and aquifer type.
 
 \vspace{30pt}
 
@@ -251,7 +251,7 @@ Published and Available On-Line at Environmental Reporting BC (`r updateDate`): 
 Three plots were created for each examined groundwater observation well, including a map of the well’s location (upper left).
 
 The graph to the right of the map shows monthly groundwater levels
-relative to the annual average. This illustrates the seasonal nature of
+relative to the annual average water level. This illustrates the seasonal nature of
 water levels recorded in that well&mdash;many wells will have higher than
 average water levels in the spring, and lower than average levels in the
 late summer and fall. The shaded blue area shows the range of variation
@@ -260,7 +260,7 @@ within which 90% of water level observations in that month fall.
 The bottom plot&mdash;called a "hydrograph"&mdash;on each page shows the monthly
 groundwater levels for the history of the well, with the orange line
 representing the calculated trend in annual average groundwater levels.
-The slope and significance of the trend are given below the title. Red
+The trend category, slope and significance of the trend are given below the title. Dark grey
 dots show missing values which were interpolated (see Methods).
 
 \newpage
