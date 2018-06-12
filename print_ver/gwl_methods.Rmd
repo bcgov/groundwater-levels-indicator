@@ -1,22 +1,19 @@
 ---
-title: Water
-subtitle: Long-Term Trends in Groundwater Levels in B.C. Methods
+topic: "water"
+title: "METHODS: Long-Term Trends in Groundwater Levels in B.C."
 bibliography: gwl.bib
-output:
-  pdf_document:
-    template: D:/templates/print_ver_template.tex
+output: envreportutils.internal::print_ver
 ---
 
 Observation well groundwater level time-series data were downloaded from
-the B.C. Ministry of Environment Groundwater Observation Well Network
-web application:
-<http://www.env.gov.bc.ca/wsd/data_searches/obswell/map/obsWells.html>.
-Well metadata, such as location, depth, and aquifer type were obtained
+the B.C. Data Catalogue:
+<https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685>.
+Groundwater well metadata, such as location, depth, and aquifer type were obtained
 from the Ground Water Wells (Spatial View) dataset available from
 DataBC:
 <http://www.data.gov.bc.ca/dbc/catalogue/detail.page?config=dbc&P110=recorduid:173681>.
 All data preparation and analysis was performed using the statistical
-software R [@baseR].
+software [**R**](http://www.r-project.org). The code for reproducing or repeating the analysis and data visualizations is available on [GitHub](https://github.com/bcgov/groundwater-levels-indicator).
 
 Trend analysis was conducted using monthly groundwater levels from each
 groundwater observation well that had more than ten years of data, fewer
