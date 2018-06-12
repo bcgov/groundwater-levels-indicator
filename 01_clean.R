@@ -19,11 +19,11 @@
 # (https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685), 
 # provided under the Open Government Licence-BC.
 # The data is generated through the B.C. Ministry of Environment's
-# Provincial Groundwater Observation Well Nework Monitoring Program
+# Provincial Groundwater Observation Well Network Monitoring Program
 # (https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836). The 
 # script processes the data for annual trend analysis, following the methods  
 # documented here: 
-# http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html,
+# http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html.
 ################################################################################
 
 # Install the packages we will need from CRAN:
@@ -34,7 +34,7 @@ package_new <- package_list[!(package_list %in% installed.packages()[,"Package"]
 if(length(package_new)) install.packages(package_new)
 
 # Install the packages we will need from GitHub:
-package_github <- c("bcgroundwater", "envreportutils")
+package_github <- c("bcgroundwater", "envreportutils", "bcmaps.rdata")
 package_new <- package_github[!(package_github %in% installed.packages()[,"Package"])]
 if(length(package_new)) devtools::install_github(paste0("bcgov/", package_new))
 
@@ -53,10 +53,10 @@ library(bcmaps)
 source("func.R")
 
 ################################################################################
-# Get well attributes from 
-# - Ground Water Wells data (from DataBC) https://catalogue.data.gov.bc.ca/dataset/ground-water-wells
-# - NR region info: https://catalogue.data.gov.bc.ca/dataset/generalized-natural-resource-nr-regions
-# Here we automatically grab it from online or bcmaps package
+# Get groundwater well attributes from the B.C. Data Catalogue (both OGL-BC)
+# Ground Water Wells: https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778
+# Natural Resource (NR) Regions: https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f
+# Here we automatically grab the NR Region open-licensed data through the 'bcmaps' R package
 ################################################################################
 
 obs_wells <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_WRBC_SVW", 
