@@ -15,7 +15,7 @@ compact <- function (l) {
   Filter(Negate(is.null), l)
 }
 
-#' Find out which well was downloaded laast
+#' Find out which well was downloaded last
 #'
 #' Find the last well that was downloaded and find the row that represents that 
 #' well in the dataframe of wells.
