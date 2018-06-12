@@ -293,12 +293,13 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
                knitr_latex_char(wellname),
                '}'))
     
-    cat(paste0("This provincial groundwater observation well is drilled into a ", well.attr$AQUIFER_TYPE, 
+    cat(paste0("This provincial groundwater observation well is drilled into a ",
+               well.attr$AQUIFER_TYPE, 
                " aquifer to a depth of ", well.attr$wellDepth_m, 
                " metres. The well has a monitoring period of record from ", 
                format(well.attr$start_date, format = "%B %d %Y"), 
-               " to ", format(well.attr$last_date, format = "%B %d %Y"), ". ",
-               " \\newline "))
+               " to ", format(well.attr$last_date, format = "%B %d %Y"), ". \\newline",
+               "\\newline"))
     
     plotdata <- monthlywells_ts[monthlywells_ts$Well_Num == well,]
 
