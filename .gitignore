@@ -4,9 +4,7 @@
 print_ver/*.pdf
 /out
 /tmp
-/data/BCGW_NRO_reg/
-/data/BCGW_Wells/
-/data/GWL_monthly.csv
 README.html
-/print_ver/2018_gwl_cache/
-/print_ver/2018_gwl_files/
+/print_ver/gwl_cache/
+/print_ver/gwl_files/
+.DS_Store
