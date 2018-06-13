@@ -25,7 +25,7 @@ See the License for the specific language governing permissions and limitations 
 ```{r set-options, echo = FALSE, warning = FALSE, message = FALSE}
 # 
 # envreportutils.internal::print_ver
-knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(cache = FALSE)
 library(dplyr)
 library(ggplot2)
 library(grid)

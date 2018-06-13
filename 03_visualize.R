@@ -32,10 +32,10 @@ theme_set(theme_classic() +
                                                 linetype = 1),
                   panel.grid.major.x = element_blank(),
                   panel.spacing = unit(0.6, "lines"),
-                  plot.title = element_text(vjust = 2, hjust = 0.5),
-                  axis.title = element_text(vjust = 0.1),
+                  plot.title = element_text(vjust = 2, hjust = 0.5, colour = "black"),
+                  axis.title = element_text(vjust = 0.1, colour = "black"),
                   legend.position = "bottom", legend.title = element_blank(),
-                  legend.text = element_text(size = 12),
+                  legend.text = element_text(size = 12, colour = "black"),
                   axis.text.x = element_blank(),
                   strip.background = element_blank()))
 
