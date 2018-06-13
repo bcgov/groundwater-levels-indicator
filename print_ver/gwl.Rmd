@@ -61,7 +61,7 @@ state.summary <- table(attr_wells$state)
 state.summary <- cbind(n = state.summary, prop = prop.table(state.summary))
 
 theme_set(theme_classic() + 
-            theme(text = element_text(colour = "#666666"),
+            theme(text = element_text(colour = "#black"),
                   axis.line = element_blank(),
                   axis.ticks = element_blank(),
                   panel.grid.major = element_line(colour = "grey85", size = 0.5,
@@ -76,7 +76,7 @@ theme_set(theme_classic() +
                   axis.text.x = element_blank(),
                   strip.background = element_blank()))
 
-label.colour <- "#3d3d3d"
+label.colour <- "black"
 colour.scale <- brewer.pal(3,"Blues")
 
 updateDate <- format(Sys.Date(), "%B %Y")
@@ -126,25 +126,24 @@ by natural resource region and aquifer type.
 \vspace{30pt}
 
 ```{r pie, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 5, fig.height = 6, fig.align = 'center'}
-pie_plot + theme(title = element_text(colour = "black", size = 8, face = "bold"),
-                 legend.text = element_text(colour = "black", size = 9))
+plot(pie_plot)
+#theme(title = element_text(size = 8, face = "bold"),
+ #                legend.text = element_text(size = 9))
 ```
 
 \newpage
 
 ```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE}
-regional_plot + theme(title = element_text(colour = "black",
-                                           size = 8, face = "bold"),
-                 legend.text = element_text(colour = "black", size = 9))
+regional_plot + theme(title = element_text(size = 8, face = "bold"),
+                 legend.text = element_text(size = 9))
 ```
 
 
 \vspace{20pt}
 
 ```{r aquifers, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE}
-aq_plot + theme(title = element_text(colour = "black",
-                                     size = 8, face = "bold"),
-                 legend.text = element_text(colour = "black", size = 9))
+aq_plot + theme(title = element_text(size = 8, face = "bold"),
+                 legend.text = element_text(size = 9))
 ```
 
 \newpage
