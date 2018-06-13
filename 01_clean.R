@@ -110,19 +110,10 @@ wells_month <- mutate(wells_prep, data = map(data, ~monthlyValues(.x)))
 
 # Get time series, remove consecutive strings of missing values from the
 # beginning and end of each time series, interpolate over missing values
-wells_ts <- mutate(wells_month, data = map(data, ~makeWellTS(.x, val = 0, head = 0.1, tail = 0.9, n_consec = 4)))
-
-# # Remove consecutive strings of missing (interpolated) values from the
-# # beginning and end of each time series
-# 
-# wells_ts_trimmed <- mutate(wells_ts, 
-#                            start_end = map(data,
-#                                            ~as.data.frame(trimConsRuns(.x$nReadings, val = 0, head = 0.1,
-#                                                                        tail = 0.9, n_consec = 4))),
-#                            data = map2(data, start_end, ~.x[.y$start:.y$end,]))
+wells_ts <- mutate(wells_month, data = map(data, ~makeWellTS(.x)))
 
 # Unnest data for full timeseries
-monthlywells_ts <- unnest(wells_ts_trimmed, data) %>%
+monthlywells_ts <- unnest(wells_ts, data) %>%
   select(-Well_Num1) %>%
   mutate(Well_Num = as.numeric(Well_Num),
          EMS_ID = NA)
