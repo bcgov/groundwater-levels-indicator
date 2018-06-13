@@ -22,8 +22,8 @@ library(ggmap)
 # Load saved data if necessary
 load("./tmp/analysis_data.RData")
 
-theme_set(theme_classic() + 
-            theme(text = element_text(colour = "#666666"),
+theme_set(theme_classic() +
+            theme(text = element_text(colour = "black"),
                   axis.line = element_blank(),
                   axis.ticks = element_blank(),
                   panel.grid.major = element_line(colour = "grey85", size = 0.5,
@@ -39,7 +39,7 @@ theme_set(theme_classic() +
                   axis.text.x = element_blank(),
                   strip.background = element_blank()))
 
-label.colour <- "#3d3d3d"
+label.colour <- "black" 
 colour.scale <- brewer.pal(3,"Blues")
 
 # Select wells analyzed and create factors
@@ -97,7 +97,9 @@ regional_plot <- ggplot(sum_data_reg, aes(x = category, y = prop, fill = categor
   labs(title = "Trends in Groundwater Levels by Region", 
        x = element_blank(), y = "Percent of Groundwater Wells") + 
   scale_fill_manual(values = colour.scale) +
-  scale_y_continuous(labels = percent, limits = c(0,1))
+  scale_y_continuous(labels = percent, limits = c(0,1)) +
+  theme(strip.text = element_text(colour = "black"),
+        axis.text = element_text(colour = "black"))
 
 ## Summarize by aquifer type
 
@@ -115,7 +117,9 @@ aq_plot <- ggplot(sum_data_aq, aes(x = category, y = prop, fill = category)) +
   labs(title = "Trends in Groundwater Levels by Aquifer Type",
        x = element_blank(), y = "Percent of Groundwater Wells") +
   scale_fill_manual(values = colour.scale) +
-  scale_y_continuous(labels = percent, limits = c(0,1))
+  scale_y_continuous(labels = percent, limits = c(0,1)) +
+  theme(strip.text = element_text(colour = "black"),
+        axis.text = element_text(colour = "black"))
 
 
 # Get maps ----------------------------------------------------------------
