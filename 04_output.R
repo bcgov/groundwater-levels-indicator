@@ -25,6 +25,8 @@ status.reg.png <- "out/figs/status-by-reg.png"
 status.aq.png <- "out/figs/status-by-aq.png"
 status.reg.aq.png <- "out/figs/status-by-reg-aq.png"
 
+load("./tmp/raw_data.RData")
+
 dir.create("out/figs/", recursive = TRUE, showWarnings = FALSE)
 
 png(pie.png, width = 440, height = 400)
