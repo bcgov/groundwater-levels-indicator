@@ -25,7 +25,7 @@ See the License for the specific language governing permissions and limitations 
 ```{r set-options, echo = FALSE, warning = FALSE, message = FALSE}
 # 
 # envreportutils.internal::print_ver
-knitr::opts_chunk$set(cache = FALSE)
+knitr::opts_chunk$set(cache = TRUE)
 library(dplyr)
 library(ggplot2)
 library(grid)
@@ -60,23 +60,24 @@ attr_wells$category <- factor(attr_wells$category,
 state.summary <- table(attr_wells$state)
 state.summary <- cbind(n = state.summary, prop = prop.table(state.summary))
 
-theme_set(theme_classic() + 
-            theme(text = element_text(colour = "#black"),
+theme_set(theme_classic() +
+            theme(text = element_text(colour = "black"),
                   axis.line = element_blank(),
                   axis.ticks = element_blank(),
                   panel.grid.major = element_line(colour = "grey85", size = 0.5,
-                                                  linetype = 1),
+                                                linetype = 1),
                   panel.grid.minor = element_line(colour = "grey90", size = 0.5,
-                                                  linetype = 1),
+                                                linetype = 1),
                   panel.grid.major.x = element_blank(),
                   panel.spacing = unit(0.6, "lines"),
-                  plot.title = element_text(vjust = 2),
-                  axis.title = element_text(vjust = 0.1),
+                  plot.title = element_text(vjust = 2, hjust = 0.5, colour = "black"),
+                  axis.title = element_text(vjust = 0.1, colour = "black"),
                   legend.position = "bottom", legend.title = element_blank(),
+                  legend.text = element_text(size = 12, colour = "black"),
                   axis.text.x = element_blank(),
                   strip.background = element_blank()))
 
-label.colour <- "black"
+label.colour <- "black" 
 colour.scale <- brewer.pal(3,"Blues")
 
 updateDate <- format(Sys.Date(), "%B %Y")
@@ -125,7 +126,7 @@ by natural resource region and aquifer type.
 
 \vspace{30pt}
 
-```{r pie, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 5, fig.height = 6, fig.align = 'center'}
+```{r pie, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 7, fig.height = 6, fig.align = 'center'}
 plot(pie_plot)
 #theme(title = element_text(size = 8, face = "bold"),
  #                legend.text = element_text(size = 9))
@@ -134,16 +135,18 @@ plot(pie_plot)
 \newpage
 
 ```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE}
-regional_plot + theme(title = element_text(size = 8, face = "bold"),
-                 legend.text = element_text(size = 9))
+plot(regional_plot)
+  # theme(title = element_text(size = 8, face = "bold"),
+  #                legend.text = element_text(size = 9))
 ```
 
 
 \vspace{20pt}
 
 ```{r aquifers, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE}
-aq_plot + theme(title = element_text(size = 8, face = "bold"),
-                 legend.text = element_text(size = 9))
+plot(aq_plot)
+  # theme(title = element_text(size = 8, face = "bold"),
+  #                legend.text = element_text(size = 9))
 ```
 
 \newpage
@@ -158,10 +161,10 @@ aq_plot + theme(title = element_text(size = 8, face = "bold"),
 ggmap(ggMapBC, extent = "device") + 
   coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
   geom_point(data = attr_wells, aes(x = Long, y = Lat, fill = category), 
-             shape = 21, size = 2.5, colour = colour.scale[3]) + 
+             shape = 21, size = 3, colour = colour.scale[3]) + 
   scale_fill_manual(values = colour.scale) + 
   theme(legend.position = "bottom", legend.title = element_blank(),
-        legend.text = element_text(colour = "black", size = 9))
+        legend.text = element_text(colour = "black", size = 11))
 ```
 \newpage
 
