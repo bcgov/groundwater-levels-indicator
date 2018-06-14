@@ -69,7 +69,7 @@ pie_plot <- ggplot(results_viz, aes(x = factor(1), fill = category)) +
         axis.title = element_blank(), plot.title = element_text(vjust = 0),
         legend.position = c(0.5,0.01), legend.direction = "horizontal",
         legend.title = element_blank(), 
-        plot.margin = unit(c(rep(0,4)), "cm"),
+    #    plot.margin = unit(c(rep(0,4)), "cm"),
         panel.grid.minor = element_blank(), panel.grid.major = element_blank()) + 
   geom_text(data = sum_data,
             aes(x = 1.2, y = pos, label = paste0(per,"%")),
