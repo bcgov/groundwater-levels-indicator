@@ -309,7 +309,7 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
     
     plotdata <- monthlywells_ts[monthlywells_ts$Well_Num == well,]
 
-    mapplot <- plotPointWithInset(long = wellLong, lat = wellLat,
+    mapplot <- plot_point_withinset(long = wellLong, lat = wellLat,
                                   pointColour = wellColour,
                                   bigMap = wellMaps[well][[1]],
                                   overviewMap = ggMapBC,
@@ -317,7 +317,7 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
                                   opts = theme(plot.margin = unit(c(0.5,0.5,0.5,0.01),
                                                                   "cm")))
     
-    areaplot <- gwlAreaPlot(data = plotdata, trend = well.attr$trend_line_slope,
+    areaplot <- gwl_area_plot(data = plotdata, trend = well.attr$trend_line_slope,
                             intercept = well.attr$trend_line_int,
                             state = well.attr$state, sig = well.attr$sig,
                             showInterpolated = TRUE, save = FALSE,
@@ -325,9 +325,10 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
                             opts = theme(plot.margin = unit(c(0.5,0.5,0.5,0.01),
                                                             "cm")))
     
-    monthplot <- gwlMonthlyPlot(dataframe = plotdata, splines = TRUE, save = FALSE,
+    monthplot <- gwl_monthly_plot(dataframe = plotdata, splines = TRUE, save = FALSE,
                                 opts = theme(plot.margin = unit(c(0.5,0.01,0.5,0.01),
-                                                                "cm")))
+                                                                "cm"),
+                                             legend.box = "vertical"))
     
     grid.arrange(mapplot + theme(text = element_text(size = 10)),
                  monthplot + theme(text = element_text(size = 10),

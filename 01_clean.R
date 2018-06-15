@@ -38,6 +38,7 @@ package_github <- c("bcgroundwater", "envreportutils", "bcmaps.rdata")
 package_new <- package_github[!(package_github %in% installed.packages()[,"Package"])]
 if(length(package_new)) devtools::install_github(paste0("bcgov/", package_new))
 
+# Load required packages
 library(sf)
 library(dplyr)
 library(purrr)
@@ -106,11 +107,11 @@ wells_prep <- wells_raw %>%
   nest()
 
 # Create monthly time series for each well
-wells_month <- mutate(wells_prep, data = map(data, ~monthlyValues(.x)))
+wells_month <- mutate(wells_prep, data = map(data, ~monthly_values(.x)))
 
 # Get time series, remove consecutive strings of missing values from the
 # beginning and end of each time series, interpolate over missing values
-wells_ts <- mutate(wells_month, data = map(data, ~makeWellTS(.x)))
+wells_ts <- mutate(wells_month, data = map(data, ~make_well_ts(.x)))
 
 # Unnest data for full timeseries
 monthlywells_ts <- unnest(wells_ts, data) %>%
