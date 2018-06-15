@@ -12,8 +12,10 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
+# Load required packages
 library(ggplot2)
 library(gridExtra)
+library(envreportutils)
 
 # Export data files and charts
 
@@ -29,19 +31,19 @@ load("./tmp/raw_data.RData")
 
 dir.create("out/figs/", recursive = TRUE, showWarnings = FALSE)
 
-png(pie.png, width = 440, height = 400)
+png_retina(pie.png, width = 440, height = 400)
 plot(pie_plot)
 dev.off()
 
-png(status.reg.png, width = 800, height = 400)
+png_retina(status.reg.png, width = 800, height = 400)
 plot(regional_plot)
 dev.off()
 
-png(status.aq.png, width = 440, height = 400)
+png_retina(status.aq.png, width = 440, height = 400)
 plot(aq_plot)
 dev.off()
 
-png(status.reg.aq.png, width = 930, height = 330)
+png_retina(status.reg.aq.png, width = 930, height = 330)
 grid.arrange(regional_plot + theme(legend.position = "none"),
              aq_plot + theme(legend.position = "none"),
              ncol = 2, widths = c(3,2))
