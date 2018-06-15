@@ -12,6 +12,7 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
+# Load required packages
 library(dplyr)
 library(ggplot2)
 library(grid)
@@ -32,10 +33,10 @@ theme_set(theme_classic() +
                                                 linetype = 1),
                   panel.grid.major.x = element_blank(),
                   panel.spacing = unit(0.6, "lines"),
-                  plot.title = element_text(vjust = 2, hjust = 0.5, colour = "black"),
-                  axis.title = element_text(vjust = 0.1, colour = "black"),
+                  plot.title = element_text(vjust = 2, hjust = 0.5),
+                  axis.title = element_text(vjust = 0.1),
                   legend.position = "bottom", legend.title = element_blank(),
-                  legend.text = element_text(size = 12, colour = "black"),
+                  legend.text = element_text(size = 12),
                   axis.text.x = element_blank(),
                   strip.background = element_blank()))
 
@@ -62,7 +63,7 @@ sum_data <- results_viz %>%
   mutate(per = round(Freq/sum(Freq)*100),
          pos = cumsum(Freq) - Freq/2)
 
-pie_plot <- ggplot(results_viz, aes(x = factor(1), fill = category)) + 
+(pie_plot <- ggplot(results_viz, aes(x = factor(1), fill = category)) + 
   geom_bar(width = 1) + coord_polar(start = 0, theta = "y") + 
   scale_fill_manual(values = colour.scale) + 
   theme(line = element_blank(), axis.text = element_blank(),
@@ -75,7 +76,7 @@ pie_plot <- ggplot(results_viz, aes(x = factor(1), fill = category)) +
             aes(x = 1.2, y = pos, label = paste0(per,"%")),
             colour = label.colour) + 
   ggtitle("Percentage of Groundwater Wells in Three Different\nCategories of Long-term Trends in Groundwater Levels")
-
+)
 # Summarize by region
 
 nLabeller <- function(n, singular, sep = " ") {
@@ -93,14 +94,15 @@ sum_data_reg <- results_viz %>%
                              "\n(", nLabeller(sum(Freq), "well"), ")"))
 
 ## Plot with percentage on y and sample size labels
-regional_plot <- ggplot(sum_data_reg, aes(x = category, y = prop, fill = category)) + 
-  geom_bar(stat = 'identity') + facet_grid(~ region_lab) + 
-  labs(title = "Trends in Groundwater Levels by Region", 
-       x = element_blank(), y = "Percent of Groundwater Wells") + 
-  scale_fill_manual(values = colour.scale) +
-  scale_y_continuous(labels = percent, limits = c(0,1)) +
-  theme(strip.text = element_text(colour = "black"),
-        axis.text = element_text(colour = "black"))
+(regional_plot <- ggplot(sum_data_reg, aes(x = category, y = prop, fill = category)) + 
+    geom_bar(stat = 'identity') + facet_grid(~ region_lab) + 
+    labs(title = "Trends in Groundwater Levels by Region", 
+         x = element_blank(), y = "Percent of Groundwater Wells") + 
+    scale_fill_manual(values = colour.scale) +
+    scale_y_continuous(labels = percent, limits = c(0,1)) +
+    theme(axis.text.y = element_text(colour = "black"),
+          strip.text = element_text(colour = "black", size = 9))
+)
 
 ## Summarize by aquifer type
 
@@ -113,15 +115,15 @@ sum_data_aq <- results_viz %>%
                          nLabeller(sum(Freq), "well"), ")"))
 
 ## Plot with percentage on y and sample size labels
-aq_plot <- ggplot(sum_data_aq, aes(x = category, y = prop, fill = category)) +
-  geom_bar(stat = 'identity') + facet_grid(~ aq_lab) +
-  labs(title = "Trends in Groundwater Levels by Aquifer Type",
-       x = element_blank(), y = "Percent of Groundwater Wells") +
-  scale_fill_manual(values = colour.scale) +
-  scale_y_continuous(labels = percent, limits = c(0,1)) +
-  theme(strip.text = element_text(colour = "black"),
-        axis.text = element_text(colour = "black"))
-
+(aq_plot <- ggplot(sum_data_aq, aes(x = category, y = prop, fill = category)) +
+    geom_bar(stat = 'identity') + facet_grid(~ aq_lab) +
+    labs(title = "Trends in Groundwater Levels by Aquifer Type",
+         x = element_blank(), y = "Percent of Groundwater Wells") +
+    scale_fill_manual(values = colour.scale) +
+    scale_y_continuous(labels = percent, limits = c(0,1)) +
+    theme(axis.text.y = element_text(colour = "black"),
+          strip.text = element_text(colour = "black", size = 9))
+)
 
 save(pie_plot, regional_plot, aq_plot, file = "tmp/figs.RData")
 
