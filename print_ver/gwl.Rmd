@@ -70,10 +70,10 @@ theme_set(theme_classic() +
                                                 linetype = 1),
                   panel.grid.major.x = element_blank(),
                   panel.spacing = unit(0.6, "lines"),
-                  plot.title = element_text(vjust = 2, hjust = 0.5, colour = "black"),
-                  axis.title = element_text(vjust = 0.1, colour = "black"),
+                  plot.title = element_text(vjust = 2, hjust = 0.5),
+                  axis.title = element_text(vjust = 0.1),
                   legend.position = "bottom", legend.title = element_blank(),
-                  legend.text = element_text(size = 12, colour = "black"),
+                  legend.text = element_text(size = 12),
                   axis.text.x = element_blank(),
                   strip.background = element_blank()))
 
@@ -128,25 +128,19 @@ by natural resource region and aquifer type.
 
 ```{r pie, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 7, fig.height = 6, fig.align = 'center'}
 plot(pie_plot)
-#theme(title = element_text(size = 8, face = "bold"),
- #                legend.text = element_text(size = 9))
 ```
 
 \newpage
 
 ```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE}
 plot(regional_plot)
-  # theme(title = element_text(size = 8, face = "bold"),
-  #                legend.text = element_text(size = 9))
 ```
 
 
-\vspace{20pt}
+\vspace{40pt}
 
 ```{r aquifers, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE}
 plot(aq_plot)
-  # theme(title = element_text(size = 8, face = "bold"),
-  #                legend.text = element_text(size = 9))
 ```
 
 \newpage
@@ -308,36 +302,46 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
                "\\newline"))
     
     plotdata <- monthlywells_ts[monthlywells_ts$Well_Num == well,]
-
-    mapplot <- plot_point_withinset(long = wellLong, lat = wellLat,
-                                  pointColour = wellColour,
-                                  bigMap = wellMaps[well][[1]],
-                                  overviewMap = ggMapBC,
-                                  overviewExtent = BCextent,
-                                  opts = theme(plot.margin = unit(c(0.5,0.5,0.5,0.01),
-                                                                  "cm")))
+    
+    mapplot <- plot_point_with_inset(long = wellLong, lat = wellLat,
+                                     pointColour = wellColour,
+                                     bigMap = wellMaps[well][[1]],
+                                     overviewMap = ggMapBC,
+                                     overviewExtent = BCextent)
+    
+    monthplot <- gwl_monthly_plot(dataframe = plotdata,
+                                  splines = TRUE, save = FALSE)
     
     areaplot <- gwl_area_plot(data = plotdata, trend = well.attr$trend_line_slope,
-                            intercept = well.attr$trend_line_int,
-                            state = well.attr$state, sig = well.attr$sig,
-                            showInterpolated = TRUE, save = FALSE,
-                            mkperiod = "monthly",
-                            opts = theme(plot.margin = unit(c(0.5,0.5,0.5,0.01),
-                                                            "cm")))
+                              intercept = well.attr$trend_line_int,
+                              state = well.attr$state, sig = well.attr$sig,
+                              showInterpolated = TRUE, save = FALSE,
+                              mkperiod = "annual")
     
-    monthplot <- gwl_monthly_plot(dataframe = plotdata, splines = TRUE, save = FALSE,
-                                opts = theme(plot.margin = unit(c(0.5,0.01,0.5,0.01),
-                                                                "cm"),
-                                             legend.box = "vertical"))
-    
-    grid.arrange(mapplot + theme(text = element_text(size = 10)),
-                 monthplot + theme(text = element_text(size = 10),
-                                   title = element_text(colour = "black",
-                                   size = 8, face = "bold"),
-                                   axis.title.y = element_text(hjust = 0.3)),
-                 areaplot + theme(text = element_text(size = 10),
-                                  title = element_text(colour = "black",
-                                   size = 8, face = "bold")),
+    grid.arrange(mapplot + theme(text = element_text(size = 10),
+                                 plot.margin = unit(c(0,0.5,0,0.01),"cm")),
+                 monthplot + theme(axis.text = element_text(size = 8),
+                                   axis.title.x = element_text(face = "bold", size = 8),
+                                   plot.title = element_text(size = 10, face = "bold"),
+                                   axis.title.y = element_text(size = 8,
+                                                               hjust = 0.5,
+                                                               vjust = -.8,
+                                                               face = "bold"),
+                                   legend.box = "vertical",
+                                   legend.position = "top",
+                                   legend.text = element_text(size = 9),
+                                   plot.margin = unit(c(1,0.01,1,0.01),"cm"),
+                                   legend.spacing.y = unit(-.4, 'cm')),
+                 areaplot + theme(axis.text = element_text(size = 8),
+                                  axis.title.x = element_text(face = "bold", size = 8),
+                                  axis.title.y = element_text(size = 8,
+                                                              hjust = 0.5,
+                                                              vjust = -.8,
+                                                              face = "bold"),
+                                  legend.text = element_text(size = 9),
+                                  plot.title = element_text(size = 11, face = "bold"),
+                                  plot.subtitle = element_text(size = 9),
+                                  plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm")),
                  layout_matrix = matrix(c(1,2,3,3), nrow = 2, byrow = TRUE))
     
     cat('\\newpage ')
