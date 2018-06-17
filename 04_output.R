@@ -19,7 +19,6 @@ library(envreportutils)
 
 # Export data files and charts
 
-# viz.dir <- "/Users/ateucher/dev/bc-env-visualizations/"
 attr.out.file <- "out/GW_Well_Attributes.csv"
 gwl.out.file <- "out/GWL_Monthly.csv"
 pie.png <- "out/figs/status_pie.png"
@@ -58,3 +57,22 @@ monthly_out <- monthlywells_ts %>%
 
 write.csv(results_out, attr.out.file, row.names = FALSE)
 write.table(monthly_out, file = gwl.out.file, sep = ",", row.names = FALSE)
+
+# Compare 2014 results with 2018
+library(janitor)
+library(readr)
+
+sum_results2018 <- results_out %>% 
+  select(Well_Num, category) %>% 
+  group_by(category) %>% 
+  summarise(totals = n()) %>% 
+  adorn_totals("row")
+
+results2014 <- read_csv("https://catalogue.data.gov.bc.ca/dataset/a74f1b97-17f7-499b-84e7-6455e169e425/resource/a8933793-eadb-4a9c-992c-da4f6ac8ca51/download/gwwellattributes.csv") 
+
+sum_resulst2014 <- results2014 %>% 
+  select(Well_Num, category) %>% 
+  group_by(category) %>% 
+  summarise(totals = n()) %>% 
+  adorn_totals("row") 
+  
