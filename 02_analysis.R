@@ -112,3 +112,4 @@ results_out <- right_join(obs_wells, wells_results,
                               TRUE ~ state))
 
 save(results_out, file = "./tmp/analysis_data.RData")
+save(welldata_attr, file = "./tmp/well_data_attributes.RData")
