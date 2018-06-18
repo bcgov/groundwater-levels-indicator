@@ -356,6 +356,10 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
 
 The [**R**](http://www.r-project.org) code for repeating this analysis is available on [GitHub](https://github.com/bcgov/groundwater-levels-indicator). The analysis makes use of the 'bcgroundwater' R package, which facilitates working with, analysing, and visualising British Columbia groundwater level data&mdash;the 'bcgroundwater' R package is available on [GitHub](https://github.com/bcgov/bcgroundwater).
 
+
+
+### Data
+
 The data sets are all sourced from the B.C. Data Catalogue, distributed under the [Open Government Licence - British Columbia](https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61).
 
 -  Provincial Groundwater Observation Well Network - Groundwater Levels Data: 
@@ -364,6 +368,9 @@ The data sets are all sourced from the B.C. Data Catalogue, distributed under th
 from the Ground Water Wells (Spatial View) Dataset:
 <https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778>
 - Natural Resource (NR) Regions, accessed with the ['bcmaps' R package](https://cran.r-project.org/web/packages/bcmaps/index.html): <https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f>
+
+
+### Trend Analysis
 
 Trend analysis was conducted using monthly groundwater levels from each
 groundwater observation well that had ten or more years of data, fewer
@@ -413,4 +420,4 @@ ten cm per year.
 Time series were not corrected for precipitation or any other climatic
 or hydrologic processes. As such, no causation for trends are implied.
 
-## References
+### References
