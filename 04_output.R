@@ -103,10 +103,15 @@ well_results2014 <- results2014 %>%
 sum_totals <- sum_results2018 %>% 
   left_join(sum_results2014)
 
-well_compare <- well_results2014 %>% full_join(well_results2018) %>% left_join(welldata_attr)
+well_compare <- well_results2014 %>% 
+  full_join(well_results2018) %>% 
+  left_join(welldata_attr) %>% 
+  select(-EMS_ID)
 
 write.csv(well_compare, "out/well_compare_2014_2018.csv", row.names = FALSE)
 write.csv(sum_totals, "out/summary_compare_2014_2018.csv", row.names = FALSE)
 
-
+## Reduce PDF print_ver file size from ~37MB to ~13MB
+file.copy("print_ver/gwl.pdf", "print_ver/envreportbc_gwl_June2018.pdf")
+tools::compactPDF("print_ver/envreportbc_gwl_June2018.pdf", gs_quality = "ebook")
   
