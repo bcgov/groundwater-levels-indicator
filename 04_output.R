@@ -31,6 +31,7 @@ status.reg.aq.png <- "out/figs/status-by-reg-aq.png"
 
 load("./tmp/raw_data.RData")
 load("./tmp/analysis_data.RData")
+load("./tmp/well_data_attributes.RData")
 
 dir.create("out/figs/", recursive = TRUE, showWarnings = FALSE)
 
@@ -102,11 +103,10 @@ well_results2014 <- results2014 %>%
 sum_totals <- sum_results2018 %>% 
   left_join(sum_results2014)
 
-well_compare <- well_results2014 %>% full_join(well_results2018)
+well_compare <- well_results2014 %>% full_join(well_results2018) %>% left_join(welldata_attr)
 
 write.csv(well_compare, "out/well_compare_2014_2018.csv", row.names = FALSE)
 write.csv(sum_totals, "out/summary_compare_2014_2018.csv", row.names = FALSE)
 
-(diff1 <- setdiff(well_results2014$Well_Num, well_results2018$Well_Num))
-(diff1 <- setdiff(well_results2018$Well_Num, well_results2014$Well_Num))
+
   
