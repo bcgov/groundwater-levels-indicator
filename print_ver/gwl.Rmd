@@ -99,7 +99,7 @@ weather and climate patterns^[1](#fn1)^.
 
 -   This indicator presents a statistical analysis of long-term trends
 in groundwater levels recorded at `r nrow(attr_wells)` observation wells 
-that have been monitored for ten years or more and were active as of 2018.
+that have been monitored for ten years or more and were active as of January 1st, 2008.
 
 -   Of the examined wells, `r round(sum(state.summary[c("Stable","Increasing"),"prop"]*100))`% have water levels that are stable
 or increasing (with `r state.summary["Increasing","n"]` wells showing 
