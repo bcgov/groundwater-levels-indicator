@@ -117,31 +117,39 @@ to human use. However, information on long-term trends can be useful for
 prompting further research and informing decision-making.
 
 
-Observed long-term trends were categorized using a combination of statistical and environmental significance criteria. Based on both the significance
-and magnitude of the calculated trend, trends in water levels in wells were classified as exhibiting the following categories:
-
-- **Stable**: the slope was _not_ significantly different from zero **or** the slope was significantly different from zero with an increasing or decreasing trend of less than 3 cm per year.
-- **Increasing**: the slope was significantly different from zero with an increasing trend of 3 or greater cm per year.
-- **Moderate Rate of Decline**: the slope was significantly different from zero with a declining trend of between three and ten cm per year.
-- **Large Rate of Decline**: the slope was significantly different from zero with a declining trend of more than ten cm per year.
-
 \begin{center}
 \fbox{
-  \begin{minipage}[c]{12cm}
+  \begin{minipage}[c]{15cm}
   
-   \begingroup\centering{\textbf{Trend Categories}}
+   \begingroup\centering{\textbf{Groundwater Level Trend Categories}}
    
      \endgroup
      
     \vspace{1mm}
     
-    \text{\textbf{15.4\%} of lands in B.C. are protected through legally established areas designated}
+    \text{Observed long-term trends were categorized using a combination of statistical and environmental}   
+    \text{significance criteria. Based on both the significance and magnitude of the calculated trend, trends in }
+    \text{water levels in wells were classified as exhibiting the following categories:}
     
-    \text{for the \textit{primary} purpose of the \textit{long-term} conservation of nature and cultural values.}
+    \vspace{3mm}
     
-        \vspace{3mm}
+    \text{\textbf{Stable}: the trend was \textit{not} significantly different from zero \textbf{or} the trend was significantly different from }
+    \text{zero with an increasing or decreasing trend of \textit{less than} 3 cm per year.}
     
-    \href{http://www.env.gov.bc.ca/soe/indicators/land/protected-lands-and-waters.html}{Learn more about Protected Lands \& Waters in B.C.}
+       \vspace{2mm}
+    
+     \text{\textbf{Increasing}: the trend was significantly different from zero with an increasing trend of 3 or greater}
+     \text{cm per year.}
+    
+       \vspace{2mm}
+    
+     \text{\textbf{Moderate Rate of Decline}: the trend was significantly different from zero with a declining trend of}
+     \text{between 3 and 10 cm per year.}
+    
+       \vspace{2mm}
+    
+    \text{\textbf{Large Rate of Decline}: the slope was significantly different from zero with a declining trend of more}
+    \text{than 10 cm per year.}
     
   \end{minipage}
 }
@@ -233,7 +241,7 @@ out.table$Well <- round(as.numeric(out.table$Well), 0)
 x.table <- xtable(out.table, digits = c(0,0,0,0,3,3,0))
 
 # Set the slope column as fixed width
-align(x.table) <- c('l', rep('l', 4), 'p{0.6in}', rep('l', 1))
+align(x.table) <- c('l', rep('l', 4), 'p{0.5in}', rep('l', 1))
 
 # Define colours of rows based on state
 HL_col <- ifelse(out.table$Category == "Large Rate of Decline", "\\rowcolor{large}", 
@@ -290,10 +298,10 @@ late summer and fall. The shaded blue area shows the range of variation
 within which 90% of water level observations in that month fall.
 
 The bottom plot&mdash;called a "hydrograph"&mdash;on each page shows the monthly
-groundwater levels for the history of the well, with the orange line
-representing the calculated trend in annual average groundwater levels.
-The trend category, slope and significance of the trend are given below the title. Dark grey
-dots show missing values which were interpolated (see Methods).
+groundwater levels for the history of the well, with light grey
+dots show missing values which were interpolated (see Methods). The trend category is provided below the title&mdash;if the trend is significant, based on a combination of statistical and environmental significance criteria&mdash;the calculated change in annual average groundwater levels is provided (meters per year) and visually represented by an orange trend line.
+
+
 
 \newpage
 
@@ -444,10 +452,10 @@ the R package ‘zyp’ [@pkg_zyp].
 Observed long-term trends were categorized using a combination of statistical and environmental significance criteria. Based on both the significance
 and magnitude of the calculated trend, trends in water levels in wells were classified as exhibiting the following categories:
 
-- **Stable**: the slope was _not_ significantly different from zero **or** the slope was significantly different from zero with an increasing or decreasing trend of less than 3 cm per year.
-- **Increasing**: the slope was significantly different from zero with an increasing trend of 3 or greater cm per year.
-- **Moderate Rate of Decline**: the slope was significantly different from zero with a declining trend of between three and ten cm per year.
-- **Large Rate of Decline**: the slope was significantly different from zero with a declining trend of more than ten cm per year.
+- **Stable**: the trend was _not_ significantly different from zero **or** the trend was significantly different from zero with an increasing or decreasing trend of less than 3 cm per year.
+- **Increasing**: the trend was significantly different from zero with an increasing trend of 3 or greater cm per year.
+- **Moderate Rate of Decline**: the trend was significantly different from zero with a declining trend of between 3 and 10 cm per year.
+- **Large Rate of Decline**: the trend was significantly different from zero with a declining trend of more than 10 cm per year.
 
 Time series were not corrected for precipitation or any other climatic
 or hydrologic processes. As such, no causation for trends are implied.
