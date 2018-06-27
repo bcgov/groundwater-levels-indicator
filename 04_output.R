@@ -112,6 +112,6 @@ write.csv(well_compare, "out/well_compare_2014_2018.csv", row.names = FALSE)
 write.csv(sum_totals, "out/summary_compare_2014_2018.csv", row.names = FALSE)
 
 ## Reduce PDF print_ver file size from ~37MB to ~13MB
-file.copy("print_ver/gwl.pdf", "print_ver/envreportbc_gwl_June2018.pdf")
+file.copy("print_ver/gwl.pdf", "print_ver/envreportbc_gwl_June2018.pdf") #delete existing file, does not overwrite
 tools::compactPDF("print_ver/envreportbc_gwl_June2018.pdf", gs_quality = "ebook")
   
