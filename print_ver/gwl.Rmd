@@ -31,7 +31,7 @@ library(ggplot2)
 library(grid)
 library(RColorBrewer)
 library(scales)
-library(ggmap)
+library(ggmap) ## need development version of ggmap with ggplot2 v3.0
 library(bcgroundwater)
 library(envreportutils)
 library(gridExtra)
