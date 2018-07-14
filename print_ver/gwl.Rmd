@@ -51,8 +51,8 @@ attr_wells$state <- factor(attr_wells$state,
                                       "Large Rate of Decline"),
                            ordered = TRUE)
 
-attr_wells$category <- factor(attr_wells$category, 
-                              levels = c("Stable or Increasing", 
+attr_wells$category <- factor(attr_wells$category,
+                              levels = c("Stable or Increasing",
                                          "Moderate Rate of Decline",
                                          "Large Rate of Decline"),
                               ordered = TRUE)
@@ -317,7 +317,7 @@ knitr_latex_char <- function(x) {
 theme_set(base_theme)
 
 for (reg in sort(unique(attr_wells$REGION_NAME))) {
-  cat(paste0('\\subsection{',reg,'}'))
+  cat(paste0('\\subsection{',reg," Region",'}'))
   regdata <- filter(attr_wells, REGION_NAME == reg)
   
   for (well in regdata$Well_Num) {
@@ -333,7 +333,7 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
                                                 colour.scale[2])))
     wellname <- well.attr$Well_Name
     
-    cat(paste0('\\subsubsection*{', 
+    cat(paste0('\\subsubsection*{',reg,": ",
                knitr_latex_char(wellname),
                '}'))
     
