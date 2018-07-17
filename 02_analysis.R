@@ -62,8 +62,8 @@ wells_nums <- filter(welldata_attr,
 # Summarise as mean annual values and filter to subset of wells
 annualwells_ts <- monthlywells_ts %>%
   group_by(EMS_ID, Well_Num, Year) %>%
-  summarize(mean_GWL = mean(med_GWL), SD = sd(med_GWL)) %>%
-  filter(Well_Num %in% wells_nums)
+  summarize(mean_GWL = mean(med_GWL), SD = sd(med_GWL), n_months = n()) %>%
+  filter(Well_Num %in% wells_nums, n_months == 12)
 
 # Perform the analysis
 results_annual <- gwl_zyp_test(dataframe = annualwells_ts, byID = "Well_Num", 
