@@ -60,6 +60,18 @@ source("func.R")
 # Here we automatically grab the NR Region open-licensed data through the 'bcmaps' R package
 ################################################################################
 
+# gw_lithology <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_LITHOLOGY_SP", 
+# query = "OBSERVATION_WELL_NUMBER IS NOT NULL") %>%
+#   select(OBSERVATION_WELL_NUMBER, 
+#          WELL_USE_NAME,
+#          AQUIFER_ID,
+#          AQUIFER_TYPE = AQUIFER_LITHOLOGY_CODE, 
+#          DEPTH_WELL_DRILLED) %>% 
+#   as_tibble() %>%
+#   distinct(OBSERVATION_WELL_NUMBER, .keep_all = TRUE) %>% 
+#   filter(WELL_USE_NAME == "Observation Well")
+
+
 obs_wells <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_WRBC_SVW", 
                       query = "OBSERVATION_WELL_NUMBER IS NOT NULL") %>%
   filter(!is.na(MINISTRY_OBSERVATION_WELL_STAT) | 
@@ -79,6 +91,7 @@ obs_wells <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_WRBC_SVW",
          AQUIFER_TYPE = replace(AQUIFER_TYPE, is.na(AQUIFER_TYPE), "Unknown"),
          AQUIFER_TYPE = factor(AQUIFER_TYPE, levels = c("BED", "UNC", "Unknown"), 
                                labels = c("Bedrock", "Sand and Gravel", "Unknown")))
+
 
 ## Check for duplicate Well numbers:
 dup_wells <- obs_wells$OBSERVATION_WELL_NUMBER[duplicated(obs_wells$OBSERVATION_WELL_NUMBER)]
