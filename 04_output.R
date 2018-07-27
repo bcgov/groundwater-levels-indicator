@@ -63,7 +63,16 @@ monthly_out <- monthlywells_ts %>%
 write.csv(results_out, attr.out.file, row.names = FALSE)
 write.table(monthly_out, file = gwl.out.file, sep = ",", row.names = FALSE)
 
+results_out %>%
+  group_by(state) %>%
+  summarise(Number = n())
 
+missing_aquifer_types <- results_out %>%
+  group_by(state) %>%
+  filter(AQUIFER_TYPE == "Unknown") %>% 
+  select(Well_Num, REGION_NAME, AQUIFER_TYPE, wellDepth_m, state)
+
+write.csv(missing_aquifer_types, "out/ow_missing_aquifer_type.csv", row.names = FALSE)
 
 ## Compare 2014 results with 2018
 
