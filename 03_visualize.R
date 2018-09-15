@@ -152,3 +152,49 @@ for(w in unique(results_viz$Well_Num)) {
 
 save(BCextent, ggMapBC, wellMaps, file="./tmp/map_data.RData")
 
+# Print version map
+print_map <- results_out %>% 
+  mutate(category = recode(category, `N/A` = "Not enough data to-date for trend analysis"),
+         category = factor(category, levels = c("Moderate Rate of Decline",
+                                                "Large Rate of Decline",
+                                                
+                                                "Stable or Increasing",
+                                                "Not enough data to-date for trend analysis"),
+                           ordered = TRUE)) %>% 
+  arrange(fct_rev(category))
+ 
+colrs <- c("Stable or Increasing" = "#deebf7",
+  "Moderate Rate of Decline" = "#9ecae1",
+  "Large Rate of Decline" = "#3182bd",
+  "Not enough data to-date for trend analysis" = "grey80")
+
+legend_order <- c("Stable or Increasing",
+                  "Large Rate of Decline",
+                  "Moderate Rate of Decline",
+                  "Not enough data to-date for trend analysis")
+
+(ggmap(ggMapBC, extent = "device") + 
+  coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
+  geom_point(data = print_map, aes(x = Long, y = Lat, fill = category), 
+             shape = 21, size = 3, colour = colour.scale[3]) + 
+  scale_fill_manual(values = colrs, breaks = legend_order) + 
+  theme(legend.position = "bottom", legend.title = element_blank(),
+        legend.direction = "vertical",
+        legend.text = element_text(colour = "black", size = 11)) +
+    guides(fill=guide_legend(ncol=2))
+)
+
+
+library(bcmaps)
+library(sf)
+library(rmapshaper)
+library(ggplot2)
+
+bc <- bc_bound(class = "sf")
+nrr <- nr_regions(class = "sf")
+nrr_clip <- ms_clip(nrr, bc)
+nrr_simp <-  ms_simplify(nrr_clip)
+
+ggplot() + geom_sf(data = nrr_simp, fill = "white") + theme_minimal()
+
+
