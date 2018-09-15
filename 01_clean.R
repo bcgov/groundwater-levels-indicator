@@ -15,7 +15,7 @@
 ################################################################################
 # This script uses the bcgroundwater R package 
 # (https://github.com/bcgov/bcgroundwater)
-# to download ground water level data from the B.C. Data Catalogue 
+# to download groundwater level data from the B.C. Data Catalogue 
 # (https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685), 
 # provided under the Open Government Licence-BC.
 # The data is generated through the B.C. Ministry of Environment's
@@ -97,9 +97,9 @@ obs_wells <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_WRBC_SVW",
 dup_wells <- obs_wells$OBSERVATION_WELL_NUMBER[duplicated(obs_wells$OBSERVATION_WELL_NUMBER)]
 obs_wells[obs_wells$OBSERVATION_WELL_NUMBER %in% dup_wells,]
 
-## Looking at the comments in GENERAL_REMARKS and OTHER_NIFORMATION, they are 
+## Looking at the comments in GENERAL_REMARKS and OTHER_INFORMATION, they are 
 ## deep and shallow variants of the same obs well number
-## Omit the shallow version.
+## Omit the shallow version
 obs_wells <- filter(obs_wells, WELL_TAG_NUMBER != 93712)
 
 ###############################################################################
