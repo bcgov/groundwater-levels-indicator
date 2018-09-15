@@ -83,7 +83,7 @@ wells_results <- mutate(wells_results,
                                           trend <= -0.03 & sig < 0.05 ~ "Increasing",
                                           TRUE ~ "Stable"))
 
-## Join this to the attributes from DataBC:
+## Join this to the well attribute data
 results_out <- right_join(obs_wells, wells_results, 
                           by = c("OBSERVATION_WELL_NUMBER" = "Well_Num")) %>%
   mutate(Lat = round(LATITUDE, 4), 
@@ -103,13 +103,14 @@ results_out <- right_join(obs_wells, wells_results,
          percent_missing, trend_line_int, trend_line_slope, sig, state) %>%
   mutate(Well_Name = paste0("Observation Well #", Well_Num), 
          state = case_when(is.na(trend_line_int) & (nYears < 10 | is.na(last_date)) ~ 
-                             "Recently established well; time series too short for trend analysis.",
+                             "Recently established well; time series too short for trend analysis",
                            is.na(trend_line_int) & (percent_missing >= 25 | last_date < latest_date) ~
-                             "Too many missing observations to perform trend analysis.",
+                             "Too many missing observations to perform trend analysis",
                            TRUE ~ state),
          category = case_when(state %in% c("Increasing", "Stable") ~ "Stable or Increasing", 
                               grepl("Recently|missing", state) ~ "N/A",
-                              TRUE ~ state))
+                              TRUE ~ state)) %>% 
+  filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date))
 
 save(results_out, file = "./tmp/analysis_data.RData")
 save(welldata_attr, file = "./tmp/well_data_attributes.RData")
