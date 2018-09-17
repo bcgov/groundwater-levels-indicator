@@ -199,7 +199,7 @@ devtools::source_gist("1467691edbc1fd1f7fbbabd05957cbb5",
 #plot
 summary_map <- ggmap_sf(ggMapBC, extent = "device") + 
   coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
-  geom_sf(data = nrr_simp, fill = NA, inherit.aes = FALSE, size = 0.2) + coord_sf(datum=NA) +
+  geom_sf(data = nrr_simp, fill = NA, inherit.aes = FALSE, size = 0.15) + coord_sf(datum=NA) +
   geom_point(data = print_map, aes(x = X, y = Y, fill = category),
              shape = 21, size = 2.5, colour = colour.scale[3]) + 
   scale_fill_manual(values = colrs, breaks = legend_order) + 
