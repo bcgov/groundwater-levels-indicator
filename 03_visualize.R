@@ -19,6 +19,10 @@ library(grid)
 library(RColorBrewer)
 library(scales)
 library(ggmap)
+library(forcats)
+library(bcmaps)
+library(sf)
+library(rmapshaper)
 
 # Load saved data if necessary
 load("./tmp/analysis_data.RData")
@@ -153,16 +157,24 @@ for(w in unique(results_viz$Well_Num)) {
 save(BCextent, ggMapBC, wellMaps, file="./tmp/map_data.RData")
 
 # Print version map
+#tweak df
 print_map <- results_out %>% 
   mutate(category = recode(category, `N/A` = "Not enough data to-date for trend analysis"),
-         category = factor(category, levels = c("Moderate Rate of Decline",
-                                                "Large Rate of Decline",
-                                                
+         category = factor(category, levels = c("Large Rate of Decline",
+                                                "Moderate Rate of Decline",
                                                 "Stable or Increasing",
                                                 "Not enough data to-date for trend analysis"),
                            ordered = TRUE)) %>% 
-  arrange(fct_rev(category))
+  arrange(fct_rev(category)) %>% 
+  bind_cols(st_as_sf(., crs = 4326, coords = c("Long", "Lat")) %>% 
+              st_transform(3857)%>%
+              st_coordinates() %>%
+              as_tibble()) 
+#lines 169-172:
+#convert full df to an sf object, transform projection, extract coordinates, 
+#bind coordinates back to original df (tx Andy Teucher)
  
+#hard-code colours
 colrs <- c("Stable or Increasing" = "#deebf7",
   "Moderate Rate of Decline" = "#9ecae1",
   "Large Rate of Decline" = "#3182bd",
@@ -173,28 +185,29 @@ legend_order <- c("Stable or Increasing",
                   "Moderate Rate of Decline",
                   "Not enough data to-date for trend analysis")
 
-(ggmap(ggMapBC, extent = "device") + 
+#get natural resource regions
+bc <- bc_bound(class = "sf")
+nrr <- nr_regions(class = "sf")
+nrr_clip <- ms_clip(nrr, bc)
+nrr_simp <-  ms_simplify(nrr_clip) %>% 
+  st_transform(3857)
+
+#source function for aligning sf object with ggmap object
+devtools::source_gist("1467691edbc1fd1f7fbbabd05957cbb5", 
+                      filename = "ggmap_sf.R")
+
+#plot
+summary_map <- ggmap_sf(ggMapBC, extent = "device") + 
   coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
-  geom_point(data = print_map, aes(x = Long, y = Lat, fill = category), 
-             shape = 21, size = 3, colour = colour.scale[3]) + 
+  geom_sf(data = nrr_simp, fill = NA, inherit.aes = FALSE, size = 0.2) + coord_sf(datum=NA) +
+  geom_point(data = print_map, aes(x = X, y = Y, fill = category),
+             shape = 21, size = 2.5, colour = colour.scale[3]) + 
   scale_fill_manual(values = colrs, breaks = legend_order) + 
   theme(legend.position = "bottom", legend.title = element_blank(),
         legend.direction = "vertical",
         legend.text = element_text(colour = "black", size = 11)) +
     guides(fill=guide_legend(ncol=2))
-)
+plot(summary_map)
 
-
-library(bcmaps)
-library(sf)
-library(rmapshaper)
-library(ggplot2)
-
-bc <- bc_bound(class = "sf")
-nrr <- nr_regions(class = "sf")
-nrr_clip <- ms_clip(nrr, bc)
-nrr_simp <-  ms_simplify(nrr_clip)
-
-ggplot() + geom_sf(data = nrr_simp, fill = "white") + theme_minimal()
 
 
