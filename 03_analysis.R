@@ -13,21 +13,17 @@
 # the License.
 
 ###############################################################################
-# This script works on ground water level data which have been processed to have
-# 1 observation per month using the 01_clean.R script.
+# This script uses on ground water level data which has been processed to have
+# 1 observation per month using the 02_clean.R script
 ###############################################################################
 
-###############################################################################
-# Load and prepare the data for analysis
-###############################################################################
+## Source package libraries
+source("header.R")
 
-# Load required packages
-library(dplyr)
-library(bcgroundwater)
+# Load saved clean data if necessary
+if (!exists("monthlywells_ts")) load("./tmp/clean_well_data.RData")
+if (!exists("obs_wells")) load("./tmp/clean_attr_data.RData")
 
-# Load saved data if necessary
-load("./tmp/raw_data.RData")
-load("./tmp/raw_attr_data.RData")
 
 ## Source a few handy functions we will need
 source("func.R")
