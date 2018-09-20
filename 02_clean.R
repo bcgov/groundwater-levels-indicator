@@ -17,14 +17,14 @@
 source("header.R")
 source("func.R")
 
+## Load saved raw data if necessary
+if (!exists("wells_raw")) load("./tmp/raw_well_data.RData")
+if (!exists("obs_wells_raw")) load("./tmp/raw_attr_data.RData")
 
-# Load saved raw data if necessary
-load("./tmp/raw_well_data.RData")
-load("./tmp/raw_attr_data.RData")
 
-
+## Clean raw groundwater level data
 # Nest data by Well_Num
-# As we don't have EMS_IDS, use Well_Num so we get a clear idea of which well has convergences issues
+# As we don't have EMS_IDS, use Well_Num so we get a clear idea of which well has convergence issues
 wells_prep <- wells_raw %>%
   mutate(EMS_ID = Well_Num) %>%      
   group_by(Well_Num1 = Well_Num) %>%
@@ -50,10 +50,19 @@ problems <- c("196", "060", "303", "203", "154", "065", "117", "185",
 filter(monthlywells_ts, Well_Num %in% as.numeric(problems)) %>% summary()
 
 
+## Clean groundwater level metadata
 
-## These processes all take a long time, so it's a good idea to save them in a
-## temporary directory:
-dir.create("tmp", showWarnings = FALSE)
+# Check for duplicate Well numbers in the well metadata
+dup_wells <- obs_wells_raw$OBSERVATION_WELL_NUMBER[duplicated(obs_wells_raw$OBSERVATION_WELL_NUMBER)]
+obs_wells_raw[obs_wells_raw$OBSERVATION_WELL_NUMBER %in% dup_wells,]
+
+# Looking at the comments in GENERAL_REMARKS and OTHER_INFORMATION, they are 
+# deep and shallow variants of the same obs well number, omit the shallow version
+obs_wells <- filter(obs_wells_raw, WELL_TAG_NUMBER != 93712)
+
+
+## Save clean data objects in a temporary directory
 save(monthlywells_ts, file = "./tmp/raw_data.RData")
 save(obs_wells, file = "./tmp/raw_attr_data.RData")
+
 

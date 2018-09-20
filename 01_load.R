@@ -10,6 +10,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
+
 ################################################################################
 # This script uses the bcgroundwater R package (https://github.com/bcgov/bcgroundwater)
 # to download groundwater level data from the B.C. Data Catalogue 
@@ -36,12 +37,12 @@ source("func.R")
 ## WARNING: This takes quite a bit of time
 
 
-# Raw well data (warnings reflect wells with no data)
+# Get raw well data (warnings reflect wells with no data)
 wells_raw <- get_gwl(wells = obs_wells$OBSERVATION_WELL_NUMBER, which = "all")
 
 
-## Get Groundwater Well Attribute Data & Add NR Region Data from `bcmaps`
-obs_wells <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_WRBC_SVW", 
+## Get groundwater well attribute data & add NR Region info from `bcmaps`
+obs_wells_raw <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_WRBC_SVW", 
                       query = "OBSERVATION_WELL_NUMBER IS NOT NULL") %>%
   filter(!is.na(MINISTRY_OBSERVATION_WELL_STAT) | 
            !is.na(OBSERVATION_WELL_NUMBER)) %>% 
@@ -61,21 +62,13 @@ obs_wells <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_WRBC_SVW",
          AQUIFER_TYPE = factor(AQUIFER_TYPE, levels = c("BED", "UNC", "Unknown"), 
                                labels = c("Bedrock", "Sand and Gravel", "Unknown")))
 
-## Check for duplicate Well numbers:
-dup_wells <- obs_wells$OBSERVATION_WELL_NUMBER[duplicated(obs_wells$OBSERVATION_WELL_NUMBER)]
-obs_wells[obs_wells$OBSERVATION_WELL_NUMBER %in% dup_wells,]
 
-## Looking at the comments in GENERAL_REMARKS and OTHER_INFORMATION, they are 
-## deep and shallow variants of the same obs well number, omit the shallow version
-obs_wells <- filter(obs_wells, WELL_TAG_NUMBER != 93712)
-
-
-## These data downloading processes take a long time, so it's a good idea to save them
-##  in the temporary directory:
-save(obs_wells, file = "./tmp/raw_attr_data.RData")
+## Save raw data objects in a temporary directory
+save(obs_wells_raw, file = "./tmp/raw_attr_data.RData")
 save(wells_raw, file = "./tmp/raw_well_data.RData")
 
-## Alternative source of groundwater well metadata in the B.C. Data Catalogue (OGL-British Columbia
+
+## Alternative source of groundwater well metadata in the B.C. Data Catalogue (OGL-British Columbia)
 # gw_lithology <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_LITHOLOGY_SP", 
 # query = "OBSERVATION_WELL_NUMBER IS NOT NULL") %>%
 #   select(OBSERVATION_WELL_NUMBER, 
