@@ -10,17 +10,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
+
 ## Install the packages we will need from CRAN:
-package_list <- c("dplyr", "rgdal", "sp", "lubridate", "zoo", "ggplot2", "stringr",
+package_list <- c("dplyr", "rgdal", "sp", "ggplot2", "stringr", #"lubridate", "zoo"
                   "grid", "scales", "ggmap", "devtools", "rvest", "RColorBrewer",
-                  "purrr", "sf", "gridExtra", "bcmaps")
+                  "purrr", "sf", "gridExtra", "bcmaps", "scales", "forcats",
+                  "rmapshaper", "janitor", "readr")
 package_new <- package_list[!(package_list %in% installed.packages()[,"Package"])]
 if(length(package_new)) install.packages(package_new)
+
 
 ## Install the packages we will need from GitHub:
 package_github <- c("bcgroundwater", "envreportutils", "bcmaps.rdata")
 package_new <- package_github[!(package_github %in% installed.packages()[,"Package"])]
 if(length(package_new)) devtools::install_github(paste0("bcgov/", package_new))
+
 
 ## Load required packages
 library(sf)
@@ -33,6 +37,18 @@ library(rgdal)
 library(rvest)
 library(stringr)
 library(bcmaps)
+library(ggplot2)
+library(grid)
+library(RColorBrewer)
+library(scales)
+library(ggmap)
+library(forcats)
+library(rmapshaper)
+library(gridExtra)
+library(envreportutils)
+library(janitor)
+library(readr)
 
+## Create project directories
 if (!exists("tmp")) dir.create("tmp", showWarnings = FALSE)
-if (!exists("out")) dir.create("tmp", showWarnings = FALSE)
+if (!exists("out")) dir.create("out", showWarnings = FALSE)
