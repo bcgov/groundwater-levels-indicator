@@ -11,7 +11,7 @@
 # See the License for the specific language governing permissions and limitations under the License.
 
 
-################################################################################
+########################################################################################
 # This script uses the bcgroundwater R package (https://github.com/bcgov/bcgroundwater)
 # to download groundwater level data from the B.C. Data Catalogue 
 # (https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685), 
@@ -21,24 +21,19 @@
 # (https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836).
 #
 # Groundwater well attribute data and Natural Resource (NR) Regions are also
-# sourced from the B.C. Data Catalogue, both released udner the Open Government Licence - British Columbia:
-# Groundwater Wells: https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778)
-# Natural Resource (NR) Regions: https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f
-# Here we automatically grab the NR Regions through the 'bcmaps' R package (https://github.com/bcgov/bcmaps)
-################################################################################
+# sourced from the B.C. Data Catalogue, both released udner the Open Government
+# Licence - British Columbia.
+# Groundwater Wells: 
+# https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778
+# Natural Resource (NR) Regions: 
+# https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f
+# Here we automatically grab the NR Regions using the 'bcmaps' R package 
+#########################################################################################
 
 
-## Source package libraries and a few handy functions we will need
+## Source package libraries and the bcdc_map() function
 source("header.R")
 source("func.R")
-
-
-## Download the Groundwater Level Data using the `bcgroundwater` package
-## WARNING: This takes quite a bit of time
-
-
-# Get raw well data (warnings reflect wells with no data)
-wells_raw <- get_gwl(wells = obs_wells$OBSERVATION_WELL_NUMBER, which = "all")
 
 
 ## Get groundwater well attribute data & add NR Region info from `bcmaps`
@@ -62,10 +57,25 @@ obs_wells_raw <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_WRBC_SVW",
          AQUIFER_TYPE = factor(AQUIFER_TYPE, levels = c("BED", "UNC", "Unknown"), 
                                labels = c("Bedrock", "Sand and Gravel", "Unknown")))
 
+# Check for duplicate Well numbers in the well metadata
+dup_wells <- obs_wells_raw$OBSERVATION_WELL_NUMBER[duplicated(obs_wells_raw$OBSERVATION_WELL_NUMBER)]
+obs_wells_raw[obs_wells_raw$OBSERVATION_WELL_NUMBER %in% dup_wells,]
+
+# Looking at the comments in GENERAL_REMARKS and OTHER_INFORMATION, they are 
+# deep and shallow variants of the same obs well number, omit the shallow version
+obs_wells <- filter(obs_wells_raw, WELL_TAG_NUMBER != 93712)
+
+
+## Download the Groundwater Level Data using the `bcgroundwater` package
+## WARNING: This takes quite a bit of time
+
+# Get raw well data (warnings reflect wells with no data)
+wells_data_raw <- get_gwl(wells = obs_wells$OBSERVATION_WELL_NUMBER, which = "all")
+
 
 ## Save raw data objects in a temporary directory
-save(obs_wells_raw, file = "./tmp/raw_attr_data.RData")
-save(wells_raw, file = "./tmp/raw_well_data.RData")
+save(obs_wells, file = "./tmp/clean_attr_data.RData")
+save(wells_data_raw, file = "./tmp/raw_well_data.RData")
 
 
 ## Alternative source of groundwater well metadata in the B.C. Data Catalogue (OGL-British Columbia)
