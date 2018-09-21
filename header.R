@@ -48,7 +48,11 @@ library(gridExtra)
 library(envreportutils)
 library(janitor)
 library(readr)
+library(glue)
 
 ## Create project directories
 if (!exists("tmp")) dir.create("tmp", showWarnings = FALSE)
 if (!exists("out")) dir.create("out", showWarnings = FALSE)
+if (!exists("out/figs")) dir.create("out/figs", showWarnings = FALSE)
+
+
