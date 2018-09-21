@@ -34,7 +34,7 @@ missing_aquifer_types <- results_out %>%
   filter(AQUIFER_TYPE == "Unknown") %>% 
   select(Well_Num, REGION_NAME, AQUIFER_TYPE, wellDepth_m, state)
 
-write.csv(missing_aquifer_types, "out/ow_missing_aquifer_type.csv", row.names = FALSE)
+write.csv(missing_aquifer_types, "tmp/ow_missing_aquifer_type.csv", row.names = FALSE)
 
 
 ## Compare 2014 results with 2018
@@ -50,9 +50,11 @@ well_results2018 <- results_out %>%
   select(Well_Num, category2018 = category) %>% 
   filter(category2018 != "N/A")
 
+
 #2014
-# get data from the B.C. Data Catalogue released under the OGl-BC licence
+#get data from the B.C. Data Catalogue released under the OGl-BC licence
 results2014 <- read_csv("https://catalogue.data.gov.bc.ca/dataset/a74f1b97-17f7-499b-84e7-6455e169e425/resource/a8933793-eadb-4a9c-992c-da4f6ac8ca51/download/gwwellattributes.csv") 
+
 
 sum_results2014 <- results2014 %>% 
   select(Well_Num, category) %>% 
@@ -71,7 +73,8 @@ well_results2014 <- results2014 %>%
   select(Well_Num, category2014 = category) %>% 
   filter(category2014 != "N/A")
 
-# compare
+
+#compare
 sum_totals <- sum_results2018 %>% 
   left_join(sum_results2014)
 
@@ -80,7 +83,7 @@ well_compare <- well_results2014 %>%
   left_join(welldata_attr) %>% 
   select(-EMS_ID)
 
-write.csv(well_compare, "out/well_compare_2014_2018.csv", row.names = FALSE)
-write.csv(sum_totals, "out/summary_compare_2014_2018.csv", row.names = FALSE)
+write.csv(well_compare, "tmp/well_compare_2014_2018.csv", row.names = FALSE)
+write.csv(sum_totals, "tmp/summary_compare_2014_2018.csv", row.names = FALSE)
 
 
