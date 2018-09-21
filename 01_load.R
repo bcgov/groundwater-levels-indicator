@@ -11,7 +11,7 @@
 # See the License for the specific language governing permissions and limitations under the License.
 
 
-########################################################################################
+#######################################################################################
 # This script uses the bcgroundwater R package (https://github.com/bcgov/bcgroundwater)
 # to download groundwater level data from the B.C. Data Catalogue 
 # (https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685), 
@@ -28,7 +28,7 @@
 # Natural Resource (NR) Regions: 
 # https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f
 # Here we automatically grab the NR Regions using the 'bcmaps' R package 
-#########################################################################################
+########################################################################################
 
 
 ## Source package libraries and the bcdc_map() function
