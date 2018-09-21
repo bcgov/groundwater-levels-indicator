@@ -21,9 +21,8 @@ if (!"package:bcgroundwater" %in% search()) source("header.R")
 if (!exists("results_out"))  load("./tmp/analysis_data.RData")
 
 
-##########################
-## PROVINCIAL SUMMARIES ##
-##########################
+
+## Provinicial Summaries
 
 ## Plot theme
 theme_set(theme_classic() +
