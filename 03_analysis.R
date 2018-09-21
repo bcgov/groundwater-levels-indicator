@@ -17,18 +17,17 @@
 # 1 observation per month using the 02_clean.R script
 ###############################################################################
 
-## Source package libraries
-source("header.R")
 
-# Load saved clean data if necessary
+## Source package libraries
+if (!"package:bcgroundwater" %in% search()) source("header.R")
+
+
+# Load saved clean data objects if necessary
 if (!exists("monthlywells_ts")) load("./tmp/clean_well_data.RData")
 if (!exists("obs_wells")) load("./tmp/clean_attr_data.RData")
 
 
-## Source a few handy functions we will need
-source("func.R")
-
-# Generate summary data for each well
+## Generate summary data for each well
 welldata_attr <- monthlywells_ts %>%
   group_by(EMS_ID, Well_Num) %>%
   summarise(dataStart = as.Date(min(Date)), 
@@ -38,15 +37,15 @@ welldata_attr <- monthlywells_ts %>%
             nMissing = length(med_GWL[nReadings == 0]), 
             percent_missing = round(nMissing/nObs*100, 1))
 
-###############################################################################
-# Analysis of mean annual groundwater levels, using a Mann-Kendall trend test
-# with trend-free prewhitening, as implemented in the package 'zyp'. Methods are 
-# documented here: 
-# http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html
-###############################################################################
 
-# Only use wells with relatively current data, more than 10 years of data, and 
-# less than 25% missing monthly observations
+## Analysis of mean annual groundwater levels, using a Mann-Kendall trend test
+## with trend-free prewhitening, as implemented in the package 'zyp'. Methods are 
+## documented here: 
+## http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html
+
+
+## Only use wells with relatively current data, more than 10 years of data, and 
+## less than 25% missing monthly observations
 latest_date <- "2008-01-01"
 
 wells_nums <- filter(welldata_attr, 
@@ -55,24 +54,24 @@ wells_nums <- filter(welldata_attr,
                      dataEnd > latest_date) %>% 
   pull(Well_Num)
 
-# Summarise as mean annual values and filter to subset of wells
+## Summarise as mean annual values and filter to subset of wells
 annualwells_ts <- monthlywells_ts %>%
   group_by(EMS_ID, Well_Num, Year) %>%
   summarize(mean_GWL = mean(med_GWL), SD = sd(med_GWL), n_months = n()) %>%
   filter(Well_Num %in% wells_nums, n_months == 12)
 
-# Perform the analysis
+## Perform the analysis
 results_annual <- gwl_zyp_test(dataframe = annualwells_ts, byID = "Well_Num", 
                              col = "mean_GWL", method = "both") %>%
   mutate(Well_Num = as.numeric(Well_Num)) %>%
   filter(test_type == "yuepilon")
 
-# Join the analysis results to the well summary data
-# Full join to add in missing and old data so we can mark it as such below
+## Join the analysis results to the well summary data
+## Full join to add in missing and old data so we can mark it as such below
 wells_results <- full_join(results_annual, welldata_attr, by = "Well_Num")
 
-# Assign each well to a trend category according to the slope and significance 
-# of the trend
+## Assign each well to a trend category according to the slope and significance 
+## of the trend
 wells_results <- mutate(wells_results,
                         state = case_when(trend >= 0.1 & sig < 0.05 ~ "Large Rate of Decline",
                                           trend >= 0.03 & trend < 0.1 & sig < 0.05 ~ "Moderate Rate of Decline",
@@ -108,5 +107,7 @@ results_out <- right_join(obs_wells, wells_results,
                               TRUE ~ state)) %>% 
   filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date))
 
+
+## Save results in a temporary directory
 save(results_out, file = "./tmp/analysis_data.RData")
 save(welldata_attr, file = "./tmp/well_data_attributes.RData")
