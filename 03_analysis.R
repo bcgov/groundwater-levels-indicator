@@ -117,3 +117,17 @@ save(welldata_attr, file = "./tmp/well_data_attributes.RData")
 attr.out.file <- "out/GW_Well_Attributes.csv"
 write.csv(results_out, attr.out.file, row.names = FALSE)
 
+
+## Write out clean groundwater level data file
+# remove interpolated values and NA values and make sure only
+# keep wells which match results_out dataset
+
+monthly_out <- monthlywells_ts %>%
+  filter(nReadings > 0, 
+         Well_Num %in% results_out$Well_Num) %>%
+  select(EMS_ID, Well_Num, Date, Year, Month, med_GWL, dev_med_GWL, nReadings)
+
+gwl.out.file <- "out/GWL_Monthly.csv"
+
+write.table(monthly_out, file = gwl.out.file, sep = ",", row.names = FALSE)
+

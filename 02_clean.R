@@ -58,18 +58,4 @@ filter(monthlywells_ts, Well_Num %in% as.numeric(problems)) %>% summary()
 save(monthlywells_ts, file = "./tmp/clean_well_data.RData")
 
 
-## Write out clean data file
-
-# remove interpolated values and NA values and make sure only
-# keep wells which match results_out dataset
-
-monthly_out <- monthlywells_ts %>%
-  filter(nReadings > 0, 
-         Well_Num %in% results_out$Well_Num) %>%
-  select(EMS_ID, Well_Num, Date, Year, Month, med_GWL, dev_med_GWL, nReadings)
-
-gwl.out.file <- "out/GWL_Monthly.csv"
-
-write.table(monthly_out, file = gwl.out.file, sep = ",", row.names = FALSE)
-
 
