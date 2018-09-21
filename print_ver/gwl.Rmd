@@ -38,10 +38,10 @@ library(gridExtra)
 
 base_theme <- theme_get()
 
-load('../tmp/raw_data.RData')
+#load('../tmp/clean_well_data.RData')
 load('../tmp/analysis_data.RData')
 load('../tmp/map_data.RData')
-load('../tmp/figs.RData')
+load('../tmp/figures.RData')
 
 attr_wells <- results_out[results_out$category != "N/A",]
 
@@ -196,14 +196,9 @@ plot(aq_plot)
 **Locations of `r nrow(attr_wells)` Groundwater Observation Wells Included in the Analysis**
 
 ```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.height = 6}
-ggmap(ggMapBC, extent = "device") + 
-  coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
-  geom_point(data = attr_wells, aes(x = Long, y = Lat, fill = category), 
-             shape = 21, size = 3, colour = colour.scale[3]) + 
-  scale_fill_manual(values = colour.scale) + 
-  theme(legend.position = "bottom", legend.title = element_blank(),
-        legend.text = element_text(colour = "black", size = 11))
+plot(summary_map)
 ```
+
 \newpage
 
 **Groundwater Level Trend Results for Observation Wells Included in the Analysis**
