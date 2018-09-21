@@ -111,3 +111,9 @@ results_out <- right_join(obs_wells, wells_results,
 ## Save results in a temporary directory
 save(results_out, file = "./tmp/analysis_data.RData")
 save(welldata_attr, file = "./tmp/well_data_attributes.RData")
+
+
+## Write out clean data and attributes file
+attr.out.file <- "out/GW_Well_Attributes.csv"
+write.csv(results_out, attr.out.file, row.names = FALSE)
+
