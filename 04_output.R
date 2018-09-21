@@ -12,11 +12,18 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
+
 ## Source package libraries
 if (!"package:bcgroundwater" %in% search()) source("header.R")
 
+
 ## Load saved data if necessary
 if (!exists("results_out"))  load("./tmp/analysis_data.RData")
+
+
+##########################
+## PROVINCIAL SUMMARIES ##
+##########################
 
 ## Plot theme
 theme_set(theme_classic() +
@@ -52,7 +59,10 @@ results_viz <- results_out[results_out$category != "N/A",] %>%
                                                 "Large Rate of Decline"),
                            ordered = TRUE))
 
-# overall summary
+
+## Overall summary of trend categories
+
+#summary df
 sum_data <- results_viz %>%
   group_by(category) %>%
   summarise(Freq = n()) %>%
@@ -60,6 +70,7 @@ sum_data <- results_viz %>%
   mutate(per = round(Freq/sum(Freq)*100),
          pos = cumsum(Freq) - Freq/2)
 
+#pie chart of category summary
 (pie_plot <- ggplot(results_viz, aes(x = factor(1), fill = category)) + 
   geom_bar(width = 1) + coord_polar(start = 0, theta = "y") + 
   scale_fill_manual(values = colour.scale) + 
@@ -74,14 +85,17 @@ sum_data <- results_viz %>%
             colour = label.colour) + 
   ggtitle("Percentage of Groundwater Wells in Three Different\nCategories of Long-term Trends in Groundwater Levels")
 )
-# Summarize by region
 
+## Summary of categories by region
+
+#facet label function
 nLabeller <- function(n, singular, sep = " ") {
   suffix <- ifelse(n == 1, singular, paste0(singular,"s"))
   label <- paste(n, suffix, sep = sep)
   label
 }
 
+#regional summary df
 sum_data_reg <- results_viz %>%
   group_by(REGION_NAME, category) %>%
   summarise(Freq = n()) %>%
@@ -90,7 +104,7 @@ sum_data_reg <- results_viz %>%
                                   gsub("\\s/\\s*", "/\\\n", REGION_NAME)), 
                              "\n(", nLabeller(sum(Freq), "well"), ")"))
 
-## Plot with percentage on y and sample size labels
+#bar chart plot with percentage on y and sample size labels
 (regional_plot <- ggplot(sum_data_reg, aes(x = category, y = prop, fill = category)) + 
     geom_bar(stat = 'identity') + facet_grid(~ region_lab) + 
     labs(title = "Trends in Groundwater Levels by Region", 
@@ -101,8 +115,10 @@ sum_data_reg <- results_viz %>%
           strip.text = element_text(colour = "black", size = 9))
 )
 
+
 ## Summarize by aquifer type
 
+#aquifer type df
 sum_data_aq <- results_viz %>% 
   filter(AQUIFER_TYPE != "Unknown") %>%
   group_by(AQUIFER_TYPE, category) %>%
@@ -111,7 +127,7 @@ sum_data_aq <- results_viz %>%
          aq_lab = paste0(AQUIFER_TYPE, "\n(",
                          nLabeller(sum(Freq), "well"), ")"))
 
-## Plot with percentage on y and sample size labels
+#bar chart plot with percentage on y and sample size labels
 (aq_plot <- ggplot(sum_data_aq, aes(x = category, y = prop, fill = category)) +
     geom_bar(stat = 'identity') + facet_grid(~ aq_lab) +
     labs(title = "Trends in Groundwater Levels by Aquifer Type",
@@ -122,13 +138,66 @@ sum_data_aq <- results_viz %>%
           strip.text = element_text(colour = "black", size = 9))
 )
 
-save(pie_plot, regional_plot, aq_plot, file = "tmp/figs.RData")
 
-# Get maps ----------------------------------------------------------------
+## Save plot objects to tmp folder
+save(pie_plot, regional_plot, aq_plot, file = "tmp/figures.RData")
 
+
+## Save plots as high resolution PNG/SVGs for web
+pie <- "out/figs/status_pie"
+status.reg <- "out/figs/status-by-reg"
+status.aq <- "out/figs/status-by-aq"
+status.reg.aq <- "out/figs/status-by-reg-aq"
+
+#pie chart
+png_retina(glue(pie, ".png"), width = 440, height = 400)
+plot(pie_plot)
+dev.off()
+
+svg_px(glue(pie, ".svg"), width = 440, height = 400)
+plot(pie_plot)
+dev.off()
+
+#regional bar chart
+png_retina(glue(status.reg, ".png"), width = 800, height = 400)
+plot(regional_plot)
+dev.off()
+
+svg_px(glue(status.reg, ".svg"), width = 800, height = 400)
+plot(regional_plot)
+dev.off()
+
+
+#aquifer type bar chart
+png_retina(glue(status.aq, ".png"), width = 440, height = 400)
+plot(aq_plot)
+dev.off()
+
+svg_px(glue(status.aq, ".svg"), width = 440, height = 400)
+plot(aq_plot)
+dev.off()
+
+#bar charts combined using grid.arrange()
+png_retina(glue(status.reg.aq, ".png"), width = 930, height = 330)
+grid.arrange(regional_plot + theme(legend.position = "none"),
+             aq_plot + theme(legend.position = "none"),
+             ncol = 2, widths = c(3,2))
+dev.off()
+
+svg_px(glue(status.reg.aq, ".svg"), width = 930, height = 330)
+grid.arrange(regional_plot + theme(legend.position = "none"),
+             aq_plot + theme(legend.position = "none"),
+             ncol = 2, widths = c(3,2))
+dev.off()
+
+
+
+## Map Summary (for PDF print version)
+
+#Provincial summary map
 styles <- 'feature:all|element:all|saturation:-75'
 
-# Get BC basemap
+# Get British Columbia basemap
 BCextent <- c(-139,48,-114,60)
 names(BCextent) <- c("left", "bottom", "right", "top")
 fourCorners <- expand.grid(as.data.frame(matrix(BCextent, ncol=2, byrow=TRUE,
@@ -138,20 +207,9 @@ BCcenter <- c(mean(BCextent[c("left","right")]),
 ggMapBC <- get_googlemap(center=BCcenter, zoom=5, scale=1, 
                          maptype='roadmap', visible=fourCorners, style=styles)
 
-# Create list of well maps
-wellMaps <- list()
-for(w in unique(results_viz$Well_Num)) {
-  well <- filter(results_viz, Well_Num == w)
-  wellMaps[[w]] <- tryCatch(get_googlemap(center = c(well$Long[1], well$Lat[1]), 
-                                          zoom = 8, scale = 1, maptype = 'roadmap', style = styles), 
-                            error = function(e) NULL)
-}
 
-save(BCextent, ggMapBC, wellMaps, file="./tmp/map_data.RData")
-
-# Print version map
-#tweak df
-print_map <- results_out %>% 
+#tweak df for map plot
+results_map_df <- results_out %>% 
   mutate(category = recode(category, `N/A` = "Not enough data to-date for trend analysis"),
          category = factor(category, levels = c("Large Rate of Decline",
                                                 "Moderate Rate of Decline",
@@ -163,15 +221,16 @@ print_map <- results_out %>%
               st_transform(3857)%>%
               st_coordinates() %>%
               as_tibble()) 
-#lines 169-172:
+
+#lines 169-172 above:
 #convert full df to an sf object, transform projection, extract coordinates, 
 #bind coordinates back to original df (tx Andy Teucher)
- 
+
 #hard-code colours
 colrs <- c("Stable or Increasing" = "#deebf7",
-  "Moderate Rate of Decline" = "#9ecae1",
-  "Large Rate of Decline" = "#3182bd",
-  "Not enough data to-date for trend analysis" = "grey80")
+           "Moderate Rate of Decline" = "#9ecae1",
+           "Large Rate of Decline" = "#3182bd",
+           "Not enough data to-date for trend analysis" = "grey80")
 
 legend_order <- c("Stable or Increasing",
                   "Large Rate of Decline",
@@ -193,122 +252,28 @@ devtools::source_gist("1467691edbc1fd1f7fbbabd05957cbb5",
 summary_map <- ggmap_sf(ggMapBC, extent = "device") + 
   coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
   geom_sf(data = nrr_simp, fill = NA, inherit.aes = FALSE, size = 0.15) + coord_sf(datum=NA) +
-  geom_point(data = print_map, aes(x = X, y = Y, fill = category),
+  geom_point(data = results_map_df, aes(x = X, y = Y, fill = category),
              shape = 21, size = 2.5, colour = colour.scale[3]) + 
   scale_fill_manual(values = colrs, breaks = legend_order) + 
   theme(legend.position = "bottom", legend.title = element_blank(),
         legend.direction = "vertical",
         legend.text = element_text(colour = "black", size = 11)) +
-    guides(fill=guide_legend(ncol=2))
+  guides(fill=guide_legend(ncol=2))
 plot(summary_map)
 
 
-#################
-## OUTPUTS
-################
+## Observation Well Maps (PDF print version)
 
-# Export data files and charts
+#create list of well maps
+wellMaps <- list()
+for(w in unique(results_viz$Well_Num)) {
+  well <- filter(results_viz, Well_Num == w)
+  wellMaps[[w]] <- tryCatch(get_googlemap(center = c(well$Long[1], well$Lat[1]), 
+                                          zoom = 8, scale = 1, maptype = 'roadmap', style = styles), 
+                            error = function(e) NULL)
+}
 
-attr.out.file <- "out/GW_Well_Attributes.csv"
-gwl.out.file <- "out/GWL_Monthly.csv"
-pie.png <- "out/figs/status_pie.png"
-status.reg.png <- "out/figs/status-by-reg.png"
-status.aq.png <- "out/figs/status-by-aq.png"
-status.reg.aq.png <- "out/figs/status-by-reg-aq.png"
-
-load("./tmp/raw_data.RData")
-load("./tmp/analysis_data.RData")
-load("./tmp/well_data_attributes.RData")
-
-dir.create("out/figs/", recursive = TRUE, showWarnings = FALSE)
-
-png_retina(pie.png, width = 440, height = 400)
-plot(pie_plot)
-dev.off()
-
-png_retina(status.reg.png, width = 800, height = 400)
-plot(regional_plot)
-dev.off()
-
-png_retina(status.aq.png, width = 440, height = 400)
-plot(aq_plot)
-dev.off()
-
-png_retina(status.reg.aq.png, width = 930, height = 330)
-grid.arrange(regional_plot + theme(legend.position = "none"),
-             aq_plot + theme(legend.position = "none"),
-             ncol = 2, widths = c(3,2))
-dev.off()
-
-# Write data files (remove interpolated values and NA values and make sure only
-# keep wells which match results_out dataset)
-monthly_out <- monthlywells_ts %>%
-  filter(nReadings > 0, 
-         Well_Num %in% results_out$Well_Num) %>%
-  select(EMS_ID, Well_Num, Date, Year, Month, med_GWL, dev_med_GWL, nReadings)
-
-write.csv(results_out, attr.out.file, row.names = FALSE)
-write.table(monthly_out, file = gwl.out.file, sep = ",", row.names = FALSE)
-
-results_out %>%
-  group_by(state) %>%
-  summarise(Number = n())
-
-missing_aquifer_types <- results_out %>%
-  group_by(state) %>%
-  filter(AQUIFER_TYPE == "Unknown") %>% 
-  select(Well_Num, REGION_NAME, AQUIFER_TYPE, wellDepth_m, state)
-
-write.csv(missing_aquifer_types, "out/ow_missing_aquifer_type.csv", row.names = FALSE)
-
-## Compare 2014 results with 2018
-
-#2018
-sum_results2018 <- results_out %>% 
-  select(Well_Num, category) %>% 
-  group_by(category) %>% 
-  summarise(totals2018 = n()) %>% 
-  adorn_totals("row")
-
-well_results2018 <- results_out %>% 
-  select(Well_Num, category2018 = category) %>% 
-  filter(category2018 != "N/A")
-
-#2014
-# get data from the B.C. Data Catalogue released under the OGl-BC licence
-results2014 <- read_csv("https://catalogue.data.gov.bc.ca/dataset/a74f1b97-17f7-499b-84e7-6455e169e425/resource/a8933793-eadb-4a9c-992c-da4f6ac8ca51/download/gwwellattributes.csv") 
-
-sum_results2014 <- results2014 %>% 
-  select(Well_Num, category) %>% 
-  mutate(category = recode(category, 
-                           `Large rate of decline` = "Large Rate of Decline", 
-                           `Moderate rate of decline` = "Moderate Rate of Decline")) %>%
-  group_by(category) %>% 
-  summarise(totals2014 = n()) %>% 
-  adorn_totals("row")
-
-well_results2014 <- results2014 %>% 
-  mutate(category = recode(category, 
-                           `Large rate of decline` = "Large Rate of Decline", 
-                           `Moderate rate of decline` = "Moderate Rate of Decline"),
-         Well_Num = as.numeric(Well_Num)) %>% 
-  select(Well_Num, category2014 = category) %>% 
-  filter(category2014 != "N/A")
-
-# compare
-sum_totals <- sum_results2018 %>% 
-  left_join(sum_results2014)
-
-well_compare <- well_results2014 %>% 
-  full_join(well_results2018) %>% 
-  left_join(welldata_attr) %>% 
-  select(-EMS_ID)
-
-write.csv(well_compare, "out/well_compare_2014_2018.csv", row.names = FALSE)
-write.csv(sum_totals, "out/summary_compare_2014_2018.csv", row.names = FALSE)
-
-## Reduce PDF print_ver file size from ~37MB to ~13MB
-file.copy("print_ver/gwl.pdf", "print_ver/envreportbc_gwl_June2018.pdf") #delete existing file, does not overwrite
-tools::compactPDF("print_ver/envreportbc_gwl_June2018.pdf", gs_quality = "ebook")
+#save list of well maps for print version
+save(BCextent, ggMapBC, summary_map, wellMaps, file="./tmp/map_data.RData")
 
 
