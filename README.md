@@ -32,7 +32,6 @@ There are four core scripts that are required for the analysis, they need to be 
 - 03_visualize.R
 - 04_output.R
 
-
 ## Getting Help or Reporting an Issue
 
 To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/groundwater-levels-indicator/issues/).
