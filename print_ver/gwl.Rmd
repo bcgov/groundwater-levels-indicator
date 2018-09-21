@@ -31,14 +31,13 @@ library(ggplot2)
 library(grid)
 library(RColorBrewer)
 library(scales)
-library(ggmap) ## need development version of ggmap with ggplot2 v3.0
 library(bcgroundwater)
 library(envreportutils)
 library(gridExtra)
 
 base_theme <- theme_get()
 
-#load('../tmp/clean_well_data.RData')
+load('../tmp/clean_well_data.RData')
 load('../tmp/analysis_data.RData')
 load('../tmp/map_data.RData')
 load('../tmp/figures.RData')
