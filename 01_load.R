@@ -32,7 +32,7 @@
 
 
 ## Source package libraries and the bcdc_map() function
-source("header.R")
+if (!exists(".header_sourced")) source("header.R")
 source("func.R")
 
 

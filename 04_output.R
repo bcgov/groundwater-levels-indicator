@@ -14,7 +14,7 @@
 
 
 ## Source package libraries
-if (!"bcgroundwater" %in% .packages()) source("header.R")
+if (!exists(".header_sourced")) source("header.R")
 
 
 ## Load saved data if necessary

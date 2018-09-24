@@ -55,4 +55,6 @@ if (!exists("tmp")) dir.create("tmp", showWarnings = FALSE)
 if (!exists("out")) dir.create("out", showWarnings = FALSE)
 if (!exists("out/figs")) dir.create("out/figs", showWarnings = FALSE)
 
+## Invisible header object
+.header_sourced <- TRUE
 

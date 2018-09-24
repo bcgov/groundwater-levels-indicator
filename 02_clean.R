@@ -18,8 +18,8 @@
 # the bcgroundwater R package in the 01_load.R script
 ###############################################################################
 
-## Source package libraries and a few handy functions we will need
-if (!"bcgroundwater" %in% .packages()) source("header.R")
+## Source package libraries
+if (!exists(".header_sourced")) source("header.R")
 
 ## Load saved raw data if necessary
 if (!exists("wells_raw")) load("./tmp/raw_well_data.RData")
