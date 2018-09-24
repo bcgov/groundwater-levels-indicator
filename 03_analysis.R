@@ -19,7 +19,7 @@
 
 
 ## Source package libraries
-if (!"package:bcgroundwater" %in% search()) source("header.R")
+if (!"bcgroundwater" %in% .packages()) source("header.R")
 
 
 # Load saved clean data objects if necessary

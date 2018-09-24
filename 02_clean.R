@@ -19,7 +19,7 @@
 ###############################################################################
 
 ## Source package libraries and a few handy functions we will need
-if (!"package:bcgroundwater" %in% search()) source("header.R")
+if (!"bcgroundwater" %in% .packages()) source("header.R")
 
 ## Load saved raw data if necessary
 if (!exists("wells_raw")) load("./tmp/raw_well_data.RData")
