@@ -197,6 +197,13 @@ dev.off()
 styles <- 'feature:all|element:all|saturation:-75'
 
 # Get British Columbia basemap
+# You will likely need to get an API key from google and enable it for the 
+# Maps Static API to get basemaps using ggmap. 
+# See help in ?ggmap::register_google and/or 
+# https://cloud.google.com/maps-platform/
+# If you save the key in your .Renviron file as a variable called `GMAP_KEY`
+# the following will work, otherwise just supply your key directly.
+ggmap::register_google(Sys.getenv("GMAP_KEY"))
 BCextent <- c(-139,48,-114,60)
 names(BCextent) <- c("left", "bottom", "right", "top")
 fourCorners <- expand.grid(as.data.frame(matrix(BCextent, ncol=2, byrow=TRUE,
