@@ -13,7 +13,8 @@
 
 ## Install the packages we will need from CRAN:
 package_list <- c("dplyr", "rgdal", "sp", "ggplot2", "stringr", #"lubridate", "zoo"
-                  "grid", "scales", "ggmap", "devtools", "rvest", "RColorBrewer",
+                  "grid", "scales", # ggmap", 
+                  "devtools", "rvest", "RColorBrewer",
                   "purrr", "sf", "gridExtra", "bcmaps", "scales", "forcats",
                   "rmapshaper", "janitor", "readr")
 package_new <- package_list[!(package_list %in% installed.packages()[,"Package"])]
@@ -25,6 +26,13 @@ package_github <- c("bcgroundwater", "envreportutils", "bcmaps.rdata")
 package_new <- package_github[!(package_github %in% installed.packages()[,"Package"])]
 if(length(package_new)) devtools::install_github(paste0("bcgov/", package_new))
 
+## ggmap needs to be installed from github, using the `tidyup` branch 
+# from a known working commit https://github.com/dkahle/ggmap/tree/3ffc51b965709162dbaa62b3baa6106f59eba27b.
+# See https://github.com/dkahle/ggmap/issues/51
+if (!"ggmap" %in% installed.packages()[, "Package"] || 
+    utils::packageVersion("ggmap") < package_version("2.7.902")) {
+  devtools::install_github("dkahle/ggmap", ref = "3ffc51b965709162")
+}
 
 ## Load required packages
 library(sf)
