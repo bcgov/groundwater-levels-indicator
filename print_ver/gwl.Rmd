@@ -22,7 +22,7 @@ See the License for the specific language governing permissions and limitations 
 -->
 
 
-```{r set-options, echo = FALSE, warning = FALSE, message = FALSE}
+```{r setup, echo = FALSE, warning = FALSE, message = FALSE}
 # 
 # envreportutils.internal::print_ver
 knitr::opts_chunk$set(cache = TRUE)
@@ -34,6 +34,8 @@ library(scales)
 library(bcgroundwater)
 library(envreportutils)
 library(gridExtra)
+library(xtable)
+library(lubridate)
 
 base_theme <- theme_get()
 
@@ -208,8 +210,6 @@ plot(summary_map)
 
 \small
 ```{r table, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis'}
-library(xtable)
-library(lubridate)
 
 out.table <- attr_wells[,c("REGION_NAME", "Well_Num", "start_date", "last_date",  
                             "trend_line_slope", "sig", "state")]
