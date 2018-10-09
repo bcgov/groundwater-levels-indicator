@@ -40,8 +40,7 @@ results_viz <- results_out[results_out$category != "N/A",] %>%
 
 ## Bar chart theme
 theme_barcharts <- theme(
-  axis.text.y = element_text(size = 12),
-  axis.text.x = element_text(size = 12),
+  axis.text = element_text(size = 14),
   axis.title = element_blank(), 
   plot.title = element_text(size = 17, hjust = 0.5),
   plot.margin = unit(c(6,6,6,2),"mm")
@@ -82,16 +81,16 @@ sum_data <- results_viz %>%
 #bar chart of category summary
 (bc_bar_chart <- ggplot(sum_data, aes(x = geography, y = percent, fill = category)) +
   geom_bar(stat = "identity", alpha = 0.7) +
-  scale_fill_manual(values = colour.scale) +
+  scale_fill_manual(name = "", values = colour.scale) +
   geom_text(aes(y = position, label = paste0(frequency, " wells")),
-             colour = label.colour) +
+             colour = label.colour, size = 5) +
     scale_y_continuous(expand = c(0,0), labels = percent) +
   labs(y = "Percent of Groundwater Wells", x = " ") +
     theme_soe() +
     theme_barcharts +
     theme(panel.grid.major.x = element_blank(),
-          legend.position = "none",
-          axis.text.x = element_text(size = 14))
+          legend.text = element_text(size = 16),
+          axis.text.x = element_text(size = 16))
 )
 
 
@@ -136,17 +135,25 @@ sum_data_reg <- results_viz %>%
                               aes(x = fct_reorder2(region_lab, category, proportion), y = proportion, fill = category)) + 
     geom_bar(stat = 'identity', alpha = 0.7) +
     coord_flip() +
-    scale_fill_manual(name = "Groundwater Level\nTrend Category:", values = colour.scale) +
+    scale_fill_manual(name = "", values = colour.scale) +
     scale_y_continuous(labels = percent, expand = c(0,0)) +
     theme_soe() +
     theme_barcharts +
     theme(panel.grid.major.y = element_blank(),
           axis.title.y = element_blank(),
-          legend.text = element_text(size = 14),
-          legend.title = element_text(size = 16),
-          legend.position = "right")
+          legend.text = element_text(size = 16),
+          legend.position = "bottom",
+          legend.direction = "vertical")
 )
 
+
+#combined bar chart plots with one legend using cowplot + patchwork
+bc_bar_nolegend <- bc_bar_chart + theme(legend.position='none')
+regional_nolegend <- regional_bar_chart + theme(legend.position='none')
+
+legend <- ggdraw(get_legend(regional_bar_chart + theme(legend.direction = "horizontal")))
+
+combined_bc_summary <- bc_bar_nolegend + regional_nolegend - legend + plot_layout(ncol = 1, heights = c(5, 1))
 
 # ## Summarize by aquifer type
 # 
@@ -173,7 +180,7 @@ sum_data_reg <- results_viz %>%
 
 ## Save plot objects to tmp folder
 # save(pie_plot, regional_plot, aq_plot, file = "tmp/figures.RData")
-save(bc_bar_chart, regional_bar_chart, file = "tmp/figures.RData")
+save(bc_bar_chart, regional_bar_chart, combined_bc_summary, file = "tmp/figures.RData")
 
 ## Save plots as high resolution PNG/SVGs for web
 status.bc <- "out/figs/status-bc"
@@ -182,20 +189,20 @@ status.reg <- "out/figs/status-by-reg"
 status.reg.bc <- "out/figs/status-by-reg-bc"
 
 #bc bar chart
-png_retina(glue(status.bc, ".png"), width = 500, height = 500)
+png_retina(glue(status.bc, ".png"), width = 500, height = 600)
 plot(bc_bar_chart)
 dev.off()
 
-svg_px(glue(status.bc, ".svg"), width = 500, height = 500)
+svg_px(glue(status.bc, ".svg"), width = 500, height = 600)
 plot(bc_bar_chart)
 dev.off()
 
 #regional bar chart
-png_retina(glue(status.reg, ".png"), width = 500, height = 500)
+png_retina(glue(status.reg, ".png"), width = 500, height = 600)
 plot(regional_bar_chart)
 dev.off()
 
-svg_px(glue(status.reg, ".svg"), width = 500, height = 500)
+svg_px(glue(status.reg, ".svg"), width = 500, height = 600)
 plot(regional_bar_chart)
 dev.off()
 
@@ -209,20 +216,15 @@ dev.off()
 # plot(aq_plot)
 # dev.off()
 
-#bar charts combined using grid.arrange()
-png_retina(glue(status.reg.bc, ".png"), width = 930, height = 500)
-grid.arrange(bc_bar_chart,
-              regional_bar_chart + theme(legend.position = "none"),
-             ncol = 2, widths = c(2,4))
+#bar charts combined bc + regions
+png_retina(glue(status.reg.bc, ".png"), width = 900, height = 600)
+plot(combined_bc_summary)
 dev.off()
 
-svg_px(glue(status.reg.bc, ".svg"), width = 930, height = 500)
-grid.arrange(bc_bar_chart,
-             regional_bar_chart + theme(legend.position = "none"),
-             ncol = 2, widths = c(2,3))
+svg_px(glue(status.reg.bc, ".svg"), width = 900, height = 600)
+plot(combined_bc_summary)
 dev.off()
 
-## use cowplot::get_legend to plaot legend under both bar charts in one object
 
 ## Map Summary (for PDF print version)
 
