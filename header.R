@@ -13,20 +13,24 @@
 
 ## Install the packages we will need from CRAN:
 package_list <- c("dplyr", "rgdal", "sp", "ggplot2", "stringr", #"lubridate", "zoo"
-                  "grid", "scales", # ggmap", 
+                  "grid", "scales", #ggmap", 
                   "devtools", "rvest", "RColorBrewer",
                   "purrr", "sf", "gridExtra", "bcmaps", "scales", "forcats",
-                  "rmapshaper", "janitor", "readr")
+                  "rmapshaper", "janitor", "readr", "cowplot", "glue")
 package_new <- package_list[!(package_list %in% installed.packages()[,"Package"])]
 if(length(package_new)) install.packages(package_new)
 
 
 ## Install the packages we will need from GitHub:
-package_github <- c("bcgroundwater", "envreportutils", "bcmaps.rdata")
+package_github <- c(bcgov = "bcgroundwater", bcgov = "envreportutils", 
+                    bcgov = "bcmaps.rdata", thomasp85 = "patchwork")
 package_new <- package_github[!(package_github %in% installed.packages()[,"Package"])]
-if(length(package_new)) devtools::install_github(paste0("bcgov/", package_new))
+if(length(package_new)) {
+  devtools::install_github(paste(names(package_new), package_new, sep = "/"))
+}
 
-## ggmap needs to be installed from github, using the `tidyup` branch 
+
+## ggmap needs to be installed from GitHub, using the `tidyup` branch 
 # from a known working commit https://github.com/dkahle/ggmap/tree/3ffc51b965709162dbaa62b3baa6106f59eba27b.
 # See https://github.com/dkahle/ggmap/issues/51
 if (!"ggmap" %in% installed.packages()[, "Package"] || 
@@ -57,6 +61,8 @@ library(envreportutils)
 library(janitor)
 library(readr)
 library(glue)
+library(patchwork)
+library(cowplot)
 
 ## Create project directories
 if (!exists("tmp")) dir.create("tmp", showWarnings = FALSE)
