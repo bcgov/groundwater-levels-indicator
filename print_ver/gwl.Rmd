@@ -36,6 +36,7 @@ library(envreportutils)
 library(gridExtra)
 library(xtable)
 library(lubridate)
+library(forcats)
 
 base_theme <- theme_get()
 
@@ -167,26 +168,21 @@ prompting further research and informing decision-making.
 
 The charts below summarise the proportions of groundwater observation wells with
 groundwater levels in three long-term trend categories: Stable or Increasing, Moderate Rate of Decline (3 to 10 cm/year), and Large Rate of Decline (more than 10 cm/year). These summaries are also presented
-by natural resource region and aquifer type.
+by natural resource region.
 
 \vspace{30pt}
 
-```{r pie, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 7, fig.height = 6, fig.align = 'center'}
-plot(pie_plot)
+```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 8, fig.height = 6, fig.align = 'center'}
+plot(bc_bar_chart)
 ```
 
 \newpage
 
-```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE}
-plot(regional_plot)
+```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 7, fig.height = 8, fig.align = 'center'}
+plot(regional_bar_chart)
 ```
 
 
-\vspace{40pt}
-
-```{r aquifers, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE}
-plot(aq_plot)
-```
 
 \newpage
 
@@ -196,7 +192,7 @@ plot(aq_plot)
 
 **Locations of `r nrow(attr_wells)` Groundwater Observation Wells Included in the Analysis**
 
-```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.height = 6}
+```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.height = 8, fig.align = 'center'}
 plot(summary_map)
 ```
 
