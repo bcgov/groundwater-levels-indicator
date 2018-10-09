@@ -178,9 +178,35 @@ combined_bc_summary <- bc_bar_nolegend + regional_nolegend - legend + plot_layou
 # )
 
 
+## Individual plots for each NR region - saved to a list object
+region_plots <- sum_data_reg %>% 
+  split(.$region_lab) %>%
+  map(~ ggplot(.) +
+     geom_col(aes(category, proportion, fill = category), alpha = 0.7) +
+    labs(title = .$region_lab) +
+     coord_flip() +
+     scale_fill_manual(name = "", values = colour.scale) +
+     scale_y_continuous(labels = percent, expand = c(0,0)) +
+     theme_soe() +
+     theme_barcharts +
+     theme(panel.grid.major.y = element_blank(),
+           legend.position = "bottom",
+           legend.text = element_text(size = 16),
+           plot.margin = unit(c(6,12,6,2),"mm")))
+
+#look at one plot in list object
+region_plots[["Northeast
+(2 wells)"]]
+
+#look at all the plots in the list object
+walk(region_plots, ~ {
+  plot(.x)
+})
+
 ## Save plot objects to tmp folder
 # save(pie_plot, regional_plot, aq_plot, file = "tmp/figures.RData")
-save(bc_bar_chart, regional_bar_chart, combined_bc_summary, file = "tmp/figures.RData")
+save(bc_bar_chart, regional_bar_chart, combined_bc_summary,
+     region_plots, file = "tmp/figures.RData")
 
 ## Save plots as high resolution PNG/SVGs for web
 status.bc <- "out/figs/status-bc"
