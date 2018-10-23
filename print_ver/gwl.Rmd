@@ -313,15 +313,8 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
   for (well in regdata$Well_Num) {
     if (is.na(well)) next
 
-    well.attr <- filter(regdata, Well_Num == well)
-    wellLong <- well.attr$Long
-    wellLat <- well.attr$Lat
-    wellColour <- with(well.attr, ifelse(category == "Large Rate of Decline",
-                                         colour.scale[3],
-                                         ifelse(category=="Stable or Increasing",
-                                                colour.scale[1],
-                                                colour.scale[2])))
-    wellname <- well.attr$Well_Name
+    wellname <- filter(regdata, Well_Num == well) %>%
+      pull(Well_Name)
     
     cat(paste0('\\subsubsection*{',reg,": ",
                knitr_latex_char(wellname),
@@ -334,23 +327,10 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
     #            format(well.attr$start_date, format = "%B %d %Y"), 
     #            " to ", format(well.attr$last_date, format = "%B %d %Y"), ". \\newline",
     #            "\\newline"))
-    
-    plotdata <- monthlywells_ts[monthlywells_ts$Well_Num == well,]
-    
-    mapplot <- plot_point_with_inset(long = wellLong, lat = wellLat,
-                                     pointColour = wellColour,
-                                     bigMap = wellMaps[well][[1]],
-                                     overviewMap = ggMapBC,
-                                     overviewExtent = BCextent)
-    
-    monthplot <- gwl_monthly_plot(dataframe = plotdata,
-                                  splines = TRUE, save = FALSE)
-    
-    areaplot <- gwl_area_plot(data = plotdata, trend = well.attr$trend_line_slope,
-                              intercept = well.attr$trend_line_int,
-                              trend_category = well.attr$state, sig = well.attr$sig,
-                              showInterpolated = TRUE, save = FALSE,
-                              mkperiod = "annual", show_stable_line = FALSE)
+
+    mapplot <- filter(well_plots, type == "map", well_num = well) %>% pull(plot)
+    monthplot <- filter(well_plots, type == "month", well_num = well) %>% pull(plot)
+    areaplot <- filter(well_plots, type == "area", well_num = well) %>% pull(plot)
     
     grid.arrange(mapplot + theme(text = element_text(size = 10),
                                  plot.margin = unit(c(0,0.5,0,0.01),"cm")),
@@ -389,8 +369,6 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
 ## Methods
 
 The [**R**](http://www.r-project.org) code for repeating this analysis is available on [GitHub](https://github.com/bcgov/groundwater-levels-indicator). The analysis makes use of the 'bcgroundwater' R package, which facilitates working with, analysing, and visualising British Columbia groundwater level data&mdash;the 'bcgroundwater' R package is available on [GitHub](https://github.com/bcgov/bcgroundwater).
-
-
 
 ### Data
 
