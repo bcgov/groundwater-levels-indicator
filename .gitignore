@@ -8,3 +8,6 @@ README.html
 /print_ver/gwl_cache/
 /print_ver/gwl_files/
 .DS_Store
+/leaflet_map/well_plots/
+/leaflet_map/regional_plots/
+/leaflet_map/*.html

@@ -1,0 +1,144 @@
+---
+title: "BC Groundwater Levels"
+output: 
+  html_document:
+    css: !expr system.file('css', 'wells-styles.css', package = 'envreportutils')
+---
+
+```{r setup, include = FALSE}
+# Note that the expression to load the css file will result in local warnings
+# with respect to the yaml package, but we don't have to worry about it for now: 
+# https://github.com/rstudio/rmarkdown/issues/1387
+
+
+knitr::opts_chunk$set(echo = FALSE)
+
+# Allows Rmd file to be run interactively and knit 
+# without having to change the relative file locations all the time
+library(here) 
+
+# bcgov packages
+library(envreportutils)
+library(bcmaps)
+
+# Tidyverse
+library(dplyr)
+library(stringr)
+library(purrr)
+library(glue)
+
+# Mapping
+library(leaflet)
+library(sf)
+library(geojsonio)
+library(htmltools) # For HTML() function
+
+# Assign colours
+well_colours <- c(RColorBrewer::brewer.pal(3,"Blues"), "#cbcbcb") %>%
+  set_names(., c("Stable or Increasing", 
+                 "Moderate Rate of Decline",
+                 "Large Rate of Decline",
+                 "Not enough data for trend analysis"))
+
+# Load and prep data
+wells <- read.csv(here("./out/GW_Well_Attributes.csv"), stringsAsFactors = FALSE) %>%
+  rename_all(.funs = funs(tolower)) %>%
+  mutate(region_name_short = str_replace(region_name, "( / )|( )", "_"),
+         state = factor(state, levels = c("Increasing", 
+                                          "Stable",
+                                          "Moderate Rate of Decline",
+                                          "Large Rate of Decline",
+                                          "Too many missing observations to perform trend analysis",
+                                          "Recently established well; time series too short for trend analysis"),
+                        ordered = TRUE),
+         category = factor(category, levels = c("Stable or Increasing", 
+                                                "Moderate Rate of Decline",
+                                                "Large Rate of Decline",
+                                                "N/A"),
+                           labels = c("Stable or Increasing",
+                                      "Moderate Rate of Decline",
+                                      "Large Rate of Decline",
+                                      "Not enough data for trend analysis"),
+                           ordered = TRUE))
+
+# Regions
+regions_n <- wells %>%
+  group_by(region_name, region_name_short) %>%
+  summarise(frequency = n())
+
+regions <- nr_regions(class = "sf") %>%
+  st_transform(crs = 4326) %>%
+  mutate(region_name = str_remove(REGION_NAME, " Natural Resource Region"),
+         region_name = str_replace(region_name, "-", " / ")) %>%
+  left_join(regions_n, by = "region_name")
+
+# Create observation well Tooltips
+wells <- mutate(wells, 
+                tooltip = pmap(list(region_name, well_name, as.character(category)),
+                               ~HTML(glue(..2, "<br>",
+                                          "Region: ", ..1, "<br>", 
+                                          "Category: ", ..3, "<br>"))))
+
+# Create Region Tooltips
+regions <- mutate(regions,
+                  tooltip = map2(region_name, frequency, 
+                                 ~HTML(glue("Region ", .x, "<br>",
+                                            "(", .y, " Observation Wells)"))))
+
+# Create observation well Popups
+wells <- wells %>%
+  create_popup_groundwater(., type = "well") %>%
+  mutate(popup = replace(popup, is.na(trend_line_slope), NA))
+
+# Create Region Tooltips
+
+# Create Region Popups
+
+
+# Verify popup formating
+#cat(az$popup[1])
+
+# Circle Marker Palette
+pal <- colorFactor(well_colours, levels = names(well_colours))
+```
+
+
+```{r, warning=FALSE}
+leaflet(width = "900px", height = "700px", options = leafletOptions(minZoom = 5)) %>% 
+  addProviderTiles(providers$CartoDB) %>%
+  add_bc_home_button() %>%
+  # Re-centre map on popup close
+  htmlwidgets::onRender(JS("
+    function(el, x) {
+      var map = this;
+      map.on('popupclose',
+        function (e) {
+          map.setView({lon: -126.5, lat: 54.5}, 5);
+        })
+    }")) %>%
+  addPolygons(data = regions,
+              color = "white", fillColor = "#72a4cd", weight = 2, opacity = 1, fillOpacity = 0.4,
+              label = ~tooltip) %>%
+              #popup = ~popup,
+              # popupOptions = popupOptions(autoPanPaddingTopLeft = c(10, 10),
+              #                                  autoPanPaddingBottomRight = c(10, 100),
+              #                                  closeOnEscapeKey = TRUE)) %>%
+  addCircleMarkers(data = wells, lng = ~long, lat = ~lat,
+                   radius = 5, weight = 1, 
+                   color = "grey", fillColor = ~pal(category), #color = "#3182BD",
+                   opacity = 1, fillOpacity = 1,
+                   label = ~tooltip, 
+                   # Stick to marker, not mouse
+                   labelOptions = labelOptions(sticky = FALSE),
+                   popup = ~popup,
+                   popupOptions = popupOptions(autoPanPaddingTopLeft = c(10, 10),
+                                               autoPanPaddingBottomRight = c(10, 100),
+                                               closeOnEscapeKey = TRUE))
+# Custom legends to override order
+  # addLegend("bottomleft", colors = rev(station_colours),
+  #           className = "info legend solid",
+  #           labels = rev(names(station_colours)),
+  #           opacity = 1,
+  #           title = htmltools::HTML("<h3>Ozone Monitoring Stations</h3><h4>Ozone Metric</h4>"))
+
+```

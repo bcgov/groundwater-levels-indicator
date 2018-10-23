@@ -68,6 +68,8 @@ library(cowplot)
 if (!exists("tmp")) dir.create("tmp", showWarnings = FALSE)
 if (!exists("out")) dir.create("out", showWarnings = FALSE)
 if (!exists("out/figs")) dir.create("out/figs", showWarnings = FALSE)
+if (!exists("leaflet_map/well_plots")) dir.create("leaflet_map/well_plots", showWarnings = FALSE)
+if (!exists("leaflet_map/regional_plots")) dir.create("leaflet_map/regional_plots", showWarnings = FALSE)
 
 ## Invisible header object
 .header_sourced <- TRUE
