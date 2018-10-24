@@ -134,14 +134,7 @@ leaflet(width = "900px", height = "700px", options = leafletOptions(minZoom = 5)
   # (makes it hard to inspect popup html/css, however)
   popups_centre() %>%
   # Re-centre map on popup close
-  htmlwidgets::onRender(JS("
-    function(el, x) {
-      var map = this;
-      map.on('popupclose',
-        function (e) {
-          map.setView({lon: -126.5, lat: 54.5}, 5);
-        })
-    }")) %>%
+  set_bc_view_on_close() %>%
   addPolygons(data = regions,
               color = "white", fillColor = "#72a4cd", weight = 2, opacity = 1, fillOpacity = 0.4,
               label = ~tooltip,
