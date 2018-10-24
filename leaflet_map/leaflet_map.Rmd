@@ -130,6 +130,9 @@ ppo <- popupOptions(autoPanPaddingTopLeft = c(5, 1),
 leaflet(width = "900px", height = "700px", options = leafletOptions(minZoom = 5)) %>% 
   addProviderTiles(providers$CartoDB) %>%
   add_bc_home_button() %>%
+  # Java tweak to re-load popups the first time their opened to ensure correct panning 
+  # (makes it hard to inspect popup html/css, however)
+  popups_centre() %>%
   # Re-centre map on popup close
   htmlwidgets::onRender(JS("
     function(el, x) {
