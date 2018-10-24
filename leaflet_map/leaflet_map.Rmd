@@ -32,13 +32,20 @@ library(leaflet)
 library(sf)
 library(geojsonio)
 library(htmltools) # For HTML() function
+```
 
+```{r, include = FALSE}
 # Assign colours
 well_colours <- c(RColorBrewer::brewer.pal(3,"Blues"), "#cbcbcb") %>%
   set_names(., c("Stable or Increasing", 
                  "Moderate Rate of Decline",
                  "Large Rate of Decline",
                  "Not enough data for trend analysis"))
+
+# Circle Marker Palette
+pal <- colorFactor(well_colours, levels = names(well_colours))
+pal_text <- colorFactor(c("black", "black", "white", "black"), 
+                        levels = names(well_colours))
 
 # Load and prep data
 wells <- read.csv(here("./out/GW_Well_Attributes.csv"), stringsAsFactors = FALSE) %>%
@@ -59,7 +66,12 @@ wells <- read.csv(here("./out/GW_Well_Attributes.csv"), stringsAsFactors = FALSE
                                       "Moderate Rate of Decline",
                                       "Large Rate of Decline",
                                       "Not enough data for trend analysis"),
-                           ordered = TRUE))
+                           ordered = TRUE),
+         # Add colours to wells dataframe
+         col = pal(category),
+         col_text = pal_text(category))
+
+
 # Create observation well Tooltips
 wells <- mutate(wells, 
                 tooltip = pmap(list(well_num, region_name, as.character(category)),
@@ -107,8 +119,6 @@ regions <- regions %>%
 # Verify popup formating
 #cat(regions$popup[1])
 
-# Circle Marker Palette
-pal <- colorFactor(well_colours, levels = names(well_colours))
 # Popup Options
 ppo <- popupOptions(autoPanPaddingTopLeft = c(5, 1),
                     autoPanPaddingBottomRight = c(5, 100),
