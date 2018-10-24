@@ -100,13 +100,19 @@ regions <- mutate(regions,
                                             "(", .y, " Observation Wells)"))))
 
 # Create Region Popups
-
+regions <- regions %>%
+  mutate(popup = popup_groundwater(., type = "region"),
+         popup = replace(popup, is.na(frequency) || frequency == 0, NA))
 
 # Verify popup formating
-#cat(az$popup[1])
+#cat(regions$popup[1])
 
 # Circle Marker Palette
 pal <- colorFactor(well_colours, levels = names(well_colours))
+# Popup Options
+ppo <- popupOptions(autoPanPaddingTopLeft = c(5, 1),
+                    autoPanPaddingBottomRight = c(5, 100),
+                    closeOnEscapeKey = TRUE)
 ```
 
 
@@ -125,11 +131,8 @@ leaflet(width = "900px", height = "700px", options = leafletOptions(minZoom = 5)
     }")) %>%
   addPolygons(data = regions,
               color = "white", fillColor = "#72a4cd", weight = 2, opacity = 1, fillOpacity = 0.4,
-              label = ~tooltip) %>%
-              #popup = ~popup,
-              # popupOptions = popupOptions(autoPanPaddingTopLeft = c(10, 10),
-              #                                  autoPanPaddingBottomRight = c(10, 100),
-              #                                  closeOnEscapeKey = TRUE)) %>%
+              label = ~tooltip,
+              popup = ~popup, popupOptions = ppo) %>%
   addCircleMarkers(data = wells, lng = ~long, lat = ~lat,
                    radius = 5, weight = 1, 
                    color = "grey", fillColor = ~pal(category), #color = "#3182BD",
@@ -137,15 +140,9 @@ leaflet(width = "900px", height = "700px", options = leafletOptions(minZoom = 5)
                    label = ~tooltip, 
                    # Stick to marker, not mouse
                    labelOptions = labelOptions(sticky = FALSE),
-                   popup = ~popup,
-                   popupOptions = popupOptions(autoPanPaddingTopLeft = c(10, 10),
-                                               autoPanPaddingBottomRight = c(10, 100),
-                                               closeOnEscapeKey = TRUE))
-# Custom legends to override order
-  # addLegend("bottomleft", colors = rev(station_colours),
-  #           className = "info legend solid",
-  #           labels = rev(names(station_colours)),
-  #           opacity = 1,
-  #           title = htmltools::HTML("<h3>Ozone Monitoring Stations</h3><h4>Ozone Metric</h4>"))
+                   popup = ~popup, popupOptions = ppo) %>%
+  addLegend("bottomleft", pal = pal, values = wells$category,
+           className = "info legend solid circle",
+           opacity = 1)
 
 ```
