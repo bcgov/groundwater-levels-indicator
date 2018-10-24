@@ -131,9 +131,11 @@ sum_data_reg <- results_viz %>%
   group_by(REGION_NAME, region_name_short, category) %>%
   summarise(frequency = n()) %>%
   mutate(proportion = frequency/sum(frequency), 
-         region_lab = paste0(gsub("(\\s)","\\\n", 
-                                  gsub("\\s/\\s*", "/\\\n", REGION_NAME)), 
-                             "\n(", nLabeller(sum(frequency), "well"), ")")) %>% 
+         #region_lab = paste0(gsub("(\\s)","\\\n", 
+         #                         gsub("\\s/\\s*", "/\\\n", REGION_NAME)), 
+         #                    "\n(", nLabeller(sum(frequency), "well"), ")")) %>% 
+         region_lab = paste0(REGION_NAME,
+                            "\n(", nLabeller(sum(frequency), "well"), ")")) %>%
   complete(nesting(REGION_NAME, region_lab), category, fill = list(frequency = 0, proportion = 0))
 
 
