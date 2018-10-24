@@ -60,6 +60,16 @@ wells <- read.csv(here("./out/GW_Well_Attributes.csv"), stringsAsFactors = FALSE
                                       "Large Rate of Decline",
                                       "Not enough data for trend analysis"),
                            ordered = TRUE))
+# Create observation well Tooltips
+wells <- mutate(wells, 
+                tooltip = pmap(list(well_num, region_name, as.character(category)),
+                               ~HTML(glue("Observation Well: ", ..1, "<br>",
+                                          "Region: ", ..2, "<br>", 
+                                          "Category: ", ..3, "<br>"))))
+# Create observation well Popups
+wells <- wells %>%
+  mutate(popup = popup_groundwater(., type = "well"),
+         popup = replace(popup, is.na(trend_line_slope), NA))
 
 # Regions
 regions_n <- wells %>%
@@ -72,25 +82,11 @@ regions <- nr_regions(class = "sf") %>%
          region_name = str_replace(region_name, "-", " / ")) %>%
   left_join(regions_n, by = "region_name")
 
-# Create observation well Tooltips
-wells <- mutate(wells, 
-                tooltip = pmap(list(region_name, well_name, as.character(category)),
-                               ~HTML(glue(..2, "<br>",
-                                          "Region: ", ..1, "<br>", 
-                                          "Category: ", ..3, "<br>"))))
-
 # Create Region Tooltips
 regions <- mutate(regions,
                   tooltip = map2(region_name, frequency, 
                                  ~HTML(glue("Region ", .x, "<br>",
                                             "(", .y, " Observation Wells)"))))
-
-# Create observation well Popups
-wells <- wells %>%
-  create_popup_groundwater(., type = "well") %>%
-  mutate(popup = replace(popup, is.na(trend_line_slope), NA))
-
-# Create Region Tooltips
 
 # Create Region Popups
 
