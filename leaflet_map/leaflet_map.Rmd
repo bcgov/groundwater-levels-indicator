@@ -26,6 +26,7 @@ library(dplyr)
 library(stringr)
 library(purrr)
 library(glue)
+library(readr)
 
 # Mapping
 library(leaflet)
@@ -101,7 +102,7 @@ regions_n <- wells %>%
   group_by(region_name, region_name_short) %>%
   summarise(frequency = n())
 
-regions <- nr_regions(class = "sf") %>%
+regions <- read_rds(here("./out/nr_polygons.rds")) %>%
   st_transform(crs = 4326) %>%
   mutate(region_name = str_remove(REGION_NAME, " Natural Resource Region"),
          region_name = str_replace(region_name, "-", " / ")) %>%
@@ -138,7 +139,7 @@ leaflet(width = "900px", height = "700px", options = leafletOptions(minZoom = 5)
   # Re-centre map on popup close
   set_bc_view_on_close() %>%
   addPolygons(data = regions,
-              color = "white", fillColor = "#72a4cd", weight = 2, opacity = 1, fillOpacity = 0.4,
+              color = "white", fillColor = "#72a4cd", weight = 1.5, opacity = 1, fillOpacity = 0.4,
               label = ~tooltip,
               popup = ~popup, popupOptions = ppo) %>%
   addCircleMarkers(data = wells, lng = ~long, lat = ~lat,

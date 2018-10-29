@@ -194,6 +194,13 @@ combined_bc_summary <- bc_bar_nolegend +
 
 ## Map Summary (for PDF print version)
 
+#get natural resource regions
+bc <- bc_bound(class = "sf")
+nrr <- nr_regions(class = "sf")
+nrr_clip <- ms_clip(nrr, bc)
+nrr_simp <-  ms_simplify(nrr_clip) %>% 
+  st_transform(3857)
+
 if(create_ggmaps) {
   
   #Provincial summary map
@@ -250,14 +257,7 @@ if(create_ggmaps) {
                     "Large Rate of Decline",
                     "Moderate Rate of Decline",
                     "Not enough data to-date for trend analysis")
-  
-  #get natural resource regions
-  bc <- bc_bound(class = "sf")
-  nrr <- nr_regions(class = "sf")
-  nrr_clip <- ms_clip(nrr, bc)
-  nrr_simp <-  ms_simplify(nrr_clip) %>% 
-    st_transform(3857)
-  
+
   #source function for aligning sf object with ggmap object
   devtools::source_gist("1467691edbc1fd1f7fbbabd05957cbb5", 
                         filename = "ggmap_sf.R")
@@ -407,6 +407,9 @@ status.reg <- "out/figs/status-by-reg"
 status.reg.bc <- "out/figs/status-by-reg-bc"
 status.well <- "leaflet_map/well_plots"
 status.reg.all <- "leaflet_map/regional_plots"
+
+# Save nrr_simp for use in leaflet map
+write_rds(nrr_simp, "out/nr_polygons.rds")
 
 #bc bar chart
 png_retina(glue(status.bc, ".png"), width = 500, height = 600)
