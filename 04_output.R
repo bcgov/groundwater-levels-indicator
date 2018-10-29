@@ -300,17 +300,16 @@ regional_plots <- sum_data_reg %>%
   split(.$region_name_short) %>%
   map(~ ggplot(.) +
           geom_col(aes(category, proportion, fill = category), alpha = 0.7) +
-          labs(title = .$region_lab) +
           coord_flip() +
           scale_fill_manual(name = "", values = colour.scale) +
           scale_y_continuous(labels = percent, expand = c(0,0)) +
           theme_soe() +
           theme_barcharts +
           theme(panel.grid.major.y = element_blank(),
-                legend.position = "bottom",
+                legend.position = "none",
                 legend.text = element_text(size = 16),
                 plot.margin = unit(c(6,12,6,2),"mm")))
-
+  
 # To look at one plot in list object:
 # regional_plots[["Northeast\n(2 wells)"]]
 

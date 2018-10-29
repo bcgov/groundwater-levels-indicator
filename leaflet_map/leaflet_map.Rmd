@@ -112,7 +112,7 @@ regions <- read_rds(here("./out/nr_polygons.rds")) %>%
 regions <- mutate(regions,
                   tooltip = map2(region_name, frequency, 
                                  ~HTML(glue("Region ", .x, "<br>",
-                                            "(", .y, " Observation Wells)"))))
+                                            "(", .y, " Observation Wells Reported)"))))
 
 # Create Region Popups
 regions <- regions %>%

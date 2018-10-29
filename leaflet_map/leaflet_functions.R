@@ -54,6 +54,8 @@ popup_content_groundwater <- function(data, type) {
                                             .data$region_name_short, ".svg'>\n"),
                           title = paste0("  <div class = 'popup-title'>\n", 
                                          "        <h2>", .data$region_name, "</h2>\n", 
+                                         "        <h4>Number of Observation Wells Reported: ", 
+                                                      .data$frequency, "</h4>\n",
                                          "  </div>\n"))
   }
   data
