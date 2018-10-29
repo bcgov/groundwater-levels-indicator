@@ -54,10 +54,6 @@ a {
 	padding-left: 10px;
 }*/
 
-.leaflet-bar-part img {
-	padding-top: 4px;
-}
-
 .no-pointer {
 	cursor: -webkit-grab;
 	cursor: -moz-grab;
