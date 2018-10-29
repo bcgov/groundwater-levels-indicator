@@ -34,7 +34,7 @@ library(sf)
 library(geojsonio)
 library(htmltools) # For HTML() function
 
-source("leaflet_functions.R")
+source(here("./leaflet_map/leaflet_functions.R"))
 ```
 
 ```{r, include = FALSE}
