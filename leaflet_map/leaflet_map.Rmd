@@ -51,7 +51,7 @@ pal_text <- colorFactor(c("black", "black", "white", "black"),
                         levels = names(well_colours))
 
 # Load and prep data
-wells <- read.csv(here("./out/GW_Well_Attributes.csv"), stringsAsFactors = FALSE) %>%
+wells <- read_csv(here("./out/GW_Well_Attributes.csv")) %>%
   rename_all(.funs = funs(tolower)) %>%
   mutate(region_name_short = str_replace(region_name, "( / )|( )", "_"),
          state = factor(state, levels = c("Increasing", 
