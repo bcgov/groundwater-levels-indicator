@@ -1,0 +1,319 @@
+/**************
+Following styles are adapted from:
+http://www.env.gov.bc.ca/soe/indicators/air/ozone_viz/css/main.css
+**************/
+
+/* General Layout */
+
+body, 
+html {
+	font-family: Verdana, sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+	margin: 0;
+	padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	margin: 0;
+	padding: 0;
+	font-weight: 400;
+}
+
+h3 {
+  font-size: 15px;
+}
+
+h4 {
+  font-size: 13px;
+}
+
+a {
+	text-decoration: none;
+}
+
+*:focus {
+	outline: 0;
+}
+
+/***************
+ Leaflet
+***************/
+.leaflet-container,
+.leaflet-tooltip {
+	font: 13px/1.5 Verdana, sans-serif !important;
+	color: #333;
+	font-weight: 400;
+}
+
+/*.leaflet-control-layers label {
+	font-size: 13px;
+	padding-left: 10px;
+}*/
+
+.leaflet-bar-part img {
+	padding-top: 4px;
+}
+
+.no-pointer {
+	cursor: -webkit-grab;
+	cursor: -moz-grab;
+}
+
+.info {
+  font: 13px/1.5 Verdana, sans-serif !important;
+  padding: 6px 8px;
+  background: #fff;
+  color: #333;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+  border-radius: 5px;
+  width: auto;
+}
+
+.info h3 {
+	margin: 0 0 5px;
+	color: #404040;
+}
+
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legend {
+  line-height: 18px;
+  color: #555;
+}
+
+.legend i {
+  width: 17px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.7;
+  margin-top: -1px;
+	margin-bottom: -1px;
+	border: 1px solid #ffffff;
+}
+
+.legend.solid i {
+	opacity: 1;
+	border: 1px solid #404040;
+}
+
+.legend.circle i {
+  border-radius: 50%;
+}
+
+html.lt-ie9 .leaflet-bar-part,
+html.lt-ie9 .info {
+	border: 1px solid #999;
+}
+
+/****************
+Labels
+****************/
+.leaflet-tooltip {
+	background: rgb(235, 235, 235);
+	background: rgba(235, 235, 235, 0.81);
+	background-clip: padding-box;
+	border-color: #777;
+	border-color: rgba(0,0,0,0.25);
+	border-radius: 4px;
+	border-style: solid;
+	border-width: 4px;
+	color: #111;
+	display: block;
+	font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
+	padding: 1px 6px;
+	position: absolute;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+	pointer-events: none;
+	white-space: nowrap;
+	z-index: 6;
+	/* Remove default Leaflet shadow */
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+
+.leaflet-tooltip.leaflet-clickable {
+	cursor: pointer;
+	pointer-events: auto;
+}
+
+/* Tool tip arrows */
+.leaflet-tooltip:before,
+.leaflet-tooltip:after {
+  margin-top: 0;
+  margin-right: 0;
+  margin-left: 0;
+	border-top: 6px solid transparent;
+	border-bottom: 6px solid transparent;
+	content: none;
+	position: absolute;
+	top: 40%;
+}
+
+/* Position arrows */
+.leaflet-tooltip:before {
+	border-right: 6px solid black;
+	border-right-color: inherit;
+	left: -16px; /* 6 + 6 + 4 */
+}
+
+.leaflet-tooltip:after {
+	border-left: 6px solid black;
+	border-left-color: inherit;
+	right: -16px;
+}
+
+.leaflet-tooltip-right:before,
+.leaflet-tooltip-left:after {
+	content: "";
+}
+
+
+/***************
+ Popup Windows
+***************/
+
+.leaflet-popup-content-wrapper {
+	width: 800px; /* This needs to be less than the map-width (900px) */
+	margin: 50px 50px 0 50px;
+  height: 100%;
+	background-color: #fff;
+	cursor: auto;
+	text-align: left;
+	overflow: auto;
+	border-radius: 0;
+}
+
+.leaflet-popup-close-button {
+	position: absolute;
+	font-size: 1.125em;
+	color: #aaa;
+	
+	/* These numbers are the popup margin +3 and +6 respectively*/
+	top: 53px !important; 
+	right: 56px !important;
+	
+	border: none;
+}
+
+.leaflet-popup-close-button:hover {
+	color: #777;
+}
+
+.leaflet-popup-content {
+	text-align: center;
+	width: 95% !important;
+	margin: 1.25em auto 0;
+}
+
+.popup-row {
+	overflow: auto;
+}
+
+.popup-row + .popup-row {
+	border-top: 1px solid #CCC;
+	padding-top: 1em;
+}
+
+.popup-title {
+	float: left;
+	text-align: left;
+	padding-bottom: 0.5em;
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+.popup-badge {
+  clear:both;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+  text-align: center;
+  width: 90%;
+}
+
+.popup-title h2 {
+	font-size: 2.125em;
+	line-height: 1.2;
+}
+
+.popup-badge h2 {
+  font-size: 1.75em;
+	line-height: 1.5;
+}
+
+.popup-badge h4 {
+	line-height: 1.5;
+}
+
+.popup-row h3 {
+	font-size: 1.25em;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.popup-row h4 {
+	font-size: 1em;
+}
+
+.popup-row .section-info {
+	margin-left: 0;
+	width: 50%;
+	padding: 1em 0;
+	float: left;
+	min-height: 76px;
+	text-align: left;
+	-webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.popup-row .section-column-plot {
+	width: 45%;
+	overflow: auto;
+	float: right;
+	padding-top: 0;
+	padding-bottom: 0; 
+	-webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.popup-row span {
+	font-size: 0.75em;
+	line-height: 0.75;
+}
+
+.popup-row .scale {
+	overflow: auto;
+	float: left;
+}
+
+.popup-row .scale img {
+	width: 33px;
+	height: 102px;
+}
+
+.leaflet-popup-content img {
+  margin-bottom: 0em;
+}
+
+/* .leaflet-popup-content-wrapper img { */
+/*	width: 778px; */
+/* height: 254px; */
+/*}*/
+
+

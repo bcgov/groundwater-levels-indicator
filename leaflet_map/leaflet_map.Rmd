@@ -2,7 +2,7 @@
 title: "BC Groundwater Levels"
 output: 
   html_document:
-    css: !expr system.file('css', 'wells-styles.css', package = 'envreportutils')
+    css: 'assets/styles.css'
 ---
 
 ```{r setup, include = FALSE}
@@ -32,6 +32,8 @@ library(leaflet)
 library(sf)
 library(geojsonio)
 library(htmltools) # For HTML() function
+
+source("leaflet_functions.R")
 ```
 
 ```{r, include = FALSE}
