@@ -99,6 +99,7 @@ wells <- mutate(wells,
 
 # Regions
 regions_n <- wells %>%
+  filter(!is.na(trend_line_slope)) %>%
   group_by(region_name, region_name_short) %>%
   summarise(frequency = n())
 
@@ -112,7 +113,7 @@ regions <- read_rds(here("./out/nr_polygons.rds")) %>%
 regions <- mutate(regions,
                   tooltip = map2(region_name, frequency, 
                                  ~HTML(glue("Region ", .x, "<br>",
-                                            "(", .y, " Observation Wells Reported)"))))
+                                            "(", .y, " Observation Wells with Trend Data)"))))
 
 # Create Region Popups
 regions <- regions %>%
