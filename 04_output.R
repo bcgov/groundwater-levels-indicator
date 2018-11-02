@@ -336,11 +336,13 @@ well_plots <- monthlywells_ts %>%
                                          mkperiod = "annual", 
                                          show_stable_line = FALSE) +
                             theme(plot.title = element_text(lineheight = 1,
-                                                            margin = margin(b = -5)),
-                                  plot.subtitle = element_text(lineheight = 1,
-                                                               margin = margin(t = 0)),
+                                                            margin = margin(b = -10)),
+                                  plot.subtitle = element_blank(),
+                                  axis.title.x = element_blank(),
                                   plot.margin = unit(c(5, 1, 2, 5), units = "pt"),
-                                  legend.box.spacing = unit(c(2, 0, 0, 0), units = "pt"))))
+                                  legend.box.spacing = unit(c(0, 0, 0, 0), units = "pt"),
+                                  legend.margin = margin(0, 0, 0, 0),
+                                  legend.position = "top")))
 
 # +
 #   theme(plot.title = element_text(hjust = 0, lineheight = 1,
@@ -458,7 +460,7 @@ for(i in seq_len(nrow(well_plots))) {
   # Area plots
   svg_px(file.path(status.well,
                    glue("area_", well_plots$Well_Num[i], ".svg")),
-         width = 700, height = 275)
+         width = 600, height = 200)
   plot(well_plots$area_plot[[i]])
   dev.off()
 }

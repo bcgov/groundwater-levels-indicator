@@ -227,18 +227,19 @@ Labels
 	text-align: left;
 	padding-bottom: 0.5em;
 	width: 100%;
-	margin-bottom: 15px;
 }
 
 .popup-badge {
   clear:both;
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   margin-left: auto;
   margin-right: auto;
-  padding: 15px;
+  padding: 10px;
   text-align: center;
-  width: 90%;
+  min-height: 100px;
+  width: 80%;
+  background-color: #efefef;
 }
 
 .popup-title h2 {
@@ -248,12 +249,14 @@ Labels
 }
 
 .popup-badge h2 {
-  font-size: 1.75em;
+  font-size: 1.5em;
 	line-height: 1.5;
+	padding-bottom: 5px;
 }
 
 .popup-badge h4 {
 	line-height: 1.5;
+	padding-bottom: 5px;
 }
 
 .popup-row h3 {
@@ -269,7 +272,7 @@ Labels
 .popup-row .section-info {
 	margin-left: 0;
 	width: 50%;
-	padding: 1em 0;
+	padding-bottom: 1em;
 	float: left;
 	min-height: 76px;
 	text-align: left;
@@ -279,11 +282,11 @@ Labels
 }
 
 .popup-row .section-column-plot {
-	width: 45%;
+	width: 60%;
 	overflow: auto;
 	float: right;
 	padding-top: 0;
-	padding-bottom: 0; 
+	padding-bottom: 5px; 
 	-webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
@@ -305,7 +308,7 @@ Labels
 }
 
 .leaflet-popup-content img {
-  margin-bottom: 0em;
+  margin-bottom: 1em;
 }
 
 /* .leaflet-popup-content-wrapper img { */
