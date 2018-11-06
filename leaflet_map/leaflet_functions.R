@@ -4,16 +4,16 @@ popup_groundwater <- function(data, type = "well") {
   
   if(type == "well") {
     data <- dplyr::mutate(data,
-                          popup_row1 = envreportutils:::popup_create_row(.data$title),
-                          popup_row2 = envreportutils:::popup_create_row(.data$info, .data$info2),
-                          popup_row3 = envreportutils:::popup_create_row(.data$svg_wide))
+                          popup_row1 = popup_create_row(.data$title),
+                          popup_row2 = popup_create_row(.data$info, .data$info2),
+                          popup_row3 = popup_create_row(.data$svg_wide))
   } else if (type == "region") {
     data <- dplyr::mutate(data,
-                          popup_row1 = envreportutils:::popup_create_row(.data$title),
-                          popup_row2 = envreportutils:::popup_create_row(.data$svg_wide))
+                          popup_row1 = popup_create_row(.data$title),
+                          popup_row2 = popup_create_row(.data$svg_wide))
   }
   
-  envreportutils:::popup_combine_rows(data)
+  popup_combine_rows(data)
 }
 
 popup_content_groundwater <- function(data, type) {
