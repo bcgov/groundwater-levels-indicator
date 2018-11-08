@@ -122,7 +122,7 @@ regions <- regions %>%
 # Popup Options
 ppo <- popupOptions(autoPanPaddingTopLeft = c(5, 1),
                     autoPanPaddingBottomRight = c(5, 100),
-                    closeOnEscapeKey = TRUE)
+                    closeOnEscapeKey = TRUE, keepInView = TRUE)
 ```
 
 
@@ -130,9 +130,6 @@ ppo <- popupOptions(autoPanPaddingTopLeft = c(5, 1),
 leaflet(width = "900px", height = "800px", options = leafletOptions(minZoom = 5)) %>% 
   addProviderTiles(providers$CartoDB) %>%
   add_bc_home_button() %>%
-  # Java tweak to re-load popups the first time their opened to ensure correct panning 
-  # (makes it hard to inspect popup html/css, however)
-  popups_centre() %>%
   # Re-centre map on popup close
   set_bc_view_on_close() %>%
   addPolygons(data = regions,
