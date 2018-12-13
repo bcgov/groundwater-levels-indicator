@@ -44,18 +44,18 @@ popup_content_groundwater <- function(data, type) {
                                   "      <div class = 'popup-badge' ",
                                   "style = 'background-color: ", col,";
                                                        color: ", col_text, "'>\n",
-                                  "        <h4>Trend Category:</h4>\n", 
+                                  "        <h4><strong>Trend Category:</strong></h4>\n", 
                                   "        <h2>", .data$state, "</h2>\n",
                                            .data$trend,
                                   "      </div>\n",
                                   "  </div>\n"),
                     info2 = paste0("  <div class = 'section-info'>\n", 
                                    "      <div class = 'popup-badge'>\n",
-                                   "        <h4><strong>Learn More About this Well</strong></h4>\n",
-                                   "        <a href = '", gw_map, "' target='_blank'>", 
-                                            "GW Network Map<small></a> (well info/data)</small>\n",
-                                   "        <br><a href = '' target = '_blank'>",
-                                            "Aquifer Factsheets</a><small> (aquifer health)</small>\n",
+                                   "        <h4><strong>Learn More About this Well:</strong></h4>\n",
+                                   "        <h4><a href = '", gw_map, "' target='_blank'>", 
+                                            "Groundwater Level Data & Information</h4>\n",
+                                   "        <h4><a href = '' target = '_blank'>",
+                                            "Aquifer Factsheet</h4>\n",
                                    "      </div>\n",
                                    "  </div>\n"))
   } else {
@@ -64,8 +64,10 @@ popup_content_groundwater <- function(data, type) {
                                             .data$region_name_short, ".svg'>\n"),
                           title = paste0("  <div class = 'popup-title'>\n", 
                                          "        <h2>", .data$region_name, "</h2>\n", 
-                                         "        <h4>Number of Observation Wells with Trend Data: ", 
-                                                      .data$frequency, "</h4>\n",
+                                         # "        <h4>Number of Observation Wells in the Region: ", 
+                                         #              .data$frequency_all, "</h4>\n",
+                                         "        <h4>Number of Trend Reporting Observation Wells: ", 
+                                         .data$frequency, "</h4>\n",
                                          "  </div>\n"))
   }
   data
