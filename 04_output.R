@@ -54,24 +54,6 @@ theme_barcharts <- theme(
 )
 
 
-## Plot theme
-# theme_set(theme_classic() +
-#             theme(text = element_text(colour = "black"),
-#                   axis.line = element_blank(),
-#                   axis.ticks = element_blank(),
-#                   panel.grid.major = element_line(colour = "grey85", size = 0.5,
-#                                                 linetype = 1),
-#                   panel.grid.minor = element_line(colour = "grey90", size = 0.5,
-#                                                 linetype = 1),
-#                   panel.grid.major.x = element_blank(),
-#                   panel.spacing = unit(0.6, "lines"),
-#                   plot.title = element_text(vjust = 2, hjust = 0.5),
-#                   axis.title = element_text(vjust = 0.1),
-#                   legend.position = "bottom", legend.title = element_blank(),
-#                   legend.text = element_text(size = 12),
-#                   axis.text.x = element_blank(),
-#                   strip.background = element_blank()))
-
 label.colour <- "black" 
 colour.scale <- brewer.pal(3,"Blues")
 
@@ -100,22 +82,6 @@ bc_bar_chart <- ggplot(sum_data, aes(x = geography, y = percent, fill = category
         legend.text = element_text(size = 16),
         axis.text.x = element_text(size = 16))
 
-
-#pie chart of category summary
-# (pie_plot <- ggplot(results_viz, aes(x = factor(1), fill = category)) + 
-#   geom_bar(width = 1) + coord_polar(start = 0, theta = "y") + 
-#   scale_fill_manual(values = colour.scale) + 
-#   theme(line = element_blank(), axis.text = element_blank(),
-#         axis.title = element_blank(), plot.title = element_text(vjust = 0),
-#         legend.position = c(0.5,0.01), legend.direction = "horizontal",
-#         legend.title = element_blank(), 
-#     #    plot.margin = unit(c(rep(0,4)), "cm"),
-#         panel.grid.minor = element_blank(), panel.grid.major = element_blank()) + 
-#   geom_text(data = sum_data,
-#             aes(x = 1.2, y = pos, label = paste0(per,"%")),
-#             colour = label.colour) + 
-#   ggtitle("Percentage of Groundwater Wells in Three Different\nCategories of Long-term Trends in Groundwater Levels")
-# )
 
 ## Summary of categories by region
 
@@ -146,7 +112,7 @@ regional_bar_chart <- ggplot(sum_data_reg,
   geom_bar(stat = 'identity', alpha = 0.7) +
   coord_flip() +
   scale_fill_manual(name = "", values = colour.scale) +
-  scale_y_continuous(labels = percent, expand = c(0,0)) +
+  scale_y_continuous(labels = percent_format(accuracy = 1), expand = c(0,0)) +
   theme_soe() +
   theme_barcharts +
   theme(panel.grid.major.y = element_blank(),
@@ -166,28 +132,6 @@ combined_bc_summary <- bc_bar_nolegend +
   regional_nolegend - 
   legend + 
   plot_layout(ncol = 1, heights = c(5, 1))
-
-# ## Summarize by aquifer type
-# 
-# #aquifer type df
-# sum_data_aq <- results_viz %>% 
-#   filter(AQUIFER_TYPE != "Unknown") %>%
-#   group_by(AQUIFER_TYPE, category) %>%
-#   summarise(Freq = n()) %>%
-#   mutate(prop = Freq/sum(Freq),
-#          aq_lab = paste0(AQUIFER_TYPE, "\n(",
-#                          nLabeller(sum(Freq), "well"), ")"))
-# 
-# #bar chart plot with percentage on y and sample size labels
-# (aq_plot <- ggplot(sum_data_aq, aes(x = category, y = prop, fill = category)) +
-#     geom_bar(stat = 'identity') + facet_grid(~ aq_lab) +
-#     labs(title = "Trends in Groundwater Levels by Aquifer Type",
-#          x = element_blank(), y = "Percent of Groundwater Wells") +
-#     scale_fill_manual(values = colour.scale) +
-#     scale_y_continuous(labels = percent, limits = c(0,1)) +
-#     theme(axis.text.y = element_text(colour = "black"),
-#           strip.text = element_text(colour = "black", size = 9))
-# )
 
 
 # ggmap plots ------------------------------------------------------------
@@ -293,7 +237,6 @@ if(create_ggmaps) {
 }
 
 
-
 # Individual plots for each NR region -------------------------------------
 # Saved to a list object
 regional_plots <- sum_data_reg %>%
@@ -302,7 +245,7 @@ regional_plots <- sum_data_reg %>%
           geom_col(aes(category, proportion, fill = category), alpha = 0.7) +
           coord_flip() +
           scale_fill_manual(name = "", values = colour.scale) +
-          scale_y_continuous(labels = percent, expand = c(0,0)) +
+          scale_y_continuous(labels = percent_format(accuracy = 1), expand = c(0,0)) +
           theme_soe() +
           theme_barcharts +
           theme(panel.grid.major.y = element_blank(),
@@ -311,7 +254,7 @@ regional_plots <- sum_data_reg %>%
                 plot.margin = unit(c(6,12,6,2),"mm")))
   
 # To look at one plot in list object:
-# regional_plots[["Northeast\n(2 wells)"]]
+regional_plots[["Northeast"]]
 
 # To look at all the plots in the list object:
 # walk(regional_plots, ~ plot(.x))
