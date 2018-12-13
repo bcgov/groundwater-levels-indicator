@@ -1,5 +1,5 @@
 ---
-title: "BC Groundwater Levels"
+title: 
 output: 
   html_document:
     css: 'assets/styles.css'
@@ -41,7 +41,7 @@ source(here("./leaflet_map/leaflet_functions.R"))
 cats <- c("Stable or Increasing", 
             "Moderate Rate of Decline",
             "Large Rate of Decline",
-            "Not Enough Data for Trend Analysis")
+            "Not Enough Data To-Date for Trend Analysis")
 
 # Assign colours
 well_colours <- c(RColorBrewer::brewer.pal(3,"Blues"), "#cbcbcb") %>%
@@ -94,10 +94,15 @@ wells <- mutate(wells,
 
 
 # Regions
+regions_n_all <- wells %>%
+  group_by(region_name, region_name_short) %>%
+  summarise(frequency_all = n())
+
 regions_n <- wells %>%
   filter(!is.na(trend_line_slope)) %>%
   group_by(region_name, region_name_short) %>%
-  summarise(frequency = n())
+  summarise(frequency = n())  %>% 
+  left_join(regions_n_all, by = c("region_name", "region_name_short"))
 
 regions <- read_rds(here("./out/nr_polygons.rds")) %>%
   st_transform(crs = 4326) %>%
@@ -106,10 +111,14 @@ regions <- read_rds(here("./out/nr_polygons.rds")) %>%
   left_join(regions_n, by = "region_name")
 
 # Create Region Tooltips
+
+# regions <- mutate(regions,
+#                   tooltip = map(region_name,
+#                                  ~HTML(glue("Region ", .x))))
 regions <- mutate(regions,
-                  tooltip = map2(region_name, frequency, 
+                  tooltip = map2(region_name, frequency_all,
                                  ~HTML(glue("Region ", .x, "<br>",
-                                            "(", .y, " Observation Wells with Trend Data)"))))
+                                            "(", .y, " Observation Wells)"))))
 
 # Create Region Popups
 regions <- regions %>%
