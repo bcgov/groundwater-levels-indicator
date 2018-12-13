@@ -340,14 +340,12 @@ if(create_ggmaps){
 
 
 ## Save plot objects to tmp folder
-# save(pie_plot, regional_plot, aq_plot, file = "tmp/figures.RData")
 save(bc_bar_chart, regional_bar_chart, combined_bc_summary,
      regional_plots, well_plots, file = "tmp/figures.RData")
 
 ## Save plots as high resolution PNG/SVGs for web
 status.bc <- "out/figs/status-bc"
 status.reg <- "out/figs/status-by-reg"
-# status.aq <- "out/figs/status-by-aq"
 status.reg.bc <- "out/figs/status-by-reg-bc"
 status.well <- "leaflet_map/well_plots"
 status.reg.all <- "leaflet_map/regional_plots"
@@ -372,15 +370,6 @@ dev.off()
 svg_px(glue(status.reg, ".svg"), width = 500, height = 600)
 plot(regional_bar_chart)
 dev.off()
-
-# #aquifer type bar chart
-# png_retina(glue(status.aq, ".png"), width = 440, height = 400)
-# plot(aq_plot)
-# dev.off()
-# 
-# svg_px(glue(status.aq, ".svg"), width = 440, height = 400)
-# plot(aq_plot)
-# dev.off()
 
 #bar charts combined bc + regions
 png_retina(glue(status.reg.bc, ".png"), width = 900, height = 600)
