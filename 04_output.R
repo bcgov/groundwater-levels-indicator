@@ -254,7 +254,7 @@ regional_plots <- sum_data_reg %>%
                 plot.margin = unit(c(6,12,6,2),"mm")))
   
 # To look at one plot in list object:
-regional_plots[["Northeast"]]
+# regional_plots[["Northeast"]]
 
 # To look at all the plots in the list object:
 # walk(regional_plots, ~ plot(.x))
