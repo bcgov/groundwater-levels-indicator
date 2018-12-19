@@ -382,12 +382,12 @@ dev.off()
 
 # Obs Well plots chart
 for(i in seq_len(nrow(well_plots))) {
-  # Month plots
-  svg_px(file.path(status.well,
-                   glue("month_", well_plots$Well_Num[i], ".svg")),
-         width = 350, height = 220)
-  plot(well_plots$month_plot[[i]])
-  dev.off()
+  # # Month plots
+  # svg_px(file.path(status.well,
+  #                  glue("month_", well_plots$Well_Num[i], ".svg")),
+  #        width = 350, height = 220)
+  # plot(well_plots$month_plot[[i]])
+  # dev.off()
   
   # Area plots
   svg_px(file.path(status.well,
