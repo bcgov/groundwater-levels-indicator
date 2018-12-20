@@ -186,7 +186,7 @@ regional_plots <- sum_data_reg %>%
 # To look at all the plots in the list object:
 # walk(regional_plots, ~ plot(.x))
 
-## Save iindividual regional bar charts
+## Save individual regional bar charts
 for (i in seq_along(regional_plots)) {
   svg_px(file.path(status.reg.all, 
                    glue("summary_", names(regional_plots)[i], ".svg")), 
@@ -254,41 +254,39 @@ nrr_simp <-  ms_simplify(nrr_clip) %>%
 # Save nrr_simp for use in leaflet map
 write_rds(nrr_simp, "out/nr_polygons.rds")
 
-if (create_ggmaps) {
-  
-  #Provincial summary map
-  styles <- 'feature:all|element:all|saturation:-75'
-  
-  # Get British Columbia basemap
-  # You will likely need to get an API key from google and enable it for the 
-  # Maps Static API to get basemaps using ggmap. 
-  # See help in ?ggmap::register_google and/or 
-  # https://cloud.google.com/maps-platform/
-  # If you save the key in your .Renviron file as a variable called `GMAP_KEY`
-  # the following will work, otherwise just supply your key directly.
-  
-  ggmap::register_google(Sys.getenv("GMAP_KEY"))
-  BCextent <- c(-139,48,-114,60)
-  names(BCextent) <- c("left", "bottom", "right", "top")
-  
-  fourCorners <- expand.grid(
-    as.data.frame(matrix(BCextent, ncol = 2, byrow = TRUE,
-                         dimnames = list(NULL, c("Long", "Lat"))))
-  )
-  
-  BCcenter <- c(mean(BCextent[c("left","right")]), 
-                mean(BCextent[c("top","bottom")]))
-  
-  if (!nzchar("GMAP_KEY")) {
-    ggMapBC <- get_googlemap(center = BCcenter, zoom = 5, scale = 1, 
-                             maptype = 'roadmap', visible = fourCorners, 
-                             style = styles)
-  } else {
-    ggMapBC <- get_map(location = BCcenter, zoom = 5, scale = 1, maptype = "terrain",
-                       source = "stamen")
-  }
-  
+
+#Provincial summary map
+styles <- 'feature:all|element:all|saturation:-75'
+
+# Get British Columbia basemap
+# You will likely need to get an API key from google and enable it for the 
+# Maps Static API to get basemaps using ggmap. 
+# See help in ?ggmap::register_google and/or 
+# https://cloud.google.com/maps-platform/
+# If you save the key in your .Renviron file as a variable called `GMAP_KEY`
+# the following will work, otherwise just supply your key directly.
+
+ggmap::register_google(Sys.getenv("GMAP_KEY"))
+BCextent <- c(-139,48,-114,60)
+names(BCextent) <- c("left", "bottom", "right", "top")
+
+fourCorners <- expand.grid(
+  as.data.frame(matrix(BCextent, ncol = 2, byrow = TRUE,
+                       dimnames = list(NULL, c("Long", "Lat"))))
+)
+
+BCcenter <- c(mean(BCextent[c("left","right")]), 
+              mean(BCextent[c("top","bottom")]))
+
+if (!nzchar("GMAP_KEY")) {
+  ggMapBC <- get_googlemap(center = BCcenter, zoom = 5, scale = 1, 
+                           maptype = 'roadmap', visible = fourCorners, 
+                           style = styles)
+} else {
+  ggMapBC <- get_map(location = BCcenter, zoom = 5, scale = 1, maptype = "terrain",
+                     source = "stamen")
 }
+
 
 #tweak df for map plot
 results_map_df <- results_out %>% 
@@ -342,6 +340,8 @@ plot(summary_map)
 
 ## Individual Observation Well Maps (PDF print version)-------------------------
 
+if (create_ggmaps) {
+
 #create list of well maps
 wellMaps <- vector("list", length(unique(results_viz$Well_Num)))
 names(wellMaps) <- unique(results_viz$Well_Num)
@@ -355,16 +355,15 @@ for (w in names(wellMaps)) {
 }
 
 #individual Obs Well ggmap plots 
-if (create_ggmaps) {
-  well_plots <- well_plots %>% 
-    left_join(tibble(Well_Num = as.integer(names(wellMaps)), 
-                     maps = wellMaps)) %>%
-    mutate(map_plot = pmap(list(Long, Lat, colour, maps), 
-                           ~ plot_point_with_inset(long = ..1, lat = ..2,
-                                                  pointColour = ..3,
-                                                  bigMap = ..4, 
-                                                  overviewMap = ggMapBC,
-                                                  overviewExtent = BCextent)))
+well_plots <- well_plots %>% 
+  left_join(tibble(Well_Num = as.integer(names(wellMaps)), 
+                   maps = wellMaps)) %>%
+  mutate(map_plot = pmap(list(Long, Lat, colour, maps), 
+                         ~ plot_point_with_inset(long = ..1, lat = ..2,
+                                                 pointColour = ..3,
+                                                 bigMap = ..4, 
+                                                 overviewMap = ggMapBC,
+                                                 overviewExtent = BCextent)))
 }
 
 
