@@ -343,9 +343,10 @@ plot(summary_map)
 ## Individual Observation Well Maps (PDF print version)-------------------------
 
 #create list of well maps
-wellMaps <- list()
-for (w in unique(results_viz$Well_Num)) {
-  well <- filter(results_viz, Well_Num == w)
+wellMaps <- vector("list", length(unique(results_viz$Well_Num)))
+names(wellMaps) <- unique(results_viz$Well_Num)
+for (w in names(wellMaps)) {
+  well <- filter(results_viz, Well_Num == as.integer(w))
   wellMaps[[w]] <- tryCatch(get_googlemap(center = c(well$Long[1], well$Lat[1]), 
                                           zoom = 8, scale = 1,
                                           maptype = 'roadmap',
@@ -353,12 +354,10 @@ for (w in unique(results_viz$Well_Num)) {
                             error = function(e) NULL)
 }
 
-names(wellMaps) <- unique(results_viz$Well_Num)
-
-
 #individual Obs Well ggmap plots 
 if (create_ggmaps) {
-  well_plots <- left_join(tibble(Well_Num = names(wellMaps), maps = wellMaps)) %>%
+  well_plots <- well_plots %>% 
+    left_join(tibble(Well_Num = names(wellMaps), maps = wellMaps)) %>%
     mutate(map_plot = pmap(Long, Lat, colour, map, 
                            ~plot_point_with_inset(long = ..1, lat = ..2,
                                                   pointColour = ..3,
