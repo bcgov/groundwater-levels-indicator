@@ -98,7 +98,7 @@ sum_data_reg <- results_viz %>%
          #                    gsub("\\s/\\s*", "/\\\n", REGION_NAME)), 
          #                    "\n(", nLabeller(sum(frequency), "well"), ")")) %>% 
          region_lab = paste0(REGION_NAME,
-                            "\n(", nLabeller(sum(frequency), "well"), ")")) %>%
+                             "\n(", nLabeller(sum(frequency), "well"), ")")) %>%
   complete(nesting(REGION_NAME, region_lab), category
            , fill = list(frequency = 0, proportion = 0))
 
@@ -121,10 +121,11 @@ regional_bar_chart <- ggplot(sum_data_reg,
 
 
 #combined bc & regional bar chart plots with one legend using cowplot + patchwork
-bc_bar_nolegend <- bc_bar_chart + theme(legend.position='none')
-regional_nolegend <- regional_bar_chart + theme(legend.position='none')
+bc_bar_nolegend <- bc_bar_chart + theme(legend.position = 'none')
+regional_nolegend <- regional_bar_chart + theme(legend.position = 'none')
 
-legend <- ggdraw(get_legend(regional_bar_chart + theme(legend.direction = "horizontal")))
+legend <- ggdraw(get_legend(regional_bar_chart + 
+                              theme(legend.direction = "horizontal")))
 
 combined_bc_summary <- bc_bar_nolegend + 
   regional_nolegend - 
@@ -186,7 +187,7 @@ regional_plots <- sum_data_reg %>%
 # walk(regional_plots, ~ plot(.x))
 
 ## Save iindividual regional bar charts
-for(i in seq_along(regional_plots)) {
+for (i in seq_along(regional_plots)) {
   svg_px(file.path(status.reg.all, 
                    glue("summary_", names(regional_plots)[i], ".svg")), 
          width = 800, height = 400)
@@ -224,7 +225,7 @@ well_plots <- monthlywells_ts %>%
 
 
 ## Print Obs Well Plots
-for(i in seq_len(nrow(well_plots))) {
+for (i in seq_len(nrow(well_plots))) {
   # # Month plots
   # svg_px(file.path(status.well,
   #                  glue("month_", well_plots$Well_Num[i], ".svg")),
@@ -269,8 +270,12 @@ if (create_ggmaps) {
   ggmap::register_google(Sys.getenv("GMAP_KEY"))
   BCextent <- c(-139,48,-114,60)
   names(BCextent) <- c("left", "bottom", "right", "top")
-  fourCorners <- expand.grid(as.data.frame(matrix(BCextent, ncol=2, byrow=TRUE,
-                                                  dimnames=list(NULL, c("Long", "Lat")))))
+  
+  fourCorners <- expand.grid(
+    as.data.frame(matrix(BCextent, ncol = 2, byrow = TRUE,
+                         dimnames = list(NULL, c("Long", "Lat"))))
+  )
+  
   BCcenter <- c(mean(BCextent[c("left","right")]), 
                 mean(BCextent[c("top","bottom")]))
   
@@ -282,90 +287,90 @@ if (create_ggmaps) {
     ggMapBC <- get_map(location = BCcenter, zoom = 5, scale = 1, maptype = "terrain",
                        source = "stamen")
   }
-
+  
 }
 
-  #tweak df for map plot
-  results_map_df <- results_out %>% 
-    mutate(category = recode(category, `N/A` = "Currently Not Enough Data for Trend Analysis"),
-           category = factor(category, levels = c("Large Rate of Decline",
-                                                  "Moderate Rate of Decline",
-                                                  "Stable or Increasing",
-                                                  "Currently Not Enough Data for Trend Analysis"),
-                             ordered = TRUE)) %>% 
-    arrange(fct_rev(category)) %>% 
-    bind_cols(st_as_sf(., crs = 4326, coords = c("Long", "Lat")) %>% 
-                st_transform(3857)%>%
-                st_coordinates() %>%
-                as_tibble()) 
-  
-  #lines 169-172 above:
-  #convert full df to an sf object, transform projection, extract coordinates, 
-  #bind coordinates back to original df (tx Andy Teucher)
-  
-  #hard-code colours
-  colrs <- c("Stable or Increasing" = "#deebf7",
-             "Moderate Rate of Decline" = "#9ecae1",
-             "Large Rate of Decline" = "#3182bd",
-             "Currently Not Enough Data for Trend Analysis" = "grey80")
-  
-  legend_order <- c("Stable or Increasing",
-                    "Large Rate of Decline",
-                    "Moderate Rate of Decline",
-                    "Currently Not Enough Data for Trend Analysis")
+#tweak df for map plot
+results_map_df <- results_out %>% 
+  mutate(category = recode(category, `N/A` = "Currently Not Enough Data for Trend Analysis"),
+         category = factor(category, levels = c("Large Rate of Decline",
+                                                "Moderate Rate of Decline",
+                                                "Stable or Increasing",
+                                                "Currently Not Enough Data for Trend Analysis"),
+                           ordered = TRUE)) %>% 
+  arrange(fct_rev(category)) %>% 
+  bind_cols(st_as_sf(., crs = 4326, coords = c("Long", "Lat")) %>% 
+              st_transform(3857) %>%
+              st_coordinates() %>%
+              as_tibble()) 
 
-  #source function for aligning sf object with ggmap object
-  devtools::source_gist("1467691edbc1fd1f7fbbabd05957cbb5", 
-                        filename = "ggmap_sf.R")
-  
-  #plot
-  summary_map <- ggmap_sf(ggMapBC, extent = "device") + 
-    coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
-    geom_sf(data = nrr_simp, fill = NA, inherit.aes = FALSE, size = 0.15) + coord_sf(datum=NA) +
-    geom_point(data = results_map_df, aes(x = X, y = Y, fill = category),
-               shape = 21, size = 2.5, colour = colour.scale[3]) + 
-    scale_fill_manual(values = colrs, breaks = legend_order) + 
-    theme(legend.position = "bottom", legend.title = element_blank(),
-          legend.direction = "vertical",
-          legend.text = element_text(colour = "black", size = 11)) +
-    guides(fill=guide_legend(ncol=2))
-  plot(summary_map)
-  
-  # #save list of well maps for gwl.Rmd
-  #   save(summary_map, file="./tmp/map_data.RData")
-  
-  
-  ## Individual Observation Well Maps (PDF print version)-------------------------
-  
-  #create list of well maps
-  wellMaps <- list()
-  for(w in unique(results_viz$Well_Num)) {
-    well <- filter(results_viz, Well_Num == w)
-    wellMaps[[w]] <- tryCatch(get_googlemap(center = c(well$Long[1], well$Lat[1]), 
-                                            zoom = 8, scale = 1,
-                                            maptype = 'roadmap',
-                                            style = styles), 
-                              error = function(e) NULL)
-  }
-  
-  names(wellMaps) <- unique(results_viz$Well_Num)
-  
-  
-  #individual Obs Well ggmap plots 
-  if(create_ggmaps){
-    well_plots <- left_join(tibble(Well_Num = names(wellMaps), maps = wellMaps)) %>%
-      mutate(map_plot = pmap(Long, Lat, colour, map, 
-                             ~plot_point_with_inset(long = ..1, lat = ..2,
-                                                    pointColour = ..3,
-                                                    bigMap = ..4, overviewMap = ggMapBC,
-                                                    overviewExtent = BCextent)))
-  }
-  
-  
-  # Save Plots Objects------------------------------------------------------------
-  
-  #save plot objects to tmp folder for use in gwl.Rmd
-  save(bc_bar_chart, regional_bar_chart, combined_bc_summary,
-       regional_plots, summary_map,  well_plots,
-       file = "tmp/figures.RData")
-  
+#lines 169-172 above:
+#convert full df to an sf object, transform projection, extract coordinates, 
+#bind coordinates back to original df (tx Andy Teucher)
+
+#hard-code colours
+colrs <- c("Stable or Increasing" = "#deebf7",
+           "Moderate Rate of Decline" = "#9ecae1",
+           "Large Rate of Decline" = "#3182bd",
+           "Currently Not Enough Data for Trend Analysis" = "grey80")
+
+legend_order <- c("Stable or Increasing",
+                  "Large Rate of Decline",
+                  "Moderate Rate of Decline",
+                  "Currently Not Enough Data for Trend Analysis")
+
+#source function for aligning sf object with ggmap object
+devtools::source_gist("1467691edbc1fd1f7fbbabd05957cbb5", 
+                      filename = "ggmap_sf.R")
+
+#plot
+summary_map <- ggmap_sf(ggMapBC, extent = "device") + 
+  coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
+  geom_sf(data = nrr_simp, fill = NA, inherit.aes = FALSE, size = 0.15) + 
+  coord_sf(datum = NA) +
+  geom_point(data = results_map_df, aes(x = X, y = Y, fill = category),
+             shape = 21, size = 2.5, colour = colour.scale[3]) + 
+  scale_fill_manual(values = colrs, breaks = legend_order) + 
+  theme(legend.position = "bottom", legend.title = element_blank(),
+        legend.direction = "vertical",
+        legend.text = element_text(colour = "black", size = 11)) +
+  guides(fill = guide_legend(ncol = 2))
+plot(summary_map)
+
+# #save list of well maps for gwl.Rmd
+#   save(summary_map, file="./tmp/map_data.RData")
+
+
+## Individual Observation Well Maps (PDF print version)-------------------------
+
+#create list of well maps
+wellMaps <- list()
+for (w in unique(results_viz$Well_Num)) {
+  well <- filter(results_viz, Well_Num == w)
+  wellMaps[[w]] <- tryCatch(get_googlemap(center = c(well$Long[1], well$Lat[1]), 
+                                          zoom = 8, scale = 1,
+                                          maptype = 'roadmap',
+                                          style = styles), 
+                            error = function(e) NULL)
+}
+
+names(wellMaps) <- unique(results_viz$Well_Num)
+
+
+#individual Obs Well ggmap plots 
+if (create_ggmaps) {
+  well_plots <- left_join(tibble(Well_Num = names(wellMaps), maps = wellMaps)) %>%
+    mutate(map_plot = pmap(Long, Lat, colour, map, 
+                           ~plot_point_with_inset(long = ..1, lat = ..2,
+                                                  pointColour = ..3,
+                                                  bigMap = ..4, overviewMap = ggMapBC,
+                                                  overviewExtent = BCextent)))
+}
+
+
+# Save Plots Objects------------------------------------------------------------
+
+#save plot objects to tmp folder for use in gwl.Rmd
+save(bc_bar_chart, regional_bar_chart, combined_bc_summary,
+     regional_plots, summary_map,  well_plots,
+     file = "tmp/figures.RData")
