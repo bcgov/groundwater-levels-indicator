@@ -312,14 +312,11 @@ results_map_df <- results_out %>%
 
 #hard-code colours
 colrs <- c("Stable or Increasing" = "#deebf7",
-           "Moderate Rate of Decline" = "#9ecae1",
            "Large Rate of Decline" = "#3182bd",
+           "Moderate Rate of Decline" = "#9ecae1",
            "Currently Not Enough Data for Trend Analysis" = "grey80")
 
-legend_order <- c("Stable or Increasing",
-                  "Large Rate of Decline",
-                  "Moderate Rate of Decline",
-                  "Currently Not Enough Data for Trend Analysis")
+legend_order <- names(colrs)
 
 #source function for aligning sf object with ggmap object
 devtools::source_gist("1467691edbc1fd1f7fbbabd05957cbb5", 
