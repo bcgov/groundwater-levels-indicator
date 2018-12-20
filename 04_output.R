@@ -292,11 +292,13 @@ if (create_ggmaps) {
 
 #tweak df for map plot
 results_map_df <- results_out %>% 
-  mutate(category = recode(category, `N/A` = "Currently Not Enough Data for Trend Analysis"),
-         category = factor(category, levels = c("Large Rate of Decline",
-                                                "Moderate Rate of Decline",
-                                                "Stable or Increasing",
-                                                "Currently Not Enough Data for Trend Analysis"),
+  mutate(category = recode(category, 
+                           `N/A` = "Currently Not Enough Data for Trend Analysis"),
+         category = factor(category, 
+                           levels = c("Large Rate of Decline",
+                                      "Moderate Rate of Decline",
+                                      "Stable or Increasing",
+                                      "Currently Not Enough Data for Trend Analysis"),
                            ordered = TRUE)) %>% 
   arrange(fct_rev(category)) %>% 
   bind_cols(st_as_sf(., crs = 4326, coords = c("Long", "Lat")) %>% 
