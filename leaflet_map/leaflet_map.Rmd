@@ -41,7 +41,7 @@ source(here("./leaflet_map/leaflet_functions.R"))
 cats <- c("Stable or Increasing", 
             "Moderate Rate of Decline",
             "Large Rate of Decline",
-            "Not Enough Data To-Date for Trend Analysis")
+            "Currently Not Enough Data for Trend Analysis")
 
 # Assign colours
 well_colours <- c(RColorBrewer::brewer.pal(3,"Blues"), "#cbcbcb") %>%

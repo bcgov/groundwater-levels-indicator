@@ -58,12 +58,12 @@ status.well <- "leaflet_map/well_plots"
 status.reg.all <- "leaflet_map/regional_plots"
 
 
-#facet label function
-nLabeller <- function(n, singular, sep = " ") {
-  suffix <- ifelse(n == 1, singular, paste0(singular,"s"))
-  label <- paste(n, suffix, sep = sep)
-  label
-}
+# #facet label function
+# nLabeller <- function(n, singular, sep = " ") {
+#   suffix <- ifelse(n == 1, singular, paste0(singular,"s"))
+#   label <- paste(n, suffix, sep = sep)
+#   label
+# }
 
 ## Provincial & Regional Summary Plots (Web & PDF)------------------------------
 
@@ -95,11 +95,12 @@ sum_data_reg <- results_viz %>%
   summarise(frequency = n()) %>%
   mutate(proportion = frequency/sum(frequency), 
          #region_lab = paste0(gsub("(\\s)","\\\n", 
-         #                         gsub("\\s/\\s*", "/\\\n", REGION_NAME)), 
+         #                    gsub("\\s/\\s*", "/\\\n", REGION_NAME)), 
          #                    "\n(", nLabeller(sum(frequency), "well"), ")")) %>% 
          region_lab = paste0(REGION_NAME,
                             "\n(", nLabeller(sum(frequency), "well"), ")")) %>%
-  complete(nesting(REGION_NAME, region_lab), category, fill = list(frequency = 0, proportion = 0))
+  complete(nesting(REGION_NAME, region_lab), category
+           , fill = list(frequency = 0, proportion = 0))
 
 
 #regional bar chart plot with percentage on y and sample size labels
@@ -109,7 +110,8 @@ regional_bar_chart <- ggplot(sum_data_reg,
   geom_bar(stat = 'identity', alpha = 0.7) +
   coord_flip() +
   scale_fill_manual(name = "", values = colour.scale) +
-  scale_y_continuous(labels = percent_format(accuracy = 1), expand = c(0,0), limits = c(0,1.04)) +
+  scale_y_continuous(labels = percent_format(accuracy = 1),
+                     expand = c(0,0), limits = c(0,1.04)) +
   theme_soe() +
   theme_barcharts +
   theme(panel.grid.major.y = element_blank(),
@@ -169,7 +171,8 @@ regional_plots <- sum_data_reg %>%
         geom_col(aes(category, proportion, fill = category), alpha = 0.7) +
         coord_flip() +
         scale_fill_manual(name = "", values = colour.scale) +
-        scale_y_continuous(labels = percent_format(accuracy = 1), expand = c(0,0)) +
+        scale_y_continuous(labels = percent_format(accuracy = 1),
+                           expand = c(0,0), limits = c(0,1)) +
         theme_soe() +
         theme_barcharts +
         theme(panel.grid.major.y = element_blank(),
@@ -279,15 +282,15 @@ if(create_ggmaps) {
     ggMapBC <- get_map(location = BCcenter, zoom = 5, scale = 1, maptype = "terrain",
                        source = "stamen")
   }
-
+}
 
   #tweak df for map plot
   results_map_df <- results_out %>% 
-    mutate(category = recode(category, `N/A` = "Not Enough Data To-Date for Trend Analysis"),
+    mutate(category = recode(category, `N/A` = "Currently Not Enough Data for Trend Analysis"),
            category = factor(category, levels = c("Large Rate of Decline",
                                                   "Moderate Rate of Decline",
                                                   "Stable or Increasing",
-                                                  "Not Enough Data To-Date for Trend Analysis"),
+                                                  "Currently Not Enough Data for Trend Analysis"),
                              ordered = TRUE)) %>% 
     arrange(fct_rev(category)) %>% 
     bind_cols(st_as_sf(., crs = 4326, coords = c("Long", "Lat")) %>% 
@@ -303,12 +306,12 @@ if(create_ggmaps) {
   colrs <- c("Stable or Increasing" = "#deebf7",
              "Moderate Rate of Decline" = "#9ecae1",
              "Large Rate of Decline" = "#3182bd",
-             "Not Enough Data To-Date for Trend Analysis" = "grey80")
+             "Currently Not Enough Data for Trend Analysis" = "grey80")
   
   legend_order <- c("Stable or Increasing",
                     "Large Rate of Decline",
                     "Moderate Rate of Decline",
-                    "Not Enough Data To-Date for Trend Analysis")
+                    "Currently Not Enough Data for Trend Analysis")
 
   #source function for aligning sf object with ggmap object
   devtools::source_gist("1467691edbc1fd1f7fbbabd05957cbb5", 
@@ -338,7 +341,9 @@ if(create_ggmaps) {
   for(w in unique(results_viz$Well_Num)) {
     well <- filter(results_viz, Well_Num == w)
     wellMaps[[w]] <- tryCatch(get_googlemap(center = c(well$Long[1], well$Lat[1]), 
-                                            zoom = 8, scale = 1, maptype = 'roadmap', style = styles), 
+                                            zoom = 8, scale = 1,
+                                            maptype = 'roadmap',
+                                            style = styles), 
                               error = function(e) NULL)
   }
   
@@ -347,7 +352,7 @@ if(create_ggmaps) {
   
 #individual Obs Well ggmap plots 
   if(create_ggmaps){
-    well_plots <- left_join(tibble(Well_Num = names(WellMaps), maps = WellMaps)) %>%
+    well_plots <- left_join(tibble(Well_Num = names(wellMaps), maps = wellMaps)) %>%
       mutate(map_plot = pmap(Long, Lat, colour, map, 
                              ~plot_point_with_inset(long = ..1, lat = ..2,
                                                     pointColour = ..3,
@@ -360,7 +365,7 @@ if(create_ggmaps) {
 
 #save plot objects to tmp folder for use in gwl.Rmd
   save(bc_bar_chart, regional_bar_chart, combined_bc_summary,
-       regional_plots, well_plots, summary_map,
+       regional_plots, summary_map,  well_plots,
        file = "tmp/figures.RData")
   
   

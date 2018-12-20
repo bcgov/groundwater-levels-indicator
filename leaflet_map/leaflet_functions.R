@@ -69,8 +69,8 @@ popup_content_groundwater <- function(data, type) {
                                    "        <h4><strong>Learn More About this Well:</strong></h4>\n",
                                    "        <h4><a href = '", gw_map, "' target='_blank'>", 
                                             "Groundwater Level Data & Information</h4>\n",
-                                   "        <h4><a href = '' target = '_blank'>",
-                                            "Aquifer Factsheet</h4>\n",
+                                   "        <h4><a href = 'https://apps.nrs.gov.bc.ca/gwells/aquifers/' target = '_blank'>",
+                                            "Aquifer Summary</h4>\n",
                                    "      </div>\n",
                                    "  </div>\n"))
   } else {
@@ -81,7 +81,7 @@ popup_content_groundwater <- function(data, type) {
                                          "        <h2>", .data$region_name, "</h2>\n", 
                                          # "        <h4>Number of Observation Wells in the Region: ", 
                                          #              .data$frequency_all, "</h4>\n",
-                                         "        <h4>Number of Trend Reporting Observation Wells: ", 
+                                         "        <h4>Number of Wells Analyzed: ", 
                                          .data$frequency, "</h4>\n",
                                          "  </div>\n"))
   }
