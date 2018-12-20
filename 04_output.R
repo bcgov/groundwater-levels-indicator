@@ -59,11 +59,11 @@ status.reg.all <- "leaflet_map/regional_plots"
 
 
 # #facet label function
-# nLabeller <- function(n, singular, sep = " ") {
-#   suffix <- ifelse(n == 1, singular, paste0(singular,"s"))
-#   label <- paste(n, suffix, sep = sep)
-#   label
-# }
+nLabeller <- function(n, singular, sep = " ") {
+  suffix <- ifelse(n == 1, singular, paste0(singular,"s"))
+  label <- paste(n, suffix, sep = sep)
+  label
+}
 
 ## Provincial & Regional Summary Plots (Web & PDF)------------------------------
 
