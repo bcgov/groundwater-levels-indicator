@@ -357,11 +357,13 @@ for (w in names(wellMaps)) {
 #individual Obs Well ggmap plots 
 if (create_ggmaps) {
   well_plots <- well_plots %>% 
-    left_join(tibble(Well_Num = names(wellMaps), maps = wellMaps)) %>%
-    mutate(map_plot = pmap(Long, Lat, colour, map, 
-                           ~plot_point_with_inset(long = ..1, lat = ..2,
+    left_join(tibble(Well_Num = as.integer(names(wellMaps)), 
+                     maps = wellMaps)) %>%
+    mutate(map_plot = pmap(list(Long, Lat, colour, maps), 
+                           ~ plot_point_with_inset(long = ..1, lat = ..2,
                                                   pointColour = ..3,
-                                                  bigMap = ..4, overviewMap = ggMapBC,
+                                                  bigMap = ..4, 
+                                                  overviewMap = ggMapBC,
                                                   overviewExtent = BCextent)))
 }
 
