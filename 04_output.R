@@ -102,7 +102,6 @@ sum_data_reg <- results_viz %>%
   complete(nesting(REGION_NAME, region_lab), category
            , fill = list(frequency = 0, proportion = 0))
 
-
 #regional bar chart plot with percentage on y and sample size labels
 regional_bar_chart <- ggplot(sum_data_reg,
                              aes(x = fct_reorder2(region_lab, category, proportion), 
@@ -254,7 +253,7 @@ nrr_simp <-  ms_simplify(nrr_clip) %>%
 # Save nrr_simp for use in leaflet map
 write_rds(nrr_simp, "out/nr_polygons.rds")
 
-if(create_ggmaps) {
+if (create_ggmaps) {
   
   #Provincial summary map
   styles <- 'feature:all|element:all|saturation:-75'
@@ -275,13 +274,15 @@ if(create_ggmaps) {
   BCcenter <- c(mean(BCextent[c("left","right")]), 
                 mean(BCextent[c("top","bottom")]))
   
-  if(Sys.getenv("GMAP_KEY") != ""){
-    ggMapBC <- get_googlemap(center=BCcenter, zoom=5, scale=1, 
-                             maptype='roadmap', visible=fourCorners, style=styles)
+  if (!nzchar("GMAP_KEY")) {
+    ggMapBC <- get_googlemap(center = BCcenter, zoom = 5, scale = 1, 
+                             maptype = 'roadmap', visible = fourCorners, 
+                             style = styles)
   } else {
     ggMapBC <- get_map(location = BCcenter, zoom = 5, scale = 1, maptype = "terrain",
                        source = "stamen")
   }
+
 }
 
   #tweak df for map plot
@@ -330,13 +331,13 @@ if(create_ggmaps) {
     guides(fill=guide_legend(ncol=2))
   plot(summary_map)
   
-# #save list of well maps for gwl.Rmd
-#   save(summary_map, file="./tmp/map_data.RData")
-
+  # #save list of well maps for gwl.Rmd
+  #   save(summary_map, file="./tmp/map_data.RData")
   
-## Individual Observation Well Maps (PDF print version)-------------------------
   
-#create list of well maps
+  ## Individual Observation Well Maps (PDF print version)-------------------------
+  
+  #create list of well maps
   wellMaps <- list()
   for(w in unique(results_viz$Well_Num)) {
     well <- filter(results_viz, Well_Num == w)
@@ -350,7 +351,7 @@ if(create_ggmaps) {
   names(wellMaps) <- unique(results_viz$Well_Num)
   
   
-#individual Obs Well ggmap plots 
+  #individual Obs Well ggmap plots 
   if(create_ggmaps){
     well_plots <- left_join(tibble(Well_Num = names(wellMaps), maps = wellMaps)) %>%
       mutate(map_plot = pmap(Long, Lat, colour, map, 
@@ -359,20 +360,12 @@ if(create_ggmaps) {
                                                     bigMap = ..4, overviewMap = ggMapBC,
                                                     overviewExtent = BCextent)))
   }
-
-
-# Save Plots Objects------------------------------------------------------------
-
-#save plot objects to tmp folder for use in gwl.Rmd
+  
+  
+  # Save Plots Objects------------------------------------------------------------
+  
+  #save plot objects to tmp folder for use in gwl.Rmd
   save(bc_bar_chart, regional_bar_chart, combined_bc_summary,
        regional_plots, summary_map,  well_plots,
        file = "tmp/figures.RData")
   
-  
-
-
-
-
-
-
-
