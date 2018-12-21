@@ -23,7 +23,7 @@ if (!exists("results_out"))  load("./tmp/analysis_data.RData")
 if (!exists("monthlywells_ts")) load("./tmp/clean_well_data.RData")
 
 ## Create Google maps?
-create_ggmaps <- TRUE
+create_ggmaps <- FALSE
 
 ## Select wells analyzed and create factors
 results_viz <- results_out[results_out$category != "N/A",] %>%
@@ -338,6 +338,13 @@ plot(summary_map)
 #   save(summary_map, file="./tmp/map_data.RData")
 
 
+# Save Plots Objects------------------------------------------------------------
+
+#save plot objects to tmp folder for use in gwl.Rmd
+save(bc_bar_chart, regional_bar_chart, combined_bc_summary,
+     regional_plots, summary_map, file = "tmp/figures.RData")
+
+
 ## Individual Observation Well Maps (PDF print version)-------------------------
 
 if (create_ggmaps) {
@@ -364,12 +371,10 @@ well_plots <- well_plots %>%
                                                  bigMap = ..4, 
                                                  overviewMap = ggMapBC,
                                                  overviewExtent = BCextent)))
+#save for use in .Rmd
+save(well_plots, file = "tmp/well_plots.RData")
+
 }
 
 
-# Save Plots Objects------------------------------------------------------------
 
-#save plot objects to tmp folder for use in gwl.Rmd
-save(bc_bar_chart, regional_bar_chart, combined_bc_summary,
-     regional_plots, summary_map,  well_plots,
-     file = "tmp/figures.RData")
