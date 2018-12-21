@@ -35,6 +35,14 @@
 if (!exists(".header_sourced")) source("header.R")
 source("func.R")
 
+## Well metadata from gwells. In the future this can probably replace the 
+## databc object, but for now use it to get aquifer number
+dir.create("data", showWarnings = FALSE)
+tmpzip <- download.file("https://s3.ca-central-1.amazonaws.com/gwells-export/gwells.zip", 
+                        destfile = "data/gwells.zip")
+unzip("data/gwells.zip", exdir = "data")
+gwells <- read_csv("data/well.csv") %>% 
+  select(well_tag_number, aquifer_id)
 
 ## Get groundwater well attribute data & add NR Region info from `bcmaps`
 obs_wells_raw <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_WRBC_SVW", 
@@ -57,13 +65,16 @@ obs_wells_raw <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_WRBC_SVW",
          AQUIFER_TYPE = factor(AQUIFER_TYPE, levels = c("BED", "UNC", "Unknown"), 
                                labels = c("Bedrock", "Sand and Gravel", "Unknown")))
 
+
+
 # Check for duplicate Well numbers in the well metadata
 dup_wells <- obs_wells_raw$OBSERVATION_WELL_NUMBER[duplicated(obs_wells_raw$OBSERVATION_WELL_NUMBER)]
 obs_wells_raw[obs_wells_raw$OBSERVATION_WELL_NUMBER %in% dup_wells,]
 
 # Looking at the comments in GENERAL_REMARKS and OTHER_INFORMATION, they are 
 # deep and shallow variants of the same obs well number, omit the shallow version
-obs_wells <- filter(obs_wells_raw, WELL_TAG_NUMBER != 93712)
+obs_wells <- filter(obs_wells_raw, WELL_TAG_NUMBER != 93712) %>% 
+  left_join(gwells, by = c("WELL_TAG_NUMBER" = "well_tag_number"))
 
 
 ## Download the Groundwater Level Data using the `bcgroundwater` package

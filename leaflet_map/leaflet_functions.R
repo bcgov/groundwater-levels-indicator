@@ -69,7 +69,9 @@ popup_content_groundwater <- function(data, type) {
                                    "        <h4><strong>Learn More About this Well:</strong></h4>\n",
                                    "        <h4><a href = '", gw_map, "' target='_blank'>", 
                                             "Groundwater Level Data & Information</h4>\n",
-                                   "        <h4><a href = 'https://apps.nrs.gov.bc.ca/gwells/aquifers/' target = '_blank'>",
+                                   "        <h4><a href = 'https://apps.nrs.gov.bc.ca/gwells/aquifers/", 
+                                   if (!is.na(aquifer_id)) aquifer_id else NULL, 
+                                   "' target = '_blank'>",
                                             "Aquifer Summary</h4>\n",
                                    "      </div>\n",
                                    "  </div>\n"))
