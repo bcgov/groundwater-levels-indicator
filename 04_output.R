@@ -80,7 +80,8 @@ bc_bar_chart <- results_viz %>%
   scale_fill_manual(name = "", values = colour.scale) +
   geom_text(aes(y = position, label = paste0(frequency, " wells")),
             colour = label.colour, size = 5) +
-  scale_y_continuous(expand = c(0,0), labels = percent) +
+  scale_y_continuous(expand = c(0, 0), breaks = seq(0, 1, .2),
+                     limits = c(0, 1.04), labels = percent) +
   labs(y = "Percent of Groundwater Wells", x = " ") +
   theme_soe() +
   theme_barcharts +
@@ -99,8 +100,8 @@ sum_data_reg <- results_viz %>%
          #                    "\n(", nLabeller(sum(frequency), "well"), ")")) %>% 
          region_lab = paste0(REGION_NAME,
                              "\n(", nLabeller(sum(frequency), "well"), ")")) %>%
-  complete(nesting(REGION_NAME, region_lab), category
-           , fill = list(frequency = 0, proportion = 0))
+  complete(nesting(REGION_NAME, region_lab), category,
+           fill = list(frequency = 0, proportion = 0))
 
 #regional bar chart plot with percentage on y and sample size labels
 regional_bar_chart <- ggplot(sum_data_reg,
@@ -110,7 +111,8 @@ regional_bar_chart <- ggplot(sum_data_reg,
   coord_flip() +
   scale_fill_manual(name = "", values = colour.scale) +
   scale_y_continuous(labels = percent_format(accuracy = 1),
-                     expand = c(0,0), limits = c(0,1.04)) +
+                     expand = c(0, 0), limits = c(0, 1.04),
+                     breaks = seq(0, 1, .2)) +
   theme_soe() +
   theme_barcharts +
   theme(panel.grid.major.y = element_blank(),
@@ -172,7 +174,8 @@ regional_plots <- sum_data_reg %>%
         coord_flip() +
         scale_fill_manual(name = "", values = colour.scale) +
         scale_y_continuous(labels = percent_format(accuracy = 1),
-                           expand = c(0,0), limits = c(0,1)) +
+                           expand = c(0,0), limits = c(0, 1.04),
+                           breaks = seq(0, 1, .2)) +
         theme_soe() +
         theme_barcharts +
         theme(panel.grid.major.y = element_blank(),
