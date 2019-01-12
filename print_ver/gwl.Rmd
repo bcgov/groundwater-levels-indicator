@@ -23,9 +23,6 @@ See the License for the specific language governing permissions and limitations 
 
 
 ```{r setup, echo = FALSE, warning = FALSE, message = FALSE}
-# 
-# envreportutils.internal::print_ver
-knitr::opts_chunk$set(cache = TRUE)
 library(dplyr)
 library(ggplot2)
 library(grid)
@@ -38,11 +35,13 @@ library(xtable)
 library(lubridate)
 library(forcats)
 
+knitr::opts_chunk$set(cache = TRUE)
+
 base_theme <- theme_get()
 
 load('../tmp/clean_well_data.RData')
 load('../tmp/analysis_data.RData')
-load('../tmp/map_data.RData')
+load('../tmp/well_plots.RData')
 load('../tmp/figures.RData')
 
 attr_wells <- results_out[results_out$category != "N/A",]
@@ -101,7 +100,7 @@ weather and climate patterns^[1](#fn1)^.
 
 -   This indicator presents an analysis of long-term trends
 in groundwater levels recorded at `r nrow(attr_wells)` observation wells 
-that have been monitored for ten years or more and were active as of January 1st, 2008.
+that have been monitored for ten years or more and were active as of 2009.
 
 -   Of the examined wells, `r round(sum(state.summary[c("Stable","Increasing"),"prop"]*100))`% have water levels that are stable
 or increasing (with `r state.summary["Increasing","n"]` wells showing 
@@ -164,7 +163,7 @@ prompting further research and informing decision-making.
 
 \newpage
 
-## Trends in Groundwater Levels - Provincial Summaries
+## Provincial Summary of Trends in Groundwater Levels
 
 The charts below summarise the proportions of groundwater observation wells with
 groundwater levels in three long-term trend categories: Stable or Increasing, Moderate Rate of Decline (3 to 10 cm/year), and Large Rate of Decline (more than 10 cm/year). These summaries are also presented
@@ -186,7 +185,7 @@ plot(regional_bar_chart)
 
 \newpage
 
-## Trends in Groundwater Levels - Individual Observation Well Summaries
+## Trends in Groundwater Levels Observed at Observation Wells
 
 \vspace{30pt}
 
@@ -253,12 +252,13 @@ print(x.table, tabular.environment = 'longtable', floating = FALSE,
 
 ## References and Other Useful Links
 
--   [Provincial Observation Well Network](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836)
+-   Visit the [Monitoring Aquifers: Provincial Observation Well Network homepage](http://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836) for more information on groundwater monitoring observation wells.
 
--   [B.C. Groundwater Wells & Aquifers](https://apps.nrs.gov.bc.ca/gwells/)
+-   [Groundwater Wells and Aquifers (GWELLS)](https://apps.nrs.gov.bc.ca/gwells/)
 
--   [B.C. Water Data & Tools](https://www2.gov.bc.ca/gov/content?id=A9E4D7847FBC42CEB3A9E8ABAC364BD6)
+-   [Water Data & Tools for British Columbia](https://www2.gov.bc.ca/gov/content?id=A9E4D7847FBC42CEB3A9E8ABAC364BD6)
 
+-   [Previous B.C. State of Environment reports and indicators on groundwater levels in B.C.](https://www2.gov.bc.ca/gov/content?id=07DD1DCE7F784EFEBA5A26C32CB1646D)
 
 - ^1^[Gurdak, J.J., R.T. Hanson, and T.R. Green. 2009. Effects of Climate Variability and Change on Groundwater Resources of the United States. United States Geological Survey. Fact Sheet 2009–3074. (PDF)](https://pubs.usgs.gov/fs/2009/3074/pdf/FS09-3074.pdf)
 
@@ -271,12 +271,14 @@ each file, as indicated in parentheses below.
 -   [Indicator Summary Data: Long-term Trends in B.C. Groundwater Levels](https://catalogue.data.gov.bc.ca/dataset/a74f1b97-17f7-499b-84e7-6455e169e425)
 (Licence: [Open Government Licence - British Columbia](http://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61))
 
+-   [Provincial Groundwater Observation Well Network - Groundwater Levels Data](https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f16855)
+(Licence: [Open Government Licence - British Columbia](http://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61))
 
 Published and Available On-Line at Environmental Reporting BC (`r updateDate`): <http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html>
 
 \vspace{50pt}
 
-## Appendix 1: Detailed Maps & Graphs for Individual Groundwater Observation Wells
+## Appendix 1: Detailed Maps & Graphs for Groundwater Observation Wells Included in the Analysis
 
 Three plots were created for each examined groundwater observation well, including a map of the well’s location (upper left).
 
@@ -328,9 +330,9 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
     #            " to ", format(well.attr$last_date, format = "%B %d %Y"), ". \\newline",
     #            "\\newline"))
 
-    mapplot <- filter(well_plots, type == "map", well_num = well) %>% pull(plot)
-    monthplot <- filter(well_plots, type == "month", well_num = well) %>% pull(plot)
-    areaplot <- filter(well_plots, type == "area", well_num = well) %>% pull(plot)
+    mapplot <- filter(well_plots, type == "map", well_num == well) %>% pull(plot)
+    monthplot <- filter(well_plots, type == "month", well_num == well) %>% pull(plot)
+    areaplot <- filter(well_plots, type == "area", well_num == well) %>% pull(plot)
     
     grid.arrange(mapplot + theme(text = element_text(size = 10),
                                  plot.margin = unit(c(0,0.5,0,0.01),"cm")),
@@ -420,7 +422,7 @@ the R package ‘zyp’ [@pkg_zyp].
 Observed long-term trends were categorized using a combination of statistical and environmental significance criteria. Based on both the significance
 and magnitude of the calculated trend, trends in water levels in wells were classified as exhibiting the following categories:
 
-- **Stable**: the trend was _not_ significantly different from zero **or** the trend was significantly different from zero with an increasing or decreasing trend of less than 3 cm per year.
+- **Stable**: the trend was _not_ significantly different from zero **or** the trend was significantly different from zero with an increasing or decreasing trend of _less than_ 3 cm per year.
 - **Increasing**: the trend was significantly different from zero with an increasing trend of 3 or greater cm per year.
 - **Moderate Rate of Decline**: the trend was significantly different from zero with a declining trend of between 3 and 10 cm per year.
 - **Large Rate of Decline**: the trend was significantly different from zero with a declining trend of more than 10 cm per year.
