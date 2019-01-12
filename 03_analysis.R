@@ -46,7 +46,7 @@ welldata_attr <- monthlywells_ts %>%
 
 ## Only use wells with relatively current data, more than 10 years of data, and 
 ## less than 25% missing monthly observations
-latest_date <- "2008-01-01"
+latest_date <- "2009-01-01"
 
 wells_nums <- filter(welldata_attr, 
                      dataYears >= 10, 
