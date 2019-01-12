@@ -329,7 +329,7 @@ summary_map <- ggmap_sf(ggMapBC, extent = "device") +
   geom_sf(data = nrr_simp, fill = NA, inherit.aes = FALSE, size = 0.15) + 
   coord_sf(datum = NA) +
   geom_point(data = results_map_df, aes(x = X, y = Y, fill = category),
-             shape = 21, size = 2.5, colour = colour.scale[3]) + 
+             shape = 21, size = 4, colour = "grey30") + 
   scale_fill_manual(values = colrs, breaks = legend_order) + 
   theme(legend.position = "bottom", legend.title = element_blank(),
         legend.direction = "vertical",
