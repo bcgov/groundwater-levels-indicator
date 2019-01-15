@@ -83,7 +83,7 @@ popup_content_groundwater <- function(data, type) {
                                           paste0("<a href = 'https://apps.nrs.gov.bc.ca/gwells/aquifers/", 
                                                  .data$aquifer_id, 
                                                  "' target = '_blank'>Aquifer Summary</a>"), 
-                                          "No aquifer information available"), 
+                                          ""), 
                                    "</h4>\n",
                                    "      </div>\n",
                                    "  </div>\n"))
