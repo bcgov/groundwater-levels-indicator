@@ -19,9 +19,10 @@ insufficient_statement <- function(n) {
 
 popup_groundwater <- function(data, type = "well") {
   if("sf" %in% class(data)) data <- as.data.frame(data)
+  
   data <- popup_content_groundwater(data, type) 
   
-  if(type == "well") {
+  if (type == "well") {
     data <- dplyr::mutate(data,
                           popup_row1 = popup_create_row(.data$title),
                           popup_row2 = popup_create_row(.data$info, .data$info2),
@@ -39,8 +40,10 @@ popup_content_groundwater <- function(data, type) {
   data <- dplyr::mutate(data, region_name = paste0("Region: ", .data$region_name))
   if(type == "well") {
     data <- data %>%
-      dplyr::mutate(svg_wide = paste0("<img src = './well_plots/area_", 
-                                      .data$well_num, ".svg'>"),
+      dplyr::mutate(svg_wide = ifelse(!is.na(.data$trend_line_slope), 
+                                      paste0("<img src = './well_plots/area_", 
+                                      .data$well_num, ".svg'>"), 
+                                      ""),
                     gw_map = paste0("https://governmentofbc.maps.arcgis.com/apps/",
                                     "webappviewer/index.html?id=b53cb0bf3f6848e79",
                                     "d66ffd09b74f00d&find=OBS%20WELL%20", 
@@ -65,7 +68,8 @@ popup_content_groundwater <- function(data, type) {
                                                        color: ", col_text, "'>\n",
                                   "        <h4><strong>Trend Category:</strong></h4>\n", 
                                   "        <h2>", .data$state, "</h2>\n",
-                                           .data$trend,
+                                           ifelse(!is.na(.data$trend_line_slope), 
+                                                  .data$trend, ""),
                                   "      </div>\n",
                                   "  </div>\n"),
                     info2 = paste0("  <div class = 'section-info'>\n", 
@@ -75,11 +79,11 @@ popup_content_groundwater <- function(data, type) {
                                             "Groundwater Level Data & Information</a></h4>\n",
                                    "        <h4>", 
                                    # Only show link to aquifer page if aquifer is known
-                                   ifelse(!is.na(aquifer_id), 
+                                   ifelse(!is.na(.data$aquifer_id), 
                                           paste0("<a href = 'https://apps.nrs.gov.bc.ca/gwells/aquifers/", 
-                                                 aquifer_id, 
+                                                 .data$aquifer_id, 
                                                  "' target = '_blank'>Aquifer Summary</a>"), 
-                                          "\n"), 
+                                          "No aquifer information available"), 
                                    "</h4>\n",
                                    "      </div>\n",
                                    "  </div>\n"))
