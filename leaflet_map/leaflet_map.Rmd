@@ -96,7 +96,8 @@ wells <- mutate(wells,
 # Regions
 regions_n_all <- wells %>%
   group_by(region_name, region_name_short) %>%
-  summarise(frequency_all = n())
+  summarise(frequency_all = n(),
+            n_insufficient = sum(is.na(trend_line_int)))
 
 regions_n <- wells %>%
   filter(!is.na(trend_line_slope)) %>%

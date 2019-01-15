@@ -10,8 +10,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
 
-
-
+insufficient_statement <- function(n) {
+  well_tense <- ifelse(n > 1, " wells do ", " well does ")
+  ifelse(n, 
+         paste0("<p>", n, well_tense, 
+                "not currently have enough data for trend analysis</p>"), "")
+}
 
 popup_groundwater <- function(data, type = "well") {
   if("sf" %in% class(data)) data <- as.data.frame(data)
@@ -89,6 +93,7 @@ popup_content_groundwater <- function(data, type) {
                                          #              .data$frequency_all, "</h4>\n",
                                          "        <h4>Number of Wells Analyzed: ", 
                                          .data$frequency, "</h4>\n",
+                                         insufficient_statement(.data$n_insufficient),
                                          "  </div>\n"))
   }
   data
