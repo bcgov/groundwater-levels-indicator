@@ -82,8 +82,7 @@ wells <- mutate(wells,
                                           "Category: ", ..3, "<br>"))))
 # Create observation well Popups
 wells <- wells %>%
-  mutate(popup = popup_groundwater(., type = "well")) # ,
-         # popup = replace(popup, is.na(trend_line_slope), NA))
+  mutate(popup = popup_groundwater(., type = "well"))
 
 # Sort wells so decreasing trends appear last (on top)
 wells <- mutate(wells,
