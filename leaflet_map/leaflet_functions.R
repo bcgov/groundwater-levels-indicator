@@ -13,8 +13,8 @@
 insufficient_statement <- function(n) {
   well_tense <- ifelse(n > 1, " wells do ", " well does ")
   ifelse(n, 
-         paste0("<p>", n, well_tense, 
-                "not currently have enough data for trend analysis</p>"), "")
+         paste0(" (", n, well_tense, 
+                "not currently have enough data for trend analysis)"), "")
 }
 
 popup_groundwater <- function(data, type = "well") {
@@ -96,9 +96,9 @@ popup_content_groundwater <- function(data, type) {
                                          # "        <h4>Number of Observation Wells in the Region: ", 
                                          #              .data$frequency_all, "</h4>\n",
                                          "        <h4>Number of Wells Analyzed: ", 
-                                         .data$frequency, "</h4>\n",
+                                         .data$frequency,
                                          insufficient_statement(.data$n_insufficient),
-                                         "  </div>\n"))
+                                         "</h4>\n</div>\n"))
   }
   data
 }
