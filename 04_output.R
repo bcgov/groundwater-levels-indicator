@@ -38,6 +38,10 @@ results_viz <- results_out[results_out$category != "N/A",] %>%
                                                 "Large Rate of Decline"),
                            ordered = TRUE))
 
+#save results_viz df to tmp folder for use in gwl.Rmd
+save(results_viz, file = "tmp/results_viz.RData")
+
+
 ## Bar chart theme
 theme_barcharts <- theme(
   axis.text = element_text(size = 14),
@@ -380,4 +384,16 @@ save(well_plots, file = "tmp/well_plots.RData")
 }
 
 
+## Summary Stats for State & Category ------------------------------------------
+
+summary_df_state <- results_viz %>% 
+  group_by(state) %>% 
+  summarize(total = n()) %>% 
+  mutate(freq = round((total / sum(total))*100, digits = 0))
+
+summary_df_category <- results_viz %>% 
+  group_by(category) %>% 
+  summarize(total = n()) %>% 
+  mutate(freq = round((total / sum(total))*100, digits = 0))
+  
 
