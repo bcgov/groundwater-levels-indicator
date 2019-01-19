@@ -22,7 +22,8 @@ See the License for the specific language governing permissions and limitations 
 -->
 
 
-```{r setup, echo = FALSE, warning = FALSE, message = FALSE}
+```{r setup, echo = FALSE, warning = FALSE, message = FALSE, cache = FALSE}
+
 library(dplyr)
 library(ggplot2)
 library(grid)
@@ -35,28 +36,17 @@ library(xtable)
 library(lubridate)
 library(forcats)
 
-knitr::opts_chunk$set(cache = TRUE)
+knitr::opts_chunk$set(cache = FALSE)
 
 base_theme <- theme_get()
 
-load('../tmp/clean_well_data.RData')
-load('../tmp/analysis_data.RData')
-load('../tmp/well_plots.RData')
+# load('../tmp/clean_well_data.RData')
+# load('../tmp/analysis_data.RData')
+load('../tmp/results_viz.RData')
+#load('../tmp/well_plots.RData')
 load('../tmp/figures.RData')
 
-attr_wells <- results_out[results_out$category != "N/A",]
-
-attr_wells$state <- factor(attr_wells$state,
-                           levels = c("Increasing", "Stable",
-                                      "Moderate Rate of Decline",
-                                      "Large Rate of Decline"),
-                           ordered = TRUE)
-
-attr_wells$category <- factor(attr_wells$category,
-                              levels = c("Stable or Increasing",
-                                         "Moderate Rate of Decline",
-                                         "Large Rate of Decline"),
-                              ordered = TRUE)
+attr_wells <- results_viz
 
 state.summary <- table(attr_wells$state)
 state.summary <- cbind(n = state.summary, prop = prop.table(state.summary))
@@ -99,85 +89,37 @@ is available given human use patterns, aquifer characteristics,
 weather and climate patterns^[1](#fn1)^.
 
 -   This indicator presents an analysis of long-term trends
-in groundwater levels recorded at `r nrow(attr_wells)` observation wells 
-that have been monitored for ten years or more and were active as of 2009.
+in groundwater levels recorded at `r nrow(attr_wells)` observation wells that have been monitored for ten years or more and that were active as of 2009.
 
--   Of the examined wells, `r round(sum(state.summary[c("Stable","Increasing"),"prop"]*100))`% have water levels that are stable
-or increasing (with `r state.summary["Increasing","n"]` wells showing 
-increasing trends); `r round(state.summary["Moderate Rate of Decline","prop"]*100)`% of wells 
-show a moderate rate of decline in water levels (between 3 and 10 cm per year); and `r round(state.summary["Large Rate of Decline","prop"]*100)`% 
-of observation wells show a large rate of decline in water levels (more
-than 10 cm per year).
-
-Groundwater levels are sensitive to precipitation, aquifer storage
-capacity, recharge rate and human withdrawal. Groundwater level trends
-presented here indicate long-term changes in water level, but have not
-been corrected for changes in precipitation patterns or other factors.
-Thus, any significant trends are not necessarily directly attributable
-to human use. However, information on long-term trends can be useful for
-prompting further research and informing decision-making.
-
-
-\begin{center}
-\fbox{
-  \begin{minipage}[c]{15cm}
-  
-   \begingroup\centering{\textbf{Groundwater Level Trend Categories}}
-   
-     \endgroup
-     
-    \vspace{1mm}
-    
-    \text{Observed long-term trends were categorized using a combination of statistical and environmental}   
-    \text{significance criteria. Based on both the significance and magnitude of the calculated trend, trends in }
-    \text{water levels in wells were classified as exhibiting the following categories:}
-    
-    \vspace{3mm}
-    
-    \text{\textbf{Stable}: the trend was \textit{not} significantly different from zero \textbf{or} the trend was significantly different from }
-    \text{zero with an increasing or decreasing trend of \textit{less than} 3 cm per year.}
-    
-       \vspace{2mm}
-    
-     \text{\textbf{Increasing}: the trend was significantly different from zero with an increasing trend of 3 or greater}
-     \text{cm per year.}
-    
-       \vspace{2mm}
-    
-     \text{\textbf{Moderate Rate of Decline}: the trend was significantly different from zero with a declining trend of}
-     \text{between 3 and 10 cm per year.}
-    
-       \vspace{2mm}
-    
-    \text{\textbf{Large Rate of Decline}: the slope was significantly different from zero with a declining trend of more}
-    \text{than 10 cm per year.}
-    
-  \end{minipage}
-}
-\end{center}
-
-\newpage
-
-
+-  Groundwater level trends are summarized using three long-term trend categories: Stable or Increasing, Moderate Rate of Decline (3 to 10 cm/year), and Large Rate of Decline (more than 10 cm/year).
 
 
 \newpage
 
 ## Provincial Summary of Trends in Groundwater Levels
 
-The charts below summarise the proportions of groundwater observation wells with
-groundwater levels in three long-term trend categories: Stable or Increasing, Moderate Rate of Decline (3 to 10 cm/year), and Large Rate of Decline (more than 10 cm/year). These summaries are also presented
-by natural resource region.
+-   Of the `r nrow(attr_wells)` examined observation wells, `r round(sum(state.summary[c("Stable","Increasing"),"prop"]*100))`% have water levels that are stable or increasing (with `r state.summary["Increasing","n"]` wells showing increasing trends), `r round(state.summary["Moderate Rate of Decline","prop"]*100)`% of wells show a moderate rate of decline in water levels, and `r round(state.summary["Large Rate of Decline","prop"]*100)`% show a large rate of decline in water levels.
 
-\vspace{30pt}
 
-```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 8, fig.height = 6, fig.align = 'center'}
-plot(bc_bar_chart)
+\vspace{60pt}
+
+
+```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 5, fig.height = 6, fig.align = 'center'}
+
+bc_bar_chart + theme(legend.position = "bottom",
+                     legend.direction = "vertical")
 ```
 
 \newpage
 
-```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 7, fig.height = 8, fig.align = 'center'}
+## Summary of Trends in Groundwater Levels by B.C. Natural Resource Regions
+
+
+\vspace{60pt}
+
+
+```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 6, fig.height = 7, fig.align = 'center'}
+
 plot(regional_bar_chart)
 ```
 
@@ -189,15 +131,14 @@ plot(regional_bar_chart)
 
 \vspace{30pt}
 
-**Locations of `r nrow(attr_wells)` Groundwater Observation Wells Included in the Analysis**
 
-```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.height = 8, fig.align = 'center'}
+```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.width = 6, fig.height = 6, fig.align = 'center'}
+
 plot(summary_map)
 ```
 
 \newpage
 
-**Groundwater Level Trend Results for Observation Wells Included in the Analysis**
 
 \definecolor{stable}{HTML}{`r substr(colour.scale[1], 2, 7)`}
 \definecolor{moderate}{HTML}{`r substr(colour.scale[2], 2, 7)`}
@@ -248,11 +189,15 @@ print(x.table, tabular.environment = 'longtable', floating = FALSE,
       sanitize.text.function = NULL, comment = FALSE)
 ```
 
-\newpage
+
+## More About Groundwater Levels
+
+Groundwater levels are sensitive to precipitation, aquifer storage capacity, recharge rate&mdash;the rate at which surface water trickles down to refill a groundwater aquifer&mdash;and human withdrawal. Groundwater level trends presented here indicate long-term changes in water level, but have not been corrected for changes in precipitation patterns or other factors. Thus, any significant trends are not necessarily directly attributable to human use. However, information on long-term trends can be useful for prompting further research and informing decision-making. 
+
 
 ## References and Other Useful Links
 
--   Visit the [Monitoring Aquifers: Provincial Observation Well Network homepage](http://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836) for more information on groundwater monitoring observation wells.
+-   Visit the [Monitoring Aquifers: Provincial Observation Well Network homepage](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836) for more information on groundwater monitoring observation wells.
 
 -   [Groundwater Wells and Aquifers (GWELLS)](https://apps.nrs.gov.bc.ca/gwells/)
 
@@ -274,11 +219,20 @@ each file, as indicated in parentheses below.
 -   [Provincial Groundwater Observation Well Network - Groundwater Levels Data](https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f16855)
 (Licence: [Open Government Licence - British Columbia](http://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61))
 
+
+----
+
 Published and Available On-Line at Environmental Reporting BC (`r updateDate`): <http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html>
+
+Email correspondence to: envreportbc@gov.bc.ca
+
+*Suggested Citation*:  
+Environmental Reporting BC. 2019.  Long-term Trends in Groundwater Levels in B.C. State of Environment Reporting, Ministry of Environment and Climate Change Strategy, British Columbia, Canada.
+
 
 \vspace{50pt}
 
-## Appendix 1: Detailed Maps & Graphs for Groundwater Observation Wells Included in the Analysis
+## Appendix: Detailed Maps & Graphs for Groundwater Observation Wells Included in the Analysis
 
 Three plots were created for each examined groundwater observation well, including a map of the well’s location (upper left).
 
@@ -297,80 +251,11 @@ dots show missing values which were interpolated (see Methods). The trend catego
 
 \newpage
 
-```{r well_plots, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.height = 7.5, dev = "pdf"}
-knitr_latex_char <- function(x) {
-  y <- gsub("\\\\", "\\\\textbackslash{}", x) # backslash has to be first!
-  y <- gsub("([#$%&_])", "\\\\\\1", y) # Doesn't deal with { or } because of function{}
-  y <- gsub("\\^", "\\\\textasciicircum{}", y)
-  y <- gsub("~", "\\\\textasciitilde{}", y)
-  return(y)
-}
-
-theme_set(base_theme)
-
-for (reg in sort(unique(attr_wells$REGION_NAME))) {
-  cat(paste0('\\subsection{',reg," Region",'}'))
-  regdata <- filter(attr_wells, REGION_NAME == reg)
-  
-  for (well in regdata$Well_Num) {
-    if (is.na(well)) next
-
-    wellname <- filter(regdata, Well_Num == well) %>%
-      pull(Well_Name)
-    
-    cat(paste0('\\subsubsection*{',reg,": ",
-               knitr_latex_char(wellname),
-               '}'))
-    
-    # cat(paste0("This provincial groundwater observation well is drilled into a ",
-    #            well.attr$AQUIFER_TYPE, 
-    #            " aquifer to a depth of ", well.attr$wellDepth_m, 
-    #            " metres. The well has a monitoring period of record from ", 
-    #            format(well.attr$start_date, format = "%B %d %Y"), 
-    #            " to ", format(well.attr$last_date, format = "%B %d %Y"), ". \\newline",
-    #            "\\newline"))
-
-    mapplot <- filter(well_plots, type == "map", well_num == well) %>% pull(plot)
-    monthplot <- filter(well_plots, type == "month", well_num == well) %>% pull(plot)
-    areaplot <- filter(well_plots, type == "area", well_num == well) %>% pull(plot)
-    
-    grid.arrange(mapplot + theme(text = element_text(size = 10),
-                                 plot.margin = unit(c(0,0.5,0,0.01),"cm")),
-                 monthplot + theme(axis.text = element_text(size = 8),
-                                   axis.title.x = element_text(face = "bold", size = 8),
-                                   plot.title = element_text(size = 10, face = "bold"),
-                                   axis.title.y = element_text(size = 8,
-                                                               hjust = 0.5,
-                                                               vjust = -.8,
-                                                               face = "bold"),
-                                   legend.box = "vertical",
-                                   legend.position = "top",
-                                   legend.text = element_text(size = 9),
-                                   plot.margin = unit(c(1,0.01,1,0.01),"cm"),
-                                   legend.spacing.y = unit(-.4, 'cm')),
-                 areaplot + theme(axis.text = element_text(size = 8),
-                                  axis.title.x = element_text(face = "bold", size = 8),
-                                  axis.title.y = element_text(size = 8,
-                                                              hjust = 0.5,
-                                                              vjust = -.8,
-                                                              face = "bold"),
-                                  legend.text = element_text(size = 9),
-                                  plot.title = element_text(size = 11, face = "bold"),
-                                  plot.subtitle = element_text(size = 9),
-                                  plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm")),
-                 layout_matrix = matrix(c(1,2,3,3), nrow = 2, byrow = TRUE))
-    
-    cat('\\newpage ')
-  }
-  
-}
-```
-
-\newpage
 
 ## Methods
 
-The [**R**](http://www.r-project.org) code for repeating this analysis is available on [GitHub](https://github.com/bcgov/groundwater-levels-indicator). The analysis makes use of the 'bcgroundwater' R package, which facilitates working with, analysing, and visualising British Columbia groundwater level data&mdash;the 'bcgroundwater' R package is available on [GitHub](https://github.com/bcgov/bcgroundwater).
+[**R**](http://www.r-project.org) package and code: We have developed an R package to facilitate working with, analyzing, and visualizing British Columbia groundwater level data. Download the 'bcgroundwater' package from [GitHub](https://github.com/bcgov/bcgroundwater). The source code for repeating the analysis presented on this page is also available on [GitHub](https://github.com/bcgov/groundwater-levels-indicator).
+
 
 ### Data
 
@@ -419,13 +304,13 @@ residuals and the trend are combined and then tested for significance
 using the Mann-Kendall trend test. These methods were implemented using
 the R package ‘zyp’ [@pkg_zyp].
 
-Observed long-term trends were categorized using a combination of statistical and environmental significance criteria. Based on both the significance
-and magnitude of the calculated trend, trends in water levels in wells were classified as exhibiting the following categories:
+## Observed Long-term Trend Categories
 
-- **Stable**: the trend was _not_ significantly different from zero **or** the trend was significantly different from zero with an increasing or decreasing trend of _less than_ 3 cm per year.
-- **Increasing**: the trend was significantly different from zero with an increasing trend of 3 or greater cm per year.
-- **Moderate Rate of Decline**: the trend was significantly different from zero with a declining trend of between 3 and 10 cm per year.
-- **Large Rate of Decline**: the trend was significantly different from zero with a declining trend of more than 10 cm per year.
+The observed long-term trends were categorized using a combination of statistical and environmental significance criteria. Based on both the significance and magnitude of the calculated trend, trends in water levels in wells were classified as exhibiting the following categories:
+
+-   **Stable or Increasing:** the trend was not significantly different from zero or the trend was significantly different from zero with an increasing trend or the trend was significantly different from zero with a declining trend of less than 3 cm per year.
+-  **Moderate Rate of Decline:** the trend was significantly different from zero with a declining trend of between 3 and 10 cm per year.
+-  **Large Rate of Decline:** the slope was significantly different from zero with a declining trend of more than 10 cm per year.
 
 Time series were not corrected for precipitation or any other climatic
 or hydrologic processes. As such, no causation for trends are implied.
