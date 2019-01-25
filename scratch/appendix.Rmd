@@ -108,13 +108,13 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
     #            " to ", format(well.attr$last_date, format = "%B %d %Y"), ". \\newline",
     #            "\\newline"))
     
-    mapplot <- filter(well_plots, type == "map", well_num == well) %>% pull(plot)
-    monthplot <- filter(well_plots, type == "month", well_num == well) %>% pull(plot)
-    areaplot <- filter(well_plots, type == "area", well_num == well) %>% pull(plot)
+    mapplot <- filter(well_plots, Well_Num == well) %>% pull(map_plot)
+    monthplot <- filter(well_plots, Well_Num == well) %>% pull(month_plot)
+    areaplot <- filter(well_plots, Well_Num == well) %>% pull(area_plot)
     
-    grid.arrange(mapplot + theme(text = element_text(size = 10),
+    grid.arrange(mapplot[[1]] + theme(text = element_text(size = 10),
                                  plot.margin = unit(c(0,0.5,0,0.01),"cm")),
-                 monthplot + theme(axis.text = element_text(size = 8),
+                 monthplot[[1]] + theme(axis.text = element_text(size = 8),
                                    axis.title.x = element_text(face = "bold", size = 8),
                                    plot.title = element_text(size = 10, face = "bold"),
                                    axis.title.y = element_text(size = 8,
@@ -126,7 +126,7 @@ for (reg in sort(unique(attr_wells$REGION_NAME))) {
                                    legend.text = element_text(size = 9),
                                    plot.margin = unit(c(1,0.01,1,0.01),"cm"),
                                    legend.spacing.y = unit(-.4, 'cm')),
-                 areaplot + theme(axis.text = element_text(size = 8),
+                 areaplot[[1]] + theme(axis.text = element_text(size = 8),
                                   axis.title.x = element_text(face = "bold", size = 8),
                                   axis.title.y = element_text(size = 8,
                                                               hjust = 0.5,
