@@ -22,7 +22,7 @@
 if (!exists(".header_sourced")) source("header.R")
 
 ## Load saved raw data if necessary
-if (!exists("wells_raw")) load("./tmp/raw_well_data.RData")
+if (!exists("wells_data_raw")) load("./tmp/raw_well_data.RData")
 
 
 ## Clean raw groundwater level data
