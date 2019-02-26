@@ -30,6 +30,7 @@ if (!exists("wells_data_raw")) load("./tmp/raw_well_data.RData")
 # Nest data by Well_Num. As we don't have EMS_IDS, use Well_Num
 # so we get a clear idea of which well has convergence issues
 wells_prep <- wells_data_raw %>%
+  filter(Date <= as.POSIXct("2019-01-11")) %>% 
   mutate(EMS_ID = Well_Num) %>%      
   group_by(Well_Num1 = Well_Num) %>%
   nest()
