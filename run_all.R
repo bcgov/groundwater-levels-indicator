@@ -28,6 +28,8 @@ source("04_output.R")
 
 
 ## Reduce PDF print_ver file size
-file.copy("print_ver/gwl.pdf", "print_ver/envreportbc_gwl_March2019.pdf") #delete existing file, does not overwrite
-tools::compactPDF("print_ver/envreportbc_gwl_March2019.pdf", gs_quality = "ebook")
+print_ver_final <- "print_ver/envreportbc_gwl_March2019.pdf"
+file.remove(print_ver_final)
+file.copy("print_ver/gwl.pdf", print_ver_final) #delete existing file, does not overwrite
+tools::compactPDF(print_ver_final, gs_quality = "ebook")
 
