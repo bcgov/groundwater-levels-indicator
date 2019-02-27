@@ -25,6 +25,7 @@ if (!exists(".header_sourced")) source("header.R")
 if (!exists("wells_data_raw")) load("./tmp/raw_well_data.RData")
 
 
+
 ## Clean raw groundwater level data
 
 # Nest data by Well_Num. As we don't have EMS_IDS, use Well_Num
@@ -49,10 +50,11 @@ monthlywells_ts <- unnest(wells_ts, data) %>%
          EMS_ID = NA)
 
 # Check the problems with convergence:
-problems <- c("196", "060", "303", "203", "154", "065", "117", "185", 
-              "256", "081", "204", "007", "292", "176", "228")
+problems <- c("284", "125", "232", "303", "173", "291", "102", "185", "220", 
+              "287", "007", "100", "414")
 
-filter(monthlywells_ts, Well_Num %in% as.numeric(problems)) %>% summary()
+filter(monthlywells_ts, Well_Num %in% as.numeric(problems)) %>% 
+  summary()
 
 
 ## Save clean data object in a temporary directory
