@@ -23,7 +23,7 @@ if (!exists("results_out"))  load("./tmp/analysis_data.RData")
 if (!exists("monthlywells_ts")) load("./tmp/clean_well_data.RData")
 
 ## Create Google maps?
-create_ggmaps <- FALSE
+create_ggmaps <- TRUE
 
 ## Select wells analyzed and create factors
 results_viz <- results_out[results_out$category != "N/A",] %>%
