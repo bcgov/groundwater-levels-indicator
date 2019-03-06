@@ -89,7 +89,8 @@ results_out <- right_join(obs_wells, wells_results,
          trend_line_slope = round(trend, 4)) %>%
   select(EMS_ID, 
          Well_Num = OBSERVATION_WELL_NUMBER, 
-         REGION_NAME, SITE_AREA, AQUIFER_TYPE,
+         Aquifer_Type = AQUIFER_TYPE,
+         REGION_NAME, 
          aquifer_id,
          Lat, Long, 
          wellDepth_m, waterDepth_m, 
@@ -106,7 +107,8 @@ results_out <- right_join(obs_wells, wells_results,
          category = case_when(state %in% c("Increasing", "Stable") ~ "Stable or Increasing", 
                               grepl("Recently|missing", state) ~ "N/A",
                               TRUE ~ state)) %>% 
-  filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date))
+  filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date)) %>% 
+  select(EMS_ID, Well_Num, Well_Name, everything())
 
 
 ## Save results in a temporary directory
