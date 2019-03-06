@@ -86,7 +86,9 @@ results_out <- right_join(obs_wells, wells_results,
          wellDepth_m = round(DEPTH_WELL_DRILLED * 0.3048), 
          waterDepth_m = round(WATER_DEPTH * 0.3048), 
          trend_line_int = round(intercept, 4), 
-         trend_line_slope = round(trend, 4)) %>%
+         trend_line_slope = round(trend, 4),
+         sig = round(sig, 4), 
+         percent_missing = round(percent_missing, 1)) %>%
   select(EMS_ID, 
          Well_Num = OBSERVATION_WELL_NUMBER, 
          Aquifer_Type = AQUIFER_TYPE,
