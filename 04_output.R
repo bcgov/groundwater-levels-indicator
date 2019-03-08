@@ -136,7 +136,9 @@ legend <- ggdraw(get_legend(regional_bar_chart +
 combined_bc_summary <- bc_bar_nolegend + 
   regional_nolegend - 
   legend + 
-  plot_layout(ncol = 1, heights = c(5, 1))
+  plot_layout(ncol = 1, heights = c(5, 0.5)) + 
+  plot_annotation(caption = "*Note that only wells with enough data for trend analysis are included in these figures.", 
+                  theme = theme(plot.caption = element_text(size = 14)))
 
 
 ## Save bar chart plots for Web
