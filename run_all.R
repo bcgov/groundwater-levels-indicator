@@ -31,5 +31,6 @@ source("04_output.R")
 print_ver_final <- "print_ver/envreportbc_gwl_March2019.pdf"
 file.remove(print_ver_final)
 file.copy("print_ver/gwl.pdf", print_ver_final) #delete existing file, does not overwrite
-tools::compactPDF(print_ver_final, gs_quality = "ebook")
+tools::compactPDF(print_ver_final, gs_quality = "ebook", 
+                  gs_extras = "-dPrinted=false")
 
