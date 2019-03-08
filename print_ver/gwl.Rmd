@@ -99,7 +99,7 @@ in groundwater levels recorded at `r nrow(attr_wells)` observation wells that ha
 
 ## Provincial Summary of Trends in Groundwater Levels
 
--   Of the `r nrow(attr_wells)` examined observation wells, `r round(sum(state.summary[c("Stable","Increasing"),"prop"]*100))`% have water levels that are stable or increasing (with `r state.summary["Increasing","n"]` wells showing increasing trends), `r round(state.summary["Moderate Rate of Decline","prop"]*100)`% of wells show a moderate rate of decline in water levels, and `r round(state.summary["Large Rate of Decline","prop"]*100)`% show a large rate of decline in water levels.
+-   Of the `r nrow(attr_wells)` examined observation wells, `r round(sum(state.summary[c("Stable","Increasing"),"prop"]*100))`% have water levels that are stable or increasing (with `r state.summary["Increasing","n"]` wells showing increasing trends), `r round(state.summary["Moderate Rate of Decline","prop"]*100)`% of wells show a moderate rate of decline in water levels, and `r round(state.summary["Large Rate of Decline","prop"]*100)`% show a large rate of decline in water levels. Note that only wells with enough data for trend analysis are included in the following figures.
 
 
 \vspace{60pt}
@@ -144,6 +144,10 @@ plot(summary_map)
 \definecolor{stable}{HTML}{`r substr(colour.scale[1], 2, 7)`}
 \definecolor{moderate}{HTML}{`r substr(colour.scale[2], 2, 7)`}
 \definecolor{large}{HTML}{`r substr(colour.scale[3], 2, 7)`}
+
+### Table 1: Summary of results of trend analysis of groundwater levels
+
+Note that only wells with enough data for trend analysis are included.
 
 \small
 ```{r table, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis'}
