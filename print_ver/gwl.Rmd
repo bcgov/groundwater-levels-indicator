@@ -78,16 +78,14 @@ updateDate <- "March 2019"
 
 Up to 1 million British Columbians are estimated to consume groundwater,
 and hundreds of groundwater aquifers provide water for industries,
-municipalities, farms, and rural homeowners in British Columbia. B.C.
-operates a provincial observation well network&mdash;established in 1961&mdash;to monitor groundwater availability in areas of
-high human use.
+municipalities, farms, and rural homeowners in B.C. British Columbia operates a provincial [observation well network of over 200 wells](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836), which was established in 1961 to monitor groundwater availability in areas of high human use.
 
 -   Observation wells are not used for domestic or commercial use, but
 instead provide monitoring information on groundwater levels over time.
 
 -   Monitoring groundwater levels allows us to know how much groundwater
 is available given human use patterns, aquifer characteristics,
-weather and climate patterns^[1](#fn1)^.
+weather and climate patterns^[1](#fn1)^. Aquifers are geological formations of permeable rock, gravel, or sand containing or conducting groundwater.
 
 -   This indicator presents an analysis of long-term trends
 in groundwater levels recorded at `r nrow(attr_wells)` observation wells that have been monitored for ten years or more and that were active as of 2009.
