@@ -1,0 +1,160 @@
+---
+title: 
+output: 
+  html_document:
+    css: 'assets/styles.css'
+---
+
+```{r setup, include = FALSE}
+# Note that the expression to load the css file will result in local warnings
+# with respect to the yaml package, but we don't have to worry about it for now: 
+# https://github.com/rstudio/rmarkdown/issues/1387
+
+
+knitr::opts_chunk$set(echo = FALSE)
+
+# Allows Rmd file to be run interactively and knit 
+# without having to change the relative file locations all the time
+library(here) 
+
+# bcgov packages
+library(envreportutils)
+library(bcmaps)
+
+# Tidyverse
+library(dplyr)
+library(stringr)
+library(purrr)
+library(glue)
+library(readr)
+
+# Mapping
+library(leaflet)
+library(sf)
+library(geojsonio)
+library(htmltools) # For HTML() function
+
+source(here("./leaflet_map/leaflet_functions.R"))
+```
+
+```{r, include = FALSE}
+cats <- c("Stable or Increasing", 
+            "Moderate Rate of Decline",
+            "Large Rate of Decline",
+            "Currently Not Enough Data for Trend Analysis")
+
+# Assign colours
+well_colours <- c(RColorBrewer::brewer.pal(3,"Blues"), "#cbcbcb") %>%
+  set_names(., cats)
+
+# Circle Marker Palette
+pal <- colorFactor(well_colours, levels = names(well_colours))
+pal_text <- colorFactor(c("black", "black", "white", "black"), 
+                        levels = names(well_colours))
+
+# Load and prep data
+wells <- read_csv(here("./out/GW_Well_Attributes.csv")) %>%
+  rename_all(.funs = funs(tolower)) %>%
+  mutate(region_name_short = str_replace(region_name, "( / )|( )", "_"),
+         state = factor(state, levels = c("Increasing", 
+                                          "Stable",
+                                          "Moderate Rate of Decline",
+                                          "Large Rate of Decline",
+                                          "Too many missing observations to perform trend analysis",
+                                          "Recently established well; time series too short for trend analysis"),
+                        ordered = TRUE),
+         category = factor(category, levels = c("Stable or Increasing", 
+                                                "Moderate Rate of Decline",
+                                                "Large Rate of Decline",
+                                                "N/A"),
+                           labels = cats,
+                           ordered = TRUE),
+         # Add colours to wells dataframe
+         col = pal(category),
+         col_text = pal_text(category))
+
+
+# Create observation well Tooltips
+wells <- mutate(wells, 
+                tooltip = pmap(list(well_num, region_name, as.character(category)),
+                               ~HTML(glue("Observation Well: ", ..1, "<br>",
+                                          "Region: ", ..2, "<br>", 
+                                          "Category: ", ..3, "<br>"))))
+# Create observation well Popups
+wells <- wells %>%
+  mutate(popup = popup_groundwater(., type = "well"))
+
+# Sort wells so decreasing trends appear last (on top)
+wells <- mutate(wells,
+                category_sort = factor(category, 
+                                       levels = cats[c(4, 1:3)],
+                                       ordered = TRUE)) %>%
+  arrange(category_sort)
+
+
+# Regions
+regions_n_all <- wells %>%
+  group_by(region_name, region_name_short) %>%
+  summarise(frequency_all = n(),
+            n_insufficient = sum(is.na(trend_line_int)))
+
+regions_n <- wells %>%
+  filter(!is.na(trend_line_slope)) %>%
+  group_by(region_name, region_name_short) %>%
+  summarise(frequency = n())  %>% 
+  left_join(regions_n_all, by = c("region_name", "region_name_short"))
+
+regions <- read_rds(here("./out/nr_polygons.rds")) %>%
+  st_transform(crs = 4326) %>%
+  mutate(region_name = str_remove(REGION_NAME, " Natural Resource Region"),
+         region_name = str_replace(region_name, "-", " / ")) %>%
+  left_join(regions_n, by = "region_name")
+
+# Create Region Tooltips
+
+# regions <- mutate(regions,
+#                   tooltip = map(region_name,
+#                                  ~HTML(glue("Region ", .x))))
+regions <- mutate(regions,
+                  tooltip = map2(region_name, frequency_all,
+                                 ~HTML(glue("Region ", .x, "<br>",
+                                            "(", .y, " Observation Wells)"))))
+
+# Create Region Popups
+regions <- regions %>%
+  mutate(popup = popup_groundwater(., type = "region"),
+         popup = replace(popup, is.na(frequency) || frequency == 0, NA))
+
+# Verify popup formating
+#cat(regions$popup[1])
+
+# Popup Options
+ppo <- popupOptions(autoPanPaddingTopLeft = c(5, 1),
+                    autoPanPaddingBottomRight = c(5, 100),
+                    closeOnEscapeKey = TRUE, keepInView = TRUE)
+```
+
+
+```{r, warning=FALSE}
+leaflet(width = "900px", height = "800px", options = leafletOptions(minZoom = 5)) %>% 
+  addProviderTiles(providers$CartoDB) %>%
+  add_bc_home_button() %>%
+  # Re-centre map on popup close
+  set_bc_view_on_close() %>%
+  addPolygons(data = regions,
+              color = "white", fillColor = "#72a4cd", weight = 1.5, opacity = 1, fillOpacity = 0.4,
+              label = ~tooltip,
+              popup = ~popup, popupOptions = ppo) %>%
+  addCircleMarkers(data = wells, lng = ~long, lat = ~lat,
+                   radius = 5, weight = 1, 
+                   color = "grey", fillColor = ~pal(category), #color = "#3182BD",
+                   opacity = 1, fillOpacity = 1,
+                   label = ~tooltip, 
+                   # Stick to marker, not mouse
+                   labelOptions = labelOptions(sticky = FALSE),
+                   popup = ~popup, popupOptions = ppo) %>%
+  addLegend("bottomleft", pal = pal, values = wells$category,
+           className = "info legend solid circle",
+           opacity = 1)
+
+```

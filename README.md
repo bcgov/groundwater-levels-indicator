@@ -1,30 +1,27 @@
-<div id="devex-badge"><a rel="Delivery" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="In production, but maybe in Alpha or Beta. Intended to persist and be supported." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/delivery.svg" title="In production, but maybe in Alpha or Beta. Intended to persist and be supported." /></a></div>
+<a id="devex-badge" rel="Delivery" href="https://github.com/BCDevExchange/assets/blob/master/README.md"><img alt="In production, but maybe in Alpha or Beta. Intended to persist and be supported." style="border-width:0" src="https://assets.bcdevexchange.org/images/badges/delivery.svg" title="In production, but maybe in Alpha or Beta. Intended to persist and be supported." /></a>[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-# Analysis of trends in groundwater levels in B.C.
+# Long-term Trends in Groundwater Levels in B.C.
 
-This is a set of [R](http://www.r-project.org) scripts to reproduce the 2013 analysis of trends in groundwater levels presented on [Environmental Reporting BC](http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html). 
+This repository contains [R](http://www.r-project.org) code that calculates long-term trends in groundwater levels. It supports an indicator published on [Environmental Reporting BC](http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html). 
 
-The scripts use the [bcgroundwater](https://github.com/bcgov/bcgroundwater/) package and groundwater monitoring data from the [B.C. observation well network](http://www.env.gov.bc.ca/wsd/data_searches/obswell/index.html) to analyze long-term trends of groundwater levels and produce summary visualizations as well as individual well statistics.
+The scripts use the [bcgroundwater R package](https://github.com/bcgov/bcgroundwater/) and groundwater monitoring data from the [B.C. Observation Well Network](http://www.env.gov.bc.ca/wsd/data_searches/obswell/index.html) to:
+
+- analyze long-term trends of groundwater levels
+- produce provincial-scale and individual well summary statistics
+- generate supporting data visualizations
 
 ## Usage
 
 ### Data
 
-- Raw groundwater level data can be downloaded from the 
-  [B.C. Observation Well Network](http://www.env.gov.bc.ca/wsd/data_searches/obswell/map/obsWells.html).
-    - Median monthly groundwater levels are available under the 
-      [Open Government Licence - British Columbia](http://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61) 
-      as a direct download from the
-      [B.C. Data Catalogue](https://catalogue.data.gov.bc.ca/dataset/84c06668-8a1e-4629-90a3-051bba903f22).
-      If you would prefer to run the analysis beginning with these data rather than 
-      downloading the individual raw data files, set the `downloadMonthly` variable
-      to `TRUE` at the top of `01_clean.R`
-- Well attribute data are included as a zip file in the `data` folder. They are available from the
-  [B.C. Data Catalogue](http://catalogue.data.gov.bc.ca/dataset/ground-water-wells-spatial-view-with-attribute-info),
-   under the [Open Government Licence – British Columbia](http://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61)
-- Natural Resource Regions used in the summaries are included as a zip file in the `data` folder. They are available from the
-  [BC Data Catalogue](https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f) under the 
-  [Open Government Licence–British Columbia](http://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61)
+All the data sourced for the analysis is provided under the [Open Government Licence – British Columbia](http://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61).
+
+- Groundwater level monitoring data are downloaded from the 
+  [B.C. Data Catalogue](https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685) via the [`bcgroundwater` R package](https://github.com/bcgov/bcgroundwater)
+- Groundwater well attribute data are downloaded directly from the
+  [B.C. Data Catalogue](https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778)
+- Natural Resource Regions used in the summaries are sourced from the [`bcmaps` R package](https://cran.r-project.org/web/packages/bcmaps/index.html)
+
 
 ### Code
 
@@ -35,19 +32,9 @@ There are four core scripts that are required for the analysis, they need to be 
 - 03_visualize.R
 - 04_output.R
 
-## Project Status
-
-The results of our analysis can be downloaded as a .csv in the 
-[data](http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html) 
-section of the indicator page.
-
-We are not actively developing this analysis, but you can check the 
-[issues](https://github.com/bcgov/groundwater-levels/issues/) for things we would 
-like to fix or work on.
-
 ## Getting Help or Reporting an Issue
 
-To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/groundwater-levels/issues/).
+To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/groundwater-levels-indicator/issues/).
 
 ## How to Contribute
 
@@ -57,7 +44,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 ## License
 
-    Copyright 2015 Province of British Columbia
+    Copyright 2018 Province of British Columbia
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -71,6 +58,6 @@ Please note that this project is released with a [Contributor Code of Conduct](C
     See the License for the specific language governing permissions and
     limitations under the License.
 
-This repository is maintained by [Environmental Reporting BC](http://www2.gov.bc.ca/gov/content?id=FF80E0B985F245CEA62808414D78C41B). Click [here](https://github.com/bcgov/EnvReportBC-RepoList) for a complete list of our repositories on GitHub.
+This repository is maintained by [Environmental Reporting BC](http://www2.gov.bc.ca/gov/content?id=FF80E0B985F245CEA62808414D78C41B). Click [here](https://github.com/bcgov/EnvReportBC) for a complete list of our repositories on GitHub.
 
 
