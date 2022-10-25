@@ -5,7 +5,7 @@
 
 This repository contains [R](http://www.r-project.org) code that calculates long-term trends in groundwater levels. It supports an indicator published on [Environmental Reporting BC](http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html). 
 
-The scripts use the [bcgroundwater R package](https://github.com/bcgov/bcgroundwater/) and groundwater monitoring data from the [B.C. Observation Well Network](http://www.env.gov.bc.ca/wsd/data_searches/obswell/index.html) to:
+The scripts use the [bcgroundwater R package](https://github.com/bcgov/bcgroundwater/) and groundwater monitoring data from the [B.C. Observation Well Network](https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/groundwater-wells-aquifers/groundwater-observation-well-network) to:
 
 - analyze long-term trends of groundwater levels
 - produce provincial-scale and individual well summary statistics
