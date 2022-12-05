@@ -35,14 +35,6 @@
 if (!exists(".header_sourced")) source("header.R")
 source("func.R")
 
-## Well metadata from gwells. In the future this can probably replace the 
-## databc object, but for now use it to get aquifer number
-dir.create("data", showWarnings = FALSE)
-tmpzip <- download.file("https://s3.ca-central-1.amazonaws.com/gwells-export/gwells.zip", 
-                        destfile = "data/gwells.zip")
-unzip("data/gwells.zip", exdir = "data")
-gwells <- read_csv("data/well.csv") %>% 
-  select(well_tag_number, aquifer_id)
 
 ## Get groundwater well attribute data & add NR Region info from `bcmaps`
 obs_wells_raw <- bcdc_map("WHSE_WATER_MANAGEMENT.GW_WATER_WELLS_WRBC_SVW", 
