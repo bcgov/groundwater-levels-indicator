@@ -113,6 +113,53 @@ results_out <- right_join(obs_wells, wells_results,
   filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date)) %>% 
   select(EMS_ID, Well_Num, Well_Name, everything())
 
+## CHRIS ADDITION - START ## 
+
+# CHRIS: I don't recall why I changed the above function.
+# In case it's useful, here's 'my' version.
+
+## Join this to the well attribute data
+results_out <- obs_wells %>% 
+  mutate(observation_well_number = as.numeric(observation_well_number)) %>% 
+  right_join(wells_results, 
+             by = c("observation_well_number" = "Well_Num")) %>%
+  # Reproject the coordinates of the wells into lat/long, add them to dataframe
+  st_transform(crs = 4326) %>% 
+  mutate(Long = st_coordinates(.)[,1],
+         Lat = st_coordinates(.)[,2]) %>%
+  mutate(Lat = round(Lat, 4), 
+         Long = round(Long, 4), 
+         wellDepth_m = round(finished_well_depth * 0.3048), 
+         waterDepth_m = round(static_water_level * 0.3048), 
+         dataYears = round(dataYears, 1),
+         trend_line_int = round(intercept, 4), 
+         trend_line_slope = round(trend, 4),
+         sig = round(sig, 4), 
+         percent_missing = round(percent_missing, 1)) %>%
+  select(EMS_ID = id, 
+         Well_Num = observation_well_number, 
+         Aquifer_Type = aquifer_type,
+         region_name, 
+         aquifer_id,
+         Lat, Long, 
+         wellDepth_m, waterDepth_m, 
+         start_date = dataStart, 
+         last_date = dataEnd, 
+         nYears = dataYears, 
+         percent_missing, trend_line_int, trend_line_slope, sig, state) %>%
+  mutate(Well_Name = paste0("Observation Well #", Well_Num), 
+         state = case_when(is.na(trend_line_int) & (nYears < 10 | is.na(last_date)) ~ 
+                             "Recently established well; time series too short for trend analysis",
+                           is.na(trend_line_int) & (percent_missing >= 25 | last_date < latest_date) ~
+                             "Too many missing observations to perform trend analysis",
+                           TRUE ~ state),
+         category = case_when(state %in% c("Increasing", "Stable") ~ "Stable or Increasing", 
+                              grepl("Recently|missing", state) ~ "N/A",
+                              TRUE ~ state)) %>% 
+  filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date)) %>% 
+  select(EMS_ID, Well_Num, Well_Name, everything())
+
+## CHRIS ADDITION - END ##
 
 ## Save results in a temporary directory
 save(results_out, file = "./tmp/analysis_data.RData")

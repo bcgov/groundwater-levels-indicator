@@ -43,6 +43,29 @@ wells_month <- mutate(wells_prep, data = map(data, ~monthly_values(.x)))
 # beginning and end of each time series, interpolate over missing values
 wells_ts <- mutate(wells_month, data = map(data, ~make_well_ts(.x)))
 
+## CHRIS ADDITION - START ##
+# The following code applies a function to each row of the dataset. This function repeats most of the logic
+# of the {bcgroundwater} function 'make_well_ts', which outputs to the console whether or not a well 
+# has data gaps that are sufficiently large to be a problem. The issue is that if we use
+# the current {bcgroundwater} function, then the user must 
+# write (by hand!) the list of well identity numbers and then filter them out... we can do better!
+# The function below adds a column to each well's dataframe indicating whether or not such a data gap exists,
+# which we can easily use in the following code to filter out such problematic wells.
+wells_ts = wells_ts$data %>% 
+  map( ~ {
+    .x %>% cbind(.x %>% slice_head(prop = 0.1) %>% 
+                   bind_rows(.x %>% slice_tail(prop = 0.1)) %>% 
+                   filter(is.na(dev_med_GWL)) %>% 
+                   filter(Date %m+% months(1) == lead(Date)) %>% 
+                   summarise(data_missing = n()) > 1
+    )
+  }) %>% 
+  bind_rows() %>% 
+  group_by(EMS_ID) %>% 
+  nest()
+
+## CHRIS ADDITION - END ##
+
 # Unnest data for full timeseries
 monthlywells_ts <- unnest(wells_ts, data) %>%
   select(-Well_Num1) %>%
