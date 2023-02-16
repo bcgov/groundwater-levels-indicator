@@ -9,7 +9,8 @@
 
 library(shiny)
 library(RColorBrewer)
-library(shinydashboard)
+source('UI.R')
+source('functions.R')
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
