@@ -29,7 +29,12 @@ if (!exists("obs_wells")) load("./tmp/clean_attr_data.RData")
 
 ## Generate summary data for each well
 welldata_attr <- monthlywells_ts %>%
-  group_by(EMS_ID, Well_Num) %>%
+  #group_by(EMS_ID, Well_Num) %>% 
+  ungroup() %>% #Ekaterina added
+  mutate(Well_Num = as.numeric(substring(Well_Num1, 3,5))) %>% #Ekaterina added
+  select(-Well_Num1) %>% #Ekaterina added
+  group_by(Well_Num) %>% #Ekaterina added
+  #select(-Well_Num1) %>% #Ekaterina added
   summarise(dataStart = as.Date(min(Date)), 
             dataEnd = as.Date(max(Date)), 
             dataYears = as.numeric(dataEnd - dataStart) / 365, 
@@ -46,7 +51,7 @@ welldata_attr <- monthlywells_ts %>%
 
 ## Only use wells with relatively current data, more than 10 years of data, and 
 ## less than 25% missing monthly observations
-latest_date <- "2009-01-01"
+latest_date <- "2009-01-01" 
 
 wells_nums <- filter(welldata_attr, 
                      dataYears >= 10, 
@@ -56,7 +61,11 @@ wells_nums <- filter(welldata_attr,
 
 ## Summarise as mean annual values and filter to subset of wells
 annualwells_ts <- monthlywells_ts %>%
-  group_by(EMS_ID, Well_Num, Year) %>%
+  #group_by(Well_Num, Year) %>% 
+  ungroup() %>% #Ekaterina added
+  mutate(Well_Num = as.numeric(substring(Well_Num1, 3,5))) %>% #Ekaterina added
+  select(-Well_Num1) %>% #Ekaterina added
+  group_by(Well_Num, Year) %>% #Ekaterina removed EMS_ID and changed to Well_Num1
   summarize(mean_GWL = mean(med_GWL), SD = sd(med_GWL), n_months = n()) %>%
   filter(Well_Num %in% wells_nums, n_months == 12)
 
@@ -68,7 +77,8 @@ results_annual <- gwl_zyp_test(dataframe = annualwells_ts, byID = "Well_Num",
 
 ## Join the analysis results to the well summary data
 ## Full join to add in missing and old data so we can mark it as such below
-wells_results <- full_join(results_annual, welldata_attr, by = "Well_Num")
+wells_results <- full_join(results_annual, welldata_attr, by = "Well_Num") 
+  
 
 ## Assign each well to a trend category according to the slope and significance 
 ## of the trend
@@ -78,22 +88,73 @@ wells_results <- mutate(wells_results,
                                           trend <= -0.03 & sig < 0.05 ~ "Increasing",
                                           TRUE ~ "Stable"))
 
+#Ekaterina added this
+obs_wells <- obs_wells %>%
+  mutate(observation_well_number = as.numeric(observation_well_number))
+
 ## Join this to the well attribute data
 results_out <- right_join(obs_wells, wells_results, 
-                          by = c("OBSERVATION_WELL_NUMBER" = "Well_Num")) %>%
+                          by = c("observation_well_number" = "Well_Num")) %>% 
   mutate(Lat = round(LATITUDE, 4), 
          Long = round(LONGITUDE, 4), 
-         wellDepth_m = round(DEPTH_WELL_DRILLED * 0.3048), 
-         waterDepth_m = round(WATER_DEPTH * 0.3048), 
+         wellDepth_m = round(finished_well_depth * 0.3048), #Ekaterina changed from DEPTH_WELL_DRILLED to finished_well_depth
+         waterDepth_m = round(static_water_level * 0.3048), #Ekaterina changed from WATER_DEPTH to static_water_level
          dataYears = round(dataYears, 1),
          trend_line_int = round(intercept, 4), 
          trend_line_slope = round(trend, 4),
          sig = round(sig, 4), 
          percent_missing = round(percent_missing, 1)) %>%
-  select(EMS_ID = CHEMISTRY_SITE_ID, 
-         Well_Num = OBSERVATION_WELL_NUMBER, 
-         Aquifer_Type = AQUIFER_TYPE,
-         REGION_NAME, 
+  select(EMS_ID = ems_id, #Ekaterina changed from CHEMISTRY_SITE_ID to ems_id
+         Well_Num = observation_well_number, #Ekaterina made lowercase
+         Aquifer_Type = aquifer_type, #Ekaterina made lowercase
+         region_name, #Ekaterina made lowercase
+         aquifer_id,
+         Lat, Long, 
+         wellDepth_m, waterDepth_m, 
+         start_date = dataStart, 
+         last_date = dataEnd, 
+         nYears = dataYears, 
+         percent_missing, trend_line_int, trend_line_slope, sig, state) %>%
+  mutate(Well_Name = paste0("Observation Well #", Well_Num), 
+         state = case_when(is.na(trend_line_int) & (nYears < 10 | is.na(last_date)) ~ 
+                             "Recently established well; time series too short for trend analysis",
+                           is.na(trend_line_int) & (percent_missing >= 25 | last_date < latest_date) ~
+                             "Too many missing observations to perform trend analysis",
+                           TRUE ~ state),
+         category = case_when(state %in% c("Increasing", "Stable") ~ "Stable or Increasing", 
+                              grepl("Recently|missing", state) ~ "N/A",
+                              TRUE ~ state)) %>% 
+  filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date)) %>% 
+  select(EMS_ID, Well_Num, Well_Name, everything()) %>%
+  select(-geometry) #Ekaterina added
+
+## CHRIS ADDITION - START ## 
+
+# CHRIS: I don't recall why I changed the above function.
+# In case it's useful, here's 'my' version.
+
+## Join this to the well attribute data
+results_out <- obs_wells %>% 
+  mutate(observation_well_number = as.numeric(observation_well_number)) %>% 
+  right_join(wells_results, 
+             by = c("observation_well_number" = "Well_Num")) %>%
+  # Reproject the coordinates of the wells into lat/long, add them to dataframe
+  st_transform(crs = 4326) %>% 
+  mutate(Long = st_coordinates(.)[,1],
+         Lat = st_coordinates(.)[,2]) %>%
+  mutate(Lat = round(Lat, 4), 
+         Long = round(Long, 4), 
+         wellDepth_m = round(finished_well_depth * 0.3048), 
+         waterDepth_m = round(static_water_level * 0.3048), 
+         dataYears = round(dataYears, 1),
+         trend_line_int = round(intercept, 4), 
+         trend_line_slope = round(trend, 4),
+         sig = round(sig, 4), 
+         percent_missing = round(percent_missing, 1)) %>%
+  select(EMS_ID = id, 
+         Well_Num = observation_well_number, 
+         Aquifer_Type = aquifer_type,
+         region_name, 
          aquifer_id,
          Lat, Long, 
          wellDepth_m, waterDepth_m, 
@@ -113,6 +174,7 @@ results_out <- right_join(obs_wells, wells_results,
   filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date)) %>% 
   select(EMS_ID, Well_Num, Well_Name, everything())
 
+## CHRIS ADDITION - END ##
 
 ## Save results in a temporary directory
 save(results_out, file = "./tmp/analysis_data.RData")
@@ -129,9 +191,13 @@ write.csv(results_out, attr.out.file, row.names = FALSE)
 # keep wells which match results_out dataset
 
 monthly_out <- monthlywells_ts %>%
+  ungroup() %>% #Ekaterina added
+  mutate(Well_Num = as.numeric(substring(Well_Num1, 3,5))) %>% #Ekaterina added
+  select(-Well_Num1) %>% #Ekaterina added
   filter(nReadings > 0, 
          Well_Num %in% results_out$Well_Num) %>%
-  select(EMS_ID, Well_Num, Date, Year, Month, med_GWL, dev_med_GWL, nReadings)
+  select(EMS_ID, Well_Num, Date, Year, Month, med_GWL, dev_med_GWL, nReadings) #Ekaterina: EMS_ID is na here
+
 
 gwl.out.file <- "out/GWL_Monthly.csv"
 

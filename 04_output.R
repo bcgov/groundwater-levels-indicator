@@ -27,7 +27,7 @@ create_ggmaps <- TRUE
 
 ## Select wells analyzed and create factors
 results_viz <- results_out[results_out$category != "N/A",] %>%
-  mutate(region_name_short = str_replace(REGION_NAME, "( / )|( )", "_"),
+  mutate(region_name_short = str_replace(region_name, "( / )|( )", "_"), #Ekaterina changed REGION_NAME to lowercase
          state = factor(state, levels = c("Increasing", 
                                           "Stable",
                                           "Moderate Rate of Decline",
@@ -96,16 +96,16 @@ bc_bar_chart <- results_viz %>%
 
 #regional summary df
 sum_data_reg <- results_viz %>%
-  group_by(REGION_NAME, region_name_short, category) %>%
+  group_by(region_name, region_name_short, category) %>% #Ekaterina changed REGION_NAME to lowercase
   summarise(frequency = n()) %>%
   mutate(proportion = frequency/sum(frequency), 
          #region_lab = paste0(gsub("(\\s)","\\\n", 
          #                    gsub("\\s/\\s*", "/\\\n", REGION_NAME)), 
          #                    "\n(", nLabeller(sum(frequency), "well"), ")")) %>% 
-         region_lab = paste0(REGION_NAME,
+         region_lab = paste0(region_name,
                              "\n(", nLabeller(sum(frequency), "well"), ")")) %>%
-  complete(nesting(REGION_NAME, region_lab), category,
-           fill = list(frequency = 0, proportion = 0))
+  complete(nesting(region_lab), category, 
+           fill = list(frequency = 0, proportion = 0)) #EKaterina took out nesting by region_name as well
 
 #regional bar chart plot with percentage on y and sample size labels
 regional_bar_chart <- ggplot(sum_data_reg,
@@ -208,9 +208,11 @@ for (i in seq_along(regional_plots)) {
 # Individual Obs Well Plots (Web & PDF) ----------------------------------------
 well_plots <- monthlywells_ts %>%
   mutate(Well_Num1 = Well_Num) %>% # both top level and nested data need Well_Num
-  nest(-Well_Num1, -EMS_ID) %>%
+  #nest(-Well_Num1, -EMS_ID) %>%
+  nest(-Well_Num1) %>% #Ekaterina changed above
   rename(Well_Num = Well_Num1) %>%
-  right_join(results_viz, by = c("Well_Num", "EMS_ID")) %>%
+  #right_join(results_viz, by = c("Well_Num", "EMS_ID")) %>% #Ekaterina changed above
+  right_join(results_viz, by = c("Well_Num")) %>%
   mutate(colour = case_when(category == "Large Rate of Decline" ~ colour.scale[3],
                             category == "Stable or Increasing" ~ colour.scale[1],
                             TRUE ~ colour.scale[2]),
