@@ -163,7 +163,7 @@ results_out <<- right_join(obs_wells, wells_results,
 wells_results_mean <- analysis_fn(annualwells_ts_mean, "mean_GWL")
 wells_results_mean_10 <- analysis_fn(annualwells_ts_mean_10, "mean_GWL")
 wells_results_min <- analysis_fn(annualwells_ts_min, "min_GWL")
-wells_results_min_10 <- analysis_fn(annualwells_ts_min, "min_GWL")
+wells_results_min_10 <- analysis_fn(annualwells_ts_min_10, "min_GWL")
 
 
 ## CHRIS ADDITION - START ## 
