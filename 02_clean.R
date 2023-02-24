@@ -42,6 +42,10 @@ wells_prep <- wells_data_raw %>%
 
 # Get time series, remove consecutive strings of missing values from the
 # beginning and end of each time series, interpolate over missing values
+
+# Temporary test measure to test if whole script is working (quickly) #
+# Just taking first 10 rows of dataset #
+
 wells_month <- mutate(wells_prep[1:10,], data = map(data, ~monthly_values(.x)))
 wells_ts <- mutate(wells_month[1:10,], data = map(data, ~make_well_ts(.x)))
 # NOTE: You can skip the above lines, as they take a long time (20-30 minutes)
