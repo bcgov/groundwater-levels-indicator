@@ -24,26 +24,29 @@ if (!exists(".header_sourced")) source("header.R")
 ## Load saved raw data if necessary
 if (!exists("wells_data_raw")) load("./tmp/raw_well_data.RData")
 
-
-
 ## Clean raw groundwater level data
 
 # Nest data by Well_Num. As we don't have EMS_IDS, use Well_Num
 # so we get a clear idea of which well has convergence issues
 wells_prep <- wells_data_raw %>%
+  mutate(Date = as.Date(Time)) %>% 
   filter(Date <= as.POSIXct("2019-01-11")) %>% 
-  mutate(EMS_ID = Well_Num) %>%      
+  rename(Well_Num = myLocation) %>% 
+  mutate(EMS_ID = Well_Num,
+         GWL = Value) %>%      
   group_by(Well_Num1 = Well_Num) %>%
   nest()
 
-# Create monthly time series for each well
-wells_month <- mutate(wells_prep, data = map(data, ~monthly_values(.x)))
+# # Original script:
+# # Create monthly time series for each well. 
 
-# Get time series, remove consecutive strings of missing values from the
-# beginning and end of each time series, interpolate over missing values
-wells_ts <- mutate(wells_month, data = map(data, ~make_well_ts(.x)))
+# # Get time series, remove consecutive strings of missing values from the
+# # beginning and end of each time series, interpolate over missing values
+# wells_ts <- mutate(wells_month, data = map(data, ~make_well_ts(.x)))
+# wells_month <- mutate(wells_prep, data = map(data, ~monthly_values(.x)))
+# NOTE: You can skip the above lines, as they take a long time (20-30 minutes)
+# and you use the map() function at line 56 for identical results.
 
-## CHRIS ADDITION - START ##
 # The following code applies a function to each row of the dataset. This function repeats most of the logic
 # of the {bcgroundwater} function 'make_well_ts', which outputs to the console whether or not a well 
 # has data gaps that are sufficiently large to be a problem. The issue is that if we use
@@ -51,37 +54,40 @@ wells_ts <- mutate(wells_month, data = map(data, ~make_well_ts(.x)))
 # write (by hand!) the list of well identity numbers and then filter them out... we can do better!
 # The function below adds a column to each well's dataframe indicating whether or not such a data gap exists,
 # which we can easily use in the following code to filter out such problematic wells.
-wells_ts = wells_ts$data %>% 
+wells_ts = wells_prep$data %>% 
   map( ~ {
-    .x %>% cbind(.x %>% slice_head(prop = 0.1) %>% 
-                   bind_rows(.x %>% slice_tail(prop = 0.1)) %>% 
-                   filter(is.na(dev_med_GWL)) %>% 
-                   filter(Date %m+% months(1) == lead(Date)) %>% 
-                   summarise(data_missing = n()) > 1
-    )
+    .x %>% 
+      # Add a column that indicates if either the top 10% or bottom 10% of records for a well
+      # has NA for the groundwater level. This new column 'data_missing' is TRUE if data gaps
+      # are identified in the top 10% or bottom 10% of records (we glance at top or bottom 10%
+      # as a good estimate of data completeness in general for each well)
+      cbind(.x %>% slice_head(prop = 0.1) %>% 
+              bind_rows(.x %>% slice_tail(prop = 0.1)) %>% 
+              filter(is.na(GWL)) %>%
+              filter(Date %m+% months(1) == lead(Date)) %>% 
+              summarise(data_missing = n()) > 1
+      )
   }) %>% 
   bind_rows() %>% 
   group_by(EMS_ID) %>% 
   nest()
 
-## CHRIS ADDITION - END ##
-
 # Unnest data for full timeseries
 monthlywells_ts <- unnest(wells_ts, data) %>%
-  select(-Well_Num1) %>%
-  mutate(Well_Num = as.numeric(Well_Num),
-         EMS_ID = NA)
+  mutate(Well_Num = str_extract(Well_Num,"[0-9]+"))
 
-# Check the problems with convergence:
-problems <- c("284", "125", "232", "303", "173", "291", "102", "185", "220", 
-              "287", "007", "100", "414")
+# # Check the problems with convergence:
+# problems <- c("284", "125", "232", "303", "173", "291", "102", "185", "220", 
+#               "287", "007", "100", "414")
 
-filter(monthlywells_ts, Well_Num %in% as.numeric(problems)) %>% 
-  summary()
+wells_with_data_issues = monthlywells_ts %>% 
+  filter(data_missing == T) %>% 
+  select(EMS_ID) %>% 
+  distinct() %>% 
+  pull(EMS_ID)
 
+monthlywells_ts = monthlywells_ts %>% 
+  filter(!EMS_ID %in% wells_with_data_issues)
 
 ## Save clean data object in a temporary directory
 save(monthlywells_ts, file = "./tmp/clean_well_data.RData")
-
-
-
