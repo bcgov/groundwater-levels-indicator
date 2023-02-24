@@ -58,7 +58,7 @@ obs_wells = obs_wells %>%
   dplyr::select(observation_well_number, id, 
                 well_tag_number, construction_end_date, #general_remarks, other_information,
                 observation_well_status, aquifer_type = aquifer_material,
-                aquifer_id,
+                aquifer_id, depth_well_drilled, water_depth,
                 finished_well_depth, static_water_level, region_name, feature_area_sqm) %>% 
   # Clean up natural resource region name and aquifer type text fields.
   mutate(region_name = str_remove_all(region_name, " Natural Resource Region"),

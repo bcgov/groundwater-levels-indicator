@@ -40,21 +40,18 @@ wells_prep <- wells_data_raw %>%
 # # Original script:
 # # Create monthly time series for each well. 
 
-# # Get time series, remove consecutive strings of missing values from the
-# # beginning and end of each time series, interpolate over missing values
-# wells_ts <- mutate(wells_month, data = map(data, ~make_well_ts(.x)))
-# wells_month <- mutate(wells_prep, data = map(data, ~monthly_values(.x)))
+# Get time series, remove consecutive strings of missing values from the
+# beginning and end of each time series, interpolate over missing values
+wells_month <- mutate(wells_prep[1:10,], data = map(data, ~monthly_values(.x)))
+wells_ts <- mutate(wells_month[1:10,], data = map(data, ~make_well_ts(.x)))
 # NOTE: You can skip the above lines, as they take a long time (20-30 minutes)
 # and you use the map() function at line 56 for identical results.
 
-# The following code applies a function to each row of the dataset. This function repeats most of the logic
-# of the {bcgroundwater} function 'make_well_ts', which outputs to the console whether or not a well 
-# has data gaps that are sufficiently large to be a problem. The issue is that if we use
-# the current {bcgroundwater} function, then the user must 
-# write (by hand!) the list of well identity numbers and then filter them out... we can do better!
-# The function below adds a column to each well's dataframe indicating whether or not such a data gap exists,
-# which we can easily use in the following code to filter out such problematic wells.
-wells_ts = wells_prep$data %>% 
+# {bcgroundwater} function 'make_well_ts' outputs to the console whether or not a well 
+# has data gaps that are sufficiently large to be a problem. The below function recreates
+# the data gap checking logic and adds a column to the wells_ts object 
+# indicating whether or not the well had data gaps.
+wells_ts = wells_ts$data %>% 
   map( ~ {
     .x %>% 
       # Add a column that indicates if either the top 10% or bottom 10% of records for a well
@@ -63,7 +60,7 @@ wells_ts = wells_prep$data %>%
       # as a good estimate of data completeness in general for each well)
       cbind(.x %>% slice_head(prop = 0.1) %>% 
               bind_rows(.x %>% slice_tail(prop = 0.1)) %>% 
-              filter(is.na(GWL)) %>%
+              filter(is.na(med_GWL)) %>%
               filter(Date %m+% months(1) == lead(Date)) %>% 
               summarise(data_missing = n()) > 1
       )
@@ -73,8 +70,7 @@ wells_ts = wells_prep$data %>%
   nest()
 
 # Unnest data for full timeseries
-monthlywells_ts <- unnest(wells_ts, data) %>%
-  mutate(Well_Num = str_extract(Well_Num,"[0-9]+"))
+monthlywells_ts <- unnest(wells_ts, data)
 
 # # Check the problems with convergence:
 # problems <- c("284", "125", "232", "303", "173", "291", "102", "185", "220", 

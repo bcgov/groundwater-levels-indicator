@@ -63,7 +63,7 @@ annualwells_ts <- monthlywells_ts %>%
 ## Perform the analysis
 results_annual <- gwl_zyp_test(dataframe = annualwells_ts, byID = "Well_Num", 
                              col = "mean_GWL", method = "both") %>%
-  mutate(Well_Num = as.numeric(Well_Num)) %>%
+  mutate(Well_Num = Well_Num) %>%
   filter(test_type == "yuepilon")
 
 ## Join the analysis results to the well summary data
@@ -78,13 +78,22 @@ wells_results <- mutate(wells_results,
                                           trend <= -0.03 & sig < 0.05 ~ "Increasing",
                                           TRUE ~ "Stable"))
 
+## Get the coordinates from the obs_wells object, revert from sf to table.
+obs_wells %>% 
+  bind_cols(
+    obs_wells %>% st_transform(crs=4326) %>% 
+      st_coordinates()
+  ) %>% 
+  st_drop_geometry() %>% 
+  rename(latitude = Y,
+         longitude = X)
 ## Join this to the well attribute data
-results_out <- right_join(obs_wells, wells_results, 
-                          by = c("OBSERVATION_WELL_NUMBER" = "Well_Num")) %>%
-  mutate(Lat = round(LATITUDE, 4), 
-         Long = round(LONGITUDE, 4), 
-         wellDepth_m = round(DEPTH_WELL_DRILLED * 0.3048), 
-         waterDepth_m = round(WATER_DEPTH * 0.3048), 
+results_out <- right_join(obs_wells %>% mutate(Well_Num = observation_well_number), 
+                          wells_results %>% mutate(Well_Num = str_remove(Well_Num,'[A-Z]*'))) %>%
+  mutate(Lat = round(latitude, 4), 
+         Long = round(longitude, 4), 
+         wellDepth_m = round(depth_well_drilled * 0.3048), 
+         waterDepth_m = round(water_depth * 0.3048), 
          dataYears = round(dataYears, 1),
          trend_line_int = round(intercept, 4), 
          trend_line_slope = round(trend, 4),
