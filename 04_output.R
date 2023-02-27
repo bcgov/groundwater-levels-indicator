@@ -27,7 +27,7 @@ create_ggmaps <- TRUE
 
 ## Select wells analyzed and create factors
 results_viz <- results_out[results_out$category != "N/A",] %>%
-  mutate(region_name_short = str_replace(REGION_NAME, "( / )|( )", "_"),
+  mutate(region_name_short = str_replace(region_name, "( / )|( )", "_"),
          state = factor(state, levels = c("Increasing", 
                                           "Stable",
                                           "Moderate Rate of Decline",
@@ -96,15 +96,15 @@ bc_bar_chart <- results_viz %>%
 
 #regional summary df
 sum_data_reg <- results_viz %>%
-  group_by(REGION_NAME, region_name_short, category) %>%
+  group_by(region_name, region_name_short, category) %>%
   summarise(frequency = n()) %>%
   mutate(proportion = frequency/sum(frequency), 
          #region_lab = paste0(gsub("(\\s)","\\\n", 
          #                    gsub("\\s/\\s*", "/\\\n", REGION_NAME)), 
          #                    "\n(", nLabeller(sum(frequency), "well"), ")")) %>% 
-         region_lab = paste0(REGION_NAME,
+         region_lab = paste0(region_name,
                              "\n(", nLabeller(sum(frequency), "well"), ")")) %>%
-  complete(nesting(REGION_NAME, region_lab), category,
+  complete(nesting(region_name, region_lab), category,
            fill = list(frequency = 0, proportion = 0))
 
 #regional bar chart plot with percentage on y and sample size labels
