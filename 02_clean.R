@@ -54,7 +54,7 @@ wells_ts <- mutate(wells_month, data = map(data, ~make_well_ts(.x)))
 # write (by hand!) the list of well identity numbers and then filter them out... we can do better!
 # The function below adds a column to each well's dataframe indicating whether or not such a data gap exists,
 # which we can easily use in the following code to filter out such problematic wells.
-wells_ts_sum = wells_ts$data %>% 
+wells_ts = wells_ts$data %>% 
   map( ~ {
     .x %>%
       # Identify wells that have 2+ sequential months without groundwater level records
@@ -74,6 +74,14 @@ wells_ts_sum = wells_ts$data %>%
               summarise(data_missing_recent_10_percent = n()) > 1)
   }) %>% 
   bind_rows() %>% 
+  group_by(EMS_ID) %>% 
+  nest()
+
+# If we choose to drop all stations that had data gaps in the first 10% or last 10%
+# of records...
+wells_ts = wells_ts %>% 
+  unnest(data) %>% 
+  filter(data_missing_oldest_10_percent + data_missing_recent_10_percent == 0) %>% 
   group_by(EMS_ID) %>% 
   nest()
 
