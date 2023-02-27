@@ -31,13 +31,16 @@ if (!exists("wells_data_raw")) load("./tmp/raw_well_data.RData")
 # Nest data by Well_Num. As we don't have EMS_IDS, use Well_Num
 # so we get a clear idea of which well has convergence issues
 wells_prep <- wells_data_raw %>%
+  mutate(Date = as.Date(Time)) %>% 
   filter(Date <= as.POSIXct("2019-01-11")) %>% 
-  mutate(EMS_ID = Well_Num) %>%      
+  mutate(Well_Num = str_extract(myLocation,'[0-9]+')) %>% 
+  rename(EMS_ID = myLocation,
+         GWL = Value) %>% 
   group_by(Well_Num1 = Well_Num) %>%
   nest()
 
 # Create monthly time series for each well
-wells_month <- mutate(wells_prep, data = map(data, ~monthly_values(.x)))
+wells_month <- mutate(wells_prep[c(1:20),], data = map(data, ~monthly_values(.x)))
 
 # Get time series, remove consecutive strings of missing values from the
 # beginning and end of each time series, interpolate over missing values
@@ -51,14 +54,24 @@ wells_ts <- mutate(wells_month, data = map(data, ~make_well_ts(.x)))
 # write (by hand!) the list of well identity numbers and then filter them out... we can do better!
 # The function below adds a column to each well's dataframe indicating whether or not such a data gap exists,
 # which we can easily use in the following code to filter out such problematic wells.
-wells_ts = wells_ts$data %>% 
+wells_ts_sum = wells_ts$data %>% 
   map( ~ {
-    .x %>% cbind(.x %>% slice_head(prop = 0.1) %>% 
-                   bind_rows(.x %>% slice_tail(prop = 0.1)) %>% 
+    .x %>%
+      # Identify wells that have 2+ sequential months without groundwater level records
+      # in the top 10% (i.e. oldest 10%) of the recorded years.
+      cbind(.x %>% slice_head(prop = 0.1) %>% 
                    filter(is.na(dev_med_GWL)) %>% 
+              # Filter for 1 value per month
                    filter(Date %m+% months(1) == lead(Date)) %>% 
-                   summarise(data_missing = n()) > 1
-    )
+                   summarise(data_missing_oldest_10_percent = n()) > 1
+    ) %>% 
+      # Identify wells that have 2+ sequential months without groundwater level records
+      # in the top 10% (i.e. oldest 10%) of the recorded years.
+      cbind(.x %>% slice_tail(prop = 0.1) %>% 
+              filter(is.na(dev_med_GWL)) %>% 
+              # Filter for 1 value per month
+              filter(Date %m+% months(1) == lead(Date)) %>% 
+              summarise(data_missing_recent_10_percent = n()) > 1)
   }) %>% 
   bind_rows() %>% 
   group_by(EMS_ID) %>% 
