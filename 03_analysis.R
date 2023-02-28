@@ -124,8 +124,8 @@ wells_results <- mutate(wells_results,
 ## Join this to the well attribute data
 results_out <<- right_join(obs_wells, wells_results, 
                           by = c("observation_well_number" = "Well_Num")) %>% 
-  mutate(Lat = round(LATITUDE, 4), 
-         Long = round(LONGITUDE, 4), 
+  mutate(#Lat = round(LATITUDE, 4),     ## LH removed, missing
+         #Long = round(LONGITUDE, 4),   ## LH removed, missing
          wellDepth_m = round(finished_well_depth * 0.3048), 
          waterDepth_m = round(static_water_level * 0.3048),
          dataYears = round(dataYears, 1),
@@ -138,7 +138,7 @@ results_out <<- right_join(obs_wells, wells_results,
          Aquifer_Type = aquifer_type, 
          region_name, 
          aquifer_id,
-         Lat, Long, 
+         #Lat, Long,      ## LH removed
          wellDepth_m, waterDepth_m, 
          start_date = dataStart, 
          last_date = dataEnd, 
@@ -230,11 +230,11 @@ write.csv(results_out, attr.out.file, row.names = FALSE)
 
 monthly_out <- monthlywells_ts %>%
   ungroup() %>% #Ekaterina added
-  mutate(Well_Num = as.numeric(substring(Well_Num1, 3,5))) %>% #Ekaterina added
-  select(-Well_Num1) %>% #Ekaterina added
+  #mutate(Well_Num = as.numeric(substring(Well_Num1, 3,5))) %>% #Ekaterina added. ##LH removed
+  #select(-Well_Num1) %>% #Ekaterina added. ## LH removed
   filter(nReadings > 0, 
-         Well_Num %in% results_out$Well_Num) %>%
-  select(EMS_ID, Well_Num, Date, Year, Month, med_GWL, dev_med_GWL, nReadings) #Ekaterina: EMS_ID is na here
+         Well_Num %in% results_out$Well_Num) #%>%
+  #select(EMS_ID, Well_Num, Date, Year, Month, med_GWL, dev_med_GWL, nReadings) #Ekaterina: EMS_ID is na here
 
 
 gwl.out.file <- "out/GWL_Monthly.csv"

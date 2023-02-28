@@ -48,7 +48,7 @@ obs_wells = bcdata::bcdc_query_geodata('groundwater-wells') %>%
 
 obs_wells = obs_wells %>% 
   # Join the natural resource region names from {bcmaps} to groundwater well list.
-  st_join(nr_regions() %>% dplyr::select(-id)) %>% 
+  st_join(nr_regions()) %>% #dplyr::select(-id)) %>% 
   # Reduce and format columns.
   setNames(snakecase::to_snake_case(colnames(.))) %>% 
   dplyr::select(observation_well_number, id, 

@@ -110,25 +110,26 @@ monthlywells_ts_10 <- unnest(wells_ts_10, data) %>%
   ungroup() %>% 
   select(-EMS_ID)
 
-# Check the problems with convergence:
-problems <- c("284", "125", "232", "303", "173", "291", "102", "185", "220", 
-              "287", "007", "100", "414")
-
-#Ekaterina's initial list
-problems <- c("007", "047", "060", "100", "102", "173", "220", "236", "287", "337", "414")
-
-#Ekaterina's new list
-problems <- c("047", "080", "117", "125", "154", "236", "283", "295", "304", "312", "314")
-
-filter(monthlywells_ts, Well_Num %in% as.numeric(problems)) %>% 
-  summary()
+### Chris said to remove this
+## Check the problems with convergence:
+#problems <- c("284", "125", "232", "303", "173", "291", "102", "185", "220", 
+#              "287", "007", "100", "414")
+#
+##Ekaterina's initial list
+#problems <- c("007", "047", "060", "100", "102", "173", "220", "236", "287", "337", "414")
+#
+##Ekaterina's new list
+#problems <- c("047", "080", "117", "125", "154", "236", "283", "295", "304", "312", "314")
+#
+#filter(monthlywells_ts, Well_Num %in% as.numeric(problems)) %>% 
+#  summary()
 
 ## Save clean data object in a temporary directory
 save(monthlywells_ts, file = "./tmp/clean_well_data.RData")
 save(monthlywells_ts_10, file = "./tmp/clean_well_data_10.RData")
 
 
-## Temp
+## Temp - Ekaterina change
 save(monthlywells_ts, file = "./tmp/monthlywells_ts_unfiltered.RData")
 save(monthlywells_ts_10, file = "./tmp/monthlywells_ts_10_unfiltered.RData")
 
