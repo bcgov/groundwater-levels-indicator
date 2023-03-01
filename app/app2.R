@@ -16,7 +16,7 @@ library(stringr)
 library(lubridate)
 library(leaflet)
 library(sf)
-source('UI.R')
+#source('UI.R')
 source('functions.R')
 
 ## Load data
@@ -29,30 +29,26 @@ wells_sf <- read_sf("data/gw_well_attributes.gpkg") %>% #This can be the same ob
 #if (!exists("results_out"))    load("./data/analysis_data.RData")
 #if (!exists("monthlywells_ts")) load("./data/clean_well_data.RData")
 
-# Define UI for application that draws a histogram
+# Define UI for application
 ui <- fluidPage(
 
   fluidRow(
 
     column(3,
-           radioButtons("radio1", h3("Time Range"),
-                        choices = list("All data" = 1, "Last 10 years" = 2), selected = 1)),
+           radioButtons(inputId = "user_period_choice", label = "Time Range",
+                        choices = c("All Data" = "All", "Last 10 Years (2012-2022)" = "2012+"), selected = "All")),
 
     column(3,
-           radioButtons("radio2", h3("Metric"),
-                        choices = list("Mean" = 1, "Minimum" = 2), selected = 1)),
+           selectizeInput(inputId = "user_var_choice", label = "Metric to Display",
+                          choices = c("Mean Annual" = "Mean", "Minimum Annual" = "Minimum"), selected = "Mean")),
 
     column(3,
-           radioButtons("radio3", h3("Calculated on"),
-                        choices = list("Annual" = 1, "Monthly" = 2), selected = 1)),
-
+           radioButtons(inputId = "time_scale", label = "Yearly or Monthly Data",
+                        choices = c("Yearly", "Monthly"), selected = "Yearly")),
     column(3,
-           selectInput("select", h3("Month Choice"),
-                       choices = list("Jan" = 1, "Feb" = 2,
-                                      "Mar" = 3), selected = 1)),
+           uiOutput("month_selector_UI")),
+
   ),
-
-
 
   fluidRow(
     div(
@@ -84,6 +80,31 @@ ui <- fluidPage(
 server <- function(input, output) {
 
   #Based on Chris's streamflow script
+  # Update month selector to show months, if user picks month time-scale
+  observeEvent(input$time_scale, {
+    if(input$time_scale == 'Monthly'){
+      updateSelectizeInput(inputId = 'user_var_choice',
+                           choices = c("Monthly Mean" = "Mean", "Monthly Minimum" = "Minimum")
+      )
+    }
+    if(input$time_scale == 'Annual'){
+      updateSelectizeInput(inputId = 'user_var_choice',
+                           choices = c("Mean Annual" = "Mean", "Minimum Annual" = "Minimum")
+      )
+    }
+  })
+
+
+  output$month_selector_UI = renderUI({
+    if(input$time_scale == 'Yearly') return(NULL)
+    selectizeInput(inputId = 'month_selector',
+                   label = 'Month',
+                   multiple = F,
+                   choices = month.abb,
+                   selected = month.abb[1])
+  })
+
+
   # Set up reactive values for user's click response
   click_station <- reactiveVal('No selection')
   well_num = reactiveVal(results_out)

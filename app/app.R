@@ -12,138 +12,97 @@ library(RColorBrewer)
 library(tidyverse)
 library(dplyr)
 library(sf)
+source('functions.R')
 
-input <- read.csv("data/gw_well_attributes.csv") %>%
+#Read in data, filter out uncategorized wells
+input_dataframe <- read.csv("data/gw_well_results.csv") %>%
   filter(., state !="Too many missing observations to perform trend analysis" & state !="Recently established well; time series too short for trend analysis" )
 
-
-# Define UI for application that draws a histogram
+# Define UI for application
 ui <- fluidPage(
 
   fluidRow(
 
     column(3,
-           radioButtons("radio1", h3("Time Range"),
-                        choices = list("All data" = 1, "Last 10 years" = 2), selected = 1)),
+           radioButtons(inputId = "user_period_choice", label = "Time Range",
+                        choices = c("All Data" = "All", "Last 10 Years (2012-2022)" = "10 Years"), selected = "All")),
 
     column(3,
-           radioButtons("radio2", h3("Metric"),
-                        choices = list("Mean" = 1, "Minimum" = 2), selected = 1)),
+           selectizeInput(inputId = "user_var_choice", label = "Metric to Display",
+                          choices = c("Mean Annual" = "Mean", "Minimum Annual" = "Minimum"), selected = "Mean")),
 
     column(3,
-           radioButtons("radio3", h3("Calculated on"),
-                        choices = list("Annual" = 1, "Monthly" = 2), selected = 1)),
-
+           radioButtons(inputId = "time_scale", label = "Yearly or Monthly Data",
+                        choices = c("Yearly", "Monthly"), selected = "Yearly")),
     column(3,
-           selectInput("select", h3("Month Choice"),
-                       choices = list("Jan" = 1, "Feb" = 2,
-                                      "Mar" = 3), selected = 1)),
+           uiOutput("month_selector_UI")),
+
   ),
-
-
 
   fluidRow(
 
-    column(6,
-           plotOutput("summary_plot", height = 500)),
-      column(6,
-             plotOutput("regional_plot", height = 500)),
+    column(5,
+           plotOutput("summary_plot", height = 400)),
+      column(7,
+             plotOutput("regional_plot", height = 400)),
 
 
   )
 
 )
 
-#All summary
-input_summary <- input %>%
-  group_by(state) %>%
-  summarize("count"=n()) %>%
-  mutate( col = case_when(
-    state == "Stable" ~ "gray70",
-    state == "Moderate Rate of Decline" ~ "orange",
-    state == "Large Rate of Decline" ~ "darkorange",
-    state == "Increasing" ~ "skyblue2"
-  )) %>%
-  mutate(total_no_wells = nrow(input)) %>%
-  mutate(prop = (count/total_no_wells)*100)
 
-bar_labels <- input_summary %>%
-  group_by(state) %>%
-  summarize("no_wells"=sum(count)) %>%
-  mutate("no_wells_lab" = paste0(no_wells, " wells"))
 
-input_summary <- right_join(input_summary, bar_labels)
 
-input_summary$col <- factor(input_summary$col, c("darkorange", "orange", "gray70", "skyblue2"))
-input_summary$state <- factor(input_summary$state, c("Large Rate of Decline", "Moderate Rate of Decline", "Stable", "Increasing"))
-
-barcol=levels(as.factor(input_summary$col))
-barlab=levels(as.factor(input_summary$state))
-
-input_summary <- input_summary %>%
-  mutate(label_x = cumsum(count))
-
-#Regional summary
-input_regional <- input %>%
-  group_by(REGION_NAME, state) %>%
-  summarize("count"=n()) %>%
-  mutate( col = case_when(
-    state == "Stable" ~ "gray70",
-    state == "Moderate Rate of Decline" ~ "orange",
-    state == "Large Rate of Decline" ~ "darkorange",
-    state == "Increasing" ~ "skyblue2"
-  ))
-
-bar_labels_r <- input_regional %>%
-  group_by(REGION_NAME) %>%
-  summarize("no_wells"=sum(count)) %>%
-  mutate("no_wells_lab" = paste0(no_wells, " wells"))
-
-input_regional <- right_join(input_regional, bar_labels_r)
-
-input_regional$REGION_NAME <-factor(input_regional$REGION_NAME, c("West Coast", "Thompson / Okanagan", "South Coast", "Skeena", "Omineca",
-                                                                "Northeast", "Kootenay / Boundary", "Cariboo"))
-
-input_regional$col <- factor(input_regional$col, c("darkorange", "orange", "gray70", "skyblue2"))
-input_regional$state <- factor(input_regional$state, c("Large Rate of Decline", "Moderate Rate of Decline", "Stable", "Increasing"))
-
-barcolr=levels(as.factor(input_regional$col))
-barlabr=levels(as.factor(input_regional$state))
-
-# Define server logic required to draw a histogram
+# Define server logic
 server <- function(input, output) {
+
+  # Update month selector to show months, if user picks month time-scale
+  observeEvent(input$time_scale, {
+    if(input$time_scale == 'Monthly'){
+      updateSelectizeInput(inputId = 'user_var_choice',
+                           choices = c("Monthly Mean" = "Mean", "Monthly Minimum" = "Minimum")
+      )
+    }
+    if(input$time_scale == 'Yearly'){
+      updateSelectizeInput(inputId = 'user_var_choice',
+                           choices = c("Mean Annual" = "Mean", "Minimum Annual" = "Minimum")
+      )
+    }
+  })
+
+
+  output$month_selector_UI = renderUI({
+    if(input$time_scale == 'Yearly') return(NULL)
+    selectizeInput(inputId = 'month_selector',
+                   label = 'Month',
+                   multiple = F,
+                   choices = month.abb,
+                   selected = month.abb[1])
+  })
+
+ #Filter dataset by input variables
+  filtered_data <- reactive({
+
+    filter(input_dataframe,
+           period == input$user_period_choice,
+           metric == input$user_var_choice,
+           time_scale == input$time_scale)
+
+  })
+
 
   output$summary_plot <- renderPlot({
 
-    ggplot(data=input_summary) +
-      geom_col(mapping=aes(x=prop, y=state, fill=state, width = 0.5)) +
-      scale_fill_manual(label=barlab, values=barcol) +
-      geom_text(aes(x=prop, y=state, label = no_wells_lab), hjust = -0.1) +
-      scale_x_continuous(expand = c(0,0)) +
-      expand_limits(x=c(0,110)) +
-      guides(fill = guide_legend(reverse = TRUE))+
-      xlab("Proportion of wells (%)") + ylab(NULL) +
-      theme_classic() +
-      theme(legend.position="bottom",
-            legend.title=element_blank())
+    prov_summary_plot(filtered_data())
+
   })
 
   output$regional_plot <- renderPlot({
 
-    ggplot(data=input_regional) +
-      geom_col(mapping=aes(x=count, y=REGION_NAME, fill=state, width = 0.5)) +
-      scale_fill_manual(label=barlabr, values=barcolr) +
-      geom_text(aes(x=no_wells, y=REGION_NAME, label = no_wells_lab), hjust = -0.1) +
-      scale_x_continuous(expand = c(0,0)) +
-      expand_limits(x=c(0,60)) +
-      guides(fill = guide_legend(reverse = TRUE))+
-      xlab("Number of wells") + ylab(NULL) +
-      theme_classic() +
-      theme(legend.position="bottom",
-      legend.title=element_blank())
-    })
+    regional_summary_plot(filtered_data())
 
-}
+})}
 
 # Run the application
 shinyApp(ui = ui, server = server)
