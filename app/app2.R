@@ -16,15 +16,19 @@ library(stringr)
 library(lubridate)
 library(leaflet)
 library(sf)
-#source('UI.R')
+source('UI.R')
 source('functions.R')
 
 ## Load data
 results_out <- read.csv("data/gw_well_attributes.csv") %>%
   rename("region_name" = REGION_NAME)
 monthlywells_ts <- read.csv("data/gwl_monthly.csv")
-wells_sf <- read_sf("data/gw_well_attributes.gpkg") %>% #This can be the same object as results_out
-  st_transform(crs = 4326)
+wells_sf <- read_sf("data/gw_well_attributes.gpkg") %>%
+  st_transform(crs = 4326) %>%
+  mutate(state_short = ifelse(category == "N/A", "No trend analysis", state))
+regions_sf <- read_sf("data/ADM_NR_DST_polygon_dissolved.gpkg") %>%
+  st_transform(crs = 4326) %>%
+  mutate(region_name = str_remove_all(RGN_RG_NTM, " Natural Resource Region"))
 
 #if (!exists("results_out"))    load("./data/analysis_data.RData")
 #if (!exists("monthlywells_ts")) load("./data/clean_well_data.RData")
@@ -59,10 +63,7 @@ ui <- fluidPage(
     fluidRow(
       column(6, h3(textOutput("selected_station"))),
       column(3, style="padding-left:8px;padding-right:8px;padding-top:8px;padding-bottom:8px", htmlOutput("trendResult")),
-      column(3, h6("Learn more about this well"),
-             a(href="https://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html", "Groundwater Level Data & Information"),
-             br(),
-              a(href="https://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html", "Aquifer Summary")),
+      column(3, htmlOutput("AquiferURLs")),
       column(6,
              plotOutput("plot", height = 400))),
 
@@ -105,11 +106,21 @@ server <- function(input, output) {
   })
 
 
+well_attr <- as.data.frame(wells_sf) %>%
+  select(Well_Num, Well_Name, REGION_NAME, EMS_ID, Aquifer_Type, aquifer_id,
+         Lat, Long, wellDepth_m, waterDepth_m, start_date, last_date, nYears, percent_missing)
+
   # Set up reactive values for user's click response
   click_station <- reactiveVal('No selection')
-  well_num = reactiveVal(results_out)
+  well_num = reactiveVal(well_attr)
   state = reactiveVal('No selection')
   slope = reactiveVal()
+  #trendpre = reactiveVal("")
+
+
+
+  output$trendResult <- renderUI({
+    return(NULL)})
 
 
   # Watch for a click on the leaflet map. Once clicked...
@@ -117,7 +128,7 @@ server <- function(input, output) {
   observeEvent(input$leafmap_marker_click, {
     # Capture the info of the clicked point and use this for filtering.
     click_station(input$leafmap_marker_click$id)
-    well <- filter(results_out, Well_Num==click_station())
+    well <- filter(well_attr, Well_Num==click_station())
     well_num(well)
     newState <- filter(results_out, Well_Num==click_station()) %>%
       select(state)
@@ -125,11 +136,49 @@ server <- function(input, output) {
     newSlope <- filter(results_out, Well_Num==click_station()) %>%
       select(trend_line_slope)
     slope(newSlope)
+    trendpre <- ifelse(slope() > 0, "+", "")
+
+    #Text with well id
+    output$selected_station = renderText({
+      paste0("Observation Well: ",click_station())})
+
+    output$AquiferURLs <- renderText({
+      HTML(paste0("<div>", "<strong>Learn more about this well:</strong>", "<br>",
+      "<a href='https://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html'",
+      ">Groundwater Level Data & Information</a"), "<br>",
+      "<a href='https://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html'",
+      ">Aquifer Summary</a", "</div>")
+    })
+
+  if(newState == "Too many missing observations to perform trend analysis"
+     | newState == "Recently established well; time series too short for trend analysis"){
+
+    output$trendResult <- renderText({paste0(state())})}
+
+
+    if(newState == "Increasing" | newState == "Stable" | newState == "Moderate Rate of Decline" |
+       newState == "Large Rate of Decline"){
+
+      output$trendResult <- renderText({
+        background_color = colour_box[colour_box$state == as.character(state()), "color"]
+        HTML(paste0("<div style='background-color:",background_color,"'>",
+                    paste0("Trend Category: <br>", state(), "<br> ", trendpre, " ",
+                           #format(slope() * 365, digits = 2, nsmall = 2,
+                           format(slope(), digits = 2, nsmall = 2,
+                                  scientific = FALSE), " m/year"),
+                    "</div>")) })}
+
+
+
   })
 
-  #Text with well id
-  output$selected_station = renderText({
-    paste0("Observation Well: ",click_station())})
+
+
+  #Colour selector for results text box
+  colour_box <- data.frame(state=c("Large Rate of Decline", "Moderate Rate of Decline", "Stable", "Increasing", "Too many missing observations to perform trend analysis",
+                                   "Recently established well; time series too short for trend analysis"),
+                           color=c("darkorange", "#FFC300", "#999999", "#BCDEFF", "#EEEEEE", "white"))
+
 
   #Plot
   output$plot <- renderPlot({
@@ -138,8 +187,8 @@ server <- function(input, output) {
     groundwater_level_plot(data = monthlywells_ts,
                       variable_choice = "input$user_var_choice",
                       clicked_station = click_station(),
-                      stations_shapefile = wells_sf,
-                      slopes = "senslope_dat()")#,
+                      trend_results = results_out)#,
+                      #slopes = "senslope_dat()")#,
                       #caption_label = "date_choice_label()")
 
 
@@ -166,13 +215,17 @@ server <- function(input, output) {
       addLayersControl(baseGroups = c("CartoDB","Streets","Terrain"),
                        options = layersControlOptions(collapsed = F),
                        position = 'bottomleft') %>%
+      addPolygons(data = regions_sf, label = paste(regions_sf$RGN_RG_NTM), color = "white", fillColor = "#C8D7E5", weight = 2, smoothFactor = 0.5,
+                  opacity = 1.0, fillOpacity = 0.5,
+                  highlightOptions = highlightOptions(color = "#979B9D", weight = 2,
+                                                      bringToFront = FALSE)) %>%
       addCircleMarkers(layerId = ~Well_Num,
                      color = 'black',
                      fillColor = ~mypal(state),
                      radius = 5,
                      weight = 1,
                      fillOpacity = 0.8,
-                     label = ~paste0("Well No. ",Well_Num, " - ",state),
+                     label = ~paste0("Well No. ",Well_Num, " - ",state_short),
                      data = wells_sf) #%>%
       # addLegend(pal = mypal(), #This doesn't work
       #           values = ~state,
@@ -182,18 +235,6 @@ server <- function(input, output) {
   })
 
 
-  colour_box <- data.frame(state=c("Large Rate of Decline", "Moderate Rate of Decline", "Stable", "Increasing", "Too many missing observations to perform trend analysis",
-                                   "Recently established well; time series too short for trend analysis"),
-                           color=c("darkorange", "#FFC300", "#999999", "#BCDEFF", "#EEEEEE", "white"))
-
-  output$trendResult <- renderText({
-    background_color = colour_box[colour_box$state == as.character(state()), "color"]
-    HTML(paste0("<div style='background-color:",background_color,"'>",
-                paste0("Trend Category: ", state(),
-                       " ",
-                       slope()),
-                "</div>"))
-  })
 
   output$table <- renderTable({well_num()})
 
