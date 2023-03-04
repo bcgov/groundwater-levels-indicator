@@ -1,8 +1,19 @@
 
-#Create provincial summary plot
+#This file contains functions used in the Groundwater Indicator Shiny app scripts.
+#Includes:
+#   1) prov_summary_plot(data) - creates provincial summary bar plot
+#      based on groundwater well trend statistics
+#   2) regional_summary_plot(data) - creates regional summary bar plot
+#      based on groundwater well trend statistics
+#   3) groundwater_level_plot(data, clicked_station,trend_results) - creates groundwater water
+#      graphs with interpolated values and trend lines (for wells with significant trends)
+
+
+##########################################################
+#Define function to create regional summary plot
 prov_summary_plot <- function(data){
 
-#Count the number of wells in each category and calculate the proportion
+#Count the number of wells in each state and calculate the respective proportions
 input_summary <- data %>%
   group_by(state) %>%
   summarize("count"=n()) %>%
@@ -15,7 +26,7 @@ input_summary <- data %>%
   mutate(total_no_wells = nrow(data)) %>%
   mutate(prop = (count/total_no_wells)*100) %>%
   mutate("no_wells_lab" = paste0(count, " wells")) %>%
-  mutate(label_x = cumsum(count))
+  mutate(label_x = cumsum(count)) #Calculate the total count of wells for bar graph label
 
 #Create field for barplot labels
 # bar_labels <- input_summary %>%
@@ -36,6 +47,7 @@ barlab=levels(as.factor(input_summary$state ))
 #   input_summary <- input_summary %>%
 #     mutate(label_x = cumsum(count))
 
+#Create provincial summary bargraph
 ggplot(data=input_summary) +
   geom_col(mapping=aes(x=prop, y=state, fill=state, width = 0.5)) +
   scale_fill_manual(label=barlab, values=barcol) +
@@ -51,8 +63,8 @@ ggplot(data=input_summary) +
   theme(legend.position="none")
 
 }
-
-#Create regional summary plot
+##########################################################
+#Define function to create regional summary plot
 regional_summary_plot <- function(data){
 
 #Summarize results by region and count wells in each state
@@ -71,13 +83,13 @@ bar_labels_r <- input_regional %>%
   group_by(REGION_NAME) %>%
   summarize("no_wells"=sum(count)) %>%
   mutate("no_wells_lab" = paste0(no_wells, " wells")) %>%
-  mutate(prop_tot = (no_wells/length(unique(data$Well_Num)))*100) #added
+  mutate(prop_tot = (no_wells/length(unique(data$Well_Num)))*100) #Calculate total proportion for graph scale
 
 
 #Add total number of wells to regional input dataset
 input_regional <- right_join(input_regional, bar_labels_r) %>%
   mutate(total_no_wells = length(unique(data$Well_Num))) %>% #added
-  mutate(prop = (count/total_no_wells)*100) #added
+  mutate(prop = (count/total_no_wells)*100) #Calculate proportion on total number of wells
 
 #Define factor levels for barplot colouring and ordering
 input_regional$REGION_NAME <-factor(input_regional$REGION_NAME, c("West Coast", "Thompson / Okanagan", "South Coast", "Skeena", "Omineca",
@@ -88,6 +100,7 @@ input_regional$state <- factor(input_regional$state, c("Large Rate of Decline", 
 barcolr=levels(as.factor(input_regional$col))
 barlabr=levels(as.factor(input_regional$state))
 
+#Create regional summary plot
 ggplot(data=input_regional) +
   geom_col(mapping=aes(x=prop, y=REGION_NAME, fill=state, width = 0.5)) +
   scale_fill_manual(label=barlabr, values=barcolr) +
@@ -104,30 +117,28 @@ ggplot(data=input_regional) +
 
 }
 
-#Create groundwater level plot and trend line
+##########################################################
+#Define function to create groundwater level plot and trend line
 groundwater_level_plot = function(data,variable_choice,clicked_station,trend_results,slopes){
 
-
+#If no selection, print "No selection" - set as default when app opens
   if(clicked_station == 'No selection'){
       ggplot() +
         geom_text(aes(x=1,y=1,label='Click a station on the map to see its plot.')) +
         ggthemes::theme_map()
     } else {
 
-      # plot_units = fcase(
-      #   variable_choice %in% c('Mean','Median','Total_Volume_m3','Min_7_Day') , '(m<sup>3</sup>/second)',
-      #   variable_choice == 'Date of 50% Annual Flow' , ""
-      # )
-
+      #If a well is selected (clicked on Leaflet map) - select data only for that well
       well_num = trend_results %>%
           filter(Well_Num == clicked_station)
 
       well_levels = left_join(well_num, data, by=c("Well_Num" = "Well_Num"), multiple = "all") %>%
         mutate(Date = as_date(ymd(Date)))
 
+      #Identify interpolated values (values with zero readings)
       nZeroReadings <- filter(well_levels, nReadings==1) #Change this to 0
 
-      #Water level limits
+      #Define water level limits for plot creation
       maxgwl = max(well_levels$med_GWL, na.rm = TRUE)
       mingwl = min(well_levels$med_GWL, na.rm = TRUE)
       gwlrange = maxgwl - mingwl
@@ -135,11 +146,12 @@ groundwater_level_plot = function(data,variable_choice,clicked_station,trend_res
       lims  = c(midgwl + gwlrange, midgwl - gwlrange)
       well_levels$max_lims <- max(lims[1], max(well_levels$med_GWL, na.rm = TRUE) + 5)
 
-      #Date variables
+      #Define date limits for plot creation
       minDate = as.Date(min(well_levels$Date))
       maxDate = as.Date(max(well_levels$Date))
       nYears <- as.numeric(difftime(maxDate, minDate, units = "days"))/365
 
+      #Define base plot with only water levels
         plot <- ggplot(well_levels, aes_string(x = "Date")) +
           geom_ribbon(aes_string(ymin = "med_GWL",
                                  ymax = "max_lims",
@@ -166,6 +178,7 @@ groundwater_level_plot = function(data,variable_choice,clicked_station,trend_res
           scale_fill_manual(name = '', values = c('Groundwater Level' = "#1E90FF"))
 
 
+        #If interpolated values were identified, add point element to chart and legend
         if(nrow(nZeroReadings)>0){
           plot <- plot +
             geom_point(data = well_levels[well_levels$nReadings == 1,], #Change back to 0
@@ -177,20 +190,21 @@ groundwater_level_plot = function(data,variable_choice,clicked_station,trend_res
         }
 
 
+        #Print plots for wells without significant trends (water level and interpolated points only)
         if(well_num$state == "Stable" | well_num$state == "Too many missing observations to perform trend analysis" |
           well_num$state == "Recently established well; time series too short for trend analysis"){
 
-          plot +
-            labs(title = "Working?")}
+          plot }
 
-      if(well_num$state == "Increasing" | well_num$state == "Moderate Rate of Decline" |
-           well_num$state == "Large Rate of Decline"){
+      else{
 
-      #Trendline info
+      #For wells with significant trends (increasing, moderate rate of decline, or large rate of decline)
+      #Add trend line information
       slope = as.numeric(well_num$trend_line_slope)/365/12
       intercept = as.numeric(well_num$trend_line_int)
       int.well = intercept + slope * as.numeric(minDate)
 
+      #If interpolated values present, add trend line to chart and both line and points to legend and print plot
       if(nrow(nZeroReadings)>0){
         plot +
           geom_abline(aes_string(intercept = "intercept", slope = "slope", colour = "'LTT'"),
@@ -199,6 +213,7 @@ groundwater_level_plot = function(data,variable_choice,clicked_station,trend_res
                               labels = c('Long-term Trend', 'Interpolated (Missing) Values'),
                               guide = guide_legend(override.aes = list(colour = c("orange", "grey60"), shape = c(NA, 16), linetype = c(1, 0))))
       }else {
+        #If no interpolated values present, only add trend line to chart and legend and print plot
         plot +
           geom_abline(aes_string(intercept = "intercept", slope = "slope", colour = "'LTT'"),
                       data = data.frame(intercept = -int.well, slope = slope), size = 1) +

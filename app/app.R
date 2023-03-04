@@ -44,7 +44,7 @@ ui <- fluidPage(
     column(5,
            plotOutput("summary_plot", height = 400)),
       column(7,
-             plotOutput("regional_plot", height = 400)),
+             plotOutput("regional_plot", height = 440)),
 
 
   )
@@ -61,7 +61,7 @@ server <- function(input, output) {
   observeEvent(input$time_scale, {
     if(input$time_scale == 'Monthly'){
       updateSelectizeInput(inputId = 'user_var_choice',
-                           choices = c("Monthly Mean" = "Mean", "Monthly Minimum" = "Minimum")
+                           choices = c("Monthly Median" = "Mean")
       )
     }
     if(input$time_scale == 'Yearly'){
