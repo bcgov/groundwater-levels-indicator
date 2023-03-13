@@ -327,12 +327,15 @@ colrs <- c("Stable or Increasing" = "#deebf7",
 
 legend_order <- names(colrs)
 
-#source function for aligning sf object with ggmap object
+#source function for aligning sf object with ggmap object.  ## LH - error with this. Replaced with ggmap.
 devtools::source_gist("1467691edbc1fd1f7fbbabd05957cbb5", 
                       filename = "ggmap_sf.R")
 
+
+
 #plot
-summary_map <- ggmap_sf(ggMapBC, extent = "device") + 
+#summary_map <- ggmap_sf(ggMapBC, extent = "device") + 
+summary_map <- ggmap(ggMapBC, extent="device") + 
   coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
   geom_sf(data = nrr_simp, fill = NA, inherit.aes = FALSE, size = 0.15) + 
   coord_sf(datum = NA) +
