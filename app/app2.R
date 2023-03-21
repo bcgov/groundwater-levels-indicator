@@ -25,7 +25,6 @@ source('functions.R')
 
 ## Load data
 results_out <- read.csv("data/gw_well_results.csv") %>%
-  rename("region_name" = REGION_NAME) %>%
   mutate(state_short = ifelse(state == "Recently established well; time series too short for trend analysis",
                               "Recently established well", ifelse(state == "Too many missing observations to perform trend analysis",
                                                                   "Too many missing observations", state)))
@@ -40,17 +39,18 @@ results_t <- results_out %>%
   pivot_wider(., names_from = combined, values_from = state_short)
 
 wells_sf <- read_sf("data/gw_well_attributes.gpkg") %>%
-  st_transform(crs = 4326)
+  st_transform(crs = 4326) %>%
+  select(-Results_All, -Results_10yrs, -Results_20yrs) %>%
+  mutate(Well_Num = as.integer(Well_Num))
 
 wells_sf_full <- right_join(wells_sf, results_t, by=c("Well_Num"="Well_Num"))
 ###
 
 
-monthlywells_ts <- read.csv("data/gwl_monthly.csv")
+monthlywells_ts <- read.csv("data/GWL_Monthly_Medians.csv")
 
-regions_sf <- read_sf("data/ADM_NR_DST_polygon_dissolved.gpkg") %>%
+regions_sf <- read_sf("data/nr_polygons.gpkg") %>%
   st_transform(crs = 4326) %>%
-  mutate(REGION_NAME = RGN_RG_NTM) %>%
   mutate(region_name = str_remove_all(REGION_NAME, " Natural Resource Region")) %>%
   mutate(region_name = ifelse(region_name == "Thompson-Okanagan", "Thompson / Okanagan",
                               ifelse(region_name == "Kootenay-Boundary", "Kootenay / Boundary", region_name)))
@@ -924,7 +924,7 @@ well_attr <- as.data.frame(wells_sf) %>%
                        position = 'topright') %>%
       addPolygons(layerId = ~OBJECTID,
                   data = region_selected(),
-                  label = ~paste0(RGN_RG_NTM), color = "white", fillColor = "#C8D7E5",
+                  label = ~paste0(REGION_NAME), color = "white", fillColor = "#C8D7E5",
                   weight = 1.5, smoothFactor = 0.5,opacity = 1.0, fillOpacity = 0.5,
                   highlightOptions = highlightOptions(color = "#979B9D", weight = 2,
                                                       bringToFront = FALSE)) %>%

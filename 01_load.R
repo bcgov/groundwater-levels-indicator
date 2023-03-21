@@ -40,13 +40,13 @@ if(!dir.exists('data'))dir.create("data", showWarnings = FALSE)
 ## CHRIS ADDITION - START ##
 
 # Original download link broken. Attempting to get data directly from BC Data Catalogue.
-obs_wells = bcdata::bcdc_query_geodata('groundwater-wells') %>% 
+obs_wells_in = bcdata::bcdc_query_geodata('groundwater-wells') %>% 
   filter(!is.na(WELL_TAG_NUMBER),
          !is.na(WELL_STATUS)) %>% 
   collect() %>% 
   setNames(snakecase::to_snake_case(colnames(.)))
 
-obs_wells = obs_wells %>% 
+obs_wells = obs_wells_in %>% 
   ##Filter out observations with no observation well status or number (the vast majority!)
   # filter(!is.na(observation_well_status)) %>% 
   # filter(!is.na(observation_well_number)) %>% 
@@ -55,7 +55,7 @@ obs_wells = obs_wells %>%
   #Make column names 'R-friendly'
   setNames(snakecase::to_snake_case(colnames(.))) %>% 
   #Narrow down columns.
-  dplyr::select(observation_well_number, id, 
+  dplyr::select(observation_well_number, ems_id, 
                 well_tag_number, construction_end_date, #general_remarks, other_information,
                 observation_well_status, aquifer_type = aquifer_material,
                 aquifer_id, total_depth_drilled,

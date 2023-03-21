@@ -152,7 +152,7 @@ groundwater_level_plot = function(data,period_choice,var_choice,month_choice,cli
         mutate(Date = as_date(ymd(Date)))
 
       #Identify interpolated values (values with zero readings)
-      nZeroReadings <- filter(well_levels, nReadings==1) #Change this to 0
+      nZeroReadings <- filter(well_levels, nReadings==0)
 
       #Define water level limits for plot creation
       maxgwl = max(well_levels$med_GWL, na.rm = TRUE)
@@ -219,7 +219,7 @@ groundwater_level_plot = function(data,period_choice,var_choice,month_choice,cli
 
           #For wells with significant trends (increasing, moderate rate of decline, or large rate of decline)
           #Add trend line information
-          slope = as.numeric(well_num$trend_line_slope)/365/12
+          slope = -as.numeric(well_num$trend_line_slope)/365
           intercept = as.numeric(well_num$trend_line_int)
           int.well = intercept + slope * as.numeric(minDate)
 
@@ -276,7 +276,7 @@ groundwater_level_plot = function(data,period_choice,var_choice,month_choice,cli
         #If interpolated values were identified, add point element to chart and legend
         if(nrow(nZeroReadings)>0){
           plot <- plot +
-            geom_point(data = well_levels[well_levels$nReadings == 1,], #Change back to 0
+            geom_point(data = well_levels[well_levels$nReadings == 0,],
                        aes_string(y = "med_GWL", colour = "'Interp'"),
                        size = 0.5) +
             scale_colour_manual(name = '', values = c(Interp = 'grey60'),
@@ -295,7 +295,7 @@ groundwater_level_plot = function(data,period_choice,var_choice,month_choice,cli
 
       #For wells with significant trends (increasing, moderate rate of decline, or large rate of decline)
       #Add trend line information
-      slope = as.numeric(well_num$trend_line_slope)/365/12
+      slope = -as.numeric(well_num$trend_line_slope)/365
       intercept = as.numeric(well_num$trend_line_int)
       int.well = intercept + slope * as.numeric(minDate)
 
@@ -438,3 +438,5 @@ sf_filter <- function(period, time_scale, month){
 #   scale_fill_manual(values = c('tomato','cyan3','magenta',
 #                                'transparent','transparent','transparent'))+
 #   theme(legend.position = 'none')
+
+
