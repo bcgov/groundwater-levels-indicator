@@ -7,10 +7,11 @@
 #      based on groundwater well trend statistics
 #   3) groundwater_level_plot(data, clicked_station,trend_results) - creates groundwater water
 #      graphs with interpolated values and trend lines (for wells with significant trends)
+#   4) sf_filter <- function(period, time_scale, month) - selects state column based on input filters
 
 
 ##########################################################
-#Define function to create regional summary plot
+#1. Define function to create regional summary plot
 prov_summary_plot <- function(data){
 
   #Filter out wells with no state
@@ -22,16 +23,24 @@ prov_summary_plot <- function(data){
 input_summary <- data %>%
   group_by(state) %>%
   summarize("count"=n()) %>%
-  mutate( col = case_when(
+  mutate(col = case_when(
     state == "Stable" ~ "gray70",
     state == "Moderate Rate of Decline" ~ "orange",
     state == "Large Rate of Decline" ~ "darkorange",
     state == "Increasing" ~ "skyblue2"
   )) %>%
+  mutate(order = case_when(
+    state == "Stable" ~ 2,
+    state == "Moderate Rate of Decline" ~ 3,
+    state == "Large Rate of Decline" ~ 4,
+    state == "Increasing" ~ 1
+  )) %>%
   mutate(total_no_wells = nrow(data)) %>%
   mutate(prop = (count/total_no_wells)*100) %>%
   mutate("no_wells_lab" = ifelse(count>1, paste0(count, " wells"), paste0(count, " well"))) %>%
-  mutate(label_x = cumsum(count)) #Calculate the total count of wells for bar graph label
+  mutate(label_x = cumsum(count))  %>% #Calculate the total count of wells for bar graph label
+  arrange(order) %>%
+  mutate(col = as.factor(col), state = factor(state))
 
 #Create field for barplot labels
 # bar_labels <- input_summary %>%
@@ -42,12 +51,12 @@ input_summary <- data %>%
 # input_summary <- right_join(input_summary, bar_labels)
 
 #Define factor levels for barplot colouring
-input_summary$col <- factor(input_summary$col, c("darkorange", "orange", "gray70", "skyblue2"))
-input_summary$state <- factor(input_summary$state, c("Large Rate of Decline", "Moderate Rate of Decline", "Stable", "Increasing"))
+input_summary$col <- factor(input_summary$col, levels=rev(input_summary$col))
+input_summary$state <- factor(input_summary$state, levels=rev(input_summary$state))
 
 #Define factor levels for barplot colouring and legend
-barcol=levels(as.factor(input_summary$col))
-barlab=levels(as.factor(input_summary$state ))
+barcol = levels(input_summary$col)
+barlab = levels(input_summary$state)
 #
 #   input_summary <- input_summary %>%
 #     mutate(label_x = cumsum(count))
@@ -58,8 +67,8 @@ ggplot(data=input_summary) +
   scale_fill_manual(label=barlab, values=barcol) +
   geom_text(aes(x=prop, y=state, label = no_wells_lab), hjust = -0.1) +
   scale_x_continuous(expand = c(0,0)) +
-  expand_limits(x=c(0,105)) +
-  guides(fill = guide_legend(reverse = TRUE, nrow=2))+
+  expand_limits(x=c(0,115)) +
+  #guides(fill = guide_legend(reverse = TRUE, nrow=2))+
   #labs(title = "Groundwater Wells by State") +
   xlab("Proportion of wells (%)") + ylab(NULL) +
   theme_classic() +
@@ -69,7 +78,7 @@ ggplot(data=input_summary) +
 
 }
 ##########################################################
-#Define function to create regional summary plot
+#2. Define function to create regional summary plot
 regional_summary_plot <- function(data){
 
   #Filter out wells with no state
@@ -129,8 +138,11 @@ ggplot(data=input_regional) +
 }
 
 ##########################################################
-#Define function to create groundwater level plot and trend line
+#3. Define function to create groundwater level plot and trend line
 groundwater_level_plot = function(data,period_choice,var_choice,month_choice,clicked_station,trend_results,slopes){
+
+  # trend_results <- results_out %>%
+  #   filter(period == "Yearly", time_scale == "All")
 
 #If no selection, print "No selection" - set as default when app opens
   if(clicked_station == 'No selection'){
@@ -139,53 +151,63 @@ groundwater_level_plot = function(data,period_choice,var_choice,month_choice,cli
         ggthemes::theme_map()
     } else {
 
-      #If 10 years selected, filter years of data shown
-      if(period_choice == "10 Years"){
-        data <- data %>% filter(Year >= 2012)
-      }
-
       #If a well is selected (clicked on Leaflet map) - select data only for that well
       well_num = trend_results %>%
-          filter(Well_Num == clicked_station)
+        filter(Well_Num == clicked_station)
+
+      #If a well is recently established
+      if(well_num$state_short == "Recently established well"){
+        ggplot() +
+          geom_text(aes(x=1,y=1,label='No plot available')) +
+          ggthemes::theme_map()
+      }else{
+
+      #If 10 years selected, filter years of data shown
+      if(var_choice == "10 Years"){
+        data <- data %>% filter(Year >= 2013)
+      }
+
+      #If 20 years selected, filter years of data shown
+      if(var_choice == "20 Years"){
+        data <- data %>% filter(Year >= 2003)
+      }
+
+        #If month selected, use monthly means
+        if(period_choice == "Monthly"){
+          data <- data %>% filter(stat == "mean")
+        }else{
+          data <- data %>% filter(stat == "median")
+        }
 
       well_levels = left_join(well_num, data, by=c("Well_Num" = "Well_Num"), multiple = "all") %>%
-        mutate(Date = as_date(ymd(Date)))
+        mutate(Date = as_date(ymd(Date))) %>%
+        mutate(Year = as.integer(Year))
 
       #Identify interpolated values (values with zero readings)
       nZeroReadings <- filter(well_levels, nReadings==0)
 
       #Define water level limits for plot creation
-      maxgwl = max(well_levels$med_GWL, na.rm = TRUE)
-      mingwl = min(well_levels$med_GWL, na.rm = TRUE)
+      maxgwl = max(well_levels$value, na.rm = TRUE)
+      mingwl = min(well_levels$value, na.rm = TRUE)
       gwlrange = maxgwl - mingwl
       midgwl = (maxgwl + mingwl)/2
       lims  = c(midgwl + gwlrange, midgwl - gwlrange)
-      well_levels$max_lims <- max(lims[1], max(well_levels$med_GWL, na.rm = TRUE) + 5)
+      well_levels$max_lims <- max(lims[1], max(well_levels$value, na.rm = TRUE) + 5)
 
       #Define date limits for plot creation
       minDate = as.Date(min(well_levels$Date))
       maxDate = as.Date(max(well_levels$Date))
       nYears <- as.numeric(difftime(maxDate, minDate, units = "days"))/365
 
-
-      if(var_choice == "Monthly"){
+      #Create bar charts if monthly selected
+      if(period_choice == "Monthly"){
 
         month_no <- as.numeric(match(month_choice,month.abb))
 
         well_levels_monthly <- well_levels %>%
           filter(Month == month_no)
 
-        #Define water level limits for plot creation
-        # maxgwl = max(ts$med_GWL, na.rm = TRUE)
-        # mingwl = min(ts$med_GWL, na.rm = TRUE)
-        # gwlrange = maxgwl - mingwl
-        # midgwl = (maxgwl + mingwl)/2
-        # lims  = c(midgwl + gwlrange, midgwl - gwlrange)
-        # ts$max_lims <- max(lims[1], max(ts$med_GWL, na.rm = TRUE) + 5)
-        # ts$colour <- ifelse(ts$nReadings ==1, "grey", "blue")
-
-
-        plot <- ggplot(data=well_levels_monthly, aes(x=Year, y=med_GWL, yend = max_lims, xend=Year)) +
+        plot <- ggplot(data=well_levels_monthly, aes(x=Year, y=value, yend = max_lims, xend=Year)) +
           geom_segment(aes(color = "Groundwater Level", linewidth = 0.5)) +
           labs(x = "Year", y = "Depth Below Ground (metres)") +
           scale_y_reverse(expand = c(0,0)) + coord_cartesian(ylim = lims) +
@@ -249,7 +271,7 @@ groundwater_level_plot = function(data,period_choice,var_choice,month_choice,cli
 
       #Define base plot with only water levels
         plot <- ggplot(well_levels, aes_string(x = "Date")) +
-          geom_ribbon(aes_string(ymin = "med_GWL",
+          geom_ribbon(aes_string(ymin = "value",
                                  ymax = "max_lims",
                                  fill = "'Groundwater Level'"), alpha = 0.3) +
           # labs(title = "Observed Long-term Trend in Groundwater Levels\n", x = "Date",
@@ -277,7 +299,7 @@ groundwater_level_plot = function(data,period_choice,var_choice,month_choice,cli
         if(nrow(nZeroReadings)>0){
           plot <- plot +
             geom_point(data = well_levels[well_levels$nReadings == 0,],
-                       aes_string(y = "med_GWL", colour = "'Interp'"),
+                       aes_string(y = "value", colour = "'Interp'"),
                        size = 0.5) +
             scale_colour_manual(name = '', values = c(Interp = 'grey60'),
                                 labels = c('Interpolated (Missing) Values'),
@@ -317,69 +339,60 @@ groundwater_level_plot = function(data,period_choice,var_choice,month_choice,cli
       }}
       }
     }
-}
+}}
+
 
 #################################################
-# #Define function to update region identification text
-#
-# regional_text_function <- function(region_data, region_name){
-#
-#   #Count missing wells
-#   well_state_count <- region_data %>%
-#     group_by(state) %>%
-#     summarize("count" = n()) %>%
-#     full_join(state_list, by=c("state"="unique(results_out$state)")) %>%
-#     mutate_all(~replace(., is.na(.), 0))
-#
-#   recent_cnt <- as.character(well_state_count[5,2])
-#   missing_cnt <- as.character(well_state_count[6,2])
-#
-#   #Report selected region
-#
-#     HTML(paste0("<div style='background-color:white; padding: 8px'>",
-#                 "<strong>Natural Resource Region: ", region_name,
-#                 "</strong> <br>",
-#                 "Count of recent wells: ", recent_cnt, "<br>",
-#                 "Count of wells with missing data: ", missing_cnt, "</div"))}
-
-#################################################
-#Function to select state based on input filters
+#4. Function to select state based on input filters
 
 sf_filter <- function(period, time_scale, month){
 
   if(period == "Yearly"){
   col <- case_when(time_scale == "All" ~ 16,
-                    time_scale == "10 Years" ~ 17)
+                   time_scale == "10 Years" ~ 17,
+                   time_scale == "20 Years" ~ 18)
 
   return(col)
 
   }
 
   if(period == "Monthly"){
-    col <- case_when(time_scale == "All" & month == "Jan" ~ 18,
-                       time_scale == "10 Years" & month == "Jan" ~ 19,
+    col <- case_when(time_scale == "All" & month == "Jan" ~ 19,
                        time_scale == "All" & month == "Feb" ~ 20,
-                       time_scale == "10 Years" & month == "Feb" ~ 21,
-                       time_scale == "All" & month == "Mar" ~ 22,
-                       time_scale == "10 Years" & month == "Mar" ~ 23,
-                       time_scale == "All" & month == "Apr" ~ 24,
-                       time_scale == "10 Years" & month == "Apr" ~ 25,
-                       time_scale == "All" & month == "May" ~ 26,
-                       time_scale == "10 Years" & month == "May" ~ 27,
-                       time_scale == "All" & month == "Jun" ~ 28,
-                       time_scale == "10 Years" & month == "Jun" ~ 29,
-                       time_scale == "All" & month == "Jul" ~ 30,
-                       time_scale == "10 Years" & month == "Jul" ~ 31,
-                       time_scale == "All" & month == "Aug" ~ 32,
-                       time_scale == "10 Years" & month == "Aug" ~ 33,
-                       time_scale == "All" & month == "Sep" ~ 34,
-                       time_scale == "10 Years" & month == "Sep" ~ 35,
-                       time_scale == "All" & month == "Oct" ~ 36,
-                       time_scale == "10 Years" & month == "Oct" ~ 37,
-                       time_scale == "All" & month == "Nov" ~ 38,
-                       time_scale == "10 Years" & month == "Nov" ~ 39,
-                       time_scale == "All" & month == "Dec" ~ 40,
-                       time_scale == "10 Years" & month == "Dec" ~ 41,)
+                       time_scale == "All" & month == "Mar" ~ 21,
+                       time_scale == "All" & month == "Apr" ~ 22,
+                       time_scale == "All" & month == "May" ~ 23,
+                       time_scale == "All" & month == "Jun" ~ 24,
+                       time_scale == "All" & month == "Jul" ~ 25,
+                       time_scale == "All" & month == "Aug" ~ 26,
+                       time_scale == "All" & month == "Sep" ~ 27,
+                       time_scale == "All" & month == "Oct" ~ 28,
+                       time_scale == "All" & month == "Nov" ~ 29,
+                       time_scale == "All" & month == "Dec" ~ 30,
+                     time_scale == "10 Years" & month == "Jan" ~ 31,
+                     time_scale == "10 Years" & month == "Feb" ~ 32,
+                     time_scale == "10 Years" & month == "Mar" ~ 33,
+                     time_scale == "10 Years" & month == "Apr" ~ 34,
+                     time_scale == "10 Years" & month == "May" ~ 35,
+                     time_scale == "10 Years" & month == "Jun" ~ 36,
+                     time_scale == "10 Years" & month == "Jul" ~ 37,
+                     time_scale == "10 Years" & month == "Aug" ~ 38,
+                     time_scale == "10 Years" & month == "Sep" ~ 39,
+                     time_scale == "10 Years" & month == "Oct" ~ 40,
+                     time_scale == "10 Years" & month == "Nov" ~ 41,
+                     time_scale == "10 Years" & month == "Dec" ~ 42,
+                    time_scale == "20 Years" & month == "Jan" ~ 43,
+                    time_scale == "20 Years" & month == "Feb" ~ 44,
+                    time_scale == "20 Years" & month == "Mar" ~ 45,
+                    time_scale == "20 Years" & month == "Apr" ~ 46,
+                    time_scale == "20 Years" & month == "May" ~ 47,
+                    time_scale == "20 Years" & month == "Jun" ~ 48,
+                    time_scale == "20 Years" & month == "Jul" ~ 49,
+                    time_scale == "20 Years" & month == "Aug" ~ 50,
+                    time_scale == "20 Years" & month == "Sep" ~ 51,
+                    time_scale == "20 Years" & month == "Oct" ~ 52,
+                    time_scale == "20 Years" & month == "Nov" ~ 53,
+                    time_scale == "20 Years" & month == "Dec" ~ 54)
 
     return(col)
 
@@ -388,55 +401,6 @@ sf_filter <- function(period, time_scale, month){
 
 }
 
-#Monthly plot function
 
-# data <- results_out %>%
-#   filter(period == "All", time_scale == "Monthly", Well_Num == 262) %>%
-#   filter(month == "Jan") %>%
-#   mutate(month_no = as.numeric(match(month,month.abb)))
-#
-#
-# ts <- monthlywells_ts %>%
-#   filter(Well_Num == data$Well_Num, Month == data$month_no)
-#
-# #Define water level limits for plot creation
-# maxgwl = max(ts$med_GWL, na.rm = TRUE)
-# mingwl = min(ts$med_GWL, na.rm = TRUE)
-# gwlrange = maxgwl - mingwl
-# midgwl = (maxgwl + mingwl)/2
-# lims  = c(midgwl + gwlrange, midgwl - gwlrange)
-# ts$max_lims <- max(lims[1], max(ts$med_GWL, na.rm = TRUE) + 5)
-# ts$colour <- ifelse(ts$nReadings ==1, "grey", "blue")
-#
-# ggplot(data=ts, aes(x=Year, y=med_GWL, yend = max_lims, xend=Year)) +
-#   geom_segment(aes(color = "Groundwater Level", linewidth = 0.5)) +
-#   labs(x = "Year", y = "Depth Below Ground (metres)") +
-#   theme(
-#     text = element_text(colour = "black"),
-#     panel.grid.minor.x = element_blank(),
-#     panel.grid.major.x = element_blank(),
-#     axis.line = element_line(colour="grey50"),
-#     legend.position = "bottom", legend.box =  "horizontal",
-#     plot.title = element_text(hjust = 0.5),
-#     plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
-#   scale_y_reverse(expand = c(0,0)) + coord_cartesian(ylim = lims) +
-#   scale_x_continuous(expand = c(0,0)) +
-#   theme_classic() +
-#   theme(legend.position="bottom",
-#         legend.title=element_blank(),
-#         legend.box.just ="left") +
-#   scale_color_manual(breaks = c("Groundwater Level"),
-#                      values = c("Groundwater Level" = "#C6DDFD"),
-#                      guide=guide_legend(override.aes=list(linetype=c("solid"),
-#                                                           shape=c(NA), size=c(5)))) +
-#   scale_fill_manual(labels = "Groundwater Level", values = c("Groundwater Level" = "#C6DDFD"))
-#
-#
-# test <- ts %>%    geom_col(mapping=aes(x=Year, y=REGION_NAME, fill=colour, width = 0.5))value
-#   geom_bar(stat = 'identity')+
-#   #geom_text(aes(label=label),vjust=-0.5,fontface='bold')+
-#   scale_fill_manual(values = c('tomato','cyan3','magenta',
-#                                'transparent','transparent','transparent'))+
-#   theme(legend.position = 'none')
 
 

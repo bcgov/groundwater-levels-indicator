@@ -27,14 +27,15 @@ source('functions.R')
 results_out <- read.csv("data/gw_well_results.csv") %>%
   mutate(state_short = ifelse(state == "Recently established well; time series too short for trend analysis",
                               "Recently established well", ifelse(state == "Too many missing observations to perform trend analysis",
-                                                                  "Too many missing observations", state)))
+                                                                  "Too many missing observations", state))) %>%
+  mutate(slope = -1*trend_line_slope) #This is reversed due to how slope is reported (meters below ground surface)
 
 #Define unique states
 state_list <- as.data.frame(unique(results_out$state_short))
 
 #Use this to colour markers on map
 results_t <- results_out %>%
-  mutate(combined = paste0(time_scale, "-", period, "-", month)) %>%
+  mutate(combined = paste0(period, "-", time_scale, "-", month)) %>%
   select(Well_Num, state_short, combined) %>%
   pivot_wider(., names_from = combined, values_from = state_short)
 
@@ -44,10 +45,16 @@ wells_sf <- read_sf("data/gw_well_attributes.gpkg") %>%
   mutate(Well_Num = as.integer(Well_Num))
 
 wells_sf_full <- right_join(wells_sf, results_t, by=c("Well_Num"="Well_Num"))
-###
 
+monthlywells_ts <- read.csv("data/GWL_Monthly_Medians.csv") %>%
+  mutate(stat = "median", value = med_GWL) %>%
+  select(Well_Num, Year, Date, Month, stat, value, nReadings)
 
-monthlywells_ts <- read.csv("data/GWL_Monthly_Medians.csv")
+monthlywells_ts_mean <- read.csv("data/GWL_Monthly_Means.csv")  %>%
+  mutate(stat = "mean", value = mean_GWL) %>%
+  select(Well_Num, Year, Date, Month, stat, value, nReadings)
+
+monthly_readings <- rbind(monthlywells_ts, monthlywells_ts_mean)
 
 regions_sf <- read_sf("data/nr_polygons.gpkg") %>%
   st_transform(crs = 4326) %>%
@@ -62,31 +69,6 @@ names(maxmin) <- names(bbox_list[[1]])
 
 #Add x/y bounds to spatial file
 regions_sf <- bind_cols(regions_sf, maxmin)
-
-#Add this to an earlier script - downloads and intersections Natural Resource Regions polygon
-# library(bcdata)
-#
-# NR_regions_metadata <- bcdc_get_record("dfc492c0-69c5-4c20-a6de-2c9bc999301f") #this is the ID for the Public layer in the Data BC catalog
-# print(NR_regions_metadata)
-# NR_regions <- bcdc_query_geodata(NR_regions_metadata) %>%
-#   select(REGION_NAME) %>%
-#   collect()
-#
-# BC_outline_metadata <- bcdc_get_record("af9ceee9-6545-423e-b5f7-75872968704c") #this is the ID for the Public layer in the Data BC catalog
-# bc_boundary <- bcdc_query_geodata(BC_outline_metadata) %>%
-#   filter(QCST_TAG == "MAINLAND" | QCST_TAG == "ISLAND") %>%
-#   filter(AREA >= "2500000") %>%
-#   collect()
-#
-# regions_sf <- st_intersection(NR_regions, bc_boundary) %>%
-#   group_by(REGION_NAME) %>%
-#   summarize() %>%
-#   st_transform(crs = 4326) %>%
-#   mutate(region_name = str_remove_all(REGION_NAME, " Natural Resource Region")) %>%
-#   st_sf()
-
-#if (!exists("results_out"))    load("./data/analysis_data.RData")
-#if (!exists("monthlywells_ts")) load("./data/clean_well_data.RData")
 
 # Define UI for application
 ui <- fluidPage(
@@ -106,23 +88,28 @@ ui <- fluidPage(
              br()
       ))),
 
-
-    column(2,
-           radioButtons(inputId = "user_period_choice", label = "Time Range",
+        column(2,
+           radioButtons(inputId = "user_var_choice", label = "Time Range",
                         choices = c("All Data" = "All", "Last 10 Years (2012-2022)" = "10 Years",
                                     "Last 20 Years (2002-2022)" = "20 Years"), selected = "All")),
-
-
-
     column(3,
-           selectizeInput(inputId = "user_var_choice", label = "Metric to Display",
-                          choices = c("Mean Annual" = "Yearly", "Mean Monthly" = "Monthly"), selected = "Yearly")),
+           selectizeInput(inputId = "user_period_choice", label = "Metric to Display",
+                          choices = c("Mean Annual" = "Yearly", "Mean Monthly" = "Monthly"), selected = "Yearly"),
+
+    fluidRow(
+      column(3, offset = 1,
+             actionButton(inputId = "apply_selection", label = "Apply filters", class = "btn-primary")))),
 
     column(3,
            uiOutput("month_selector_UI")),
 
-  ),
+),
 
+fluidRow(
+  div(
+    style="padding: 8px; border-bottom: 1px solid #CCC; background: #EEEEEE;",
+    column(12,
+  htmlOutput("selection_text")))),
 
   fluidRow(
     div(
@@ -158,7 +145,7 @@ server <- function(input, output, session) {
   # 1. Define reactive monthly drop down user interface element
   #If "Monthly" selected, show month drop down menu
   output$month_selector_UI = renderUI({
-    if(input$user_var_choice == 'Yearly') return(NULL)
+    if(period_rv() == 'Yearly') return(NULL)
     selectizeInput(inputId = 'month_selector',
                    label = 'Month',
                    multiple = F,
@@ -181,43 +168,26 @@ server <- function(input, output, session) {
 
 
 ##############################################################
-#Define input data frames
+# Set up reactive values for user filter selection
 
-  #Split input results data set
-  # na_state <- results_out %>%
-  #   filter(is.na(period))
-  monthly_data <- results_out %>%
-    filter(time_scale == "Monthly") #%>%
-    #rbind(., na_state) #try this out
-  yearly_data <- results_out %>%
-    filter(time_scale == "Yearly") #%>%
-    #rbind(., na_state)
+  var_rv <- reactiveVal('All') #User period choice (All, 10 Years, or 20 Years)
+  period_rv <- reactiveVal('Yearly') #User variable choice (Yearly or Monthly)
+  month_rv <- reactiveVal('Jan') #User month choice, available when Monthly variable selected
 
-  #Month initial value
-  month_rv <- reactiveVal("NA")
-
+  #Define input data frames
   #Filter results data set by input variables
   filtered_data <- reactive({
 
-       if(input$user_var_choice == "Yearly"){
+       if(period_rv() == "Yearly"){
       filter(results_out,
-             time_scale == "Yearly",
-             period == input$user_period_choice)}
+             time_scale == var_rv(),
+             period == period_rv())}
 
     else{
       filter(results_out,
-             time_scale == "Monthly",
-             period == input$user_period_choice,
+             time_scale == var_rv(),
+             period == period_rv(),
              month == month_rv())}
-
-    #     if(input$user_var_choice == 'Yearly'){
-    #   filter(yearly_data,
-    #          period == input$user_period_choice)}
-    #
-    # else{
-    #   filter(monthly_data,
-    #          period == input$user_period_choice,
-    #          month == input$month_selector)}
 
   })
 
@@ -225,42 +195,65 @@ server <- function(input, output, session) {
   wells_map_start = reactive({
 
     #sf_filter function identifies specified results column on sf object
-    col <- sf_filter(period = input$user_var_choice,
-                     time_scale = input$user_period_choice,
+    col <- sf_filter(time_scale = var_rv(),
+                     period = period_rv(),
                      month = month_rv())
 
-    wells_sf_full %>%
-      mutate(state_short = .[[col]])
+    if(input$user_region_choice != 'All'){
+
+      well_markers <- filter(wells_sf_full, REGION_NAME == input$user_region_choice)
+
+      } else{ well_markers <- wells_sf_full }
+
+
+    well_markers %>%
+      mutate(state_short = .[[col]]) %>%
+      mutate(state_short = factor(state_short, c("Increasing",
+                                        "Stable",
+                                        "Moderate Rate of Decline",
+                                        "Large Rate of Decline",
+                                        "Too many missing observations",
+                                        "Recently established well"
+                                        )))
 
   })
 
+  #Count missing wells
+  well_state_count = reactive({
 
+    filter(filtered_data(), region_name == region_name()) %>%
+    group_by(state_short) %>%
+    summarize("count" = n()) %>%
+    right_join(state_list, by=c("state_short"="unique(results_out$state_short)")) %>%
+    mutate_all(~replace(., is.na(.), 0)) %>%
+    arrange(state_short)
+
+})
 
 #Define the input data frame for the output table element
 well_attr <- as.data.frame(wells_sf) %>%
   select(Well_Num, Well_Name, REGION_NAME, EMS_ID, Aquifer_Type, aquifer_id,
          Lat, Long, wellDepth_m, waterDepth_m, start_date, last_date, nYears, percent_missing) %>%
-  mutate(start_date = as.character(start_date), last_date = as.character(last_date))
+  mutate(start_date = as.character(start_date), last_date = as.character(last_date)) %>%
+  mutate(aquifer_id = replace(aquifer_id, is.na(aquifer_id), "NA"))
 
 #############################################################
 # Set up reactive values for user's click response
-
-  help <- reactiveVal("Blank")
 
   #Map selection values
   click_region <- reactiveVal('No selection') #well selection
   click_station <- reactiveVal('No selection') #region selection
   click_lat <- reactiveVal() #latitude of click selection
-  click_long <- reactiveVal() #lngitude of click selection
+  click_long <- reactiveVal() #longitude of click selection
   wells_map <- reactiveVal() #well spatial file selection
   region_selected <- reactiveVal(regions_sf) #region spatial file selection
 
   #Region attributes
   regional_subset <- reactiveVal() #subset results data by region
   region_name <- reactiveVal() #save selected region name
+  #well_state_count <- reactiveVal() #save count of well states
   recent_cnt <- reactiveVal() #count of wells too recent for trend analysis
   missing_cnt <- reactiveVal() #count of wells with too many missing values for trend analysis
-
 
   #Well attributes (Well Number, state, and trend slope)
   well_num = reactiveVal(well_attr) #well attribute table selection
@@ -296,8 +289,8 @@ well_attr <- as.data.frame(wells_sf) %>%
       region_name(newRegionName)
 
       #Filter wells shown on map
-      wells_selected_reg <- filter(wells_map_start(), REGION_NAME == input$user_region_choice)
-      wells_map(wells_selected_reg)
+      # wells_selected_reg <- filter(wells_map_start(), REGION_NAME == input$user_region_choice)
+      # wells_map(wells_selected_reg)
 
       #Filter output table data frame
       well <- filter(well_attr, REGION_NAME == input$user_region_choice)
@@ -307,33 +300,140 @@ well_attr <- as.data.frame(wells_sf) %>%
       region_data <- filter(filtered_data(), region_name == region_name())
       regional_subset(region_data)
 
-      #Update region plots
-      if(click_region() != 'No selection'){
-
-      }
+      newRecent <- as.character(well_state_count()[4,2])
+      recent_cnt(newRecent)
+      newMissing <- as.character(well_state_count()[6,2])
+      missing_cnt(newMissing)
 
       #Zoom map to selected region
       leafletProxy("leafmap", session) %>%
-        fitBounds(region_selected()$xmin, region_selected()$ymin, region_selected()$xmax, region_selected()$ymax)
+        fitBounds(region_selected()$xmin, region_selected()$ymin, region_selected()$xmax, region_selected()$ymax) %>%
+        clearMarkers() %>%
+        addCircleMarkers(layerId = ~Well_Num,
+                         color = 'black',
+                         fillColor = ~mypal(state_short),
+                         radius = 5,
+                         weight = 1,
+                         fillOpacity = 0.8,
+                         label = ~paste0("Well No. ", Well_Num, " - ",state_short),
+                         data = wells_map_start())
 
     }
 
   })
 
-  # 2. Selection reset button
+  # 2. Apply filters button
+  observeEvent(input$apply_selection, {
+
+    var_rv(input$user_var_choice)
+    period_rv(input$user_period_choice)
+    month_rv(input$month_selector)
+    if(is.null(month_rv())){month_rv('Jan')}
+
+    #If region selected, update region plot with selection
+          if(click_region() != 'No selection'){
+
+            var_rv(input$user_var_choice)
+            period_rv(input$user_period_choice)
+            month_rv(input$month_selector)
+            if(is.null(month_rv())){month_rv('Jan')}
+
+            newRecent <- as.character(well_state_count()[4,2])
+            recent_cnt(newRecent)
+            newMissing <- as.character(well_state_count()[6,2])
+            missing_cnt(newMissing)
+
+            #newRegion <- filter(regions_sf, OBJECTID == click_region())
+            #region_selected(newRegion)
+
+            #Filter results data frame by selected region
+            region_data <- filter(filtered_data(), region_name == region_name())
+            regional_subset(region_data)
+
+            #Keep regional well subset but update input data set
+            wells_selected_reg <- filter(wells_map_start(), REGION_NAME == region_name())
+            wells_map(wells_selected_reg)
+
+            leafletProxy("leafmap", session) %>%
+              fitBounds(region_selected()$xmin, region_selected()$ymin, region_selected()$xmax, region_selected()$ymax, options = leafletOptions(animate = FALSE)) %>%
+              clearMarkers() %>%
+              addCircleMarkers(layerId = ~Well_Num,
+                               color = 'black',
+                               fillColor = ~mypal(state_short),
+                               radius = 5,
+                               weight = 1,
+                               fillOpacity = 0.8,
+                               label = ~paste0("Well No. ", Well_Num, " - ",state_short),
+                               data = wells_map_start())
+
+          }
+
+    #If well selected, update well plot elements with selection
+          if(click_station() != 'No selection'){
+
+            var_rv(input$user_var_choice)
+            period_rv(input$user_period_choice)
+            month_rv(input$month_selector)
+            if(is.null(month_rv())){month_rv('Jan')}
+
+            #Update state of selected well
+            newState <- filter(filtered_data(), Well_Num==click_station()) %>%
+              select(state)
+            state(newState)
+            #Update slope of selected well
+            newSlope <- filter(filtered_data(), Well_Num==click_station()) %>%
+              select(slope)
+            slope(newSlope)
+            #Re-define trend prefix based on trend slope
+            newTrendpre <- ifelse(slope() > 0, "+", " ")
+            trendpre(newTrendpre)
+            #Update trend box background colour based on state
+            newBackground_color = colour_box[colour_box$state == as.character(state()), "color"]
+            background_color(newBackground_color)
+
+            #Keep selected well selected on map
+            leafletProxy("leafmap", session, data = wells_map_start()) %>%
+              clearMarkers() %>%
+              addCircleMarkers(layerId = ~Well_Num,
+                               color = 'black',
+                               fillColor = ~mypal(state_short),
+                               radius = 5,
+                               weight = 1,
+                               fillOpacity = 0.8,
+                               label = ~paste0("Well No. ", Well_Num, " - ",state_short),
+                               data = wells_map_start()) %>%
+              addCircleMarkers(lat = click_lat(), click_long(),
+                               group = "selected",
+                               fillColor = "yellow",
+                               fillOpacity = 1)
+
+          }
+
+          else{
+
+            leafletProxy("leafmap", session, data = wells_map_start()) %>%
+              clearMarkers() %>%
+              addCircleMarkers(layerId = ~Well_Num,
+                               color = 'black',
+                               fillColor = ~mypal(state_short),
+                               radius = 5,
+                               weight = 1,
+                               fillOpacity = 0.8,
+                               label = ~paste0("Well No. ", Well_Num, " - ",state_short),
+                               data = wells_map_start())}
+  })
+
+  # 3. Selection reset button
   observeEvent(input$reset, {
 
-    #Reset drop-downs
+    #Reset region selection
     updateSelectInput(inputId = "user_region_choice", selected = "All")
-    updateSelectInput(inputId = "user_var_choice", selected = "Yearly")
-    updateSelectInput(inputId = "user_period_choice", selected = "All")
-    updateSelectInput(inputId = "month_selector", selected = "Jan")
 
     #Reset table element
     well_num(well_attr)
 
     #Reset map zoom
-    leafletProxy("leafmap", session, data = wells_map()) %>%
+    leafletProxy("leafmap", session, data = wells_map_start()) %>%
       set_bc_view() %>%
       clearGroup("selected")
 
@@ -341,287 +441,6 @@ well_attr <- as.data.frame(wells_sf) %>%
     click_station('No selection')
     click_region('No selection')
     click_long(NULL)
-
-  })
-
-  # 3. Data set filtering with time period selection
-  observeEvent(input$user_period_choice, {
-
-      if(click_region() != 'No selection'){
-
-        #newRegion <- filter(regions_sf, OBJECTID == click_region())
-        #region_selected(newRegion)
-
-        #Filter results data frame by selected region
-        region_data <- filter(filtered_data(), region_name == region_name())
-        regional_subset(region_data)
-
-        #Keep regional well subset but update input data set
-        #wells_selected_reg <- filter(wells_map_start(), REGION_NAME == region_name())
-        #wells_map(wells_selected_reg)
-      }
-
-      #Keep selected well selected
-      if(click_station() != 'No selection'){
-
-        #Update state of selected well
-        newState <- filter(filtered_data(), Well_Num==click_station()) %>%
-          select(state)
-        state(newState)
-        #Update slope of selected well
-        newSlope <- filter(filtered_data(), Well_Num==click_station()) %>%
-          select(trend_line_slope)
-        slope(newSlope)
-        #Redefine trend prefix based on trend slope
-        newTrendpre <- ifelse(slope() > 0, "+", "") #This is reversed due to how slope is reported (meters below ground surface)
-        trendpre(newTrendpre)
-        #Update background colour based on state
-        newBackground_color = colour_box[colour_box$state == as.character(state()), "color"]
-        background_color(newBackground_color)
-
-        leafletProxy("leafmap", session, data = wells_map_start()) %>%
-          clearMarkers() %>%
-          addCircleMarkers(layerId = ~Well_Num,
-                           color = 'black',
-                           fillColor = ~mypal(state_short),
-                           radius = 5,
-                           weight = 1,
-                           fillOpacity = 0.8,
-                           label = ~paste0("Well No. ", Well_Num, " - ",state_short),
-                           data = wells_map_start()) %>%
-          addCircleMarkers(lat = click_lat(), click_long(),
-                           group = "selected",
-                           fillColor = "yellow",
-                           fillOpacity = 1)#}
-
-      }
-
-      else{
-
-        leafletProxy("leafmap", session, data = wells_map_start()) %>%
-          clearMarkers() %>%
-          addCircleMarkers(layerId = ~Well_Num,
-                           color = 'black',
-                           fillColor = ~mypal(state_short),
-                           radius = 5,
-                           weight = 1,
-                           fillOpacity = 0.8,
-                           label = ~paste0("Well No. ", Well_Num, " - ",state_short),
-                           data = wells_map_start())}
-
-    })
-
-##########################################################
- # 4. Data set filtering by time scale selection
-  observeEvent(input$user_var_choice, {
-
-    if(input$user_var_choice == 'Yearly'){
-
-      month_rv("NA")
-
-      if(click_station() != 'No selection' ){
-
-        newState <- filter(filtered_data(), Well_Num==click_station()) %>%
-          select(state)
-        state(newState)
-        #Return slope of selected well
-        newSlope <- filter(filtered_data(), Well_Num==click_station()) %>%
-          select(trend_line_slope)
-        slope(newSlope)
-        #Define trend prefix based on trend slope
-        newTrendpre <- ifelse(slope() > 0, "+", "") #This is reversed due to how slope is reported (meters below ground surface)
-        trendpre(newTrendpre)
-        newBackground_color = colour_box[colour_box$state == as.character(state()), "color"]
-        background_color(newBackground_color)
-
-        leafletProxy("leafmap", session, data = wells_map_start()) %>%
-          clearMarkers() %>%
-          addCircleMarkers(layerId = ~Well_Num,
-                           color = 'black',
-                           fillColor = ~mypal(state_short),
-                           radius = 5,
-                           weight = 1,
-                           fillOpacity = 0.8,
-                           label = ~paste0("Well No. ", Well_Num, " - ",state_short),
-                           data = wells_map_start()) %>%
-          addCircleMarkers(lat = click_lat(), click_long(),
-                           group = "selected",
-                           fillColor = "yellow",
-                           fillOpacity = 1)#}
-
-      }
-
-      if(click_region() != 'No selection'){
-
-        #Filter results data frame by selected region
-        region_data <- filter(filtered_data(), region_name == region_name())
-        regional_subset(region_data)
-
-        leafletProxy("leafmap", session, data = wells_map_start()) %>%
-          clearMarkers() %>%
-          addCircleMarkers(layerId = ~Well_Num,
-                           color = 'black',
-                           fillColor = ~mypal(state_short),
-                           radius = 5,
-                           weight = 1,
-                           fillOpacity = 0.8,
-                           label = ~paste0("Well No. ", Well_Num, " - ",state_short),
-                           data = wells_map_start())
-
-      }else{
-
-        if(!is.null(click_long())){
-
-          leafletProxy("leafmap", session, data = wells_map_start()) %>%
-            clearMarkers() %>%
-            addCircleMarkers(layerId = ~Well_Num,
-                             color = 'black',
-                             fillColor = ~mypal(state_short),
-                             radius = 5,
-                             weight = 1,
-                             fillOpacity = 0.8,
-                             label = ~paste0("Well No. ", Well_Num, " - ",state_short),
-                             data = wells_map_start()) %>%
-            addCircleMarkers(lat = click_lat(), click_long(),
-                             group = "selected",
-                             fillColor = "yellow",
-                             fillOpacity = 1)
-        }else{
-
-          leafletProxy("leafmap", session, data = wells_map_start()) %>%
-            clearMarkers() %>%
-            addCircleMarkers(layerId = ~Well_Num,
-                             color = 'black',
-                             fillColor = ~mypal(state_short),
-                             radius = 5,
-                             weight = 1,
-                             fillOpacity = 0.8,
-                             label = ~paste0("Well No. ", Well_Num, " - ",state_short),
-                             data = wells_map_start())}
-      }
-    }
-
-    if(input$user_var_choice == 'Monthly'){
-
-      updateSelectInput(inputId = "month_selector", selected = "Jan")
-      month_rv("Jan")
-
-
-
-        if(!is.null(click_long())){
-
-          leafletProxy("leafmap", session, data = wells_map_start()) %>%
-            clearMarkers() %>%
-            addCircleMarkers(layerId = ~Well_Num,
-                             color = 'black',
-                             fillColor = ~mypal(state_short),
-                             radius = 5,
-                             weight = 1,
-                             fillOpacity = 0.8,
-                             label = ~paste0("Well No. ", Well_Num, " - ",state_short),
-                             data = wells_map_start()) %>%
-            addCircleMarkers(lat = click_lat(), click_long(),
-                             group = "selected",
-                             fillColor = "yellow",
-                             fillOpacity = 1)
-        }else{
-
-          leafletProxy("leafmap", session, data = wells_map_start()) %>%
-            clearMarkers() %>%
-            addCircleMarkers(layerId = ~Well_Num,
-                             color = 'black',
-                             fillColor = ~mypal(state_short),
-                             radius = 5,
-                             weight = 1,
-                             fillOpacity = 0.8,
-                             label = ~paste0("Well No. ", Well_Num, " - ",state_short),
-                             data = wells_map_start())}
-
-
-
-}
-  })
-#####################################################
-  #5. Data set filtering with month selection
-  observeEvent(input$month_selector, {
-
-    req(input$user_var_choice == "Monthly")
-    month_rv(input$month_selector)
-
-    if(click_station() != 'No selection' ){
-
-      newState <- filter(filtered_data(), Well_Num==click_station()) %>%
-        select(state)
-      state(newState)
-      #Return slope of selected well
-      newSlope <- filter(filtered_data(), Well_Num==click_station()) %>%
-        select(trend_line_slope)
-      slope(newSlope)
-      #Define trend prefix based on trend slope
-      newTrendpre <- ifelse(slope() > 0, "+", "") #This is reversed due to how slope is reported (meters below ground surface)
-      trendpre(newTrendpre)
-      newBackground_color = colour_box[colour_box$state == as.character(state()), "color"]
-      background_color(newBackground_color)
-
-      leafletProxy("leafmap", session, data = wells_map_start()) %>%
-        clearMarkers() %>%
-        addCircleMarkers(layerId = ~Well_Num,
-                         color = 'black',
-                         fillColor = ~mypal(state_short),
-                         radius = 5,
-                         weight = 1,
-                         fillOpacity = 0.8,
-                         label = ~paste0("Well No. ", Well_Num, " - ",state_short),
-                         data = wells_map_start()) %>%
-        addCircleMarkers(lat = click_lat(), click_long(),
-                         group = "selected",
-                         fillColor = "yellow",
-                         fillOpacity = 1)#}
-
-    }
-
-    if(click_region() != 'No selection'){
-
-      # newRegion <- filter(regions_sf, OBJECTID == click_region())
-      # region_selected(newRegion)
-
-      #Filter results data frame by selected region
-      region_data <- filter(filtered_data(), region_name == region_name())
-      regional_subset(region_data)
-
-      leafletProxy("leafmap", session, data = wells_map_start()) %>%
-        clearMarkers() %>%
-        addCircleMarkers(layerId = ~Well_Num,
-                         color = 'black',
-                         fillColor = ~mypal(state_short),
-                         radius = 5,
-                         weight = 1,
-                         fillOpacity = 0.8,
-                         label = ~paste0("Well No. ", Well_Num, " - ",state_short),
-                         data = wells_map_start())
-
-      # #Keep regional well subset but update input data set
-      # wells_selected_reg <- filter(wells_map_start(), REGION_NAME == input$user_region_choice)
-      # wells_map(wells_selected_reg)
-      #
-      # #Zoom map to selected region
-      # leafletProxy("leafmap", session) %>%
-      #   fitBounds(region_selected()$xmin, region_selected()$ymin, region_selected()$xmax, region_selected()$ymax)
-
-    }
-    else{
-
-      leafletProxy("leafmap", session, data = wells_map_start()) %>%
-        clearMarkers() %>%
-        addCircleMarkers(layerId = ~Well_Num,
-                         color = 'black',
-                         fillColor = ~mypal(state_short),
-                         radius = 5,
-                         weight = 1,
-                         fillOpacity = 0.8,
-                         label = ~paste0("Well No. ", Well_Num, " - ",state_short),
-                         data = wells_map_start())
-    }
 
   })
 
@@ -642,7 +461,7 @@ well_attr <- as.data.frame(wells_sf) %>%
     click_lat(input$leafmap_marker_click$lat)
     click_long(input$leafmap_marker_click$lng)
 
-    #Filter output table data frame
+    # #Filter output table data frame
     well <- filter(well_attr, Well_Num==click_station())
     well_num(well)
 
@@ -663,7 +482,7 @@ well_attr <- as.data.frame(wells_sf) %>%
     state(newState)
     #Return slope of selected well
     newSlope <- filter(filtered_data(), Well_Num==click_station()) %>%
-      select(trend_line_slope)
+      select(slope)
     slope(newSlope)
     #Define trend prefix based on trend slope
     newTrendpre <- ifelse(slope() > 0, "+", "") #This is reversed due to how slope is reported (meters below ground surface)
@@ -740,24 +559,27 @@ well_attr <- as.data.frame(wells_sf) %>%
   ###################################################
   #Output element definitions
 
-  #Define colours for results text box
-  colour_box <- data.frame(state=c("Large Rate of Decline", "Moderate Rate of Decline", "Stable", "Increasing", "Too many missing observations to perform trend analysis",
-                                   "Recently established well; time series too short for trend analysis"),
-                           color=c("darkorange", "#FFC300", "#999999", "#BCDEFF", "#EEEEEE", "white"))
+  #1. Define output header text element
+  output$selection_text = renderText({
+
+    if(period_rv() == "Monthly"){
+    HTML(paste0("<div style='background-color:white; padding: 8px'>",
+                "<strong>Showing trend results for ",
+                month_rv(), " ", period_rv(), " means over ", var_rv(), " data",
+                 "</strong>", input$month_selector, "<br>", "</div"))
+    }
+    else{
+      HTML(paste0("<div style='background-color:white; padding: 8px'>",
+                  "<strong>Showing trend results for ",
+                  period_rv(), " means over ", var_rv(), " data", "</strong>",
+                  input$month_selector,"<br>", "</div"))
+
+    }
+    })
 
 
-
-
-  #Define output header text element
+  #2. Define output header text element
   output$selected_station = renderText({
-
-    # HTML(paste0("user_period_choice: ", input$user_period_choice, "<br>",
-    #             "user_var_choice: ", input$user_var_choice, "<br>",
-    #             "month_choice: ", input$month_selector, "<br>",
-    #             "help: ", help(), "<br>",
-    #             "well_click: ", click_station(), "<br>",
-    #             "month_rv: ", month_rv()))
-
 
   if(click_station() == 'No selection' & click_region() == 'No selection'){
     return(NULL)
@@ -772,22 +594,6 @@ well_attr <- as.data.frame(wells_sf) %>%
 
   }else{
 
-
-
-
-    #Count missing wells
-    well_state_count <- regional_subset() %>%
-      group_by(state_short) %>%
-      summarize("count" = n()) %>%
-      right_join(state_list, by=c("state_short"="unique(results_out$state_short)")) %>%
-      mutate_all(~replace(., is.na(.), 0)) %>%
-      arrange(state_short)
-
-    newRecent <- as.character(well_state_count[4,2])
-    recent_cnt(newRecent)
-    newMissing <- as.character(well_state_count[6,2])
-    missing_cnt(newMissing)
-
     #Report selected region
 
     HTML(paste0("<div style='background-color:white; padding: 8px'>",
@@ -799,7 +605,7 @@ well_attr <- as.data.frame(wells_sf) %>%
   })
 
 
-  #Define aquifer URL text element
+  #3. Define aquifer URL text element
   #Text element with observation well and aquifer information URLs
   output$AquiferURLs <- renderText({
 
@@ -813,6 +619,13 @@ well_attr <- as.data.frame(wells_sf) %>%
 
       }
   })
+
+  #4. Define trend result text element
+  #Define colours for results text box
+  colour_box <- data.frame(state=c("Large Rate of Decline", "Moderate Rate of Decline", "Stable", "Increasing", "Too many missing observations to perform trend analysis",
+                                   "Recently established well; time series too short for trend analysis"),
+                           color=c("darkorange", "#FFC300", "#999999", "#BCDEFF", "#FFC7D1", "white"))
+
 
   #Define trend result text element
   output$trendResult <- renderText({
@@ -838,17 +651,17 @@ well_attr <- as.data.frame(wells_sf) %>%
     }
       })
 
-  #Define plot feature
+  #5. Define plot feature
   output$plot <- renderPlot({
 
     if(click_region() == 'No selection'){
 
     #Function to create well water level plot
     #Variable choices commented out for now
-    groundwater_level_plot(data = monthlywells_ts,
-                      period_choice = input$user_period_choice,
-                      var_choice = input$user_var_choice,
-                      month_choice = input$month_selector,
+    groundwater_level_plot(data = monthly_readings,
+                      period_choice = period_rv(),
+                      var_choice = var_rv(),
+                      month_choice = month_rv(),
                       clicked_station = click_station(),
                       trend_results = filtered_data())#,
                       #slopes = "senslope_dat()")#,
@@ -862,55 +675,42 @@ well_attr <- as.data.frame(wells_sf) %>%
 
   })
 
+  #6. Define leaflet map element
+
   #Define well trend state as factors
   results_out$state_short <- factor(results_out$state_short, c("Increasing",
                                              "Stable",
                                              "Moderate Rate of Decline",
                                              "Large Rate of Decline",
-                                             "Recently established well",
-                                             "Too many missing observations"))
+                                             "Too many missing observations",
+                                             "Recently established well"
+                                             ))
 
-
-
-  #Define colour palette for map markers based on state
-  # mypal = reactive({
-  #   colorFactor(palette = c("skyblue2", "gray60", "orange", "darkorange", "gray90", "white"),
-  #               domain = wells_map(),
-  #               levels = c("Increasing",
-  #                          "Stable",
-  #                          "Moderate Rate of Decline",
-  #                          "Large Rate of Decline",
-  #                          "Recently established well",
-  #                          "Too many missing observations"),
-  #               ordered = T)
-  #
-  #
-  # })
 
   col_rv <- reactive({
 
-  col <- sf_filter(period = input$user_var_choice,
-                   time_scale = input$user_period_choice,
-                   month = input$month_selector)
-  #as.numeric(col)
+  col <- sf_filter(time_scale = var_rv(),
+                   period = period_rv(),
+                   month = month_rv())
 
   as.character(colnames(wells_sf_full[,col])[1])
 
   })
 
-  mypal = colorFactor(palette = c("skyblue2", "gray60", "orange", "darkorange", "gray90", "white"),
+  mypal = colorFactor(palette = c("skyblue2", "gray60", "orange", "darkorange", "pink", "white"),
                       domain = wells_map(),
                       levels = c("Increasing",
                                  "Stable",
                                  "Moderate Rate of Decline",
                                  "Large Rate of Decline",
-                                 "Recently established well",
-                                 "Too many missing observations"),
+                                 "Too many missing observations",
+                                 "Recently established well"
+                                 ),
                       ordered = T)
 
 
 
-  #Define leaflet map element
+
   output$leafmap <- renderLeaflet({
 
     leaflet() %>%
@@ -947,12 +747,11 @@ well_attr <- as.data.frame(wells_sf) %>%
                 position = 'bottomleft')
   })
 
-  #Define output data table
+  #7. Define output data table
   output$table <- renderDataTable({well_num()}, options = list(scrollX = TRUE))
 
 }
 # Run the application
 shinyApp(ui = ui, server = server)
-
 
 

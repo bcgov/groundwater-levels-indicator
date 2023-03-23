@@ -117,7 +117,7 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period, wel
            region_name, 
            start_year, end_year,
            start_date, last_date, nYears, percent_missing, trend_line_int, trend_line_slope, sig, state, category) %>%
-    mutate(period = time_period, time_scale = "Yearly", month = "NA") %>%
+    mutate(time_scale = time_period, period = "Yearly", month = "NA") %>%
     select(Well_Num, everything())
 
   
@@ -209,7 +209,7 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period, we
              region_name, 
              start_year, end_year,
              start_date, last_date, nYears, percent_missing, trend_line_int, trend_line_slope, sig, state, category) %>%
-      mutate(period = time_period, time_scale = "Monthly", month = month.abb[x]) %>%
+      mutate(time_scale = time_period, period = "Monthly", month = month.abb[x]) %>%
       select(Well_Num, everything())
     
   })
@@ -255,17 +255,15 @@ pivot_table <- rbind(results_annual, results_annual_10, results_annual_20) %>%
                               "Recently established well", ifelse(state == "Too many missing observations to perform trend analysis",
                                                                   "Too many missing observations", state))) %>% 
   mutate(state_sig = paste0(state_short, sig_symbol)) %>%
-  mutate(period_nm = case_when(period == "All" ~ "Results_All",
-                               period == "10 Years" ~ "Results_10yrs",
-                               period == "20 Years" ~ "Results_20yrs")) %>%
-  select(Well_Num, period_nm, state_sig) %>%
-  pivot_wider(., names_from = period_nm, values_from = state_sig) %>%
+  mutate(time_nm = case_when(time_scale == "All" ~ "Results_All",
+                             time_scale == "10 Years" ~ "Results_10yrs",
+                             time_scale == "20 Years" ~ "Results_20yrs")) %>%
+  select(Well_Num, time_nm, state_sig) %>%
+  pivot_wider(., names_from = time_nm, values_from = state_sig) %>%
   mutate(no_results = ifelse((Results_All == "Too many missing observations" | Results_All == "Recently established well") &
                                (Results_10yrs == "Too many missing observations" | Results_10yrs == "Recently established well") &
                                (Results_20yrs == "Too many missing observations" | Results_20yrs == "Recently established well"),
-                             "remove", "keep")) %>%
-  filter(no_results == "keep") %>%
-  select(-no_results)
+                             "remove", "keep"))
 
 results_for_table <- left_join(results_annual, obs_wells, by=c("Well_Num" = "Well_Num", "region_name"="region_name")) %>%
   mutate(Well_Name = paste0("Observation Well #", Well_Num)) %>%
@@ -279,14 +277,21 @@ results_for_table <- left_join(results_annual, obs_wells, by=c("Well_Num" = "Wel
 #Results spatial file for shiny app and RMarkdown
 results_sf <- obs_wells_sf %>%
   select(Well_Num) %>%
-  right_join(., results_for_table, by=c("Well_Num" = "Well_Num"))
+  right_join(., results_for_table, by=c("Well_Num" = "Well_Num")) %>%
+  select(-no_results)
+
+#Remove wells with no data for RMarkdown table
+results_for_table <- results_for_table %>%
+  filter(no_results == "keep") %>%
+  select(-no_results)
 
 #Write output files
-write_csv(results_out, "out/annual_results_all_data.csv")
-write_csv(results_for_app, "out/gw_well_results.csv")
-write_csv(results_for_table, "out/gw_well_table.csv")
-write_csv(monthlywells_ts, "out/GWL_Monthly_Medians.csv")
-write_sf(results_sf, "out/gw_well_attributes.gpkg")
+write.csv(results_out, "out/annual_results_all_data.csv")
+write.csv(results_for_app, "out/gw_well_results.csv")
+write.csv(results_for_table, "out/gw_well_table.csv")
+write.csv(monthlywells_ts, "out/GWL_Monthly_Medians.csv")
+write.csv(monthlywells_ts_mean, "out/GWL_Monthly_Means.csv")
+write.sf(results_sf, "out/gw_well_attributes.gpkg")
 
 ## Save results in a temporary directory
 save(results_out, file = "./tmp/analysis_data.RData")
