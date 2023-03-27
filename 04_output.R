@@ -110,28 +110,6 @@ bc_bar_chart <- ggplot(data=input_summary) +
   theme_classic() +
   theme(legend.position="none")
 
-# bc_bar_chart <- results_viz %>%
-#   group_by(category) %>%
-#   summarise(frequency = n()) %>%
-#   arrange(desc(category)) %>%
-#   mutate(percent = round(frequency/sum(frequency), digits = 2),
-#          position = cumsum(percent) - percent/2,
-#          geography = "British Columbia") %>% 
-#   ggplot(aes(x = geography, y = percent, fill = category)) +
-#   geom_bar(stat = "identity", alpha = 0.7) +
-#   scale_fill_manual(name = "", values = colour.scale) +
-#   geom_text(aes(y = position, label = paste0(frequency, " wells")),
-#             colour = label.colour, size = 5) +
-#   scale_y_continuous(expand = c(0, 0), breaks = seq(0, 1, .2),
-#                      limits = c(0, 1.04), labels = percent) +
-#   labs(y = "Percent of Groundwater Wells", x = " ") +
-#   theme_soe() +
-#   theme_barcharts +
-#   theme(panel.grid.major.x = element_blank(),
-#         legend.text = element_text(size = 16),
-#         axis.text.x = element_text(size = 16))
-
-
 #regional summary df
 #Summarize results by region and count wells in each state
 input_regional <- results_viz %>%
@@ -181,7 +159,7 @@ regional_bar_chart <- ggplot(data=input_regional) +
         legend.title=element_blank(),
         legend.direction="vertical")
 
-
+#Original script for leaflet web app
 # sum_data_reg <- results_viz %>%
 #   group_by(region_name, region_name_short, category) %>% #Ekaterina changed REGION_NAME to lowercase
 #   summarise(frequency = n()) %>%

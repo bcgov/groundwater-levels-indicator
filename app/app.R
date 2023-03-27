@@ -23,12 +23,12 @@ ui <- fluidPage(
   fluidRow(
 
     column(3,
-           radioButtons(inputId = "user_period_choice", label = "Time Range",
-                        choices = c("All Data" = "All", "Last 10 Years (2012-2022)" = "10 Years",
-                                    "Last 20 Years (2002-2022)" = "20 Years"), selected = "All")),
+           radioButtons(inputId = "user_var_choice", label = "Time Range",
+                        choices = c("All Data" = "All", "10 Years (2012-2022)" = "10 Years",
+                                    "20 Years (2002-2022)" = "20 Years"), selected = "All")),
 
     column(3,
-           selectizeInput(inputId = "user_var_choice", label = "Metric to Display",
+           selectizeInput(inputId = "user_period_choice", label = "Metric to Display",
                           choices = c("Mean Annual" = "Yearly", "Mean Monthly" = "Monthly"), selected = "Yearly")),
 
     column(3,
@@ -58,7 +58,7 @@ server <- function(input, output) {
 
   #Define reactive UI for months based on monthly mean selection
   output$month_selector_UI = renderUI({
-    if(input$user_var_choice == 'Yearly') return(NULL)
+    if(input$user_period_choice == 'Yearly') return(NULL)
     selectizeInput(inputId = 'month_selector',
                    label = 'Month',
                    multiple = F,
@@ -66,16 +66,11 @@ server <- function(input, output) {
                    selected = month.abb[1])
   })
 
-  #Split input data set to speed up processing?
-  # monthly_data <- input_dataframe %>%
-  #   filter(time_scale == "Monthly")
-  # yearly_data <- input_dataframe %>%
-  #   filter(time_scale == "Yearly")
 
  #Filter dataset by input variables
   filtered_data <- reactive({
 
-    if(input$user_var_choice == 'Yearly'){
+    if(input$user_period_choice == 'Yearly'){
     filter(input_dataframe,
            time_scale == input$user_var_choice,
            period == input$user_period_choice)}
@@ -92,7 +87,7 @@ server <- function(input, output) {
 
   observeEvent(input$month_selector, {
 
-  if(input$user_var_choice == 'Monthly'){
+  if(input$user_period_choice == 'Monthly'){
     filter(input_dataframe,
            period == input$user_period_choice,
            time_scale == input$user_var_choice,
@@ -110,11 +105,19 @@ server <- function(input, output) {
 
   output$summary_plot <- renderPlot({
 
+    req(input$user_period_choice)
+    if(input$user_period_choice=='Monthly'){
+      req(input$month_selector)}
+
     prov_summary_plot(filtered_data())
 
   })
 
   output$regional_plot <- renderPlot({
+
+    req(input$user_period_choice)
+    if(input$user_period_choice=='Monthly'){
+    req(input$month_selector)}
 
     regional_summary_plot(filtered_data())
 

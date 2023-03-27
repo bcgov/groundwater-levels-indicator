@@ -12,6 +12,7 @@ library(bslib)
 library(RColorBrewer)
 library(bcgroundwater)
 library(ggplot2)
+library(ggpubr)
 library(dplyr)
 library(tidyr)
 library(stringr)
@@ -90,26 +91,18 @@ ui <- fluidPage(
 
         column(2,
            radioButtons(inputId = "user_var_choice", label = "Time Range",
-                        choices = c("All Data" = "All", "Last 10 Years (2012-2022)" = "10 Years",
-                                    "Last 20 Years (2002-2022)" = "20 Years"), selected = "All")),
+                        choices = c("All Data" = "All", "10 Years (2012-2022)" = "10 Years",
+                                    "20 Years (2002-2022)" = "20 Years"), selected = "All")),
     column(3,
            selectizeInput(inputId = "user_period_choice", label = "Metric to Display",
                           choices = c("Mean Annual" = "Yearly", "Mean Monthly" = "Monthly"), selected = "Yearly"),
 
-    fluidRow(
-      column(3, offset = 1,
-             actionButton(inputId = "apply_selection", label = "Apply filters", class = "btn-primary")))),
+    ),
 
     column(3,
            uiOutput("month_selector_UI")),
 
 ),
-
-fluidRow(
-  div(
-    style="padding: 8px; border-bottom: 1px solid #CCC; background: #EEEEEE;",
-    column(12,
-  htmlOutput("selection_text")))),
 
   fluidRow(
     div(
@@ -119,16 +112,15 @@ fluidRow(
 
     fluidRow(
       column(6, htmlOutput("selected_station")),
-      column(2, htmlOutput("trendResult")),
-      column(4, htmlOutput("AquiferURLs")),
+      column(6, htmlOutput("trendResult")),
       column(6,
              plotOutput("plot", height = 400))),
 
 
   )),
 
-  fluidRow(column(
-    dataTableOutput("table"), width = 12)
+  fluidRow(
+    column(6, htmlOutput("AquiferURLs"))
 
   )
 )
@@ -184,6 +176,9 @@ server <- function(input, output, session) {
              period == period_rv())}
 
     else{
+
+      #req()
+
       filter(results_out,
              time_scale == var_rv(),
              period == period_rv(),
@@ -263,6 +258,7 @@ well_attr <- as.data.frame(wells_sf) %>%
   background_color = reactiveVal() #background colour of state
   aquifer_id = reactiveVal() #corresponding aquifer for selected well
   aquifer_url = reactiveVal() #url of corresponding aquifer
+  well_url = reactiveVal() #url of corresponding well
 
 ###########################################################
 #Event observations based on UI filter menus
@@ -323,10 +319,15 @@ well_attr <- as.data.frame(wells_sf) %>%
   })
 
   # 2. Apply filters button
-  observeEvent(input$apply_selection, {
+  observe({
+
+
 
     var_rv(input$user_var_choice)
     period_rv(input$user_period_choice)
+
+    req(input$month_selector)
+
     month_rv(input$month_selector)
     if(is.null(month_rv())){month_rv('Jan')}
 
@@ -470,11 +471,18 @@ well_attr <- as.data.frame(wells_sf) %>%
     aquifer_id(newAquifer)
     if(newAquifer!="NA"){
     newAquifer_url <- paste0("<a href=", "https://apps.nrs.gov.bc.ca/gwells/aquifers/",
-                             newAquifer, ">Aquifer Summary</a")}
+                             newAquifer, ">View available aquifer information</a")}
     else{
       newAquifer_url <- ""
     }
+
     aquifer_url(newAquifer_url)
+
+    #Return well URL
+
+     newWell_url <- paste0("<a href=", "https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=b53cb0bf3f6848e79d66ffd09b74f00d&find=OBS%20WELL%20",
+                               click_station(), ">View this well on the Provincial Groundwater Observation Well Network</a")
+     well_url(newWell_url)
 
     #Return state of selected well
     newState <- filter(filtered_data(), Well_Num==click_station()) %>%
@@ -520,65 +528,10 @@ well_attr <- as.data.frame(wells_sf) %>%
   })
 
 
-  # #3. Reset map if area outside map area is selected
-  # observeEvent(input$leafmap_click, {
-  #
-  #   region_click_info <- input$leafmap_shape_click
-  #   well_click_info <- input$leafmap_marker_click
-  #   map_click_info <- input$leafmap_click
-  #
-  #   #If click did not occur on the region, reset elements
-  #   if (!all(unlist(region_click_info[c('lat','lng')]) == unlist(map_click_info[c('lat','lng')]))){
-  #
-  #     #Reset all elements
-  #     region_in(regions_sf)
-  #     wells_map(wells_sf)
-  #     well_num(well_attr)
-  #
-  #     # #Reset map zoom
-  #     # leafletProxy("leafmap", session) %>%
-  #     #   set_bc_view()
-  #
-  #     #If click did not occur on a well, reset elements
-  #   }else if (!all(unlist(well_click_info[c('lat','lng')]) == unlist(map_click_info[c('lat','lng')]))){
-  #
-  #     #Reset all elements
-  #     region_in(regions_sf)
-  #     wells_map(wells_sf)
-  #     well_num(well_attr)
-  #
-  #     # #Reset map zoom
-  #     # leafletProxy("leafmap", session) %>%
-  #     #   set_bc_view()
-  #   }
-  #
-  # })
-
-
-
   ###################################################
   #Output element definitions
 
   #1. Define output header text element
-  output$selection_text = renderText({
-
-    if(period_rv() == "Monthly"){
-    HTML(paste0("<div style='background-color:white; padding: 8px'>",
-                "<strong>Showing trend results for ",
-                month_rv(), " ", period_rv(), " means over ", var_rv(), " data",
-                 "</strong>", input$month_selector, "<br>", "</div"))
-    }
-    else{
-      HTML(paste0("<div style='background-color:white; padding: 8px'>",
-                  "<strong>Showing trend results for ",
-                  period_rv(), " means over ", var_rv(), " data", "</strong>",
-                  input$month_selector,"<br>", "</div"))
-
-    }
-    })
-
-
-  #2. Define output header text element
   output$selected_station = renderText({
 
   if(click_station() == 'No selection' & click_region() == 'No selection'){
@@ -605,22 +558,21 @@ well_attr <- as.data.frame(wells_sf) %>%
   })
 
 
-  #3. Define aquifer URL text element
+  #2. Define aquifer URL text element
   #Text element with observation well and aquifer information URLs
   output$AquiferURLs <- renderText({
 
     if(click_station() != 'No selection' ){
 
       HTML(paste0("<div style='background-color:white; padding: 10px'>",
-                  "<strong>Learn more about this well:</strong>", "<br>",
-                  "<a href='https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=b53cb0bf3f6848e79d66ffd09b74f00d&find=OBS%20WELL%20124'",
-                  ">Groundwater Level Data & Information</a"), "<br>",
+                  "<strong>Learn more about this well:</strong>", "<br>"),
+           well_url(), "<br>",
            aquifer_url(),"</div>")
 
       }
   })
 
-  #4. Define trend result text element
+  #3. Define trend result text element
   #Define colours for results text box
   colour_box <- data.frame(state=c("Large Rate of Decline", "Moderate Rate of Decline", "Stable", "Increasing", "Too many missing observations to perform trend analysis",
                                    "Recently established well; time series too short for trend analysis"),
@@ -651,7 +603,7 @@ well_attr <- as.data.frame(wells_sf) %>%
     }
       })
 
-  #5. Define plot feature
+  #4. Define plot feature
   output$plot <- renderPlot({
 
     if(click_region() == 'No selection'){
@@ -663,9 +615,7 @@ well_attr <- as.data.frame(wells_sf) %>%
                       var_choice = var_rv(),
                       month_choice = month_rv(),
                       clicked_station = click_station(),
-                      trend_results = filtered_data())#,
-                      #slopes = "senslope_dat()")#,
-                      #caption_label = "date_choice_label()")
+                      trend_results = filtered_data())
     }
 
     else{
@@ -675,7 +625,7 @@ well_attr <- as.data.frame(wells_sf) %>%
 
   })
 
-  #6. Define leaflet map element
+  #5. Define leaflet map element
 
   #Define well trend state as factors
   results_out$state_short <- factor(results_out$state_short, c("Increasing",
@@ -747,8 +697,6 @@ well_attr <- as.data.frame(wells_sf) %>%
                 position = 'bottomleft')
   })
 
-  #7. Define output data table
-  output$table <- renderDataTable({well_num()}, options = list(scrollX = TRUE))
 
 }
 # Run the application
