@@ -25,7 +25,7 @@ library(DT)
 source('functions.R')
 
 ## Load data
-results_out <- read.csv("data/gw_well_results.csv") %>%
+results_out <- read.csv("out/gw_well_results.csv") %>%
   mutate(state_short = ifelse(state == "Recently established well; time series too short for trend analysis",
                               "Recently established well", ifelse(state == "Too many missing observations to perform trend analysis",
                                                                   "Too many missing observations", state))) %>%
@@ -40,24 +40,24 @@ results_t <- results_out %>%
   select(Well_Num, state_short, combined) %>%
   pivot_wider(., names_from = combined, values_from = state_short)
 
-wells_sf <- read_sf("data/gw_well_attributes.gpkg") %>%
+wells_sf <- read_sf("out/gw_well_attributes.gpkg") %>%
   st_transform(crs = 4326) %>%
   select(-Results_All, -Results_10yrs, -Results_20yrs) %>%
   mutate(Well_Num = as.integer(Well_Num))
 
 wells_sf_full <- right_join(wells_sf, results_t, by=c("Well_Num"="Well_Num"))
 
-monthlywells_ts <- read.csv("data/GWL_Monthly_Medians.csv") %>%
+monthlywells_ts <- read.csv("out/GWL_Monthly_Medians.csv") %>%
   mutate(stat = "median", value = med_GWL) %>%
   select(Well_Num, Year, Date, Month, stat, value, nReadings)
 
-monthlywells_ts_mean <- read.csv("data/GWL_Monthly_Means.csv")  %>%
+monthlywells_ts_mean <- read.csv("out/GWL_Monthly_Means.csv")  %>%
   mutate(stat = "mean", value = mean_GWL) %>%
   select(Well_Num, Year, Date, Month, stat, value, nReadings)
 
 monthly_readings <- rbind(monthlywells_ts, monthlywells_ts_mean)
 
-regions_sf <- read_sf("data/nr_polygons.gpkg") %>%
+regions_sf <- read_sf("out/nr_polygons.gpkg") %>%
   st_transform(crs = 4326) %>%
   mutate(region_name = str_remove_all(REGION_NAME, " Natural Resource Region")) %>%
   mutate(region_name = ifelse(region_name == "Thompson-Okanagan", "Thompson / Okanagan",

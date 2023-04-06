@@ -85,13 +85,43 @@ wells_prep_20 <- wells_data_filtered %>%
 wells_month <- mutate(wells_prep, data = map(data, ~monthly_values(.x)))
 wells_ts <- mutate(wells_month, data = map(data, ~make_well_ts(.x)))
 
-## last 10 years
-wells_month_10 <- mutate(wells_prep_10, data = map(data, ~monthly_values(.x)))
+# =========================================================================== #
+# CHRIS CODE ADDENDUM - I think we can skip the following bits - just filter
+# the dataset we've created above #
+
+# ## last 10 years
+# wells_month_10 <- mutate(wells_prep_10, data = map(data, ~monthly_values(.x)))
+# wells_ts_10 <- mutate(wells_month_10, data = map(data, ~make_well_ts(.x)))
+# 
+# ## last 20 years
+# wells_month_20 <- mutate(wells_prep_20, data = map(data, ~monthly_values(.x)))
+# wells_ts_20 <- mutate(wells_month_20, data = map(data, ~make_well_ts(.x)))
+
+# Take the 'data' dataframe that was nested out and filter for last 10 years.
+wells_month_10 = wells_month$data |> 
+  bind_rows() |> 
+  filter(Year >= lubridate::year(Sys.Date()) - 10) |> 
+  mutate(Well_Num1 = Well_Num) |>
+  group_by(Well_Num1) |>
+  # group_by(Well_Num) |> 
+  dplyr::group_nest() #Unsure if necessary, but this makes the data like it was before.
+
 wells_ts_10 <- mutate(wells_month_10, data = map(data, ~make_well_ts(.x)))
 
-## last 20 years
-wells_month_20 <- mutate(wells_prep_20, data = map(data, ~monthly_values(.x)))
+# Same thing but for last 20 years.
+wells_month_20 = wells_month$data |> 
+  bind_rows() |> 
+  filter(Year >= lubridate::year(Sys.Date()) - 20) |> 
+  mutate(Well_Num1 = Well_Num) |>
+  group_by(Well_Num1) |>
+  # group_by(Well_Num) |> 
+  dplyr::group_nest() #Unsure if necessary, but this makes the data like it was before.
+
 wells_ts_20 <- mutate(wells_month_20, data = map(data, ~make_well_ts(.x)))
+
+
+# CHRIS CODE ADDENDUM END #
+# =========================================================================== #
 
 # {bcgroundwater} function 'make_well_ts' outputs to the console whether or not a well 
 # has data gaps that are sufficiently large to be a problem. The below function recreates
@@ -271,35 +301,42 @@ make_well_ts_mean <- function(df, trim = TRUE, head = 0.1, tail = 0.9 , n_consec
   return(well.ts)
 }
 
-wells_month_mean <- mutate(wells_prep, data = map(data, ~monthly_values_mean(.x)))
-wells_ts_mean <- mutate(wells_month_mean, data = map(data, ~make_well_ts_mean(.x)))
+# =========================================================================== #
+# CHRIS CODE ADDENDUM - I think the follow 6 tables are replicates
+# of the tables we generated above - they just have column names that say 
+# 'median' instead of 'mean'...
+# 
+# wells_month_mean <- mutate(wells_prep, data = map(data, ~monthly_values_mean(.x)))
+# wells_ts_mean <- mutate(wells_month_mean, data = map(data, ~make_well_ts_mean(.x)))
+# 
+# ## last 10 years
+# wells_month_10_mean <- mutate(wells_prep_10, data = map(data, ~monthly_values_mean(.x)))
+# wells_ts_10_mean <- mutate(wells_month_10_mean, data = map(data, ~make_well_ts_mean(.x)))
+# 
+# 
+# ## last 20 years
+# wells_month_20_mean <- mutate(wells_prep_20, data = map(data, ~monthly_values_mean(.x)))
+# wells_ts_20_mean <- mutate(wells_month_20_mean, data = map(data, ~make_well_ts_mean(.x)))
 
-## last 10 years
-wells_month_10_mean <- mutate(wells_prep_10, data = map(data, ~monthly_values_mean(.x)))
-wells_ts_10_mean <- mutate(wells_month_10_mean, data = map(data, ~make_well_ts_mean(.x)))
+# # Unnest data for full timeseries
+# monthlywells_ts_mean <- unnest(wells_ts_mean, data)
+# 
+# # last 10 years
+# monthlywells_ts_10_mean <- unnest(wells_ts_10_mean, data)
+# 
+# # last 20 years
+# monthlywells_ts_20_mean <- unnest(wells_ts_20_mean, data)
 
-
-## last 20 years
-wells_month_20_mean <- mutate(wells_prep_20, data = map(data, ~monthly_values_mean(.x)))
-wells_ts_20_mean <- mutate(wells_month_20_mean, data = map(data, ~make_well_ts_mean(.x)))
-
-# Unnest data for full timeseries
-monthlywells_ts_mean <- unnest(wells_ts_mean, data)
-
-# last 10 years
-monthlywells_ts_10_mean <- unnest(wells_ts_10_mean, data)
-
-# last 20 years
-monthlywells_ts_20_mean <- unnest(wells_ts_20_mean, data)
+# CHRIS CODE ADDENDUM END #
+# =========================================================================== #
 
 #Add on data gap checking later if desired
-
 
 ## Save clean data object in a temporary directory
 save(monthlywells_ts, file = "./tmp/clean_well_data.RData")
 save(monthlywells_ts_10, file = "./tmp/clean_well_data_10.RData")
 save(monthlywells_ts_20, file = "./tmp/clean_well_data_20.RData")
-save(monthlywells_ts_mean, file = "./tmp/clean_well_data_mean.RData")
-save(monthlywells_ts_10_mean, file = "./tmp/clean_well_data_10_mean.RData")
-save(monthlywells_ts_20_mean, file = "./tmp/clean_well_data_20_mean.RData")
+# save(monthlywells_ts_mean, file = "./tmp/clean_well_data_mean.RData")
+# save(monthlywells_ts_10_mean, file = "./tmp/clean_well_data_10_mean.RData")
+# save(monthlywells_ts_20_mean, file = "./tmp/clean_well_data_20_mean.RData")
 save(obs_wells_clean, file = "./tmp/clean_well_attr.RData")
