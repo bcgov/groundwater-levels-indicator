@@ -12,7 +12,7 @@
 
 
 ## Install the packages we will need from CRAN:
-package_list <- c("dplyr", "rgdal", "sp", "ggplot2", "stringr", #"lubridate", "zoo"
+package_list <- c("dplyr", "rgdal", "sp", "ggplot2", "stringr", "lubridate", #"zoo"
                   "grid", "scales", #ggmap", 
                   "devtools", "rvest", "RColorBrewer",
                   "purrr", "sf", "gridExtra", "bcmaps", "scales", "forcats",

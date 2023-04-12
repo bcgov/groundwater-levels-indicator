@@ -1,4 +1,4 @@
-# Copyright 2018 Province of British Columbia
+# Copyright 2023 Province of British Columbia
 # 
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not
 # use this file except in compliance with the License. You may obtain a copy of
@@ -12,15 +12,8 @@
 # License for the specific language governing permissions and limitations under
 # the License.
 
-
-###############################################################################
-# This script works on raw groundwater level data downloaded using
-# the bcgroundwater R package in the 01_load.R script
-###############################################################################
-
 ## Source package libraries
 if (!exists(".header_sourced")) source("header.R")
-library("lubridate")
 
 ## Load saved raw data if necessary
 if (!exists("wells_data_raw")) load("./tmp/raw_well_data.RData")

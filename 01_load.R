@@ -76,16 +76,10 @@ obs_wells = obs_wells_in %>%
 # make sure such a result can still be combined with the successful data reading attempts. In this way,
 # the function does not break if one or more wells has no available data to download.
 
-col_types <- cols(
-  Time = col_datetime(format = "POSIXct"),
-  Value = col_double(),
-  Approval = col_character(),
-  myLocation = col_character()
-)
 
 wells_data_raw = obs_wells$observation_well_number %>% 
   map( ~ {
-    tryCatch(read_csv(paste0("https://www.env.gov.bc.ca/wsd/data_searches/obswell/map/data/OW",.x,"-data.csv"), col_types = col_types), 
+    tryCatch(read_csv(paste0("https://www.env.gov.bc.ca/wsd/data_searches/obswell/map/data/OW",.x,"-data.csv")), 
              #If the url for this repetition doesn't exist / work, we create an empty data.frame to 
              # make sure such a result can still be combined with the successful data reading attempts.
              error = function(e) data.frame(Time = structure(numeric(0), 
