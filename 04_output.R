@@ -94,7 +94,7 @@ input_summary$state <- factor(input_summary$state, c("Large Rate of Decline", "M
 
 #Define factor levels for barplot colouring and legend
 barcol=levels(as.factor(input_summary$col))
-barlab=levels(as.factor(input_summary$state ))
+barlab=levels(as.factor(input_summary$state))
 
 
 #summary df & provincial summary bar chart of categories
@@ -328,7 +328,7 @@ nrr_simp <-  ms_simplify(nrr_clip) %>%
   st_transform(4326)
 
 # Save nrr_simp for use in shiny app
-write_sf(nrr_simp, "out/nr_polygons.gpkg")
+write_sf(nrr_simp, "app/www/nr_polygons.gpkg")
 
 
 #Provincial summary map

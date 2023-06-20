@@ -20,18 +20,17 @@
 
 ## Source package libraries
 if (!exists(".header_sourced")) source("header.R")
-## CHRIS CODE ADDENDUM - add in www/ folder to app directory
+
+# Create output folder for shinyapp
 if (!dir.exists('app/www')) dir.create('app/www')
-## CHRIS CODE ADDENDUM end
-library("lubridate")
 
 # Load saved clean data objects if necessary
 if (!exists("monthlywells_ts")) load("./tmp/clean_well_data.RData")
 if (!exists("monthlywells_ts_10")) load("./tmp/clean_well_data_10.RData")
 if (!exists("monthlywells_ts_20")) load("./tmp/clean_well_data_20.RData")
-# if (!exists("monthlywells_ts_mean")) load("./tmp/clean_well_data_mean.RData")
-# if (!exists("monthlywells_ts_10_mean")) load("./tmp/clean_well_data_10_mean.RData")
-# if (!exists("monthlywells_ts_20_mean")) load("./tmp/clean_well_data_20_mean.RData")
+if (!exists("monthlywells_ts_mean")) load("./tmp/clean_well_data_mean.RData")
+if (!exists("monthlywells_ts_10_mean")) load("./tmp/clean_well_data_10_mean.RData")
+if (!exists("monthlywells_ts_20_mean")) load("./tmp/clean_well_data_20_mean.RData")
 if (!exists("obs_wells_clean")) load("./tmp/clean_well_attr.RData")
 
 # =========================================================================== #
@@ -40,15 +39,15 @@ if (!exists("obs_wells_clean")) load("./tmp/clean_well_attr.RData")
 # three "..._mean" files above. They just seemed to have 2 columns with the same 
 # values but different column names. I'll remake those dataframes here... 
 # ideally, we should remove these extraneous tables, however.
-
-monthlywells_ts_mean = monthlywells_ts |> dplyr::rename('mean_GWL' = med_GWL,
-                                                        'dev_mean_GWL' = dev_med_GWL)
-
-monthlywells_ts_10_mean = monthlywells_ts_10 |> dplyr::rename('mean_GWL' = med_GWL,
-                                                        'dev_mean_GWL' = dev_med_GWL)
-
-monthlywells_ts_20_mean = monthlywells_ts_20 |> dplyr::rename('mean_GWL' = med_GWL,
-                                                        'dev_mean_GWL' = dev_med_GWL)
+# 
+# monthlywells_ts_mean = monthlywells_ts |> dplyr::rename('mean_GWL' = med_GWL,
+#                                                         'dev_mean_GWL' = dev_med_GWL)
+# 
+# monthlywells_ts_10_mean = monthlywells_ts_10 |> dplyr::rename('mean_GWL' = med_GWL,
+#                                                         'dev_mean_GWL' = dev_med_GWL)
+# 
+# monthlywells_ts_20_mean = monthlywells_ts_20 |> dplyr::rename('mean_GWL' = med_GWL,
+#                                                         'dev_mean_GWL' = dev_med_GWL)
 
 # CHRIS CODE ADDENDUM END #
 # =========================================================================== #
@@ -77,6 +76,7 @@ obs_wells <- obs_wells_sf %>%
 ## Define function to produce annual mean trend results
 summary_function_annual <- function(df, latest_date, MK_method, time_period, well_attributes){
   
+  options(dplyr.summarise.inform = FALSE)
   #Produce summary statistics
     welldata_attr <- df %>%
     group_by(EMS_ID, Well_Num) %>%
@@ -148,6 +148,8 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period, wel
 
 ## Define function to produce monthly trend results
 summary_function_monthly <- function(df, latest_date, MK_method, time_period, well_attributes){
+  
+  options(dplyr.summarise.inform = FALSE)
   
   #Produce summary statistics
   welldata_attr <- df %>%
@@ -314,15 +316,12 @@ write.csv(results_for_app, "out/gw_well_results.csv")
 write_csv(results_for_app, "app/www/gw_well_results.csv")
 ## CHRIS CODE ADDENDUM end
 write.csv(results_for_table, "out/gw_well_table.csv")
-write.csv(monthlywells_ts, "out/GWL_Monthly_Medians.csv")
-write.csv(monthlywells_ts_mean, "out/GWL_Monthly_Means.csv")
-write_sf(results_sf, "out/gw_well_attributes.gpkg")
+write.csv(monthlywells_ts, "app/www/GWL_Monthly_Medians.csv")
+write.csv(monthlywells_ts_mean, "app/www/GWL_Monthly_Means.csv")
+write_sf(results_sf, "app/www/gw_well_attributes.gpkg")
 
 ## Save results in a temporary directory
 save(results_out, file = "./tmp/analysis_data.RData")
 save(results_for_app, file = "./tmp/analysis_data_for_app.RData")
 save(results_for_table, file = "./tmp/well_data_attributes.RData")
 save(results_sf, file = "./tmp/well_data_attributes_sf.RData")
-
-
-
