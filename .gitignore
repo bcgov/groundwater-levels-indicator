@@ -13,4 +13,4 @@ README.html
 /leaflet_map/*.html
 /data
 gwl.log
-/app/www/*.csv
+/app/www/*
