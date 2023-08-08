@@ -1,11 +1,14 @@
 ---
-topic: "water"
 title: "Long-Term Trends in Groundwater Levels in B.C."
+topic: water
 bibliography: gwl.bib
-output: pdf_document
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
 header-includes:
-  - \usepackage{xcolor,colortbl}
-  - \usepackage{longtable, booktabs}
+- \usepackage{xcolor,colortbl}
+- \usepackage{longtable, booktabs}
 ---
 <!--
 Copyright 2018 Province of British Columbia
@@ -43,10 +46,10 @@ base_theme <- theme_get()
 
 # load('../tmp/clean_well_data.RData')
 # load('../tmp/analysis_data.RData')
-load('../tmp/results_viz.RData')
+load('../groundwater-levels-indicator/tmp/results_viz.RData')
 #load('../tmp/well_plots.RData')
-load('../tmp/figures.RData')
-load('../tmp/well_data_attributes.RData')
+load('../groundwater-levels-indicator/tmp/figures.RData')
+load('../groundwater-levels-indicator/tmp/well_data_attributes.RData')
 
 attr_wells <- results_viz
 
@@ -74,7 +77,8 @@ theme_set(theme_classic() +
 
 label.colour <- "black" 
 #colour.scale <- brewer.pal(3,"Blues")
-colour.scale <- c("#BCDEFF", "#DCDDDD", "#FFC300", "#FE8C02", "#FFFFFF")
+colour.scale <- c("Increasing"="#2c7bb6", "Stable"="white",
+                  "Moderate Rate of Decline"="#fdae61", "Large Rate of Decline"="#d7191c") 
 
 # updateDate <- format(Sys.Date(), "%B %Y")
 updateDate <- "March 2023"
@@ -140,16 +144,16 @@ plot(regional_bar_chart)
 
 ```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.width = 6, fig.height = 6, fig.align = 'center'}
 
-plot(summary_map)
+#plot(summary_map)
 ```
 
 \newpage
 
-\definecolor{increasing}{HTML}{`r substr(colour.scale[1], 2, 7)`}
-\definecolor{stable}{HTML}{`r substr(colour.scale[2], 2, 7)`}
-\definecolor{moderate}{HTML}{`r substr(colour.scale[3], 2, 7)`}
-\definecolor{large}{HTML}{`r substr(colour.scale[4], 2, 7)`}
-\definecolor{missing}{HTML}{`r substr(colour.scale[5], 2, 7)`}
+\definecolor{increasing}{HTML}{`r substr("#2c7bb6", 2, 7)`}
+\definecolor{stable}{HTML}{`r substr("white", 2, 7)`}
+\definecolor{moderate}{HTML}{`r substr("#fdae61", 2, 7)`}
+\definecolor{large}{HTML}{`r substr("#d7191c", 2, 7)`}
+\definecolor{missing}{HTML}{`r substr("grey3", 2, 7)`}
 
 ### Trend Analysis
 
@@ -335,7 +339,7 @@ dots show missing values which were interpolated (see Methods). The trend catego
 
 ```{r well_plots, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.height = 7.5, dev = "pdf"}
 
-load('../tmp/well_plots.RData')
+load('../groundwater-levels-indicator/tmp/well_plots.RData')
 
 knitr_latex_char <- function(x) {
   y <- gsub("\\\\", "\\\\textbackslash{}", x) # backslash has to be first!

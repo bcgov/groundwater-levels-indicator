@@ -24,10 +24,10 @@ input_summary <- data %>%
   group_by(state) %>%
   summarize("count"=n()) %>%
   mutate(col = case_when(
-    state == "Stable" ~ "gray70",
-    state == "Moderate Rate of Decline" ~ "orange",
-    state == "Large Rate of Decline" ~ "darkorange",
-    state == "Increasing" ~ "skyblue2"
+    state == "Stable" ~ "white",
+    state == "Moderate Rate of Decline" ~ "#fdae61",
+    state == "Large Rate of Decline" ~ "#d7191c",
+    state == "Increasing" ~ "#2c7bb6"
   )) %>%
   mutate(order = case_when(
     state == "Stable" ~ 2,
@@ -53,7 +53,7 @@ barlab = levels(input_summary$state)
 
 #Create provincial summary bar graph
 ggplot(data=input_summary) +
-  geom_col(mapping=aes(x=prop, y=state, fill=state, width = 0.5)) +
+  geom_col(mapping=aes(x=prop, y=state, fill=state), width = 0.8, colour = "black") +
   scale_fill_manual(label=barlab, values=barcol) +
   geom_text(aes(x=prop, y=state, label = no_wells_lab), hjust = -0.1) +
   scale_x_continuous(expand = c(0,0)) +
@@ -85,10 +85,10 @@ input_regional <- data %>%
   group_by(region_name, state) %>%
   summarize("count"=n()) %>%
   mutate( col = case_when(
-    state == "Stable" ~ "gray70",
-    state == "Moderate Rate of Decline" ~ "orange",
-    state == "Large Rate of Decline" ~ "darkorange",
-    state == "Increasing" ~ "skyblue2"
+    state == "Stable" ~ "white",
+    state == "Moderate Rate of Decline" ~ "#fdae61",
+    state == "Large Rate of Decline" ~ "#d7191c",
+    state == "Increasing" ~ "#2c7bb6"
   ))
 
 states_unique <- input_regional %>%
@@ -126,7 +126,7 @@ barlabr=levels(input_regional$state)
 
 #Create regional summary plot
 ggplot(data=input_regional) +
-  geom_col(mapping=aes(x=prop, y=region_name, fill=state, width = 0.5)) +
+  geom_col(mapping=aes(x=prop, y=region_name, fill=state), width = 0.8, color = "black") +
   scale_fill_manual(label=barlabr, values=barcolr) +
   geom_text(aes(x=prop_tot, y=region_name, label = no_wells_lab), hjust = -0.1) +
   scale_x_continuous(expand = c(0,0)) +
@@ -143,7 +143,8 @@ ggplot(data=input_regional) +
 
 ##########################################################
 #3. Define function to create groundwater level plot and trend line
-groundwater_level_plot = function(data,period_choice,var_choice,month_choice,clicked_station,trend_results,slopes){
+groundwater_level_plot = function(data, period_choice, var_choice, month_choice, 
+                                  clicked_station,trend_results,slopes){
 
   # #Code for testing
   # trend_results <- results_out %>%
@@ -162,10 +163,11 @@ groundwater_level_plot = function(data,period_choice,var_choice,month_choice,cli
 
       #If a well is recently established
       if(well_num$state_short == "Recently established well"){
-        ggplot() +
-          geom_text(aes(x=1,y=1,label='No plot available')) +
-          ggthemes::theme_map()
-      }else{
+        data <- data %>% filter(stat == "median")
+        # ggplot() +
+        #   geom_text(aes(x=1,y=1,label='No plot available')) +
+        #   ggthemes::theme_map()
+      } else {
 
       #If 10 years selected, filter years of data shown
       if(var_choice == "10 Years"){

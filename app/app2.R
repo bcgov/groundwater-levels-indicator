@@ -27,8 +27,8 @@ source('functions.R')
 ## Load data
 results_out <- read.csv("www/gw_well_results.csv") %>%
   mutate(state_short = ifelse(state == "Recently established well; time series too short for trend analysis",
-                              "Recently established well", ifelse(state == "Too many missing observations to perform trend analysis",
-                                                                  "Too many missing observations", state))) %>%
+                              "Insufficient Data", ifelse(state == "Too many missing observations to perform trend analysis",
+                                                                  "Insufficient Data", state))) %>%
   mutate(slope = -1*trend_line_slope) #This is reversed due to how slope is reported (meters below ground surface)
 
 #Define unique states
@@ -89,7 +89,7 @@ ui <- fluidPage(
              br()
       ))),
 
-        column(2,
+    column(2,
            radioButtons(inputId = "user_var_choice", label = "Time Range",
                         choices = c("All Data" = "All", "10 Years (2012-2022)" = "10 Years",
                                     "20 Years (2002-2022)" = "20 Years"), selected = "All")),
@@ -106,16 +106,14 @@ ui <- fluidPage(
 
   fluidRow(
     div(
-      style="padding: 8px; border-bottom: 1px solid #CCC; background: #EEEEEE;",
+      style="padding: 0px; border-bottom: 1px solid #CCC; background: #EEEEEE;",
     column(6,
            leafletOutput("leafmap", height = 600)),
 
-    fluidRow(
+  fluidRow(
       column(6, htmlOutput("selected_station")),
       column(6, htmlOutput("trendResult")),
-      column(6,
-             plotOutput("plot", height = 400))),
-
+      column(6, plotOutput("plot", height = 400))),
 
   )),
 
@@ -207,8 +205,7 @@ server <- function(input, output, session) {
                                         "Stable",
                                         "Moderate Rate of Decline",
                                         "Large Rate of Decline",
-                                        "Too many missing observations",
-                                        "Recently established well"
+                                        "Insufficient Data"
                                         )))
 
   })
@@ -541,7 +538,7 @@ well_attr <- as.data.frame(wells_sf) %>%
   if(click_station() != 'No selection' & click_region() == 'No selection'){
 
 
-      HTML(paste0("<div style='background-color:white; padding: 8px'>",
+      HTML(paste0("<div style='background-color:white; padding: 1px'>",
                   "<strong>Observation Well: ", click_station()), "</strong> <br>",
            "Aquifer ID:", aquifer_id(), "</div")
 
@@ -576,7 +573,7 @@ well_attr <- as.data.frame(wells_sf) %>%
   #Define colours for results text box
   colour_box <- data.frame(state=c("Large Rate of Decline", "Moderate Rate of Decline", "Stable", "Increasing", "Too many missing observations to perform trend analysis",
                                    "Recently established well; time series too short for trend analysis"),
-                           color=c("darkorange", "#FFC300", "#999999", "#BCDEFF", "#FFC7D1", "white"))
+                           color=c("#d7191c", "#fdae61", "white", "#2c7bb6", "grey67", "grey67"))
 
 
   #Define trend result text element
@@ -587,7 +584,7 @@ well_attr <- as.data.frame(wells_sf) %>%
   if(state() == "Stable" | state() == "Too many missing observations to perform trend analysis"
      | state() == "Recently established well; time series too short for trend analysis"){
 
-      HTML(paste0("<div style='background-color:",background_color(),"; padding: 8px'>",
+      HTML(paste0("<div style='background-color:",background_color(),"; padding: 1px'>",
                   paste0("Trend Category: <br>", state()),
                   "</div>")) }
 
@@ -647,14 +644,13 @@ well_attr <- as.data.frame(wells_sf) %>%
 
   })
 
-  mypal = colorFactor(palette = c("skyblue2", "gray60", "orange", "darkorange", "pink", "white"),
+  mypal = colorFactor(palette = c("#2c7bb6", "white", "#fdae61", "#d7191c", "grey67"),
                       domain = wells_map(),
                       levels = c("Increasing",
                                  "Stable",
                                  "Moderate Rate of Decline",
                                  "Large Rate of Decline",
-                                 "Too many missing observations",
-                                 "Recently established well"
+                                 "Insufficient Data"
                                  ),
                       ordered = T)
 

@@ -54,8 +54,7 @@ results_box = fluidRow(
     fluidRow(
       column(6, htmlOutput("selected_station")),
       column(6, htmlOutput("trendResult")),
-      column(6,
-             plotOutput("plot", height = 400))),
+      column(6, plotOutput("plot", height = 400))),
 
 
   ))

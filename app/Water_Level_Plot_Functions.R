@@ -26,12 +26,12 @@ groundwater_level_plot = function(data, period_choice, var_choice, month_choice,
 
       #If 10 years selected, filter years of data shown
       if(var_choice == "10 Years"){
-        data <- data %>% filter(Year >= 2013)
+        data <- data %>% filter(Year >= 2012)
       }
 
       #If 20 years selected, filter years of data shown
       if(var_choice == "20 Years"){
-        data <- data %>% filter(Year >= 2003)
+        data <- data %>% filter(Year >= 2002)
       }
 
       # #If month selected, use monthly means

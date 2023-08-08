@@ -42,9 +42,9 @@ base_theme <- theme_get()
 
 # load('../tmp/clean_well_data.RData')
 # load('../tmp/analysis_data.RData')
-load('../tmp/results_viz.RData')
+load('../groundwater-levels-indicator/tmp/results_viz.RData')
 #load('../tmp/well_plots.RData')
-load('../tmp/figures.RData')
+load('../groundwater-levels-indicator/tmp/figures.RData')
 
 attr_wells <- results_viz
 
