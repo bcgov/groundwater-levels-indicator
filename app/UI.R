@@ -1,74 +1,76 @@
-library(shiny)
-library(bslib)
-library(RColorBrewer)
-library(bcgroundwater)
-library(ggplot2)
-library(ggpubr)
-library(dplyr)
-library(tidyr)
-library(stringr)
-library(lubridate)
-library(leaflet)
-library(sf)
-library(envreportutils)
-library(DT)
-
-# Data subset options
-dataset_selection_bar = fluidRow(
-
-      column(1, ),
-
-      column(3,
-             fluidRow(
-               selectizeInput(inputId = "user_region_choice", label = "Natural Resource Region",
-                              choices = c("All", "Cariboo", "Kootenay / Boundary", "Northeast", "Omineca",
-                                          "Skeena", "South Coast", "Thompson / Okanagan", "West Coast"), selected = "All")),
-
-             fluidRow(column(3, offset=1,
-                             uiOutput("reset"),
-                             br()
-             ))),
-
-      column(2,
-             radioButtons(inputId = "user_var_choice", label = "Time Range",
-                          choices = c("All Data" = "All", "10 Years (2012-2022)" = "10 Years",
-                                      "20 Years (2002-2022)" = "20 Years"), selected = "All")),
-      column(3,
-             selectizeInput(inputId = "user_period_choice", label = "Metric to Display",
-                            choices = c("Mean Annual" = "Yearly", "Mean Monthly" = "Monthly"), selected = "Yearly"),
-
-      ),
-
-      column(3,
-             uiOutput("month_selector_UI")),
-
+# Trend selection options
+trend_select_options_tab = wellPanel(
+  selectizeInput(inputId = 'region_choice',
+                 label = 'Natural Resource Region',
+                 choices = c("All", "Cariboo", "Kootenay / Boundary", "Northeast", "Omineca",
+                             "Skeena", "South Coast", "Thompson / Okanagan", "West Coast"),
+                 selected = 'Mean',
+                 width = '100%'),
+  fluidRow(
+    column(width = 6,
+           radioButtons(inputId = 'time_scale',
+                        label = 'Yearly or Monthly Data',
+                        choices = c('Annual' = "Yearly",
+                                    'Monthly'),
+                        selected = 'Yearly'
+           )
+    ),
+    column(width = 6,
+           uiOutput('month_selector_UI')
     )
-
-#Well or region selection results display
-results_box = fluidRow(
-  div(
-    style="padding: 8px; border-bottom: 1px solid #CCC; background: #EEEEEE;",
-    column(6,
-           leafletOutput("leafmap", height = 600)),
-
-    fluidRow(
-      column(6, htmlOutput("selected_station")),
-      column(6, htmlOutput("trendResult")),
-      column(6, plotOutput("plot", height = 400))),
-
-
-  ))
-
-
-# Aquifer and groundwater well URL links
-url_links = fluidRow(
-  column(6, htmlOutput("AquiferURLs"))
-
+  ),
+  radioButtons(inputId = 'var_choice',
+               label = 'Timespan Range',
+               choices = c('All Data' = "All",
+                           '10 Years (2012 - 2022)' = "10 Years",
+                           '20 Years (2002 - 2022)' = "20 Years"),
+               selected = 'All',
+               inline = F)
 )
 
-#Reset button
 
-reset_button =  fluidRow(
-  id = "reset", top = 100, left = 50,
-                             right = "auto", bottom = "auto", width = "auto", height = "auto",
-                             actionButton(inputId = "reset", label = "Clear selection", class = "btn-primary"))
+map_abs_panel = absolutePanel(
+  top = 0, left = 0, right = 0,
+  fixed = TRUE,
+  div(
+    style="padding: 8px; border-bottom: 1px solid #CCC; background: #FFFFEE;",
+    fluidRow(
+      leafletOutput('leafmap',
+                    height = '1000px')
+    )
+  )
+)
+
+water_level_plot_tab = card(
+  card_body(
+    plotOutput('summaryPlot', height = 300)
+  )
+)
+
+trend_plot_tab = card(
+  card_body(
+    plotOutput('trendPlot', height = 300)
+  )
+)
+
+# Absolute Panel with trend selection.
+trend_select_abs_panel = absolutePanel(
+  id = 'trend_selector',
+  top = 500, left = 10, width = 700, #height = 800,
+  draggable = F,
+  tabsetPanel(
+    id = 'tabset',
+    tabPanel('Trend Options',trend_select_options_tab),
+    tabPanel('Summary Plot',water_level_plot_tab),
+    tabPanel('Trend Plot', trend_plot_tab)
+  )
+)
+
+ui = shiny::fluidPage(
+  tags$head(tags$style(
+    HTML('#trend_selector {opacity:0.5;}
+         #trend_selector:hover{opacity:0.9;}'))),
+  titlePanel("Flow Indicator"),
+  map_abs_panel,
+  trend_select_abs_panel
+)
