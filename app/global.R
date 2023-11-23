@@ -1,6 +1,8 @@
 library(bslib)
 library(tidyverse)
 library(sf)
+library(leaflet)
+library(envreportutils)
 
 ## Load data
 results_out <- read.csv("data/gw_well_results.csv") %>%
