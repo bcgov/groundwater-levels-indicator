@@ -342,8 +342,8 @@ BCcenter <- c(mean(BCextent[c("left","right")]),
               mean(BCextent[c("top","bottom")]))
 
 #if (!nzchar("GMAP_KEY")) {
-  ggMapBC <- get_stamenmap(bbox = BCextent, zoom = 5, scale = 1, 
-                           maptype = 'terrain')
+  ggMapBC <- get_stadiamap(bbox = BCextent, zoom = 5, scale = 1, 
+                           maptype = 'stamen_terrain')
   
   
 # } else {
