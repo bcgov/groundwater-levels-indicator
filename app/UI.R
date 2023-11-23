@@ -1,3 +1,5 @@
+
+
 # Trend selection options
 trend_select_options_tab = wellPanel(
   selectizeInput(inputId = 'region_choice',
@@ -27,7 +29,6 @@ trend_select_options_tab = wellPanel(
                selected = 'All',
                inline = F)
 )
-
 
 map_abs_panel = absolutePanel(
   top = 0, left = 0, right = 0,
@@ -67,10 +68,21 @@ trend_select_abs_panel = absolutePanel(
 )
 
 ui = shiny::fluidPage(
+  # Enables us to do some fancy things in javascript...
+  useShinyjs(),
+  # Include our own styling sheet; defined class 'my_home_button'
+  includeCSS('www/bc_button.css'),
+
   tags$head(tags$style(
     HTML('#trend_selector {opacity:0.5;}
          #trend_selector:hover{opacity:0.9;}'))),
   titlePanel("Flow Indicator"),
+  # Throw in our own action button, setting class to 'my_home_button'
+  actionButton(
+    'abs_button',
+    '',
+    class = 'my_bc_button'
+  ),
   map_abs_panel,
   trend_select_abs_panel
 )

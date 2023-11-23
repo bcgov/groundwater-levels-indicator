@@ -3,6 +3,7 @@ library(tidyverse)
 library(sf)
 library(leaflet)
 library(envreportutils)
+library(shinyjs)
 
 ## Load data
 results_out <- read.csv("data/gw_well_results.csv") %>%

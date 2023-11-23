@@ -21,6 +21,25 @@ server <- function(input, output, session) {
   #clicked selections
   station_click = reactiveVal('No Selection')
   
+  #BC button
+  observeEvent(input$abs_button, {
+    
+    # Change region_rv() to 'All'
+    if(region_rv() != 'All'){
+      region_rv('All')
+      
+      # Update map to BC zoom (customizable)
+      leafletProxy('my_leaf') |>
+        setView(lat = 55, lng = -125, zoom = 5)
+      
+      updateSelectInput(session = session,
+                        'region_choice',
+                        selected = 'All')
+    }
+    
+    
+  })
+  
   observe({
     
     var_rv(input$var_choice)
@@ -129,7 +148,7 @@ server <- function(input, output, session) {
     map = leaflet() %>%
       addProviderTiles(providers$CartoDB,group = "CartoDB") %>%
       addTiles(group = 'Streets') %>%
-      add_bc_home_button() %>%
+      # add_bc_home_button() %>%
       # set_bc_view() %>%
       addLayersControl(baseGroups = c("CartoDB","Streets"),
                        options = layersControlOptions(collapsed = F),
