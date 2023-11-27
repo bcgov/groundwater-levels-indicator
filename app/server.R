@@ -248,7 +248,9 @@ server <- function(input, output, session) {
                   col = "black",
                   linewidth = 1)+
         scale_x_continuous(breaks = 1:12, labels = month.abb) +
-        theme_minimal()
+        theme_minimal() +
+        xlab("Month") +
+        ylab("Median Water Level \n(Meters Below Ground Level)")
     }
     
     
@@ -300,7 +302,9 @@ server <- function(input, output, session) {
             geom_point(aes(x = as.Date(Date), y = annual_mean)) +
             scale_x_date(expand = c(0,0)) +
             scale_y_reverse(expand = c(0,0)) + coord_cartesian(ylim = lims) +
-            theme_minimal()
+            theme_minimal() +
+            xlab("Date") +
+            ylab("Mean Water Level \n(Meters Below Ground Level)")
           
           if(filtered_data() %>%
              filter(Well_Num == station_click()) %>%
@@ -336,7 +340,9 @@ server <- function(input, output, session) {
         geom_point(aes(x = Year, y = mean)) +
         ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
         theme_minimal() +
-        theme(plot.title = element_text(hjust = 0.5))
+        theme(plot.title = element_text(hjust = 0.5)) +
+        xlab("Date") +
+        ylab("Mean Water Level \n(Meters Below Ground Level)")
       
       monthly_plot
     }
