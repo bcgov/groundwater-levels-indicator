@@ -125,9 +125,19 @@ server <- function(input, output, session) {
       regions_sf
     }
     else{
-      wells_sf %>%
+      wells_sf_full %>%
         filter(REGION_NAME == region_rv()) %>%
         st_bbox()
+    }
+  })
+  
+  region_data = reactive({
+    if(region_rv()== "All") {
+      regions_sf
+    }
+    else{
+      regions_sf %>%
+        filter(region_name == region_rv())
     }
   })
   
@@ -144,7 +154,6 @@ server <- function(input, output, session) {
   
   # Map
   output$leafmap <- renderLeaflet({
-    print(as.numeric(boundary_data()$xmin))
     map = leaflet() %>%
       addProviderTiles(providers$CartoDB,group = "CartoDB") %>%
       addTiles(group = 'Streets') %>%
@@ -154,7 +163,7 @@ server <- function(input, output, session) {
                        options = layersControlOptions(collapsed = F),
                        position = 'topright') %>%
       addPolygons(layerId = ~region_name,
-                  data = regions_sf,
+                  data = region_data(),
                   label = ~paste0(REGION_NAME), color = "black", fillColor = "#C8D7E5",
                   weight = 1, smoothFactor = 0.5, opacity = 1.0, fillOpacity = 0.8,
                   highlightOptions = highlightOptions(color = "#979B9D", weight = 2,
@@ -341,6 +350,7 @@ server <- function(input, output, session) {
         ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
         theme_minimal() +
         theme(plot.title = element_text(hjust = 0.5)) +
+        scale_y_reverse() +
         xlab("Date") +
         ylab("Mean Water Level \n(Meters Below Ground Level)")
       
