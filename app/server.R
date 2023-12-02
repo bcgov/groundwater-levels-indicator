@@ -106,7 +106,7 @@ server <- function(input, output, session) {
     }
   })
   
-  #filter based on region
+  #filter based on region - wells
   map_data = reactive({
     print(region_rv())
     if(region_rv()== "All") {
@@ -119,7 +119,8 @@ server <- function(input, output, session) {
         left_join(filtered_data())
     }
   })
-  
+
+  # zoom  
   boundary_data = reactive({
     if(region_rv()== "All") {
       regions_sf
@@ -131,6 +132,7 @@ server <- function(input, output, session) {
     }
   })
   
+  # polygon
   region_data = reactive({
     if(region_rv()== "All") {
       regions_sf
@@ -194,27 +196,25 @@ server <- function(input, output, session) {
     else{
       map %>%
         fitBounds(as.numeric(boundary_data()$xmin)-0.5, as.numeric(boundary_data()$ymin)-0.5, as.numeric(boundary_data()$xmax)+0.5, as.numeric(boundary_data()$ymax)+0.5)
-      
     }
   })
   
   
   output$summaryPlot = renderPlot({
-    if(period_rv() == "Yearly") {
-      if(station_click() == 'No Selection'){
-        ggplot() +
-          geom_text(aes(x=1,y=1,label='Click on a region or groundwater monitoring station on the map to see its plot.')) +
-          ggthemes::theme_map()
-      }
-      else{
+    
+    if(station_click() == 'No Selection'){
+      ggplot() +
+        geom_text(aes(x=1,y=1,label='Click on a region or groundwater monitoring station on the map to see its plot.')) +
+        ggthemes::theme_map()
+    }
+    else{
+      if(period_rv() == "Yearly") {
         data = monthly_readings %>%
           filter(case_when(var_rv() == "10 Years" ~ Well_Num == station_click() & Year >=2013,
                            var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
-                           T ~ Well_Num == station_click()))
-        
+                           T ~ Well_Num == station_click())) %>%
+          filter(stat == "median")
         if(nrow(data) >0){
-          
-          # Calculate water levels so can reverse axis
           maxgwl = max(data$value, na.rm = TRUE)
           mingwl = min(data$value, na.rm = TRUE)
           gwlrange = maxgwl - mingwl
@@ -236,47 +236,58 @@ server <- function(input, output, session) {
         }
         else {
           ggplot() +
-            geom_text(aes(x=1,y=1,label='No Data')) +
+            geom_text(aes(x=1,y=1,label='Insufficient Data')) +
             ggthemes::theme_map()
         }
       }
+      else{
+        if(nrow(data) >0){
+          data = monthly_readings %>%
+            filter(case_when(var_rv() == "10 Years" ~ Well_Num == station_click() & Year >=2013,
+                             var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
+                             T ~ Well_Num == station_click())) %>%
+            filter(stat == "median") %>%
+            group_by(Month) %>%
+            summarise(median = median(value),
+                      upperCI = quantile(value, 0.975),
+                      lowerCI = quantile(value, 0.025)) %>%
+            ggplot() +
+            geom_ribbon(aes(x = Month, ymax = upperCI, ymin = lowerCI),
+                        fill = "#1E90FF", alpha = 0.4)+
+            geom_line(aes(x = Month, y = median),
+                      col = "black",
+                      linewidth = 1)+
+            scale_x_continuous(breaks = 1:12, labels = month.abb) +
+            theme_minimal() +
+            xlab("Month") +
+            ylab("Median Water Level \n(Meters Below Ground Level)")
+        }
+        else {
+          ggplot() +
+            geom_text(aes(x=1,y=1,label='Insufficient Data')) +
+            ggthemes::theme_map()
+        }
+        
+        
+      }
+      
     }
-    else{
-      monthly_readings %>%
-        filter(case_when(var_rv() == "10 Years" ~ Well_Num == station_click() & Year >=2013,
-                         var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
-                         T ~ Well_Num == station_click())) %>%
-        group_by(Month) %>%
-        summarise(median = median(value),
-                  upperCI = quantile(value, 0.975),
-                  lowerCI = quantile(value, 0.025)) %>%
-        ggplot() +
-        geom_ribbon(aes(x = Month, ymax = upperCI, ymin = lowerCI),
-                    fill = "#1E90FF", alpha = 0.4)+
-        geom_line(aes(x = Month, y = median),
-                  col = "black",
-                  linewidth = 1)+
-        scale_x_continuous(breaks = 1:12, labels = month.abb) +
-        theme_minimal() +
-        xlab("Month") +
-        ylab("Median Water Level \n(Meters Below Ground Level)")
-    }
-    
-    
   })
   
   output$trendPlot = renderPlot({
-    if(period_rv() == "Yearly") {
-      if(station_click() == 'No Selection'){
-        ggplot() +
-          geom_text(aes(x=1,y=1,label='Click on a region or groundwater monitoring station on the map to see its plot.')) +
-          ggthemes::theme_map()
-      }
-      else{
+    
+    if(station_click() == 'No Selection'){
+      ggplot() +
+        geom_text(aes(x=1,y=1,label='Click on a region or groundwater monitoring station on the map to see its plot.')) +
+        ggthemes::theme_map()
+    }
+    else{
+      if(period_rv() == "Yearly") {
         data = monthly_readings %>%
           filter(case_when(var_rv() == "10 Years" ~ Well_Num == station_click() & Year >=2013,
                            var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
-                           T ~ Well_Num == station_click()))
+                           T ~ Well_Num == station_click())) %>%
+          filter(stat == "median")
         
         if(nrow(data) >0){
           
@@ -288,10 +299,13 @@ server <- function(input, output, session) {
           data$max_lims <- max(lims[1], max(data$value, na.rm = TRUE) + 5)
           
           trend_data = data %>%
-            group_by(Well_Num, Year) %>%
-            summarize(annual_mean = mean(value), n_months = n()) %>%
+            group_by(Year) %>%
+            summarize(annual_median = median(value), 
+                      n_months = n(),
+                      missing_dat = case_when(any(nReadings == 0) ~ "missing",
+                                              T~ "complete")) %>%
             mutate(Date = as.Date(paste0(Year, "-01-01"))) %>%
-            select(Date, annual_mean)
+            select(Date, annual_median, missing_dat)
           
           #extract slope and intercept to draw trendline
           slope = filtered_data() %>%
@@ -308,7 +322,7 @@ server <- function(input, output, session) {
           trend_df = data.frame(int.well, slope)
           
           plot = ggplot(trend_data) +
-            geom_point(aes(x = as.Date(Date), y = annual_mean)) +
+            geom_point(aes(x = as.Date(Date), y = annual_median, col = missing_dat)) +
             scale_x_date(expand = c(0,0)) +
             scale_y_reverse(expand = c(0,0)) + coord_cartesian(ylim = lims) +
             theme_minimal() +
@@ -336,25 +350,25 @@ server <- function(input, output, session) {
             ggthemes::theme_map()
         }
       }
-    }
-    else{
-      monthly_plot = monthly_readings %>%
-        filter(case_when(var_rv() == "10 Years" ~ Well_Num == station_click() & Year >=2013,
-                         var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
-                         T ~ Well_Num == station_click())) %>%
-        filter(Month == match(month_rv(),month.abb)) %>%
-        group_by(Year) %>%
-        summarise(mean = mean(value)) %>%
-        ggplot() + 
-        geom_point(aes(x = Year, y = mean)) +
-        ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
-        theme_minimal() +
-        theme(plot.title = element_text(hjust = 0.5)) +
-        scale_y_reverse() +
-        xlab("Date") +
-        ylab("Mean Water Level \n(Meters Below Ground Level)")
-      
-      monthly_plot
+      else{
+        monthly_plot = monthly_readings %>%
+          filter(case_when(var_rv() == "10 Years" ~ Well_Num == station_click() & Year >=2013,
+                           var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
+                           T ~ Well_Num == station_click())) %>%
+          filter(Month == match(month_rv(),month.abb)) %>%
+          group_by(Year) %>%
+          summarise(mean = mean(value)) %>%
+          ggplot() + 
+          geom_point(aes(x = Year, y = mean)) +
+          ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
+          theme_minimal() +
+          theme(plot.title = element_text(hjust = 0.5)) +
+          scale_y_reverse() +
+          xlab("Date") +
+          ylab("Mean Water Level \n(Meters Below Ground Level)")
+        
+        monthly_plot
+      }
     }
   })
   
