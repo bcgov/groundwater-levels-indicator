@@ -238,6 +238,15 @@ server <- function(input, output, session) {
             xlab("Date") +
             ylab ("Water Level (Meters Below Ground Level)")+
             theme_minimal()+
+            theme(
+              text = element_text(colour = "black"),
+              panel.grid.minor.x = element_blank(),
+              panel.grid.major.x = element_blank(),
+              axis.line = element_line(colour="grey50"),
+              legend.position = "bottom", legend.box =  "horizontal",
+              plot.title = element_text(hjust = 0.5),
+              plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
+            theme(plot.margin = margin(10, 10, 10, 10, "points")) +
             theme(legend.position = "bottom") +
             scale_colour_manual(name = '', values = c(interp = "#A9A9A9"),
                                 label = "Interpolated Values",
@@ -269,6 +278,15 @@ server <- function(input, output, session) {
                       linewidth = 1)+
             scale_x_continuous(breaks = 1:12, labels = month.abb) +
             theme_minimal() +
+              theme(
+                text = element_text(colour = "black"),
+                panel.grid.minor.x = element_blank(),
+                panel.grid.major.x = element_blank(),
+                axis.line = element_line(colour="grey50"),
+                legend.position = "bottom", legend.box =  "horizontal",
+                plot.title = element_text(hjust = 0.5),
+                plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
+              theme(plot.margin = margin(10, 10, 10, 10, "points")) +
             xlab("Month") +
             ylab("Median Water Level \n(Meters Below Ground Level)")
         }
@@ -346,6 +364,15 @@ server <- function(input, output, session) {
                                 labels = c('Annual Medaian (95% Confidence Intervals)', 'Missing Data (Interpolated)'), 
                                 values = c("blue", "#A9A9A9")) +
             theme_minimal() +
+            theme(
+              text = element_text(colour = "black"),
+              panel.grid.minor.x = element_blank(),
+              panel.grid.major.x = element_blank(),
+              axis.line = element_line(colour="grey50"),
+              legend.position = "bottom", legend.box =  "horizontal",
+              plot.title = element_text(hjust = 0.5),
+              plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
+            theme(plot.margin = margin(10, 10, 10, 10, "points")) +
             xlab("Date") +
             ylab("Mean Water Level \n(Meters Below Ground Level)") +
             theme(legend.position = "bottom")
@@ -398,6 +425,15 @@ server <- function(input, output, session) {
           theme_minimal() +
           theme(plot.title = element_text(hjust = 0.5),
                 legend.position = "none") +
+          theme(
+            text = element_text(colour = "black"),
+            panel.grid.minor.x = element_blank(),
+            panel.grid.major.x = element_blank(),
+            axis.line = element_line(colour="grey50"),
+            legend.position = "bottom", legend.box =  "horizontal",
+            plot.title = element_text(hjust = 0.5),
+            plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
+          theme(plot.margin = margin(10, 10, 10, 10, "points")) +
           scale_y_reverse() +
           scale_colour_manual(values = c("blue", "#A9A9A9")) +
           coord_cartesian(ylim = lims) +
