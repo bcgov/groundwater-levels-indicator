@@ -312,6 +312,14 @@ groundwater_level_plot = function(data, period_choice, var_choice, month_choice,
           slope = -as.numeric(well_num$trend_line_slope)/365
           intercept = as.numeric(well_num$trend_line_int)
           int.well = intercept + slope * as.numeric(minDate)
+          
+          print(slope)
+          print(intercept)
+          print(int.well)
+          print(minDate)
+          print(as.numeric(minDate))
+          print(lims)
+          print(well_levels_monthly$Date)
 
           #If interpolated values present, add trend line to chart and both line and points to legend and print plot
           if(nrow(nZeroReadings)>0){
