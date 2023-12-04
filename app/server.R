@@ -36,7 +36,11 @@ server <- function(input, output, session) {
                         'region_choice',
                         selected = 'All')
     }
-    
+    if(region_rv() == "All") {
+      #   # Update map to BC zoom (customizable)
+      #   leafletProxy('my_leaf') |>
+      #     setView(lat = 55, lng = -125, zoom = 5) 
+    }
     
   })
   
@@ -119,7 +123,7 @@ server <- function(input, output, session) {
         left_join(filtered_data())
     }
   })
-
+  
   # zoom  
   boundary_data = reactive({
     if(region_rv()== "All") {
@@ -173,7 +177,7 @@ server <- function(input, output, session) {
       addCircleMarkers(layerId = ~Well_Num,
                        color = 'black',
                        fillColor = ~mypal(state_short),
-                       radius = 8,
+                       radius = 5,
                        weight = 1,
                        group="selected",
                        fillOpacity = 0.8,
@@ -298,18 +302,21 @@ server <- function(input, output, session) {
           lims  = c(midgwl + gwlrange, midgwl - gwlrange)
           data$max_lims <- max(lims[1], max(data$value, na.rm = TRUE) + 5)
           
-          trend_data = data %>%
+          data = data %>%
             group_by(Year) %>%
             summarize(annual_median = median(value), 
                       n_months = n(),
                       missing_dat = case_when(any(nReadings == 0) ~ "missing",
-                                              T~ "complete")) %>%
+                                              T~ "complete"),
+                      max = quantile(value, 0.975),
+                      min = quantile(value, 0.025)) %>%
             mutate(Date = as.Date(paste0(Year, "-01-01"))) %>%
-            select(Date, annual_median, missing_dat)
+            select(Date, annual_median, missing_dat, min, max)
           
           #extract slope and intercept to draw trendline
-          slope = filtered_data() %>%
-            filter(Well_Num == station_click()) %>%
+          trend_data = filtered_data() %>%
+            filter(Well_Num == station_click())
+          slope = trend_data %>%
             pull(trend_line_slope)
           slope = - as.numeric(slope)/365
           
@@ -320,14 +327,20 @@ server <- function(input, output, session) {
           int.well = intercept + slope * as.numeric(min(as.Date(data$Date)))
           
           trend_df = data.frame(int.well, slope)
+          print(trend_data)
+          print(trend_df)
           
-          plot = ggplot(trend_data) +
+          plot = ggplot(data) +
+            geom_errorbar(aes(x = as.Date(Date), ymin = min, ymax = max, col = missing_dat), width = 0.3) +
             geom_point(aes(x = as.Date(Date), y = annual_median, col = missing_dat)) +
-            scale_x_date(expand = c(0,0)) +
-            scale_y_reverse(expand = c(0,0)) + coord_cartesian(ylim = lims) +
+            scale_x_date(expand = c(0.1,0.1)) +
+            scale_y_reverse(expand = c(0,0)) + 
+            coord_cartesian(ylim = lims) +
+            scale_colour_manual(values = c("blue", "#A9A9A9")) +
             theme_minimal() +
             xlab("Date") +
-            ylab("Mean Water Level \n(Meters Below Ground Level)")
+            ylab("Mean Water Level \n(Meters Below Ground Level)") +
+            theme(legend.position = "none")
           
           if(filtered_data() %>%
              filter(Well_Num == station_click()) %>%
@@ -346,28 +359,71 @@ server <- function(input, output, session) {
         }
         else {
           ggplot() +
-            geom_text(aes(x=1,y=1,label='No Data')) +
+            geom_text(aes(x=1,y=1,label='Insufficient Data')) +
             ggthemes::theme_map()
         }
       }
       else{
-        monthly_plot = monthly_readings %>%
+        data = monthly_readings %>%
           filter(case_when(var_rv() == "10 Years" ~ Well_Num == station_click() & Year >=2013,
                            var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
                            T ~ Well_Num == station_click())) %>%
-          filter(Month == match(month_rv(),month.abb)) %>%
-          group_by(Year) %>%
-          summarise(mean = mean(value)) %>%
-          ggplot() + 
-          geom_point(aes(x = Year, y = mean)) +
+          # filter(Month == match(month_rv(),month.abb)) %>%
+          filter(stat == "median")
+        
+        monthly_data = data %>% 
+          filter(Month == match(month_rv(),month.abb))
+
+        maxgwl = max(data$value, na.rm = TRUE)
+        mingwl = min(data$value, na.rm = TRUE)
+        gwlrange = maxgwl - mingwl
+        midgwl = (maxgwl + mingwl)/2
+        lims  = c(midgwl + gwlrange, midgwl - gwlrange)
+        data$max_lims <- max(lims[1], max(data$value, na.rm = TRUE) + 5)
+        
+        plot = ggplot(monthly_data) + 
+          geom_point(aes(x = Date, y = value)) +
           ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
           theme_minimal() +
           theme(plot.title = element_text(hjust = 0.5)) +
           scale_y_reverse() +
+          coord_cartesian(ylim = lims) +
           xlab("Date") +
           ylab("Mean Water Level \n(Meters Below Ground Level)")
         
-        monthly_plot
+        #extract slope and intercept to draw trendline
+        trend_data = filtered_data() %>%
+          filter(Well_Num == station_click())
+        slope = trend_data %>%
+          pull(trend_line_slope)
+        slope = - as.numeric(slope)/365
+        
+        intercept = filtered_data() %>%
+          filter(Well_Num == station_click()) %>%
+          pull(trend_line_int)
+        
+        int.well = intercept + slope * as.numeric(min(as.Date(data$Date)))
+        
+        trend_df = data.frame(intercept = -int.well, slope = slope)
+        print(trend_data)
+        print(trend_df)
+        print(min(as.Date(data$Date)))
+        print(as.numeric(min(as.Date(data$Date))))
+        print(lims)
+        print(monthly_data$Date)
+        
+        if(filtered_data() %>%
+           filter(Well_Num == station_click()) %>%
+           pull(state_short) %in% c("Increasing", 
+                                    "Moderate Rate of Decline",
+                                    "Large Rate of Decline")){
+          plot +
+            geom_abline(data = trend_df, aes_string(intercept = "intercept", slope = "slope"),
+                        col = "orange")
+        }
+        else{
+          plot
+        }
       }
     }
   })
