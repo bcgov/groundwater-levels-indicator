@@ -24,8 +24,9 @@ trend_select_options_tab = wellPanel(
   radioButtons(inputId = 'var_choice',
                label = 'Timespan Range',
                choices = c('All Data' = "All",
-                           '10 Years (2012 - 2022)' = "10 Years",
-                           '20 Years (2002 - 2022)' = "20 Years"),
+                           '20 Years (2002 - 2022)' = "20 Years",
+                           '10 Years (2012 - 2022)' = "10 Years"
+                           ),
                selected = 'All',
                inline = F)
 )
