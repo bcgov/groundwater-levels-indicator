@@ -181,7 +181,7 @@ server <- function(input, output, session) {
                        weight = 1,
                        group="selected",
                        fillOpacity = 0.8,
-                       label = ~paste0("Well No. ", Well_Num, " - ",state_short),
+                       label = ~paste0("Well No. ", Well_Num, " - ",state),
                        data = map_data()) %>%
       removeControl("legend") %>%
       addLegend(pal = mypal,
@@ -218,6 +218,7 @@ server <- function(input, output, session) {
                            var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
                            T ~ Well_Num == station_click())) %>%
           filter(stat == "median")
+        
         if(nrow(data) >0){
           maxgwl = max(data$value, na.rm = TRUE)
           mingwl = min(data$value, na.rm = TRUE)
@@ -230,13 +231,17 @@ server <- function(input, output, session) {
             geom_ribbon(aes_string(ymin = "value",
                                    ymax = "max_lims",
                                    fill = "'Groundwater Level'"), alpha = 0.6) +
+            geom_point(data = data %>% filter(nReadings==0), aes_string(y = "value", col = "'interp'")) + 
             scale_x_date(expand = c(0,0)) +
             scale_y_reverse() +
-            scale_fill_manual(name = '', values = c('Groundwater Level' = "#1E90FF")) +
+            scale_fill_manual(name = '', labels = 'Monthly Median Groundwater Levels', values = c('Groundwater Level' = "#1E90FF")) +
             xlab("Date") +
             ylab ("Water Level (Meters Below Ground Level)")+
             theme_minimal()+
-            theme(legend.position = "none")
+            theme(legend.position = "bottom") +
+            scale_colour_manual(name = '', values = c(interp = "#A9A9A9"),
+                                label = "Interpolated Values",
+                                guide = guide_legend(override.aes = list(colour = c("#A9A9A9"), shape = c(16), linetype = c(0))))
         }
         else {
           ggplot() +
@@ -254,8 +259,9 @@ server <- function(input, output, session) {
             group_by(Month) %>%
             summarise(median = median(value),
                       upperCI = quantile(value, 0.975),
-                      lowerCI = quantile(value, 0.025)) %>%
-            ggplot() +
+                      lowerCI = quantile(value, 0.025))
+            
+            ggplot(data) +
             geom_ribbon(aes(x = Month, ymax = upperCI, ymin = lowerCI),
                         fill = "#1E90FF", alpha = 0.4)+
             geom_line(aes(x = Month, y = median),
@@ -336,11 +342,13 @@ server <- function(input, output, session) {
             scale_x_date(expand = c(0.1,0.1)) +
             scale_y_reverse(expand = c(0,0)) + 
             coord_cartesian(ylim = lims) +
-            scale_colour_manual(values = c("blue", "#A9A9A9")) +
+            scale_colour_manual(name = "",
+                                labels = c('Annual Medaian (95% Confidence Intervals)', 'Missing Data (Interpolated)'), 
+                                values = c("blue", "#A9A9A9")) +
             theme_minimal() +
             xlab("Date") +
             ylab("Mean Water Level \n(Meters Below Ground Level)") +
-            theme(legend.position = "none")
+            theme(legend.position = "bottom")
           
           if(filtered_data() %>%
              filter(Well_Num == station_click()) %>%
@@ -348,8 +356,8 @@ server <- function(input, output, session) {
                                       "Moderate Rate of Decline",
                                       "Large Rate of Decline")){
             plot +
-              geom_abline(data = trend_df, aes(intercept = - int.well, slope = slope),
-                          col = "orange")
+              geom_abline(data = trend_df, 
+                          aes(intercept = - int.well, slope = slope), col = "orange")
           }
           else{
             plot
@@ -369,11 +377,14 @@ server <- function(input, output, session) {
                            var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
                            T ~ Well_Num == station_click())) %>%
           # filter(Month == match(month_rv(),month.abb)) %>%
-          filter(stat == "median")
+          filter(stat == "median") %>%
+          mutate(missing_dat = case_when(nReadings == 0 ~ "missing",
+                                         T~ "complete"))
         
         monthly_data = data %>% 
           filter(Month == match(month_rv(),month.abb))
-
+        
+        if(nrow(monthly_data) >0){
         maxgwl = max(data$value, na.rm = TRUE)
         mingwl = min(data$value, na.rm = TRUE)
         gwlrange = maxgwl - mingwl
@@ -382,11 +393,13 @@ server <- function(input, output, session) {
         data$max_lims <- max(lims[1], max(data$value, na.rm = TRUE) + 5)
         
         plot = ggplot(monthly_data) + 
-          geom_point(aes(x = as.Date(Date), y = value)) +
+          geom_point(aes(x = as.Date(Date), y = value, col = missing_dat)) +
           ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
           theme_minimal() +
-          theme(plot.title = element_text(hjust = 0.5)) +
+          theme(plot.title = element_text(hjust = 0.5),
+                legend.position = "none") +
           scale_y_reverse() +
+          scale_colour_manual(values = c("blue", "#A9A9A9")) +
           coord_cartesian(ylim = lims) +
           xlab("Date") +
           ylab("Mean Water Level \n(Meters Below Ground Level)")
@@ -423,6 +436,12 @@ server <- function(input, output, session) {
         }
         else{
           plot
+        }
+        }
+        else{
+          ggplot() +
+            geom_text(aes(x=1,y=1,label='Insufficient Data')) +
+            ggthemes::theme_map()
         }
       }
     }
