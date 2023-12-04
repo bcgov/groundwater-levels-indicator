@@ -382,7 +382,7 @@ server <- function(input, output, session) {
         data$max_lims <- max(lims[1], max(data$value, na.rm = TRUE) + 5)
         
         plot = ggplot(monthly_data) + 
-          geom_point(aes(x = Date, y = value)) +
+          geom_point(aes(x = as.Date(Date), y = value)) +
           ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
           theme_minimal() +
           theme(plot.title = element_text(hjust = 0.5)) +
