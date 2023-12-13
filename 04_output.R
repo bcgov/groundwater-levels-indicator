@@ -111,7 +111,6 @@ bc_bar_chart <- ggplot(data=input_summary) +
                               "Stable",
                               "Moderate Rate \nof Decline",
                               "Large Rate \nof Decline"))
-bc_bar_chart
 
 #regional summary df
 #Summarize results by region and count wells in each state
@@ -140,7 +139,8 @@ regional_bar_chart <- ggplot(data=input_regional) +
   theme_soe() +
   theme(legend.position="bottom",
         legend.title=element_blank(),
-        legend.direction="horizontal") +
+        legend.direction="horizontal",
+        plot.title = element_text(hjust = 0)) +
   theme(panel.grid.minor.y = element_blank(),
         panel.grid.major.y = element_blank()) +
   scale_y_discrete(breaks = unique(fct_reorder(input_regional$region_name,
@@ -151,13 +151,14 @@ regional_bar_chart <- ggplot(data=input_regional) +
                               "Skeena",
                               "South Coast",
                               "Thompson/\nOkanagan",
-                              "West Coast"))
+                              "West Coast"))+ 
+  guides(fill = guide_legend(nrow = 2))
 
-svg_px("./out/figs/bc_bar_chart.svg", width = 700, height = 400)
+svg_px("./out/figs/bc_bar_chart.svg", width = 800, height = 400)
 plot(bc_bar_chart)
 dev.off()
 
-svg_px("./out/figs/regional_bar_chart.svg", width = 700, height = 400)
+svg_px("./out/figs/regional_bar_chart.svg", width = 800, height = 400)
 plot(regional_bar_chart)
 dev.off()
 
