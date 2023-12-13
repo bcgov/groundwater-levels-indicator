@@ -1,7 +1,7 @@
 ---
 title: "Long-Term Trends in Groundwater Levels in B.C."
 topic: water
-bibliography: gwl.bib
+# bibliography: gwl.bib
 output:
   pdf_document: default
   html_document:
