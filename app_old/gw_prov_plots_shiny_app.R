@@ -15,7 +15,7 @@ library(sf)
 source('Result_Summary_Plot_Functions.R')
 
 #Read in data, filter out uncategorized wells
-input_dataframe <- read.csv("data/gw_well_results.csv")
+input_dataframe <- read.csv("C:/Users/ANDLADLE/tmp/groundwater-levels-indicator/out/gw_well_results.csv")
 
 # Define UI for application
 ui <- fluidPage(
