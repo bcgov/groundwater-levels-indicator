@@ -1,7 +1,7 @@
 ---
 topic: "water"
 title: "Long-Term Trends in Groundwater Levels in B.C."
-bibliography: gwl.bib
+# bibliography: gwl.bib
 output: envreportutils.internal::print_ver
 header-includes:
   - \usepackage{xcolor,colortbl}
@@ -35,16 +35,15 @@ library(gridExtra)
 library(xtable)
 library(lubridate)
 library(forcats)
+library(here)
 
 knitr::opts_chunk$set(cache = FALSE)
 
-base_theme <- theme_get()
-
 # load('../tmp/clean_well_data.RData')
 # load('../tmp/analysis_data.RData')
-load('../groundwater-levels-indicator/tmp/results_viz.RData')
+load(here("tmp", "results_viz.Rdata"))
 #load('../tmp/well_plots.RData')
-load('../groundwater-levels-indicator/tmp/figures.RData')
+load(here("tmp","figures.RData"))
 
 attr_wells <- results_viz
 
@@ -101,11 +100,11 @@ in groundwater levels recorded at `r nrow(attr_wells)` observation wells that ha
 -   Of the `r nrow(attr_wells)` examined observation wells, `r round(sum(state.summary[c("Stable","Increasing"),"prop"]*100))`% have water levels that are stable or increasing (with `r state.summary["Increasing","n"]` wells showing increasing trends), `r round(state.summary["Moderate Rate of Decline","prop"]*100)`% of wells show a moderate rate of decline in water levels, and `r round(state.summary["Large Rate of Decline","prop"]*100)`% show a large rate of decline in water levels. Note that only wells with enough data for trend analysis are included in the following figures.
 
 
-\vspace{60pt}
+\vspace{20pt}
 
-```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 5, fig.height = 6, fig.align = 'center'}
+```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 7, fig.height = 6, fig.align = 'left'}
 
-# bc bar chart
+
 
 ```
 
@@ -118,7 +117,7 @@ in groundwater levels recorded at `r nrow(attr_wells)` observation wells that ha
 
 ```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 6, fig.height = 7, fig.align = 'center'}
 
-# regional bar chart
+regional_bar_chart
 
 ```
 
