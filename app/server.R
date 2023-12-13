@@ -30,7 +30,7 @@ server <- function(input, output, session) {
       
       # Update map to BC zoom (customizable)
       leafletProxy('my_leaf') |>
-        setView(lat = 55, lng = -125, zoom = 5)
+        setView(lat = 40, lng = -130, zoom = 5)
       
       updateSelectInput(session = session,
                         'region_choice',
@@ -148,7 +148,7 @@ server <- function(input, output, session) {
   })
   
   #Color scheme
-  mypal = colorFactor(palette = c("#2c7bb6", "white", "#fdae61", "#d7191c", "grey67"),
+  mypal = colorFactor(palette = c("#2171b5", "#bdd7e7", "#ff7b7b", "#ff0000", "grey67"),
                       domain = map_data(),
                       levels = c("Increasing",
                                  "Stable",
@@ -170,14 +170,14 @@ server <- function(input, output, session) {
                        position = 'topright') %>%
       addPolygons(layerId = ~region_name,
                   data = region_data(),
-                  label = ~paste0(REGION_NAME), color = "black", fillColor = "#C8D7E5",
-                  weight = 1, smoothFactor = 0.5, opacity = 1.0, fillOpacity = 0.8,
+                  label = ~paste0(REGION_NAME), color = "black", fillColor = "white",
+                  weight = 1, smoothFactor = 0.5, opacity = 1.0, fillOpacity = 0.2,
                   highlightOptions = highlightOptions(color = "#979B9D", weight = 2,
                                                       bringToFront = FALSE)) %>%
       addCircleMarkers(layerId = ~Well_Num,
                        color = 'black',
                        fillColor = ~mypal(state_short),
-                       radius = 5,
+                       radius = ~pt_size,
                        weight = 1,
                        group="selected",
                        fillOpacity = 0.8,
@@ -191,11 +191,12 @@ server <- function(input, output, session) {
                 #className = "info legend solid circle", #Css from original leaflet script
                 opacity = 1,
                 layerId = 'legend',
-                position = 'topleft')
+                position = 'topright')
     
     if(region_rv() == "All"){
       map %>%
-        set_bc_view()
+        # set_bc_view()
+        setView(lat = 50, lng = -130, zoom = 5)
     }
     else{
       map %>%
@@ -239,7 +240,7 @@ server <- function(input, output, session) {
             ylab ("Water Level (Meters Below Ground Level)")+
             theme_minimal()+
             theme(
-              text = element_text(colour = "black"),
+              text = element_text(colour = "black", size = 11),
               panel.grid.minor.x = element_blank(),
               panel.grid.major.x = element_blank(),
               axis.line = element_line(colour="grey50"),
@@ -259,23 +260,25 @@ server <- function(input, output, session) {
         }
       }
       else{
+        data = monthly_readings %>%
+          filter(case_when(var_rv() == "10 Years" ~ Well_Num == station_click() & Year >=2013,
+                           var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
+                           T ~ Well_Num == station_click())) %>%
+          filter(stat == "median") %>%
+          group_by(Month) %>%
+          summarise(median = median(value),
+                    upperCI = quantile(value, 0.975),
+                    lowerCI = quantile(value, 0.025))
         if(nrow(data) >0){
-          data = monthly_readings %>%
-            filter(case_when(var_rv() == "10 Years" ~ Well_Num == station_click() & Year >=2013,
-                             var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
-                             T ~ Well_Num == station_click())) %>%
-            filter(stat == "median") %>%
-            group_by(Month) %>%
-            summarise(median = median(value),
-                      upperCI = quantile(value, 0.975),
-                      lowerCI = quantile(value, 0.025))
-            
+
+            # print(data)
             ggplot(data) +
             geom_ribbon(aes(x = Month, ymax = upperCI, ymin = lowerCI),
                         fill = "#1E90FF", alpha = 0.4)+
             geom_line(aes(x = Month, y = median),
                       col = "black",
                       linewidth = 1)+
+              scale_y_reverse() +
             scale_x_continuous(breaks = 1:12, labels = month.abb) +
             theme_minimal() +
               theme(
@@ -295,8 +298,6 @@ server <- function(input, output, session) {
             geom_text(aes(x=1,y=1,label='Insufficient Data')) +
             ggthemes::theme_map()
         }
-        
-        
       }
       
     }
@@ -326,7 +327,7 @@ server <- function(input, output, session) {
           lims  = c(midgwl + gwlrange, midgwl - gwlrange)
           data$max_lims <- max(lims[1], max(data$value, na.rm = TRUE) + 5)
           
-          data = data %>%
+          plot_data = data %>%
             group_by(Year) %>%
             summarize(annual_median = median(value), 
                       n_months = n(),
@@ -351,17 +352,18 @@ server <- function(input, output, session) {
           int.well = intercept + slope * as.numeric(min(as.Date(data$Date)))
           
           trend_df = data.frame(int.well, slope)
-          print(trend_data)
-          print(trend_df)
+          # print(trend_data)
+          # print(trend_df)
           
-          plot = ggplot(data) +
+          plot = ggplot(plot_data) +
+            ggtitle(paste0("Station Class: ",trend_data$state_short,"\n",trend_data$slope," m/year")) +
             geom_errorbar(aes(x = as.Date(Date), ymin = min, ymax = max, col = missing_dat), width = 0.3) +
             geom_point(aes(x = as.Date(Date), y = annual_median, col = missing_dat)) +
             scale_x_date(expand = c(0.1,0.1)) +
             scale_y_reverse(expand = c(0,0)) + 
             coord_cartesian(ylim = lims) +
             scale_colour_manual(name = "",
-                                labels = c('Annual Medaian (95% Confidence Intervals)', 'Missing Data (Interpolated)'), 
+                                labels = c('Annual Median (95% Confidence Intervals)', 'Incomplete Data (Interpolated)'), 
                                 values = c("blue", "#A9A9A9")) +
             theme_minimal() +
             theme(
@@ -370,7 +372,7 @@ server <- function(input, output, session) {
               panel.grid.major.x = element_blank(),
               axis.line = element_line(colour="grey50"),
               legend.position = "bottom", legend.box =  "horizontal",
-              plot.title = element_text(hjust = 0.5),
+              plot.title = element_text(hjust = 0),
               plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
             theme(plot.margin = margin(10, 10, 10, 10, "points")) +
             xlab("Date") +
@@ -411,7 +413,21 @@ server <- function(input, output, session) {
         monthly_data = data %>% 
           filter(Month == match(month_rv(),month.abb))
         
-        if(nrow(monthly_data) >0){
+        if(nrow(data) >0){
+          #extract slope and intercept to draw trendline
+          trend_data = filtered_data() %>%
+            filter(Well_Num == station_click())
+          slope = trend_data %>%
+            pull(trend_line_slope)
+          slope = - as.numeric(slope)/365
+          
+          intercept = filtered_data() %>%
+            filter(Well_Num == station_click()) %>%
+            pull(trend_line_int)
+          
+          int.well = intercept + slope * as.numeric(min(as.Date(data$Date)))
+          
+          trend_df = data.frame(intercept = -int.well, slope = slope)
         maxgwl = max(data$value, na.rm = TRUE)
         mingwl = min(data$value, na.rm = TRUE)
         gwlrange = maxgwl - mingwl
@@ -420,8 +436,9 @@ server <- function(input, output, session) {
         data$max_lims <- max(lims[1], max(data$value, na.rm = TRUE) + 5)
         
         plot = ggplot(monthly_data) + 
+          ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level","\nStation Class: ",trend_data$state_short,"\n",trend_data$slope," m/year")) +
           geom_point(aes(x = as.Date(Date), y = value, col = missing_dat)) +
-          ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
+          # ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
           theme_minimal() +
           theme(plot.title = element_text(hjust = 0.5),
                 legend.position = "none") +
@@ -431,35 +448,23 @@ server <- function(input, output, session) {
             panel.grid.major.x = element_blank(),
             axis.line = element_line(colour="grey50"),
             legend.position = "bottom", legend.box =  "horizontal",
-            plot.title = element_text(hjust = 0.5),
+            plot.title = element_text(hjust = 0),
             plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
           theme(plot.margin = margin(10, 10, 10, 10, "points")) +
           scale_y_reverse() +
-          scale_colour_manual(values = c("blue", "#A9A9A9")) +
+          scale_colour_manual(name = "",
+                              labels = c('Annual Median (95% Confidence Intervals)', 'Incomplete Data (Interpolated)'), 
+                              values = c("blue", "#A9A9A9")) +
           coord_cartesian(ylim = lims) +
           xlab("Date") +
           ylab("Mean Water Level \n(Meters Below Ground Level)")
         
-        #extract slope and intercept to draw trendline
-        trend_data = filtered_data() %>%
-          filter(Well_Num == station_click())
-        slope = trend_data %>%
-          pull(trend_line_slope)
-        slope = - as.numeric(slope)/365
-        
-        intercept = filtered_data() %>%
-          filter(Well_Num == station_click()) %>%
-          pull(trend_line_int)
-        
-        int.well = intercept + slope * as.numeric(min(as.Date(data$Date)))
-        
-        trend_df = data.frame(intercept = -int.well, slope = slope)
-        print(trend_data)
-        print(trend_df)
-        print(min(as.Date(data$Date)))
-        print(as.numeric(min(as.Date(data$Date))))
-        print(lims)
-        print(monthly_data$Date)
+        # print(trend_data)
+        # print(trend_df)
+        # print(min(as.Date(data$Date)))
+        # print(as.numeric(min(as.Date(data$Date))))
+        # print(lims)
+        # print(monthly_data$Date)
         
         if(filtered_data() %>%
            filter(Well_Num == station_click()) %>%
