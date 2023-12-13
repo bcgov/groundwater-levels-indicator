@@ -10,7 +10,17 @@ results_out <- read.csv("data/gw_well_results.csv") %>%
   mutate(state_short = ifelse(state == "Recently established well; time series too short for trend analysis",
                               "Insufficient Data", ifelse(state == "Too many missing observations to perform trend analysis",
                                                           "Insufficient Data", state))) %>%
-  mutate(slope = -1*trend_line_slope) #This is reversed due to how slope is reported (meters below ground surface)
+  mutate(slope = -1*trend_line_slope) %>% #This is reversed due to how slope is reported (meters below ground surface)
+  mutate(state_short = fct_relevel(factor(state_short), 
+                                   c("Increasing",
+                                     "Stable",
+                                     "Moderate Rate of Decline",
+                                     "Large Rate of Decline",
+                                     "Insufficient Data"))) %>%
+  mutate(pt_size = case_when(state_short == "Insufficient Data" ~ 2,
+                             .default = 5))
+
+levels(results_out$state_short)
 
 #Define unique states
 state_list <- as.data.frame(unique(results_out$state_short))
