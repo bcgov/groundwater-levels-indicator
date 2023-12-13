@@ -104,7 +104,7 @@ in groundwater levels recorded at `r nrow(attr_wells)` observation wells that ha
 
 ```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 7, fig.height = 6, fig.align = 'left'}
 
-
+bc_bar_chart
 
 ```
 
