@@ -49,6 +49,10 @@ water_level_plot_tab = card(
   )
 )
 
+aquifer_info_tab = card(
+  card_body()
+)
+
 trend_plot_tab = card(
   card_body(
     plotOutput('trendPlot', height = 300)
@@ -58,13 +62,14 @@ trend_plot_tab = card(
 # Absolute Panel with trend selection.
 trend_select_abs_panel = absolutePanel(
   id = 'trend_selector',
-  top = 500, left = 10, width = 700, #height = 800,
+  top = 400, left = 10, width = 450, #height = 800,
   draggable = F,
   tabsetPanel(
     id = 'tabset',
     tabPanel('Trend Options',trend_select_options_tab),
+    tabPanel('Trend Plot', trend_plot_tab),
     tabPanel('Summary Plot',water_level_plot_tab),
-    tabPanel('Trend Plot', trend_plot_tab)
+    tabPanel('Aquifer Info', aquifer_info_tab)
   )
 )
 
@@ -75,7 +80,7 @@ ui = shiny::fluidPage(
   includeCSS('www/bc_button.css'),
 
   tags$head(tags$style(
-    HTML('#trend_selector {opacity:0.5;}
+    HTML('#trend_selector {opacity:0.9;}
          #trend_selector:hover{opacity:0.9;}'))),
   titlePanel("Flow Indicator"),
   # Throw in our own action button, setting class to 'my_home_button'
