@@ -35,8 +35,8 @@ theme_barcharts <- theme(
 )
 
 ## Plot settings 
-colour.scale <- c("Increasing"="#2c7bb6", "Stable"="white",
-                  "Moderate Rate of Decline"="#fdae61", "Large Rate of Decline"="#d7191c") 
+colour.scale <- c("Increasing"="#2171b5", "Stable"="#bdd7e7",
+                  "Moderate Rate of Decline"="#ff7b7b", "Large Rate of Decline"="#ff0000") 
 
 
 
@@ -68,10 +68,10 @@ results_viz <- results_out[results_out$category != "N/A",] %>%
                                                 "Large Rate of Decline"),
                            ordered = TRUE),
          col = case_when(
-           state == "Stable" ~ "white",
-           state == "Moderate Rate of Decline" ~ "#fdae61",
-           state == "Large Rate of Decline" ~ "#d7191c",
-           state == "Increasing" ~ "#2c7bb6"
+           state == "Stable" ~ "#bdd7e7",
+           state == "Moderate Rate of Decline" ~ "#ff7b7b",
+           state == "Large Rate of Decline" ~ "#ff0000",
+           state == "Increasing" ~ "#2171b5"
          )) %>%
   mutate(Well_Name = paste0("Observation Well #", Well_Num)) %>%
   select(c(-start_year.y, -end_year.y)) %>%
@@ -92,7 +92,6 @@ input_summary <- results_viz %>%
   mutate("no_wells_lab" = ifelse(count>1, paste0(count, " wells"), paste0(count, " well"))) %>%
   mutate(label_x = cumsum(count)) #Calculate the total count of wells for bar graph label
 
-
 #summary df & provincial summary bar chart of categories
 bc_bar_chart <- ggplot(data=input_summary) +
   geom_col(mapping=aes(x=prop, y=state, fill=state), width = 0.8, colour = "black") +
@@ -103,10 +102,17 @@ bc_bar_chart <- ggplot(data=input_summary) +
   labs(title = "Summary of Trends in Groundwater Levels in British Columbia") +
   xlab("Proportion of Wells (%)") + ylab(NULL) +
   theme_soe() +
-  theme(legend.position="none") + 
+  theme(legend.position="none",
+        plot.title = element_text(hjust = 0)) + 
   theme(panel.grid.minor.y = element_blank(),
-        panel.grid.major.y = element_blank()
-        )
+        panel.grid.major.y = element_blank()) +
+  scale_y_discrete(breaks = unique(input_summary$state),
+                   labels = c("Increasing",
+                              "Stable",
+                              "Moderate Rate \nof Decline",
+                              "Large Rate \nof Decline"
+                              ))
+bc_bar_chart
 
 #regional summary df
 #Summarize results by region and count wells in each state
