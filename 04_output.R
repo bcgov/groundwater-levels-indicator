@@ -110,8 +110,7 @@ bc_bar_chart <- ggplot(data=input_summary) +
                    labels = c("Increasing",
                               "Stable",
                               "Moderate Rate \nof Decline",
-                              "Large Rate \nof Decline"
-                              ))
+                              "Large Rate \nof Decline"))
 bc_bar_chart
 
 #regional summary df
@@ -143,8 +142,16 @@ regional_bar_chart <- ggplot(data=input_regional) +
         legend.title=element_blank(),
         legend.direction="horizontal") +
   theme(panel.grid.minor.y = element_blank(),
-        panel.grid.major.y = element_blank()
-  )
+        panel.grid.major.y = element_blank()) +
+  scale_y_discrete(breaks = unique(fct_reorder(input_regional$region_name,
+                                               input_regional$num_wells)),
+                   labels = c("Cariboo","Kootenay/\nBoundary",
+                              "Northeast",
+                              "Omineca",
+                              "Skeena",
+                              "South Coast",
+                              "Thompson/\nOkanagan",
+                              "West Coast"))
 
 svg_px("./out/figs/bc_bar_chart.svg", width = 700, height = 400)
 plot(bc_bar_chart)
