@@ -36,6 +36,7 @@ library(xtable)
 library(lubridate)
 library(forcats)
 library(here)
+library(magick)
 
 knitr::opts_chunk$set(cache = FALSE)
 
@@ -44,6 +45,10 @@ knitr::opts_chunk$set(cache = FALSE)
 load(here("tmp", "results_viz.Rdata"))
 #load('../tmp/well_plots.RData')
 load(here("tmp","figures.RData"))
+
+leaflet_map = image_read(here("tmp","static_leaflet.png"))
+
+
 
 attr_wells <- results_viz
 
@@ -102,7 +107,7 @@ in groundwater levels recorded at `r nrow(attr_wells)` observation wells that ha
 
 \vspace{20pt}
 
-```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 7, fig.height = 6, fig.align = 'left'}
+```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 6, fig.height = 6, fig.align = 'left'}
 
 bc_bar_chart
 
@@ -113,24 +118,23 @@ bc_bar_chart
 ## Summary of Trends in Groundwater Levels by B.C. Natural Resource Regions
 
 
-\vspace{60pt}
+\vspace{10pt}
 
-```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 6, fig.height = 7, fig.align = 'center'}
-
+```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 6, fig.height = 7, fig.align = 'left'}
 regional_bar_chart
-
 ```
 
 \newpage
 
 ## Trends in Groundwater Levels Observed at Observation Wells
 
-\vspace{30pt}
+\vspace{10pt}
 
-```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.width = 6, fig.height = 6, fig.align = 'center'}
-
+```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.align = 'left', fig.asp=0.75}
 # summary map
-
+# print(leaflet_map)
+map = image_crop(leaflet_map, "2000x1500+100")
+plot(leaflet_map)
 ```
 
 \newpage
