@@ -23,6 +23,12 @@ if (!exists("results_out"))  load("./tmp/analysis_data.RData")
 if (!exists("monthlywells_ts")) load("./tmp/clean_well_data.RData")
 if (!exists("results_sf")) load("./tmp/well_data_attributes_sf.RData")
 
+regions_sf <- read_sf("data/nr_polygons.gpkg") %>%
+  st_transform(crs = 4326) %>%
+  mutate(region_name = str_remove_all(REGION_NAME, " Natural Resource Region")) %>%
+  mutate(region_name = ifelse(region_name == "Thompson-Okanagan", "Thompson / Okanagan",
+                              ifelse(region_name == "Kootenay-Boundary", "Kootenay / Boundary", region_name)))
+
 ## Create Google maps?
 create_ggmaps <- TRUE
 
@@ -134,7 +140,7 @@ regional_bar_chart <- ggplot(data=input_regional) +
   scale_x_continuous(expand = c(0,0)) +
   expand_limits(x=c(0,72)) +
   guides(fill = guide_legend(reverse = TRUE))+
-  labs(title = "Summary of Trends in Groundwater Levels across Natural Resource Regions") +
+  labs(title = "Summary of Trends in Groundwater Levels across \nNatural Resource Regions") +
   xlab("Number of Wells") + ylab(NULL) +
   theme_soe() +
   theme(legend.position="bottom",
@@ -164,6 +170,67 @@ dev.off()
 
 #save version for rmd
 save(bc_bar_chart, regional_bar_chart, file = "tmp/figures.RData")
+
+#Static map for PDF
+results_sf = results_sf %>%
+  mutate(significant = case_when(grepl("\\*", Results_All) ~ 1,
+                                 .default = 0.2),
+         
+         result = str_replace(Results_All, "\\*", ""),
+         result = str_replace(result, "\\*", "")) %>%
+  st_transform(crs = '+proj=longlat +datum=WGS84' ) %>%
+  mutate(result = case_when(result %in% c("Too many missing observations","Recently established well") ~ "Insufficient Data",
+                            .default = result)) %>%
+  mutate(size = case_when(result == "Insufficient Data" ~ 3,
+                          .default = 5)) %>%
+  mutate(result = fct_relevel(factor(result), 
+                              c("Increasing",
+                                "Stable",
+                                "Moderate Rate of Decline",
+                                "Large Rate of Decline",
+                                "Insufficient Data")))
+
+#Color scheme
+mypal = colorFactor(palette = c("#2171b5", "#bdd7e7", "#ff7b7b", "#ff0000", "grey67"),
+                    domain = results_sf,
+                    levels = c("Increasing",
+                               "Stable",
+                               "Moderate Rate of Decline",
+                               "Large Rate of Decline",
+                               "Insufficient Data"
+                    ),
+                    ordered = T)
+
+leaflet() %>%
+  addProviderTiles(providers$CartoDB,group = "CartoDB") %>%
+  addPolygons(data = regions_sf,
+              color = "black",
+              fillColor = "white",
+              weight = 1,
+              fillOpacity = 0.2) %>%
+  addCircleMarkers(data = results_sf,
+                   radius = ~size,
+                   color = "black",
+                   weight = 0.5,
+                   fillOpacity = ~significant,
+                   fillColor = ~mypal(result)) %>%
+ addLegend(pal = mypal,
+           values = ~result,
+           title = "Groundwater Trend",
+           data = results_sf,
+           #className = "info legend solid circle", #Css from original leaflet script
+           opacity = 1,
+           layerId = 'legend',
+           position = 'topright') %>%
+  ## save html to png
+  saveWidget("temp.html", selfcontained = FALSE)
+webshot("temp.html", file = "tmp/static_leaflet.png",
+        cliprect = "viewport", zoom = 4)
+
+
+
+
+
 #Original script for leaflet web app
 # sum_data_reg <- results_viz %>%
 #   group_by(region_name, region_name_short, category) %>% #Ekaterina changed REGION_NAME to lowercase
