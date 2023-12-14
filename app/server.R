@@ -36,11 +36,11 @@ server <- function(input, output, session) {
                         'region_choice',
                         selected = 'All')
     }
-    if(region_rv() == "All") {
-      #   # Update map to BC zoom (customizable)
-      #   leafletProxy('my_leaf') |>
-      #     setView(lat = 55, lng = -125, zoom = 5) 
-    }
+    # if(region_rv() == "All") {
+    #   #   # Update map to BC zoom (customizable)
+    #   #   leafletProxy('my_leaf') |>
+    #   #     setView(lat = 55, lng = -125, zoom = 5) 
+    # }
     
   })
   
@@ -200,7 +200,7 @@ server <- function(input, output, session) {
     }
     else{
       map %>%
-        fitBounds(as.numeric(boundary_data()$xmin)-0.5, as.numeric(boundary_data()$ymin)-0.5, as.numeric(boundary_data()$xmax)+0.5, as.numeric(boundary_data()$ymax)+0.5)
+        fitBounds(as.numeric(boundary_data()$xmin)-1, as.numeric(boundary_data()$ymin)-1, as.numeric(boundary_data()$xmax)+1, as.numeric(boundary_data()$ymax)+1)
     }
   })
   
@@ -488,4 +488,54 @@ server <- function(input, output, session) {
     }
   })
   
+  output$aquifer = renderUI({
+    if(station_click() == 'No Selection'){
+      ggplot() +
+        geom_text(aes(x=1,y=1,label='Click on a groundwater monitoring station on the map to see its Aquifer Information.')) +
+        ggthemes::theme_map()
+    }
+    else{
+      aquifer_id = wells_sf_full %>%
+        filter(Well_Num == station_click())%>%
+        pull(aquifer_id)
+      
+      aquifer_type = wells_sf_full %>%
+        filter(Well_Num == station_click())%>%
+        pull(Aquifer_Type)
+      
+      paste0("Aquifer ID: ", aquifer_id)
+    }
+  })
+    
+    # output$aquiferData = renderText({
+    #   if(station_click() == 'No Selection'){
+    #     paste("")
+    #   }
+    #   else{
+    # 
+    #   }
+    # })
+
+    
+    # ggplot() +
+    #   geom_text(aes(x=0.5,y=5,label=paste0("Aquifer ID: ", aquifer_id))) +
+    #   geom_text(aes(x=0.5,y=4,label=paste0("Aquifer Type: ", aquifer_type))) +
+    #   labs(title = tags$a("View available aquifer information", href = paste0("https://apps.nrs.gov.bc.ca/gwells/aquifers/",
+    #                                      aquifer_id))) +
+    #   ggthemes::theme_map()
+    
+    
+    # l1 = paste0("Aquifer ID: ", aquifer_id)
+    # 
+    # 
+    # 
+    # l2 = paste0("Aquifer Type: ", aquifer_type)
+    # 
+    # l3 <- paste0("<a href=", "https://apps.nrs.gov.bc.ca/gwells/aquifers/",
+    #                          aquifer_id, ">View available aquifer information</a","<br/>")
+    # 
+    # l4 = paste0("<a href=", "https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=b53cb0bf3f6848e79d66ffd09b74f00d&find=OBS%20WELL%20",
+    #             aquifer_id, ">View this well on the Provincial Groundwater Observation Well Network</a")
+    
+    # HTML(paste(l1, l2, l3, l4, sep = '<br/>'))
 }
