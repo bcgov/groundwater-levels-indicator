@@ -4,6 +4,8 @@ library(sf)
 library(leaflet)
 library(envreportutils)
 library(shinyjs)
+library(ggtext)
+library(htmltools)
 
 ## Load data
 results_out <- read.csv("data/gw_well_results.csv") %>%
