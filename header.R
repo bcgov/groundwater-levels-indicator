@@ -20,7 +20,6 @@ package_list <- c("dplyr", "rgdal", "sp", "ggplot2", "stringr", #"zoo"
 package_new <- package_list[!(package_list %in% installed.packages()[,"Package"])]
 if(length(package_new)) install.packages(package_new)
 
-
 ## Install the packages we will need from GitHub:
 package_github <- c(bcgov = "bcgroundwater", bcgov = "envreportutils", 
                     bcgov = "bcmapsdata", thomasp85 = "patchwork")
@@ -63,6 +62,10 @@ library(readr)
 library(glue)
 library(patchwork)
 library(cowplot)
+library(leaflet)
+library(webshot)
+library(htmlwidgets)
+library(knitr)
 
 ## Create project directories
 if (!exists("tmp")) dir.create("tmp", showWarnings = FALSE)
@@ -73,4 +76,3 @@ if (!exists("leaflet_map/regional_plots")) dir.create("leaflet_map/regional_plot
 
 ## Invisible header object
 .header_sourced <- TRUE
-
