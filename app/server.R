@@ -488,24 +488,33 @@ server <- function(input, output, session) {
     }
   })
   
-  output$aquifer = renderUI({
+  output$aquifer = renderPlot({
     if(station_click() == 'No Selection'){
       ggplot() +
         geom_text(aes(x=1,y=1,label='Click on a groundwater monitoring station on the map to see its Aquifer Information.')) +
         ggthemes::theme_map()
     }
-    else{
-      aquifer_id = wells_sf_full %>%
-        filter(Well_Num == station_click())%>%
-        pull(aquifer_id)
-      
-      aquifer_type = wells_sf_full %>%
-        filter(Well_Num == station_click())%>%
-        pull(Aquifer_Type)
-      
-      paste0("Aquifer ID: ", aquifer_id)
-    }
   })
+  
+  output$aquifer_text = renderText({
+    aquifer_id = wells_sf_full %>%
+            filter(Well_Num == station_click())%>%
+            pull(aquifer_id)
+
+          aquifer_type = wells_sf_full %>%
+            filter(Well_Num == station_click())%>%
+            pull(Aquifer_Type)
+
+          paste0("Aquifer ID: ", aquifer_id)
+  })
+  
+  # create a condition you use in the ui
+  output$cond <- reactive({
+    station_click() != 'No Selection' 
+  })
+  
+  outputOptions(output, "cond", suspendWhenHidden = FALSE)
+
     
     # output$aquiferData = renderText({
     #   if(station_click() == 'No Selection'){
