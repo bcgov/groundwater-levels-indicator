@@ -496,17 +496,38 @@ server <- function(input, output, session) {
     }
   })
   
-  output$aquifer_text = renderText({
+  output$aquifer_id = renderText({
     aquifer_id = wells_sf_full %>%
             filter(Well_Num == station_click())%>%
             pull(aquifer_id)
 
-          aquifer_type = wells_sf_full %>%
-            filter(Well_Num == station_click())%>%
-            pull(Aquifer_Type)
 
           paste0("Aquifer ID: ", aquifer_id)
   })
+  
+  output$aquifer_type = renderText({
+    
+    aquifer_type = wells_sf_full %>%
+      filter(Well_Num == station_click())%>%
+      pull(Aquifer_Type)
+    
+    paste0("Aquifer Type: ", aquifer_type)
+  })
+  
+  output$aquifer_url = renderText({
+    aquifer_id = wells_sf_full %>%
+      filter(Well_Num == station_click())%>%
+      pull(aquifer_id)
+    
+    HTML(paste0("<a href=", "https://apps.nrs.gov.bc.ca/gwells/aquifers/",
+           aquifer_id, ">View available aquifer information</a"))
+  })
+  
+  output$aquifer_url2 = renderText({
+    
+    HTML(paste0("<a href=", "https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=b53cb0bf3f6848e79d66ffd09b74f00d&find=OBS%20WELL%20",
+                station_click(), ">View this well on the Provincial Groundwater Observation Well Network</a"))
+  }) 
   
   # create a condition you use in the ui
   output$cond <- reactive({
@@ -514,37 +535,4 @@ server <- function(input, output, session) {
   })
   
   outputOptions(output, "cond", suspendWhenHidden = FALSE)
-
-    
-    # output$aquiferData = renderText({
-    #   if(station_click() == 'No Selection'){
-    #     paste("")
-    #   }
-    #   else{
-    # 
-    #   }
-    # })
-
-    
-    # ggplot() +
-    #   geom_text(aes(x=0.5,y=5,label=paste0("Aquifer ID: ", aquifer_id))) +
-    #   geom_text(aes(x=0.5,y=4,label=paste0("Aquifer Type: ", aquifer_type))) +
-    #   labs(title = tags$a("View available aquifer information", href = paste0("https://apps.nrs.gov.bc.ca/gwells/aquifers/",
-    #                                      aquifer_id))) +
-    #   ggthemes::theme_map()
-    
-    
-    # l1 = paste0("Aquifer ID: ", aquifer_id)
-    # 
-    # 
-    # 
-    # l2 = paste0("Aquifer Type: ", aquifer_type)
-    # 
-    # l3 <- paste0("<a href=", "https://apps.nrs.gov.bc.ca/gwells/aquifers/",
-    #                          aquifer_id, ">View available aquifer information</a","<br/>")
-    # 
-    # l4 = paste0("<a href=", "https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=b53cb0bf3f6848e79d66ffd09b74f00d&find=OBS%20WELL%20",
-    #             aquifer_id, ">View this well on the Provincial Groundwater Observation Well Network</a")
-    
-    # HTML(paste(l1, l2, l3, l4, sep = '<br/>'))
 }

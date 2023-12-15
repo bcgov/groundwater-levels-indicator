@@ -59,14 +59,25 @@ aquifer_info_tab = card(
     conditionalPanel(
       style = "height:300px",
       condition = "output.cond == true",
-      textOutput("aquifer_text")
-  )
-)
-)
-  
-  card(
-  card_body(
-    uiOutput('noData', height = 300)
+      
+      textOutput("aquifer_id"),
+      br(),
+      br(),
+      textOutput("aquifer_type"),
+      br(),
+      br(),
+      htmlOutput("aquifer_url"),
+      br(),
+      br(),
+      htmlOutput("aquifer_url2"),
+      
+      tags$head(tags$style("#aquifer_id{color: red;
+                                 font-size: 20px;
+                                 font-style: italic;
+                                 }"
+      ))
+      
+    )
   )
 )
 
