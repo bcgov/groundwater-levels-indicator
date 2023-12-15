@@ -50,6 +50,21 @@ water_level_plot_tab = card(
 )
 
 aquifer_info_tab = card(
+  div(
+    style ="background:white",
+    conditionalPanel(
+      condition = "output.cond == false",
+      plotOutput("aquifer", height = 300)
+    ),
+    conditionalPanel(
+      style = "height:300px",
+      condition = "output.cond == true",
+      textOutput("aquifer_text")
+  )
+)
+)
+  
+  card(
   card_body(
     uiOutput('noData', height = 300)
   )
@@ -71,10 +86,9 @@ trend_select_abs_panel = absolutePanel(
     tabPanel('Trend Options',trend_select_options_tab),
     tabPanel('Trend Plot', trend_plot_tab),
     tabPanel('Summary Plot',water_level_plot_tab),
-    tabPanel('Aquifer Info', aquifer_info_tab),
-    div(style = "color: white")
-    )
+    tabPanel('Aquifer Info', aquifer_info_tab)
   )
+)
 
 ui = shiny::fluidPage(
   # Enables us to do some fancy things in javascript...
