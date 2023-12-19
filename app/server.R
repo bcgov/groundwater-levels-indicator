@@ -17,34 +17,33 @@ server <- function(input, output, session) {
   period_rv = reactiveVal('Yearly')
   month_rv = reactiveVal('January')
   region_rv = reactiveVal('All')
+  my_params_rv = reactiveValues()
   
   #clicked selections
   station_click = reactiveVal('No Selection')
   
   #BC button
   observeEvent(input$abs_button, {
-    
+  zoom = input$leafmap_zoom
+  lat = input$leafmap_center[2]
+  lon = input$leafmap_center[1]
+
     # Change region_rv() to 'All'
-    if(region_rv() != 'All'){
+    if(region_rv() != 'All'| zoom != 5 | lat != 50 | lon != -130){
       region_rv('All')
       
       # Update map to BC zoom (customizable)
-      leafletProxy('my_leaf') |>
-        setView(lat = 40, lng = -130, zoom = 5)
+      leafletProxy('leafmap') |>
+        setView(lat = 50, lng = -130, zoom = 5)
       
       updateSelectInput(session = session,
                         'region_choice',
                         selected = 'All')
     }
-    # if(region_rv() == "All") {
-    #   #   # Update map to BC zoom (customizable)
-    #   #   leafletProxy('my_leaf') |>
-    #   #     setView(lat = 55, lng = -125, zoom = 5) 
-    # }
-    
   })
   
   observe({
+   
     
     var_rv(input$var_choice)
     period_rv(input$time_scale)
