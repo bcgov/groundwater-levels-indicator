@@ -44,7 +44,6 @@ server <- function(input, output, session) {
   
   observe({
    
-    
     var_rv(input$var_choice)
     period_rv(input$time_scale)
     
@@ -162,11 +161,24 @@ server <- function(input, output, session) {
     map = leaflet() %>%
       addProviderTiles(providers$CartoDB,group = "CartoDB") %>%
       addTiles(group = 'Streets') %>%
-      # add_bc_home_button() %>%
-      # set_bc_view() %>%
       addLayersControl(baseGroups = c("CartoDB","Streets"),
                        options = layersControlOptions(collapsed = F),
-                       position = 'topright') %>%
+                       position = 'topright')
+    
+    if(region_rv() == "All"){
+      map %>%
+        # set_bc_view()
+        setView(lat = 50, lng = -130, zoom = 5)
+    }
+    else{
+      map %>%
+        fitBounds(as.numeric(boundary_data()$xmin)-1, as.numeric(boundary_data()$ymin)-1, as.numeric(boundary_data()$xmax)+1, as.numeric(boundary_data()$ymax)+1)
+    }
+  })
+  
+  observe({
+    leafletProxy('leafmap') %>%
+      clearMarkers() %>%
       addPolygons(layerId = ~region_name,
                   data = region_data(),
                   label = ~paste0(REGION_NAME), color = "black", fillColor = "white",
@@ -191,18 +203,7 @@ server <- function(input, output, session) {
                 opacity = 1,
                 layerId = 'legend',
                 position = 'topright')
-    
-    if(region_rv() == "All"){
-      map %>%
-        # set_bc_view()
-        setView(lat = 50, lng = -130, zoom = 5)
-    }
-    else{
-      map %>%
-        fitBounds(as.numeric(boundary_data()$xmin)-1, as.numeric(boundary_data()$ymin)-1, as.numeric(boundary_data()$xmax)+1, as.numeric(boundary_data()$ymax)+1)
-    }
   })
-  
   
   output$summaryPlot = renderPlot({
     
