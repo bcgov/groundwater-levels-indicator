@@ -35,7 +35,7 @@ map_abs_panel = absolutePanel(
   top = 0, left = 0, right = 0,
   fixed = TRUE,
   div(
-    style="padding: 8px; border-bottom: 1px solid #CCC; background: #FFFFEE;",
+    style="padding: 0px; border-bottom: 1px solid #CCC; background: #FFFFEE;",
     fluidRow(
       leafletOutput('leafmap',
                     height = '1000px')
