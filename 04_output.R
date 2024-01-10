@@ -160,11 +160,11 @@ regional_bar_chart <- ggplot(data=input_regional) +
                               "West Coast"))+ 
   guides(fill = guide_legend(nrow = 2))
 
-svg_px("./out/figs/bc_bar_chart.svg", width = 800, height = 400)
+svg_px("./out/figs/bc_bar_chart_2023.svg", width = 800, height = 400)
 plot(bc_bar_chart)
 dev.off()
 
-svg_px("./out/figs/regional_bar_chart.svg", width = 800, height = 400)
+svg_px("./out/figs/regional_bar_chart_2023.svg", width = 800, height = 400)
 plot(regional_bar_chart)
 dev.off()
 
@@ -201,7 +201,8 @@ mypal = colorFactor(palette = c("#2171b5", "#bdd7e7", "#ff7b7b", "#ff0000", "gre
                     ),
                     ordered = T)
 
-leaflet() %>%
+leaflet(options =
+          leafletOptions(zoomControl = FALSE)) %>%
   addProviderTiles(providers$CartoDB,group = "CartoDB") %>%
   addPolygons(data = regions_sf,
               color = "black",
@@ -540,13 +541,15 @@ well_plots = well_plots %>%
                                             opacity = 1,
                                             fillOpacity = 1,
                                             color = "black",
-                                            radius = 5,
+                                            radius = 6,
+                                            weight = 2,
                                             label = Well_Num)))
 
   for (i in 1:nrow(well_plots)) {
     library(mapview)
+    ifelse(!dir.exists(file.path("tmp", "pngs")), dir.create(file.path("tmp", "pngs")), FALSE)
     well_plots$map_plot[[i]] %>%
-      mapview::mapshot(file = paste0("tmp/",well_plots$Well_Num[[i]],".png"))
+      mapview::mapshot(file = paste0("tmp/pngs/",well_plots$Well_Num[[i]],".png"))
     print(paste0("Row ", i, " of ", nrow(well_plots)," complete"))
   }
 
