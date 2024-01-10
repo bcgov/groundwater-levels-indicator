@@ -95,7 +95,7 @@ is available given human use patterns, aquifer characteristics,
 weather and climate patterns^[1](#fn1)^. Aquifers are geological formations of permeable rock, gravel, or sand containing or conducting groundwater.
 
 -   This indicator presents an analysis of long-term trends
-in groundwater levels recorded at `r nrow(attr_wells)` observation wells that have been monitored for ten years or more and that were active as of 2009.
+in groundwater levels recorded at `r nrow(attr_wells)` observation wells that have been monitored for ten years or more and that were active as of 2013.
 
 -  Groundwater level trends are summarized using three long-term trend categories: Stable or Increasing, Moderate Rate of Decline (3 to 10 cm/year), and Large Rate of Decline (more than 10 cm/year).
 
@@ -117,9 +117,9 @@ bc_bar_chart
 
 \newpage
 
-## Summary of Trends in Groundwater Levels by B.C. Natural Resource Regions
+## Regional Summary of Trends in Groundwater Levels
 
-
+- The number of wells in each Natural Resource Regions across B.C. varies. The highest number of observation wells is in the West Coast Region, with 62 wells. The location and status can be seen in the map below
 \vspace{10pt}
 
 ```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 6, fig.height = 7, fig.align = 'left'}
@@ -132,10 +132,10 @@ regional_bar_chart
 
 \vspace{10pt}
 
-```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.align = 'left', fig.width = 7, fig.asp=0.75}
+```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.align = 'left', fig.width = 11, fig.asp=0.75}
 # summary map
 # print(leaflet_map)
-map = image_crop(leaflet_map, "2000x1500+100")
+# map = image_crop(leaflet_map, "2000x1500+100")
 plot(leaflet_map)
 ```
 
@@ -219,7 +219,7 @@ Email correspondence to: envreportbc@gov.bc.ca
 Environmental Reporting BC. 2019.  Long-term Trends in Groundwater Levels in B.C. State of Environment Reporting, Ministry of Environment and Climate Change Strategy, British Columbia, Canada.
 
 
-\vspace{50pt}
+\newpage
 
 ## Appendix: Detailed Maps & Graphs for Groundwater Observation Wells Included in the Analysis
 
@@ -285,7 +285,7 @@ for (reg in sort(unique(attr_wells$region_name))) {
     #            "\\newline"))
     well = as.integer(well)
     mapplot <- filter(well_plots, Well_Num == well) %>% pull(map_plot)
-    mapplot = readPNG(here(paste0("tmp/",well,".png")))
+    mapplot = readPNG(here(paste0("tmp/pngs/",well,".png")))
       mapplot = ggdraw() +
       draw_image(mapplot)
     monthplot <- filter(well_plots, Well_Num == well) %>% pull(month_plot)
