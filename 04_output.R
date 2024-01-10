@@ -423,8 +423,8 @@ BCcenter <- c(mean(BCextent[c("left","right")]),
               mean(BCextent[c("top","bottom")]))
 
 #if (!nzchar("GMAP_KEY")) {
-  ggMapBC <- get_stadiamap(bbox = BCextent, zoom = 5, scale = 1, 
-                           maptype = 'stamen_terrain')
+  # ggMapBC <- get_stadiamap(bbox = BCextent, zoom = 5, scale = 1, 
+  #                          maptype = 'stamen_terrain')
   
   
 # } else {
@@ -510,26 +510,53 @@ if (create_ggmaps) {
 
 #create list of well maps
 wellMaps <- vector("list", length(unique(results_viz$Well_Num)))
-names(wellMaps) <- unique(results_viz$Well_Num)
+names(wellMaps) <- unique(as.integer(results_viz$Well_Num))
 for (w in names(wellMaps)) {
-  well <- filter(results_viz, Well_Num == as.integer(w))
-  wellMaps[[w]] <- tryCatch(get_stamenmap(center = c(well$Long[1], well$Lat[1]), 
-                                          zoom = 8, 
-                                          maptype = 'terrain-background',
-                                          style = styles), 
-                            error = function(e) NULL)
+  well <- filter(results_viz, as.integer(Well_Num) == as.integer(w))
+  # wellMaps[[w]] <- tryCatch(get_stamenmap(center = c(well$Long[1], well$Lat[1]), 
+  #                                         zoom = 8, 
+  #                                         maptype = 'terrain-background',
+  #                                         style = styles), 
+  #                           error = function(e) NULL)
+  wellMaps[[w]] <- leaflet(options =
+                             leafletOptions(zoomControl = FALSE)) %>%
+    addProviderTiles("OpenStreetMap") %>%
+    setView(lng = well$Long[1], lat = well$Lat[1],
+            zoom = 8)
 }
 
 #individual Obs Well ggmap plots 
 well_plots <- well_plots %>% 
-  left_join(tibble(Well_Num = names(wellMaps), 
-                   maps = wellMaps)) %>%
-  mutate(map_plot = pmap(list(Long, Lat, colour, maps), 
-                         ~ plot_point_with_inset(long = ..1, lat = ..2,
-                                                 pointColour = ..3,
-                                                 bigMap = ..4, 
-                                                 overviewMap = ggMapBC,
-                                                 overviewExtent = BCextent)))
+  mutate(Well_Num = as.integer(Well_Num))
+
+leaflets = tibble(Well_Num = as.integer(names(wellMaps)), 
+                  maps = wellMaps)
+
+well_plots = well_plots %>%
+  left_join(leaflets, by = "Well_Num") %>%
+  mutate(map_plot = pmap(list(Long, Lat, colour, maps),
+                         ~ ..4 %>%
+                           addCircleMarkers(lng = ..1, lat = ..2, fillColor = ..3, 
+                                            opacity = 1,
+                                            fillOpacity = 1,
+                                            color = "black",
+                                            radius = 5,
+                                            label = Well_Num)))
+
+  for (i in 1:nrow(well_plots)) {
+    library(mapview)
+    well_plots$map_plot[[i]] %>%
+      mapview::mapshot(file = paste0("tmp/",well_plots$Well_Num[[i]],".png"))
+    print(paste0("Row ", i, " of ", nrow(well_plots)," complete"))
+  }
+
+  # 
+  # mutate(map_plot = pmap(list(Long, Lat, colour, maps), 
+  #                        ~ plot_point_with_inset(long = ..1, lat = ..2,
+  #                                                pointColour = ..3,
+  #                                                bigMap = ..4,
+  #                                                overviewMap = ggMapBC,
+  #                                                overviewExtent = BCextent)))
 #save for use in .Rmd
 save(well_plots, file = "tmp/well_plots.RData")
 
