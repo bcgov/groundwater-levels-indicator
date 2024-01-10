@@ -1,11 +1,11 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2023.12.14)  14 DEC 2023 11:44
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.1.9)  9 JAN 2024 16:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **gwl_2023.tex
 (./gwl_2023.tex
 LaTeX2e <2023-11-01>
-L3 programming layer <2023-12-11>
+L3 programming layer <2024-01-04>
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrartcl.cls
 Document Class: scrartcl 2023/07/07 v3.41 KOMA-Script document class (article)
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/koma-script/scrkbase.sty
@@ -305,9 +305,9 @@ Package: mathspec 2016/12/22 v0.2b LaTeX Package (Mathematics font selection for
 Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count277
 ) (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/fontspec/fontspec.sty (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3packages/xparse/xparse.sty (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2023-12-11 L3 programming layer (loader) 
+Package: expl3 2024-01-04 L3 programming layer (loader) 
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-xetex.def
-File: l3backend-xetex.def 2023-11-09 L3 backend support: XeTeX
+File: l3backend-xetex.def 2024-01-04 L3 backend support: XeTeX
 \g__graphics_track_int=\count278
 \l__pdf_internal_box=\box55
 \g__pdf_backend_object_int=\count279
@@ -599,15 +599,15 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 )
 \Hy@SectionHShift=\skip76
 )
-Package hyperref Info: Option `breaklinks' set `true' on input line 97.
+Package hyperref Info: Option `breaklinks' set `true' on input line 106.
 
 Package hyperref Warning: Option `bookmarks' has already been used,
-(hyperref)                setting the option has no effect on input line 97.
+(hyperref)                setting the option has no effect on input line 106.
 
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/stringenc/se-ascii-print.def
 File: se-ascii-print.def 2019/11/29 v1.12 stringenc: Printable ASCII characters
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 97.
+Package hyperref Info: Option `colorlinks' set `true' on input line 106.
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2023/11/15 v3.01 LaTeX color extensions (UK)
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -657,7 +657,7 @@ Package: longtable 2023-11-01 v4.19 Multi-page Table package (DPC)
 \c@LT@chunks=\count316
 \LT@p@ftn=\toks33
 )
-Class scrartcl Info: longtable captions redefined on input line 117.
+Class scrartcl Info: longtable captions redefined on input line 126.
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \heavyrulewidth=\dimen181
@@ -677,48 +677,131 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 \@thisruleclass=\count319
 \@lastruleclass=\count320
 \@thisrulewidth=\dimen193
+) (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
+\multirow@colwidth=\skip84
+\multirow@cntb=\count321
+\multirow@dima=\skip85
+\bigstrutjot=\dimen194
+) (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen195
+\WF@size=\dimen196
+\c@WF@wrappedlines=\count322
+\WF@box=\box68
+\WF@everypar=\toks34
+Package: wrapfig 2003/01/31  v 3.6
+) (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count323
+\float@exts=\toks35
+\float@box=\box69
+\@float@everytoks=\toks36
+\@floatcapt=\box70
+) (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
+(c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty
+Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PDF (HO)
+Package pdflscape Info: Auto-detected driver: dvipdfm (xetex) on input line 98.
+)) (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tabu/tabu.sty
+Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
+(c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box71
+\sift@deathcycles=\count324
+\@vwid@loff=\dimen197
+\@vwid@roff=\dimen198
+)
+\c@taburow=\count325
+\tabu@nbcols=\count326
+\tabu@cnt=\count327
+\tabu@Xcol=\count328
+\tabu@alloc=\count329
+\tabu@nested=\count330
+\tabu@target=\dimen199
+\tabu@spreadtarget=\dimen256
+\tabu@naturalX=\dimen257
+\tabucolX=\dimen258
+\tabu@Xsum=\dimen259
+\extrarowdepth=\dimen260
+\abovetabulinesep=\dimen261
+\belowtabulinesep=\dimen262
+\tabustrutrule=\dimen263
+\tabu@thebody=\toks37
+\tabu@footnotes=\toks38
+\tabu@box=\box72
+\tabu@arstrutbox=\box73
+\tabu@hleads=\box74
+\tabu@vleads=\box75
+\tabu@cellskip=\skip86
+) (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttable/threeparttable.sty
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box76
+) (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttablex/threeparttablex.sty
+Package: threeparttablex 2013/07/23 v0.3 by daleif
+(c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+(c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+\TPTL@width=\skip87
+) (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box77
+\UL@hyphenbox=\box78
+\UL@skip=\skip88
+\UL@hook=\toks39
+\UL@height=\dimen264
+\UL@pe=\count331
+\UL@pixel=\dimen265
+\ULC@box=\box79
+Package: ulem 2019/11/18
+\ULdepth=\dimen266
+) (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen267
+\c@nlinenum=\count332
+\TeXr@lab=\toks40
 ) (./gwl_2023.aux)
 \openout1 = `gwl_2023.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 118.
-LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 118.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 141.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 141.
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 118.
-LaTeX Font Info:    Trying to load font information for T3+cmr on input line 118.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 141.
+LaTeX Font Info:    Trying to load font information for T3+cmr on input line 141.
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tipa/t3cmr.fd
 File: t3cmr.fd 2001/12/31 TIPA font definitions
 )
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 118.
-LaTeX Font Info:    ... okay on input line 118.
-Package scrbase Info: activating english \abstractname on input line 118.
-Package scrbase Info: activating english \partname on input line 118.
-Package scrbase Info: activating english \figurename on input line 118.
-Package scrbase Info: activating english \tablename on input line 118.
-Package scrbase Info: activating english \contentsname on input line 118.
-Package scrbase Info: activating english \listfigurename on input line 118.
-Package scrbase Info: activating english \listtablename on input line 118.
-Package scrbase Info: activating english \refname on input line 118.
-Package scrbase Info: activating english \indexname on input line 118.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 141.
+LaTeX Font Info:    ... okay on input line 141.
+Package scrbase Info: activating english \abstractname on input line 141.
+Package scrbase Info: activating english \partname on input line 141.
+Package scrbase Info: activating english \figurename on input line 141.
+Package scrbase Info: activating english \tablename on input line 141.
+Package scrbase Info: activating english \contentsname on input line 141.
+Package scrbase Info: activating english \listfigurename on input line 141.
+Package scrbase Info: activating english \listtablename on input line 141.
+Package scrbase Info: activating english \refname on input line 141.
+Package scrbase Info: activating english \indexname on input line 141.
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 
@@ -758,13 +841,16 @@ Package geometry Warning: The marginal notes overrun the paper.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: longtable package is loaded.
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
+Package caption Info: threeparttable package is loaded.
+Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring ON on input line 118.
+Package hyperref Info: Link coloring ON on input line 141.
 (./gwl_2023.out) (./gwl_2023.out)
 \@outlinefile=\write3
 \openout3 = `gwl_2023.out'.
@@ -776,34 +862,34 @@ Class scrartcl Info: loading recommended package `bookmark'.
 (scrartcl)           `bookmarkpackage=false' before \begin{document} and
 (scrartcl)           you can avoid this message adding:
 (scrartcl)             \usepackage{bookmark}
-(scrartcl)           before \begin{document} on input line 118.
+(scrartcl)           before \begin{document} on input line 141.
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/bookmark/bookmark.sty
 Package: bookmark 2023-12-10 v1.31 PDF bookmarks (HO)
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/bookmark/bkm-dvipdfm.def
 File: bkm-dvipdfm.def 2023-12-10 v1.31 bookmark driver for dvipdfm (HO)
-\BKM@id=\count321
+\BKM@id=\count333
 ))
 LaTeX Font Info:    Font shape `TU/Calibri(0)/m/n' will be
-(Font)              scaled to size 10.16353pt on input line 120.
+(Font)              scaled to size 10.16353pt on input line 143.
 LaTeX Font Info:    Font shape `TU/Calibri(0)/b/n' will be
-(Font)              scaled to size 10.06812pt on input line 120.
+(Font)              scaled to size 10.06812pt on input line 143.
 LaTeX Font Info:    Font shape `TU/Calibri(0)/b/n' will be
-(Font)              scaled to size 19.06969pt on input line 120.
+(Font)              scaled to size 19.06969pt on input line 143.
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/water.png Graphic file (type bmp)
 <C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/water.png>
 LaTeX Font Info:    Font shape `TU/Calibri(0)/b/n' will be
-(Font)              scaled to size 22.87627pt on input line 120.
+(Font)              scaled to size 22.87627pt on input line 143.
 LaTeX Font Info:    Font shape `TU/Calibri(0)/b/n' will be
-(Font)              scaled to size 11.03357pt on input line 120.
+(Font)              scaled to size 11.03357pt on input line 143.
 LaTeX Font Info:    Font shape `TU/Calibri(0)/b/n' will be
-(Font)              scaled to size 15.88834pt on input line 120.
+(Font)              scaled to size 15.88834pt on input line 143.
 LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/m/n' will be
-(Font)              scaled to size 11.96872pt on input line 120.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 120.
+(Font)              scaled to size 11.96872pt on input line 143.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 143.
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 120.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 143.
 (c:/Users/ANDLADLE/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
@@ -871,15 +957,15 @@ Package fontspec Info: Font family 'PalatinoLinotype(1)' created for font
 (fontspec)             Linotype/BI/OT:script=latn;language=dflt;+sups;+smcp;mapping=tex-text;"
 
 LaTeX Font Info:    Font shape `TU/PalatinoLinotype(1)/m/n' will be
-(Font)              scaled to size 9.10121pt on input line 140.
+(Font)              scaled to size 9.10121pt on input line 163.
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
 Package fancyhdr Warning: \headheight is too small (42.67912pt): 
-(fancyhdr)                Make it at least 59.08003pt, for example:
-(fancyhdr)                \setlength{\headheight}{59.08003pt}.
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
 (fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-16.40091pt}.
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [1
 
@@ -891,10 +977,10 @@ File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
 Package fancyhdr Warning: \headheight is too small (42.67912pt): 
-(fancyhdr)                Make it at least 59.08003pt, for example:
-(fancyhdr)                \setlength{\headheight}{59.08003pt}.
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
 (fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-16.40091pt}.
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [2]
 File: gwl_2023_files/figure-latex/region-1.pdf Graphic file (type pdf)
@@ -903,98 +989,2783 @@ File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
 Package fancyhdr Warning: \headheight is too small (42.67912pt): 
-(fancyhdr)                Make it at least 59.08003pt, for example:
-(fancyhdr)                \setlength{\headheight}{59.08003pt}.
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
 (fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-16.40091pt}.
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [3]
 File: gwl_2023_files/figure-latex/overview_map-1.pdf Graphic file (type pdf)
 <use gwl_2023_files/figure-latex/overview_map-1.pdf>
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
-Overfull \hbox (14.50975pt too wide) in paragraph at lines 192--192
-[]  
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[4]
+LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/m/n' will be
+(Font)              scaled to size 8.31161pt on input line 230.
+
+Overfull \hbox (8.4198pt too wide) in alignment at lines 232--236
+[] [] [] [] [] [] [] 
+ []
+
+LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/m/it' will be
+(Font)              scaled to size 8.31161pt on input line 237.
+
+Overfull \hbox (8.4198pt too wide) in alignment at lines 236--241
+[] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (8.4198pt too wide) in alignment at lines 241--243
+[] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (8.4198pt too wide) in alignment at lines 243--245
+[] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (8.4198pt too wide) in alignment at lines 245--401
+[] [] [] [] [] [] [] 
  []
 
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
 Package fancyhdr Warning: \headheight is too small (42.67912pt): 
-(fancyhdr)                Make it at least 59.08003pt, for example:
-(fancyhdr)                \setlength{\headheight}{59.08003pt}.
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
 (fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-16.40091pt}.
-
-[4]
-LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/m/n' will be
-(Font)              scaled to size 8.31161pt on input line 207.
-LaTeX Font Info:    Font shape `TU/Calibri(0)/m/n' will be
-(Font)              scaled to size 9.28177pt on input line 211.
-LaTeX Font Info:    Font shape `TU/Calibri(0)/b/n' will be
-(Font)              scaled to size 9.19464pt on input line 211.
-
-Package fontspec Info: Palatino Linotype scale = 0.8311592774267967.
-
-LaTeX Font Info:    Font shape `TU/PalatinoLinotype(1)/m/n' will be
-(Font)              scaled to size 8.31161pt on input line 243.
-LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/m/it' will be
-(Font)              scaled to size 8.31161pt on input line 278.
-File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
-<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
-
-Package fancyhdr Warning: \headheight is too small (42.67912pt): 
-(fancyhdr)                Make it at least 59.08003pt, for example:
-(fancyhdr)                \setlength{\headheight}{59.08003pt}.
-(fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-16.40091pt}.
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [5]
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
 Package fancyhdr Warning: \headheight is too small (42.67912pt): 
-(fancyhdr)                Make it at least 59.08003pt, for example:
-(fancyhdr)                \setlength{\headheight}{59.08003pt}.
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
 (fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-16.40091pt}.
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [6]
-LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/b/n' will be
-(Font)              scaled to size 8.31161pt on input line 315.
+LaTeX Font Info:    Font shape `TU/Calibri(0)/m/n' will be
+(Font)              scaled to size 9.28177pt on input line 405.
+LaTeX Font Info:    Font shape `TU/Calibri(0)/b/n' will be
+(Font)              scaled to size 9.19464pt on input line 405.
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
 Package fancyhdr Warning: \headheight is too small (42.67912pt): 
-(fancyhdr)                Make it at least 59.08003pt, for example:
-(fancyhdr)                \setlength{\headheight}{59.08003pt}.
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
 (fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-16.40091pt}.
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [7]
+
+Package fontspec Info: Palatino Linotype scale = 0.8311592774267967.
+
+LaTeX Font Info:    Font shape `TU/PalatinoLinotype(1)/m/n' will be
+(Font)              scaled to size 8.31161pt on input line 437.
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
 Package fancyhdr Warning: \headheight is too small (42.67912pt): 
-(fancyhdr)                Make it at least 59.08003pt, for example:
-(fancyhdr)                \setlength{\headheight}{59.08003pt}.
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
 (fancyhdr)                You might also make \topmargin smaller to compensate:
-(fancyhdr)                \addtolength{\topmargin}{-16.40091pt}.
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
-[8] (./gwl_2023.aux)
+[8]
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[9]
+File: gwl_2023_files/figure-latex/well_plots-1.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-1.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 508--508
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[10]
+File: gwl_2023_files/figure-latex/well_plots-2.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-2.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 512--512
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[11]
+File: gwl_2023_files/figure-latex/well_plots-3.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-3.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 516--516
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[12]
+File: gwl_2023_files/figure-latex/well_plots-4.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-4.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 520--520
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[13]
+File: gwl_2023_files/figure-latex/well_plots-5.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-5.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 524--524
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[14]
+File: gwl_2023_files/figure-latex/well_plots-6.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-6.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 528--528
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[15]
+File: gwl_2023_files/figure-latex/well_plots-7.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-7.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 532--532
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[16]
+File: gwl_2023_files/figure-latex/well_plots-8.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-8.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 536--536
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[17]
+File: gwl_2023_files/figure-latex/well_plots-9.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-9.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 540--540
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[18]
+File: gwl_2023_files/figure-latex/well_plots-10.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-10.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 544--545
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[19]
+File: gwl_2023_files/figure-latex/well_plots-11.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-11.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 549--550
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[20]
+File: gwl_2023_files/figure-latex/well_plots-12.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-12.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 554--555
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[21]
+File: gwl_2023_files/figure-latex/well_plots-13.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-13.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 559--560
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[22]
+File: gwl_2023_files/figure-latex/well_plots-14.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-14.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 564--565
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[23]
+File: gwl_2023_files/figure-latex/well_plots-15.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-15.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 569--570
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[24]
+File: gwl_2023_files/figure-latex/well_plots-16.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-16.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 574--575
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[25]
+File: gwl_2023_files/figure-latex/well_plots-17.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-17.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 579--580
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[26]
+File: gwl_2023_files/figure-latex/well_plots-18.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-18.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 584--585
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[27]
+File: gwl_2023_files/figure-latex/well_plots-19.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-19.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 589--590
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[28]
+File: gwl_2023_files/figure-latex/well_plots-20.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-20.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 594--595
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[29]
+File: gwl_2023_files/figure-latex/well_plots-21.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-21.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 599--600
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[30]
+File: gwl_2023_files/figure-latex/well_plots-22.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-22.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 604--605
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[31]
+File: gwl_2023_files/figure-latex/well_plots-23.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-23.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 609--610
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[32]
+File: gwl_2023_files/figure-latex/well_plots-24.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-24.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 614--615
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[33]
+File: gwl_2023_files/figure-latex/well_plots-25.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-25.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 619--620
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[34]
+File: gwl_2023_files/figure-latex/well_plots-26.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-26.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 624--625
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[35]
+File: gwl_2023_files/figure-latex/well_plots-27.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-27.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 629--630
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[36]
+File: gwl_2023_files/figure-latex/well_plots-28.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-28.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 634--635
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[37]
+File: gwl_2023_files/figure-latex/well_plots-29.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-29.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 639--640
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[38]
+File: gwl_2023_files/figure-latex/well_plots-30.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-30.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 644--645
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[39]
+File: gwl_2023_files/figure-latex/well_plots-31.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-31.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 649--650
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[40]
+File: gwl_2023_files/figure-latex/well_plots-32.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-32.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 654--655
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[41]
+File: gwl_2023_files/figure-latex/well_plots-33.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-33.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 659--660
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[42]
+File: gwl_2023_files/figure-latex/well_plots-34.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-34.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 664--665
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[43]
+File: gwl_2023_files/figure-latex/well_plots-35.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-35.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 669--670
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[44]
+File: gwl_2023_files/figure-latex/well_plots-36.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-36.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 674--675
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[45]
+File: gwl_2023_files/figure-latex/well_plots-37.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-37.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 679--680
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[46]
+File: gwl_2023_files/figure-latex/well_plots-38.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-38.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 684--685
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[47]
+File: gwl_2023_files/figure-latex/well_plots-39.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-39.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 689--690
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[48]
+File: gwl_2023_files/figure-latex/well_plots-40.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-40.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 694--695
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[49]
+File: gwl_2023_files/figure-latex/well_plots-41.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-41.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 699--700
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[50]
+File: gwl_2023_files/figure-latex/well_plots-42.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-42.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 704--705
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[51]
+File: gwl_2023_files/figure-latex/well_plots-43.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-43.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 709--710
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[52]
+File: gwl_2023_files/figure-latex/well_plots-44.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-44.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 714--715
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[53]
+File: gwl_2023_files/figure-latex/well_plots-45.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-45.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 719--720
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[54]
+File: gwl_2023_files/figure-latex/well_plots-46.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-46.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 724--725
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[55]
+File: gwl_2023_files/figure-latex/well_plots-47.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-47.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 729--730
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[56]
+File: gwl_2023_files/figure-latex/well_plots-48.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-48.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 734--735
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[57]
+File: gwl_2023_files/figure-latex/well_plots-49.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-49.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 739--740
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[58]
+File: gwl_2023_files/figure-latex/well_plots-50.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-50.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 744--745
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[59]
+File: gwl_2023_files/figure-latex/well_plots-51.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-51.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 749--750
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[60]
+File: gwl_2023_files/figure-latex/well_plots-52.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-52.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 754--755
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[61]
+File: gwl_2023_files/figure-latex/well_plots-53.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-53.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 759--760
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[62]
+File: gwl_2023_files/figure-latex/well_plots-54.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-54.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 764--765
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[63]
+File: gwl_2023_files/figure-latex/well_plots-55.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-55.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 769--770
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[64]
+File: gwl_2023_files/figure-latex/well_plots-56.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-56.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 774--775
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[65]
+File: gwl_2023_files/figure-latex/well_plots-57.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-57.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 779--780
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[66]
+File: gwl_2023_files/figure-latex/well_plots-58.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-58.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 784--785
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[67]
+File: gwl_2023_files/figure-latex/well_plots-59.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-59.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 789--790
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[68]
+File: gwl_2023_files/figure-latex/well_plots-60.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-60.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 794--795
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[69]
+File: gwl_2023_files/figure-latex/well_plots-61.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-61.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 799--800
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[70]
+File: gwl_2023_files/figure-latex/well_plots-62.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-62.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 804--805
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[71]
+File: gwl_2023_files/figure-latex/well_plots-63.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-63.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 809--810
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[72]
+File: gwl_2023_files/figure-latex/well_plots-64.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-64.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 814--815
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[73]
+File: gwl_2023_files/figure-latex/well_plots-65.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-65.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 819--820
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[74]
+File: gwl_2023_files/figure-latex/well_plots-66.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-66.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 824--825
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[75]
+File: gwl_2023_files/figure-latex/well_plots-67.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-67.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 829--830
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[76]
+File: gwl_2023_files/figure-latex/well_plots-68.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-68.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 834--835
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[77]
+File: gwl_2023_files/figure-latex/well_plots-69.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-69.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 839--840
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[78]
+File: gwl_2023_files/figure-latex/well_plots-70.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-70.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 844--845
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[79]
+File: gwl_2023_files/figure-latex/well_plots-71.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-71.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 849--850
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[80]
+File: gwl_2023_files/figure-latex/well_plots-72.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-72.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 854--855
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[81]
+File: gwl_2023_files/figure-latex/well_plots-73.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-73.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 859--860
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[82]
+File: gwl_2023_files/figure-latex/well_plots-74.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-74.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 864--865
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[83]
+File: gwl_2023_files/figure-latex/well_plots-75.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-75.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 869--870
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[84]
+File: gwl_2023_files/figure-latex/well_plots-76.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-76.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 874--875
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[85]
+File: gwl_2023_files/figure-latex/well_plots-77.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-77.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 879--880
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[86]
+File: gwl_2023_files/figure-latex/well_plots-78.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-78.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 884--885
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[87]
+File: gwl_2023_files/figure-latex/well_plots-79.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-79.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 889--890
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[88]
+File: gwl_2023_files/figure-latex/well_plots-80.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-80.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 894--895
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[89]
+File: gwl_2023_files/figure-latex/well_plots-81.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-81.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 899--900
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[90]
+File: gwl_2023_files/figure-latex/well_plots-82.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-82.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 904--905
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[91]
+File: gwl_2023_files/figure-latex/well_plots-83.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-83.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 909--910
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[92]
+File: gwl_2023_files/figure-latex/well_plots-84.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-84.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 914--915
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[93]
+File: gwl_2023_files/figure-latex/well_plots-85.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-85.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 919--920
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[94]
+File: gwl_2023_files/figure-latex/well_plots-86.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-86.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 924--925
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[95]
+File: gwl_2023_files/figure-latex/well_plots-87.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-87.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 929--930
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[96]
+File: gwl_2023_files/figure-latex/well_plots-88.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-88.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 934--935
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[97]
+File: gwl_2023_files/figure-latex/well_plots-89.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-89.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 939--940
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[98]
+File: gwl_2023_files/figure-latex/well_plots-90.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-90.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 944--945
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[99]
+File: gwl_2023_files/figure-latex/well_plots-91.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-91.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 949--950
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[100]
+File: gwl_2023_files/figure-latex/well_plots-92.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-92.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 954--955
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[101]
+File: gwl_2023_files/figure-latex/well_plots-93.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-93.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 959--960
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[102]
+File: gwl_2023_files/figure-latex/well_plots-94.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-94.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 964--965
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[103]
+File: gwl_2023_files/figure-latex/well_plots-95.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-95.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 969--970
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[104]
+File: gwl_2023_files/figure-latex/well_plots-96.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-96.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 974--975
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[105]
+File: gwl_2023_files/figure-latex/well_plots-97.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-97.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 979--980
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[106]
+File: gwl_2023_files/figure-latex/well_plots-98.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-98.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 984--985
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[107]
+File: gwl_2023_files/figure-latex/well_plots-99.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-99.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 989--990
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[108]
+File: gwl_2023_files/figure-latex/well_plots-100.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-100.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 994--995
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[109]
+File: gwl_2023_files/figure-latex/well_plots-101.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-101.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 999--1000
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[110]
+File: gwl_2023_files/figure-latex/well_plots-102.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-102.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1004--1005
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[111]
+File: gwl_2023_files/figure-latex/well_plots-103.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-103.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1009--1010
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[112]
+File: gwl_2023_files/figure-latex/well_plots-104.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-104.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1014--1015
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[113]
+File: gwl_2023_files/figure-latex/well_plots-105.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-105.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1019--1020
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[114]
+File: gwl_2023_files/figure-latex/well_plots-106.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-106.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1024--1025
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[115]
+File: gwl_2023_files/figure-latex/well_plots-107.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-107.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1029--1030
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[116]
+File: gwl_2023_files/figure-latex/well_plots-108.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-108.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1034--1035
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[117]
+File: gwl_2023_files/figure-latex/well_plots-109.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-109.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1039--1040
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[118]
+File: gwl_2023_files/figure-latex/well_plots-110.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-110.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1044--1045
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[119]
+File: gwl_2023_files/figure-latex/well_plots-111.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-111.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1049--1050
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[120]
+File: gwl_2023_files/figure-latex/well_plots-112.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-112.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1054--1055
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[121]
+File: gwl_2023_files/figure-latex/well_plots-113.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-113.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1059--1060
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[122]
+File: gwl_2023_files/figure-latex/well_plots-114.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-114.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1064--1065
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[123]
+File: gwl_2023_files/figure-latex/well_plots-115.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-115.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1069--1070
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[124]
+File: gwl_2023_files/figure-latex/well_plots-116.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-116.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1074--1075
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[125]
+File: gwl_2023_files/figure-latex/well_plots-117.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-117.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1079--1080
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[126]
+File: gwl_2023_files/figure-latex/well_plots-118.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-118.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1084--1085
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[127]
+File: gwl_2023_files/figure-latex/well_plots-119.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-119.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1089--1090
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[128]
+File: gwl_2023_files/figure-latex/well_plots-120.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-120.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1094--1095
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[129]
+File: gwl_2023_files/figure-latex/well_plots-121.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-121.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1099--1100
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[130]
+File: gwl_2023_files/figure-latex/well_plots-122.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-122.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1104--1105
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[131]
+File: gwl_2023_files/figure-latex/well_plots-123.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-123.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1109--1110
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[132]
+File: gwl_2023_files/figure-latex/well_plots-124.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-124.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1114--1115
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[133]
+File: gwl_2023_files/figure-latex/well_plots-125.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-125.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1119--1120
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[134]
+File: gwl_2023_files/figure-latex/well_plots-126.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-126.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1124--1125
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[135]
+File: gwl_2023_files/figure-latex/well_plots-127.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-127.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1129--1130
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[136]
+File: gwl_2023_files/figure-latex/well_plots-128.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-128.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1134--1135
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[137]
+File: gwl_2023_files/figure-latex/well_plots-129.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-129.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1139--1140
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[138]
+File: gwl_2023_files/figure-latex/well_plots-130.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-130.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1144--1145
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[139]
+File: gwl_2023_files/figure-latex/well_plots-131.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-131.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1149--1150
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[140]
+File: gwl_2023_files/figure-latex/well_plots-132.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-132.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1154--1155
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[141]
+File: gwl_2023_files/figure-latex/well_plots-133.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-133.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1159--1160
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[142]
+File: gwl_2023_files/figure-latex/well_plots-134.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-134.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1164--1165
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[143]
+File: gwl_2023_files/figure-latex/well_plots-135.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-135.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1169--1170
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[144]
+File: gwl_2023_files/figure-latex/well_plots-136.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-136.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1174--1175
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[145]
+File: gwl_2023_files/figure-latex/well_plots-137.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-137.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1179--1180
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[146]
+File: gwl_2023_files/figure-latex/well_plots-138.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-138.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1184--1185
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[147]
+File: gwl_2023_files/figure-latex/well_plots-139.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-139.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1189--1190
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[148]
+File: gwl_2023_files/figure-latex/well_plots-140.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-140.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1194--1195
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[149]
+File: gwl_2023_files/figure-latex/well_plots-141.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-141.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1199--1200
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[150]
+File: gwl_2023_files/figure-latex/well_plots-142.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-142.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1204--1205
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[151]
+File: gwl_2023_files/figure-latex/well_plots-143.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-143.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1209--1210
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[152]
+File: gwl_2023_files/figure-latex/well_plots-144.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-144.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1214--1215
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[153]
+File: gwl_2023_files/figure-latex/well_plots-145.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-145.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1219--1220
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[154]
+File: gwl_2023_files/figure-latex/well_plots-146.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-146.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1224--1225
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[155]
+File: gwl_2023_files/figure-latex/well_plots-147.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-147.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1229--1230
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[156]
+File: gwl_2023_files/figure-latex/well_plots-148.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-148.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1234--1235
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[157]
+File: gwl_2023_files/figure-latex/well_plots-149.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-149.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1239--1240
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[158]
+File: gwl_2023_files/figure-latex/well_plots-150.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-150.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1244--1245
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[159]
+File: gwl_2023_files/figure-latex/well_plots-151.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-151.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1249--1250
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[160]
+File: gwl_2023_files/figure-latex/well_plots-152.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-152.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1254--1255
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[161]
+File: gwl_2023_files/figure-latex/well_plots-153.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-153.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1259--1260
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[162]
+File: gwl_2023_files/figure-latex/well_plots-154.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-154.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1264--1265
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[163]
+File: gwl_2023_files/figure-latex/well_plots-155.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-155.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1269--1270
+[] 
+ []
+
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[164]
+LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/b/n' will be
+(Font)              scaled to size 8.31161pt on input line 1275.
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[165]
+File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
+<use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
+
+Package fancyhdr Warning: \headheight is too small (42.67912pt): 
+(fancyhdr)                Make it at least 59.081pt, for example:
+(fancyhdr)                \setlength{\headheight}{59.081pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
+
+[166] (./gwl_2023.aux)
  ***********
 LaTeX2e <2023-11-01>
-L3 programming layer <2023-12-11>
+L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `gwl_2023.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 22657 strings out of 476836
- 444815 string characters out of 5803069
- 1940109 words of memory out of 5000000
- 44300 multiletter control sequences out of 15000+600000
- 562009 words of font info for 93 fonts, out of 8000000 for 9000
+ 25418 strings out of 476827
+ 536471 string characters out of 5802891
+ 2042177 words of memory out of 5000000
+ 46864 multiletter control sequences out of 15000+600000
+ 562115 words of font info for 94 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 108i,15n,122p,10903b,396s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 108i,15n,122p,10903b,527s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on gwl_2023.pdf (8 pages).
+Output written on gwl_2023.pdf (166 pages).
