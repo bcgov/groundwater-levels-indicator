@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.1.9)  10 JAN 2024 11:59
+This is XeTeX, Version 3.141592653-2.6-0.999995 (TeX Live 2023) (preloaded format=xelatex 2024.1.9)  17 JAN 2024 13:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -983,6 +983,8 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [2]
+File: gwl_2023_files/figure-latex/overview_map-1.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/overview_map-1.pdf>
 File: gwl_2023_files/figure-latex/region-1.pdf Graphic file (type pdf)
 <use gwl_2023_files/figure-latex/region-1.pdf>
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
@@ -995,8 +997,6 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [3]
-File: gwl_2023_files/figure-latex/overview_map-1.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/overview_map-1.pdf>
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
@@ -1007,35 +1007,13 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [4]
-LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/m/n' will be
-(Font)              scaled to size 8.31161pt on input line 230.
 
-Overfull \hbox (8.4198pt too wide) in alignment at lines 232--236
-[] [] [] [] [] [] [] 
- []
+Package fontspec Info: Palatino Linotype scale = 0.8311593385036251.
 
 LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/m/it' will be
-(Font)              scaled to size 8.31161pt on input line 237.
-
-Overfull \hbox (8.4198pt too wide) in alignment at lines 236--241
-[] [] [] [] [] [] [] 
- []
-
-
-Overfull \hbox (8.4198pt too wide) in alignment at lines 241--243
-[] [] [] [] [] [] [] 
- []
-
-
-Overfull \hbox (8.4198pt too wide) in alignment at lines 243--245
-[] [] [] [] [] [] [] 
- []
-
-
-Overfull \hbox (8.4198pt too wide) in alignment at lines 245--401
-[] [] [] [] [] [] [] 
- []
-
+(Font)              scaled to size 9.10121pt on input line 299.
+LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/b/n' will be
+(Font)              scaled to size 9.10121pt on input line 307.
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
@@ -1046,6 +1024,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [5]
+Overfull \hbox (4.00938pt too wide) in paragraph at lines 330--334
+\TU/PalatinoLinotype(0)/m/n/10.95 Wells (Spatial View) Dataset: [][]$[][][][][] [] [] [] [][][][][][][][][] [] [][][][] [] [][][] [] [][] [] [][] [] [][][][][][][] [] [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]$[][] 
+ []
+
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
@@ -1056,10 +1038,6 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [6]
-LaTeX Font Info:    Font shape `TU/Calibri(0)/m/n' will be
-(Font)              scaled to size 9.28177pt on input line 405.
-LaTeX Font Info:    Font shape `TU/Calibri(0)/b/n' will be
-(Font)              scaled to size 9.19464pt on input line 405.
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
@@ -1070,11 +1048,35 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [7]
+LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/m/n' will be
+(Font)              scaled to size 8.31161pt on input line 420.
 
-Package fontspec Info: Palatino Linotype scale = 0.8311592774267967.
+Overfull \hbox (8.4198pt too wide) in alignment at lines 422--426
+[] [] [] [] [] [] [] 
+ []
 
-LaTeX Font Info:    Font shape `TU/PalatinoLinotype(1)/m/n' will be
-(Font)              scaled to size 8.31161pt on input line 437.
+LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/m/it' will be
+(Font)              scaled to size 8.31161pt on input line 427.
+
+Overfull \hbox (8.4198pt too wide) in alignment at lines 426--431
+[] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (8.4198pt too wide) in alignment at lines 431--433
+[] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (8.4198pt too wide) in alignment at lines 433--435
+[] [] [] [] [] [] [] 
+ []
+
+
+Overfull \hbox (8.4198pt too wide) in alignment at lines 435--591
+[] [] [] [] [] [] [] 
+ []
+
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
@@ -1095,13 +1097,6 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [9]
-File: gwl_2023_files/figure-latex/well_plots-1.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-1.pdf>
-
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 508--508
-[] 
- []
-
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
@@ -1112,13 +1107,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [10]
-File: gwl_2023_files/figure-latex/well_plots-2.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-2.pdf>
-
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 512--512
-[] 
- []
-
+LaTeX Font Info:    Font shape `TU/Calibri(0)/m/n' will be
+(Font)              scaled to size 9.28177pt on input line 594.
+LaTeX Font Info:    Font shape `TU/Calibri(0)/b/n' will be
+(Font)              scaled to size 9.19464pt on input line 594.
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
@@ -1129,10 +1121,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [11]
-File: gwl_2023_files/figure-latex/well_plots-3.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-3.pdf>
+File: gwl_2023_files/figure-latex/well_plots-1.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-1.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 516--516
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 625--625
 [] 
  []
 
@@ -1146,10 +1138,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [12]
-File: gwl_2023_files/figure-latex/well_plots-4.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-4.pdf>
+File: gwl_2023_files/figure-latex/well_plots-2.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-2.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 520--520
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 629--629
 [] 
  []
 
@@ -1163,10 +1155,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [13]
-File: gwl_2023_files/figure-latex/well_plots-5.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-5.pdf>
+File: gwl_2023_files/figure-latex/well_plots-3.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-3.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 524--524
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 633--633
 [] 
  []
 
@@ -1180,10 +1172,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [14]
-File: gwl_2023_files/figure-latex/well_plots-6.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-6.pdf>
+File: gwl_2023_files/figure-latex/well_plots-4.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-4.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 528--528
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 637--637
 [] 
  []
 
@@ -1197,10 +1189,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [15]
-File: gwl_2023_files/figure-latex/well_plots-7.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-7.pdf>
+File: gwl_2023_files/figure-latex/well_plots-5.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-5.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 532--532
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 641--641
 [] 
  []
 
@@ -1214,10 +1206,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [16]
-File: gwl_2023_files/figure-latex/well_plots-8.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-8.pdf>
+File: gwl_2023_files/figure-latex/well_plots-6.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-6.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 536--536
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 645--645
 [] 
  []
 
@@ -1231,10 +1223,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [17]
-File: gwl_2023_files/figure-latex/well_plots-9.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-9.pdf>
+File: gwl_2023_files/figure-latex/well_plots-7.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-7.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 540--540
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 649--649
 [] 
  []
 
@@ -1248,10 +1240,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [18]
-File: gwl_2023_files/figure-latex/well_plots-10.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-10.pdf>
+File: gwl_2023_files/figure-latex/well_plots-8.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-8.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 544--545
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 653--653
 [] 
  []
 
@@ -1265,10 +1257,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [19]
-File: gwl_2023_files/figure-latex/well_plots-11.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-11.pdf>
+File: gwl_2023_files/figure-latex/well_plots-9.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-9.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 549--550
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 657--657
 [] 
  []
 
@@ -1282,10 +1274,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [20]
-File: gwl_2023_files/figure-latex/well_plots-12.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-12.pdf>
+File: gwl_2023_files/figure-latex/well_plots-10.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-10.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 554--555
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 661--662
 [] 
  []
 
@@ -1299,10 +1291,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [21]
-File: gwl_2023_files/figure-latex/well_plots-13.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-13.pdf>
+File: gwl_2023_files/figure-latex/well_plots-11.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-11.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 559--560
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 666--667
 [] 
  []
 
@@ -1316,10 +1308,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [22]
-File: gwl_2023_files/figure-latex/well_plots-14.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-14.pdf>
+File: gwl_2023_files/figure-latex/well_plots-12.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-12.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 564--565
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 671--672
 [] 
  []
 
@@ -1333,10 +1325,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [23]
-File: gwl_2023_files/figure-latex/well_plots-15.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-15.pdf>
+File: gwl_2023_files/figure-latex/well_plots-13.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-13.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 569--570
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 676--677
 [] 
  []
 
@@ -1350,10 +1342,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [24]
-File: gwl_2023_files/figure-latex/well_plots-16.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-16.pdf>
+File: gwl_2023_files/figure-latex/well_plots-14.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-14.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 574--575
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 681--682
 [] 
  []
 
@@ -1367,10 +1359,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [25]
-File: gwl_2023_files/figure-latex/well_plots-17.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-17.pdf>
+File: gwl_2023_files/figure-latex/well_plots-15.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-15.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 579--580
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 686--687
 [] 
  []
 
@@ -1384,10 +1376,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [26]
-File: gwl_2023_files/figure-latex/well_plots-18.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-18.pdf>
+File: gwl_2023_files/figure-latex/well_plots-16.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-16.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 584--585
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 691--692
 [] 
  []
 
@@ -1401,10 +1393,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [27]
-File: gwl_2023_files/figure-latex/well_plots-19.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-19.pdf>
+File: gwl_2023_files/figure-latex/well_plots-17.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-17.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 589--590
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 696--697
 [] 
  []
 
@@ -1418,10 +1410,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [28]
-File: gwl_2023_files/figure-latex/well_plots-20.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-20.pdf>
+File: gwl_2023_files/figure-latex/well_plots-18.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-18.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 594--595
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 701--702
 [] 
  []
 
@@ -1435,10 +1427,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [29]
-File: gwl_2023_files/figure-latex/well_plots-21.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-21.pdf>
+File: gwl_2023_files/figure-latex/well_plots-19.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-19.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 599--600
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 706--707
 [] 
  []
 
@@ -1452,10 +1444,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [30]
-File: gwl_2023_files/figure-latex/well_plots-22.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-22.pdf>
+File: gwl_2023_files/figure-latex/well_plots-20.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-20.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 604--605
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 711--712
 [] 
  []
 
@@ -1469,10 +1461,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [31]
-File: gwl_2023_files/figure-latex/well_plots-23.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-23.pdf>
+File: gwl_2023_files/figure-latex/well_plots-21.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-21.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 609--610
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 716--717
 [] 
  []
 
@@ -1486,10 +1478,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [32]
-File: gwl_2023_files/figure-latex/well_plots-24.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-24.pdf>
+File: gwl_2023_files/figure-latex/well_plots-22.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-22.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 614--615
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 721--722
 [] 
  []
 
@@ -1503,10 +1495,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [33]
-File: gwl_2023_files/figure-latex/well_plots-25.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-25.pdf>
+File: gwl_2023_files/figure-latex/well_plots-23.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-23.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 619--620
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 726--727
 [] 
  []
 
@@ -1520,10 +1512,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [34]
-File: gwl_2023_files/figure-latex/well_plots-26.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-26.pdf>
+File: gwl_2023_files/figure-latex/well_plots-24.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-24.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 624--625
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 731--732
 [] 
  []
 
@@ -1537,10 +1529,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [35]
-File: gwl_2023_files/figure-latex/well_plots-27.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-27.pdf>
+File: gwl_2023_files/figure-latex/well_plots-25.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-25.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 629--630
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 736--737
 [] 
  []
 
@@ -1554,10 +1546,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [36]
-File: gwl_2023_files/figure-latex/well_plots-28.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-28.pdf>
+File: gwl_2023_files/figure-latex/well_plots-26.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-26.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 634--635
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 741--742
 [] 
  []
 
@@ -1571,10 +1563,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [37]
-File: gwl_2023_files/figure-latex/well_plots-29.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-29.pdf>
+File: gwl_2023_files/figure-latex/well_plots-27.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-27.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 639--640
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 746--747
 [] 
  []
 
@@ -1588,10 +1580,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [38]
-File: gwl_2023_files/figure-latex/well_plots-30.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-30.pdf>
+File: gwl_2023_files/figure-latex/well_plots-28.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-28.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 644--645
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 751--752
 [] 
  []
 
@@ -1605,10 +1597,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [39]
-File: gwl_2023_files/figure-latex/well_plots-31.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-31.pdf>
+File: gwl_2023_files/figure-latex/well_plots-29.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-29.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 649--650
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 756--757
 [] 
  []
 
@@ -1622,10 +1614,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [40]
-File: gwl_2023_files/figure-latex/well_plots-32.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-32.pdf>
+File: gwl_2023_files/figure-latex/well_plots-30.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-30.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 654--655
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 761--762
 [] 
  []
 
@@ -1639,10 +1631,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [41]
-File: gwl_2023_files/figure-latex/well_plots-33.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-33.pdf>
+File: gwl_2023_files/figure-latex/well_plots-31.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-31.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 659--660
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 766--767
 [] 
  []
 
@@ -1656,10 +1648,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [42]
-File: gwl_2023_files/figure-latex/well_plots-34.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-34.pdf>
+File: gwl_2023_files/figure-latex/well_plots-32.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-32.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 664--665
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 771--772
 [] 
  []
 
@@ -1673,10 +1665,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [43]
-File: gwl_2023_files/figure-latex/well_plots-35.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-35.pdf>
+File: gwl_2023_files/figure-latex/well_plots-33.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-33.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 669--670
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 776--777
 [] 
  []
 
@@ -1690,10 +1682,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [44]
-File: gwl_2023_files/figure-latex/well_plots-36.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-36.pdf>
+File: gwl_2023_files/figure-latex/well_plots-34.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-34.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 674--675
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 781--782
 [] 
  []
 
@@ -1707,10 +1699,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [45]
-File: gwl_2023_files/figure-latex/well_plots-37.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-37.pdf>
+File: gwl_2023_files/figure-latex/well_plots-35.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-35.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 679--680
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 786--787
 [] 
  []
 
@@ -1724,10 +1716,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [46]
-File: gwl_2023_files/figure-latex/well_plots-38.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-38.pdf>
+File: gwl_2023_files/figure-latex/well_plots-36.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-36.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 684--685
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 791--792
 [] 
  []
 
@@ -1741,10 +1733,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [47]
-File: gwl_2023_files/figure-latex/well_plots-39.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-39.pdf>
+File: gwl_2023_files/figure-latex/well_plots-37.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-37.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 689--690
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 796--797
 [] 
  []
 
@@ -1758,10 +1750,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [48]
-File: gwl_2023_files/figure-latex/well_plots-40.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-40.pdf>
+File: gwl_2023_files/figure-latex/well_plots-38.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-38.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 694--695
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 801--802
 [] 
  []
 
@@ -1775,10 +1767,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [49]
-File: gwl_2023_files/figure-latex/well_plots-41.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-41.pdf>
+File: gwl_2023_files/figure-latex/well_plots-39.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-39.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 699--700
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 806--807
 [] 
  []
 
@@ -1792,10 +1784,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [50]
-File: gwl_2023_files/figure-latex/well_plots-42.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-42.pdf>
+File: gwl_2023_files/figure-latex/well_plots-40.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-40.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 704--705
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 811--812
 [] 
  []
 
@@ -1809,10 +1801,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [51]
-File: gwl_2023_files/figure-latex/well_plots-43.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-43.pdf>
+File: gwl_2023_files/figure-latex/well_plots-41.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-41.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 709--710
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 816--817
 [] 
  []
 
@@ -1826,10 +1818,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [52]
-File: gwl_2023_files/figure-latex/well_plots-44.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-44.pdf>
+File: gwl_2023_files/figure-latex/well_plots-42.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-42.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 714--715
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 821--822
 [] 
  []
 
@@ -1843,10 +1835,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [53]
-File: gwl_2023_files/figure-latex/well_plots-45.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-45.pdf>
+File: gwl_2023_files/figure-latex/well_plots-43.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-43.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 719--720
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 826--827
 [] 
  []
 
@@ -1860,10 +1852,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [54]
-File: gwl_2023_files/figure-latex/well_plots-46.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-46.pdf>
+File: gwl_2023_files/figure-latex/well_plots-44.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-44.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 724--725
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 831--832
 [] 
  []
 
@@ -1877,10 +1869,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [55]
-File: gwl_2023_files/figure-latex/well_plots-47.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-47.pdf>
+File: gwl_2023_files/figure-latex/well_plots-45.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-45.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 729--730
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 836--837
 [] 
  []
 
@@ -1894,10 +1886,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [56]
-File: gwl_2023_files/figure-latex/well_plots-48.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-48.pdf>
+File: gwl_2023_files/figure-latex/well_plots-46.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-46.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 734--735
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 841--842
 [] 
  []
 
@@ -1911,10 +1903,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [57]
-File: gwl_2023_files/figure-latex/well_plots-49.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-49.pdf>
+File: gwl_2023_files/figure-latex/well_plots-47.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-47.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 739--740
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 846--847
 [] 
  []
 
@@ -1928,10 +1920,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [58]
-File: gwl_2023_files/figure-latex/well_plots-50.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-50.pdf>
+File: gwl_2023_files/figure-latex/well_plots-48.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-48.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 744--745
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 851--852
 [] 
  []
 
@@ -1945,10 +1937,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [59]
-File: gwl_2023_files/figure-latex/well_plots-51.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-51.pdf>
+File: gwl_2023_files/figure-latex/well_plots-49.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-49.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 749--750
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 856--857
 [] 
  []
 
@@ -1962,10 +1954,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [60]
-File: gwl_2023_files/figure-latex/well_plots-52.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-52.pdf>
+File: gwl_2023_files/figure-latex/well_plots-50.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-50.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 754--755
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 861--862
 [] 
  []
 
@@ -1979,10 +1971,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [61]
-File: gwl_2023_files/figure-latex/well_plots-53.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-53.pdf>
+File: gwl_2023_files/figure-latex/well_plots-51.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-51.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 759--760
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 866--867
 [] 
  []
 
@@ -1996,10 +1988,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [62]
-File: gwl_2023_files/figure-latex/well_plots-54.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-54.pdf>
+File: gwl_2023_files/figure-latex/well_plots-52.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-52.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 764--765
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 871--872
 [] 
  []
 
@@ -2013,10 +2005,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [63]
-File: gwl_2023_files/figure-latex/well_plots-55.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-55.pdf>
+File: gwl_2023_files/figure-latex/well_plots-53.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-53.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 769--770
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 876--877
 [] 
  []
 
@@ -2030,10 +2022,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [64]
-File: gwl_2023_files/figure-latex/well_plots-56.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-56.pdf>
+File: gwl_2023_files/figure-latex/well_plots-54.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-54.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 774--775
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 881--882
 [] 
  []
 
@@ -2047,10 +2039,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [65]
-File: gwl_2023_files/figure-latex/well_plots-57.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-57.pdf>
+File: gwl_2023_files/figure-latex/well_plots-55.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-55.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 779--780
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 886--887
 [] 
  []
 
@@ -2064,10 +2056,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [66]
-File: gwl_2023_files/figure-latex/well_plots-58.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-58.pdf>
+File: gwl_2023_files/figure-latex/well_plots-56.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-56.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 784--785
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 891--892
 [] 
  []
 
@@ -2081,10 +2073,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [67]
-File: gwl_2023_files/figure-latex/well_plots-59.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-59.pdf>
+File: gwl_2023_files/figure-latex/well_plots-57.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-57.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 789--790
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 896--897
 [] 
  []
 
@@ -2098,10 +2090,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [68]
-File: gwl_2023_files/figure-latex/well_plots-60.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-60.pdf>
+File: gwl_2023_files/figure-latex/well_plots-58.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-58.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 794--795
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 901--902
 [] 
  []
 
@@ -2115,10 +2107,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [69]
-File: gwl_2023_files/figure-latex/well_plots-61.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-61.pdf>
+File: gwl_2023_files/figure-latex/well_plots-59.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-59.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 799--800
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 906--907
 [] 
  []
 
@@ -2132,10 +2124,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [70]
-File: gwl_2023_files/figure-latex/well_plots-62.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-62.pdf>
+File: gwl_2023_files/figure-latex/well_plots-60.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-60.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 804--805
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 911--912
 [] 
  []
 
@@ -2149,10 +2141,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [71]
-File: gwl_2023_files/figure-latex/well_plots-63.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-63.pdf>
+File: gwl_2023_files/figure-latex/well_plots-61.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-61.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 809--810
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 916--917
 [] 
  []
 
@@ -2166,10 +2158,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [72]
-File: gwl_2023_files/figure-latex/well_plots-64.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-64.pdf>
+File: gwl_2023_files/figure-latex/well_plots-62.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-62.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 814--815
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 921--922
 [] 
  []
 
@@ -2183,10 +2175,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [73]
-File: gwl_2023_files/figure-latex/well_plots-65.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-65.pdf>
+File: gwl_2023_files/figure-latex/well_plots-63.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-63.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 819--820
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 926--927
 [] 
  []
 
@@ -2200,10 +2192,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [74]
-File: gwl_2023_files/figure-latex/well_plots-66.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-66.pdf>
+File: gwl_2023_files/figure-latex/well_plots-64.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-64.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 824--825
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 931--932
 [] 
  []
 
@@ -2217,10 +2209,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [75]
-File: gwl_2023_files/figure-latex/well_plots-67.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-67.pdf>
+File: gwl_2023_files/figure-latex/well_plots-65.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-65.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 829--830
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 936--937
 [] 
  []
 
@@ -2234,10 +2226,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [76]
-File: gwl_2023_files/figure-latex/well_plots-68.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-68.pdf>
+File: gwl_2023_files/figure-latex/well_plots-66.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-66.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 834--835
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 941--942
 [] 
  []
 
@@ -2251,10 +2243,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [77]
-File: gwl_2023_files/figure-latex/well_plots-69.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-69.pdf>
+File: gwl_2023_files/figure-latex/well_plots-67.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-67.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 839--840
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 946--947
 [] 
  []
 
@@ -2268,10 +2260,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [78]
-File: gwl_2023_files/figure-latex/well_plots-70.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-70.pdf>
+File: gwl_2023_files/figure-latex/well_plots-68.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-68.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 844--845
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 951--952
 [] 
  []
 
@@ -2285,10 +2277,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [79]
-File: gwl_2023_files/figure-latex/well_plots-71.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-71.pdf>
+File: gwl_2023_files/figure-latex/well_plots-69.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-69.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 849--850
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 956--957
 [] 
  []
 
@@ -2302,10 +2294,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [80]
-File: gwl_2023_files/figure-latex/well_plots-72.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-72.pdf>
+File: gwl_2023_files/figure-latex/well_plots-70.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-70.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 854--855
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 961--962
 [] 
  []
 
@@ -2319,10 +2311,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [81]
-File: gwl_2023_files/figure-latex/well_plots-73.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-73.pdf>
+File: gwl_2023_files/figure-latex/well_plots-71.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-71.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 859--860
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 966--967
 [] 
  []
 
@@ -2336,10 +2328,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [82]
-File: gwl_2023_files/figure-latex/well_plots-74.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-74.pdf>
+File: gwl_2023_files/figure-latex/well_plots-72.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-72.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 864--865
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 971--972
 [] 
  []
 
@@ -2353,10 +2345,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [83]
-File: gwl_2023_files/figure-latex/well_plots-75.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-75.pdf>
+File: gwl_2023_files/figure-latex/well_plots-73.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-73.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 869--870
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 976--977
 [] 
  []
 
@@ -2370,10 +2362,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [84]
-File: gwl_2023_files/figure-latex/well_plots-76.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-76.pdf>
+File: gwl_2023_files/figure-latex/well_plots-74.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-74.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 874--875
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 981--982
 [] 
  []
 
@@ -2387,10 +2379,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [85]
-File: gwl_2023_files/figure-latex/well_plots-77.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-77.pdf>
+File: gwl_2023_files/figure-latex/well_plots-75.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-75.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 879--880
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 986--987
 [] 
  []
 
@@ -2404,10 +2396,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [86]
-File: gwl_2023_files/figure-latex/well_plots-78.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-78.pdf>
+File: gwl_2023_files/figure-latex/well_plots-76.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-76.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 884--885
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 991--992
 [] 
  []
 
@@ -2421,10 +2413,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [87]
-File: gwl_2023_files/figure-latex/well_plots-79.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-79.pdf>
+File: gwl_2023_files/figure-latex/well_plots-77.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-77.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 889--890
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 996--997
 [] 
  []
 
@@ -2438,10 +2430,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [88]
-File: gwl_2023_files/figure-latex/well_plots-80.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-80.pdf>
+File: gwl_2023_files/figure-latex/well_plots-78.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-78.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 894--895
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1001--1002
 [] 
  []
 
@@ -2455,10 +2447,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [89]
-File: gwl_2023_files/figure-latex/well_plots-81.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-81.pdf>
+File: gwl_2023_files/figure-latex/well_plots-79.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-79.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 899--900
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1006--1007
 [] 
  []
 
@@ -2472,10 +2464,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [90]
-File: gwl_2023_files/figure-latex/well_plots-82.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-82.pdf>
+File: gwl_2023_files/figure-latex/well_plots-80.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-80.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 904--905
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1011--1012
 [] 
  []
 
@@ -2489,10 +2481,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [91]
-File: gwl_2023_files/figure-latex/well_plots-83.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-83.pdf>
+File: gwl_2023_files/figure-latex/well_plots-81.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-81.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 909--910
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1016--1017
 [] 
  []
 
@@ -2506,10 +2498,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [92]
-File: gwl_2023_files/figure-latex/well_plots-84.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-84.pdf>
+File: gwl_2023_files/figure-latex/well_plots-82.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-82.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 914--915
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1021--1022
 [] 
  []
 
@@ -2523,10 +2515,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [93]
-File: gwl_2023_files/figure-latex/well_plots-85.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-85.pdf>
+File: gwl_2023_files/figure-latex/well_plots-83.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-83.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 919--920
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1026--1027
 [] 
  []
 
@@ -2540,10 +2532,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [94]
-File: gwl_2023_files/figure-latex/well_plots-86.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-86.pdf>
+File: gwl_2023_files/figure-latex/well_plots-84.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-84.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 924--925
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1031--1032
 [] 
  []
 
@@ -2557,10 +2549,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [95]
-File: gwl_2023_files/figure-latex/well_plots-87.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-87.pdf>
+File: gwl_2023_files/figure-latex/well_plots-85.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-85.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 929--930
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1036--1037
 [] 
  []
 
@@ -2574,10 +2566,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [96]
-File: gwl_2023_files/figure-latex/well_plots-88.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-88.pdf>
+File: gwl_2023_files/figure-latex/well_plots-86.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-86.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 934--935
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1041--1042
 [] 
  []
 
@@ -2591,10 +2583,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [97]
-File: gwl_2023_files/figure-latex/well_plots-89.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-89.pdf>
+File: gwl_2023_files/figure-latex/well_plots-87.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-87.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 939--940
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1046--1047
 [] 
  []
 
@@ -2608,10 +2600,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [98]
-File: gwl_2023_files/figure-latex/well_plots-90.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-90.pdf>
+File: gwl_2023_files/figure-latex/well_plots-88.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-88.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 944--945
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1051--1052
 [] 
  []
 
@@ -2625,10 +2617,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [99]
-File: gwl_2023_files/figure-latex/well_plots-91.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-91.pdf>
+File: gwl_2023_files/figure-latex/well_plots-89.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-89.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 949--950
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1056--1057
 [] 
  []
 
@@ -2642,10 +2634,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [100]
-File: gwl_2023_files/figure-latex/well_plots-92.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-92.pdf>
+File: gwl_2023_files/figure-latex/well_plots-90.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-90.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 954--955
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1061--1062
 [] 
  []
 
@@ -2659,10 +2651,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [101]
-File: gwl_2023_files/figure-latex/well_plots-93.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-93.pdf>
+File: gwl_2023_files/figure-latex/well_plots-91.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-91.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 959--960
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1066--1067
 [] 
  []
 
@@ -2676,10 +2668,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [102]
-File: gwl_2023_files/figure-latex/well_plots-94.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-94.pdf>
+File: gwl_2023_files/figure-latex/well_plots-92.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-92.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 964--965
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1071--1072
 [] 
  []
 
@@ -2693,10 +2685,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [103]
-File: gwl_2023_files/figure-latex/well_plots-95.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-95.pdf>
+File: gwl_2023_files/figure-latex/well_plots-93.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-93.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 969--970
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1076--1077
 [] 
  []
 
@@ -2710,10 +2702,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [104]
-File: gwl_2023_files/figure-latex/well_plots-96.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-96.pdf>
+File: gwl_2023_files/figure-latex/well_plots-94.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-94.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 974--975
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1081--1082
 [] 
  []
 
@@ -2727,10 +2719,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [105]
-File: gwl_2023_files/figure-latex/well_plots-97.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-97.pdf>
+File: gwl_2023_files/figure-latex/well_plots-95.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-95.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 979--980
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1086--1087
 [] 
  []
 
@@ -2744,10 +2736,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [106]
-File: gwl_2023_files/figure-latex/well_plots-98.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-98.pdf>
+File: gwl_2023_files/figure-latex/well_plots-96.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-96.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 984--985
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1091--1092
 [] 
  []
 
@@ -2761,10 +2753,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [107]
-File: gwl_2023_files/figure-latex/well_plots-99.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-99.pdf>
+File: gwl_2023_files/figure-latex/well_plots-97.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-97.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 989--990
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1096--1097
 [] 
  []
 
@@ -2778,10 +2770,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [108]
-File: gwl_2023_files/figure-latex/well_plots-100.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-100.pdf>
+File: gwl_2023_files/figure-latex/well_plots-98.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-98.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 994--995
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1101--1102
 [] 
  []
 
@@ -2795,10 +2787,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [109]
-File: gwl_2023_files/figure-latex/well_plots-101.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-101.pdf>
+File: gwl_2023_files/figure-latex/well_plots-99.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-99.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 999--1000
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1106--1107
 [] 
  []
 
@@ -2812,10 +2804,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [110]
-File: gwl_2023_files/figure-latex/well_plots-102.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-102.pdf>
+File: gwl_2023_files/figure-latex/well_plots-100.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-100.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1004--1005
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1111--1112
 [] 
  []
 
@@ -2829,10 +2821,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [111]
-File: gwl_2023_files/figure-latex/well_plots-103.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-103.pdf>
+File: gwl_2023_files/figure-latex/well_plots-101.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-101.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1009--1010
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1116--1117
 [] 
  []
 
@@ -2846,10 +2838,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [112]
-File: gwl_2023_files/figure-latex/well_plots-104.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-104.pdf>
+File: gwl_2023_files/figure-latex/well_plots-102.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-102.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1014--1015
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1121--1122
 [] 
  []
 
@@ -2863,10 +2855,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [113]
-File: gwl_2023_files/figure-latex/well_plots-105.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-105.pdf>
+File: gwl_2023_files/figure-latex/well_plots-103.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-103.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1019--1020
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1126--1127
 [] 
  []
 
@@ -2880,10 +2872,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [114]
-File: gwl_2023_files/figure-latex/well_plots-106.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-106.pdf>
+File: gwl_2023_files/figure-latex/well_plots-104.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-104.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1024--1025
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1131--1132
 [] 
  []
 
@@ -2897,10 +2889,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [115]
-File: gwl_2023_files/figure-latex/well_plots-107.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-107.pdf>
+File: gwl_2023_files/figure-latex/well_plots-105.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-105.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1029--1030
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1136--1137
 [] 
  []
 
@@ -2914,10 +2906,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [116]
-File: gwl_2023_files/figure-latex/well_plots-108.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-108.pdf>
+File: gwl_2023_files/figure-latex/well_plots-106.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-106.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1034--1035
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1141--1142
 [] 
  []
 
@@ -2931,10 +2923,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [117]
-File: gwl_2023_files/figure-latex/well_plots-109.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-109.pdf>
+File: gwl_2023_files/figure-latex/well_plots-107.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-107.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1039--1040
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1146--1147
 [] 
  []
 
@@ -2948,10 +2940,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [118]
-File: gwl_2023_files/figure-latex/well_plots-110.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-110.pdf>
+File: gwl_2023_files/figure-latex/well_plots-108.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-108.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1044--1045
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1151--1152
 [] 
  []
 
@@ -2965,10 +2957,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [119]
-File: gwl_2023_files/figure-latex/well_plots-111.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-111.pdf>
+File: gwl_2023_files/figure-latex/well_plots-109.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-109.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1049--1050
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1156--1157
 [] 
  []
 
@@ -2982,10 +2974,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [120]
-File: gwl_2023_files/figure-latex/well_plots-112.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-112.pdf>
+File: gwl_2023_files/figure-latex/well_plots-110.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-110.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1054--1055
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1161--1162
 [] 
  []
 
@@ -2999,10 +2991,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [121]
-File: gwl_2023_files/figure-latex/well_plots-113.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-113.pdf>
+File: gwl_2023_files/figure-latex/well_plots-111.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-111.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1059--1060
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1166--1167
 [] 
  []
 
@@ -3016,10 +3008,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [122]
-File: gwl_2023_files/figure-latex/well_plots-114.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-114.pdf>
+File: gwl_2023_files/figure-latex/well_plots-112.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-112.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1064--1065
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1171--1172
 [] 
  []
 
@@ -3033,10 +3025,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [123]
-File: gwl_2023_files/figure-latex/well_plots-115.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-115.pdf>
+File: gwl_2023_files/figure-latex/well_plots-113.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-113.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1069--1070
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1176--1177
 [] 
  []
 
@@ -3050,10 +3042,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [124]
-File: gwl_2023_files/figure-latex/well_plots-116.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-116.pdf>
+File: gwl_2023_files/figure-latex/well_plots-114.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-114.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1074--1075
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1181--1182
 [] 
  []
 
@@ -3067,10 +3059,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [125]
-File: gwl_2023_files/figure-latex/well_plots-117.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-117.pdf>
+File: gwl_2023_files/figure-latex/well_plots-115.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-115.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1079--1080
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1186--1187
 [] 
  []
 
@@ -3084,10 +3076,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [126]
-File: gwl_2023_files/figure-latex/well_plots-118.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-118.pdf>
+File: gwl_2023_files/figure-latex/well_plots-116.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-116.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1084--1085
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1191--1192
 [] 
  []
 
@@ -3101,10 +3093,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [127]
-File: gwl_2023_files/figure-latex/well_plots-119.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-119.pdf>
+File: gwl_2023_files/figure-latex/well_plots-117.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-117.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1089--1090
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1196--1197
 [] 
  []
 
@@ -3118,10 +3110,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [128]
-File: gwl_2023_files/figure-latex/well_plots-120.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-120.pdf>
+File: gwl_2023_files/figure-latex/well_plots-118.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-118.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1094--1095
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1201--1202
 [] 
  []
 
@@ -3135,10 +3127,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [129]
-File: gwl_2023_files/figure-latex/well_plots-121.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-121.pdf>
+File: gwl_2023_files/figure-latex/well_plots-119.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-119.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1099--1100
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1206--1207
 [] 
  []
 
@@ -3152,10 +3144,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [130]
-File: gwl_2023_files/figure-latex/well_plots-122.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-122.pdf>
+File: gwl_2023_files/figure-latex/well_plots-120.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-120.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1104--1105
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1211--1212
 [] 
  []
 
@@ -3169,10 +3161,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [131]
-File: gwl_2023_files/figure-latex/well_plots-123.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-123.pdf>
+File: gwl_2023_files/figure-latex/well_plots-121.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-121.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1109--1110
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1216--1217
 [] 
  []
 
@@ -3186,10 +3178,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [132]
-File: gwl_2023_files/figure-latex/well_plots-124.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-124.pdf>
+File: gwl_2023_files/figure-latex/well_plots-122.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-122.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1114--1115
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1221--1222
 [] 
  []
 
@@ -3203,10 +3195,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [133]
-File: gwl_2023_files/figure-latex/well_plots-125.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-125.pdf>
+File: gwl_2023_files/figure-latex/well_plots-123.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-123.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1119--1120
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1226--1227
 [] 
  []
 
@@ -3220,10 +3212,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [134]
-File: gwl_2023_files/figure-latex/well_plots-126.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-126.pdf>
+File: gwl_2023_files/figure-latex/well_plots-124.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-124.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1124--1125
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1231--1232
 [] 
  []
 
@@ -3237,10 +3229,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [135]
-File: gwl_2023_files/figure-latex/well_plots-127.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-127.pdf>
+File: gwl_2023_files/figure-latex/well_plots-125.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-125.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1129--1130
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1236--1237
 [] 
  []
 
@@ -3254,10 +3246,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [136]
-File: gwl_2023_files/figure-latex/well_plots-128.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-128.pdf>
+File: gwl_2023_files/figure-latex/well_plots-126.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-126.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1134--1135
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1241--1242
 [] 
  []
 
@@ -3271,10 +3263,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [137]
-File: gwl_2023_files/figure-latex/well_plots-129.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-129.pdf>
+File: gwl_2023_files/figure-latex/well_plots-127.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-127.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1139--1140
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1246--1247
 [] 
  []
 
@@ -3288,10 +3280,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [138]
-File: gwl_2023_files/figure-latex/well_plots-130.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-130.pdf>
+File: gwl_2023_files/figure-latex/well_plots-128.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-128.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1144--1145
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1251--1252
 [] 
  []
 
@@ -3305,10 +3297,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [139]
-File: gwl_2023_files/figure-latex/well_plots-131.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-131.pdf>
+File: gwl_2023_files/figure-latex/well_plots-129.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-129.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1149--1150
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1256--1257
 [] 
  []
 
@@ -3322,10 +3314,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [140]
-File: gwl_2023_files/figure-latex/well_plots-132.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-132.pdf>
+File: gwl_2023_files/figure-latex/well_plots-130.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-130.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1154--1155
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1261--1262
 [] 
  []
 
@@ -3339,10 +3331,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [141]
-File: gwl_2023_files/figure-latex/well_plots-133.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-133.pdf>
+File: gwl_2023_files/figure-latex/well_plots-131.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-131.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1159--1160
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1266--1267
 [] 
  []
 
@@ -3356,10 +3348,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [142]
-File: gwl_2023_files/figure-latex/well_plots-134.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-134.pdf>
+File: gwl_2023_files/figure-latex/well_plots-132.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-132.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1164--1165
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1271--1272
 [] 
  []
 
@@ -3373,10 +3365,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [143]
-File: gwl_2023_files/figure-latex/well_plots-135.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-135.pdf>
+File: gwl_2023_files/figure-latex/well_plots-133.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-133.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1169--1170
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1276--1277
 [] 
  []
 
@@ -3390,10 +3382,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [144]
-File: gwl_2023_files/figure-latex/well_plots-136.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-136.pdf>
+File: gwl_2023_files/figure-latex/well_plots-134.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-134.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1174--1175
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1281--1282
 [] 
  []
 
@@ -3407,10 +3399,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [145]
-File: gwl_2023_files/figure-latex/well_plots-137.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-137.pdf>
+File: gwl_2023_files/figure-latex/well_plots-135.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-135.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1179--1180
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1286--1287
 [] 
  []
 
@@ -3424,10 +3416,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [146]
-File: gwl_2023_files/figure-latex/well_plots-138.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-138.pdf>
+File: gwl_2023_files/figure-latex/well_plots-136.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-136.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1184--1185
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1291--1292
 [] 
  []
 
@@ -3441,10 +3433,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [147]
-File: gwl_2023_files/figure-latex/well_plots-139.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-139.pdf>
+File: gwl_2023_files/figure-latex/well_plots-137.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-137.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1189--1190
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1296--1297
 [] 
  []
 
@@ -3458,10 +3450,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [148]
-File: gwl_2023_files/figure-latex/well_plots-140.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-140.pdf>
+File: gwl_2023_files/figure-latex/well_plots-138.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-138.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1194--1195
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1301--1302
 [] 
  []
 
@@ -3475,10 +3467,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [149]
-File: gwl_2023_files/figure-latex/well_plots-141.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-141.pdf>
+File: gwl_2023_files/figure-latex/well_plots-139.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-139.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1199--1200
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1306--1307
 [] 
  []
 
@@ -3492,10 +3484,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [150]
-File: gwl_2023_files/figure-latex/well_plots-142.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-142.pdf>
+File: gwl_2023_files/figure-latex/well_plots-140.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-140.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1204--1205
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1311--1312
 [] 
  []
 
@@ -3509,10 +3501,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [151]
-File: gwl_2023_files/figure-latex/well_plots-143.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-143.pdf>
+File: gwl_2023_files/figure-latex/well_plots-141.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-141.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1209--1210
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1316--1317
 [] 
  []
 
@@ -3526,10 +3518,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [152]
-File: gwl_2023_files/figure-latex/well_plots-144.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-144.pdf>
+File: gwl_2023_files/figure-latex/well_plots-142.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-142.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1214--1215
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1321--1322
 [] 
  []
 
@@ -3543,10 +3535,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [153]
-File: gwl_2023_files/figure-latex/well_plots-145.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-145.pdf>
+File: gwl_2023_files/figure-latex/well_plots-143.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-143.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1219--1220
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1326--1327
 [] 
  []
 
@@ -3560,10 +3552,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [154]
-File: gwl_2023_files/figure-latex/well_plots-146.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-146.pdf>
+File: gwl_2023_files/figure-latex/well_plots-144.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-144.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1224--1225
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1331--1332
 [] 
  []
 
@@ -3577,10 +3569,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [155]
-File: gwl_2023_files/figure-latex/well_plots-147.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-147.pdf>
+File: gwl_2023_files/figure-latex/well_plots-145.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-145.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1229--1230
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1336--1337
 [] 
  []
 
@@ -3594,10 +3586,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [156]
-File: gwl_2023_files/figure-latex/well_plots-148.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-148.pdf>
+File: gwl_2023_files/figure-latex/well_plots-146.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-146.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1234--1235
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1341--1342
 [] 
  []
 
@@ -3611,10 +3603,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [157]
-File: gwl_2023_files/figure-latex/well_plots-149.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-149.pdf>
+File: gwl_2023_files/figure-latex/well_plots-147.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-147.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1239--1240
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1346--1347
 [] 
  []
 
@@ -3628,10 +3620,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [158]
-File: gwl_2023_files/figure-latex/well_plots-150.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-150.pdf>
+File: gwl_2023_files/figure-latex/well_plots-148.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-148.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1244--1245
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1351--1352
 [] 
  []
 
@@ -3645,10 +3637,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [159]
-File: gwl_2023_files/figure-latex/well_plots-151.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-151.pdf>
+File: gwl_2023_files/figure-latex/well_plots-149.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-149.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1249--1250
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1356--1357
 [] 
  []
 
@@ -3662,10 +3654,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [160]
-File: gwl_2023_files/figure-latex/well_plots-152.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-152.pdf>
+File: gwl_2023_files/figure-latex/well_plots-150.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-150.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1254--1255
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1361--1362
 [] 
  []
 
@@ -3679,10 +3671,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [161]
-File: gwl_2023_files/figure-latex/well_plots-153.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-153.pdf>
+File: gwl_2023_files/figure-latex/well_plots-151.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-151.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1259--1260
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1366--1367
 [] 
  []
 
@@ -3696,10 +3688,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [162]
-File: gwl_2023_files/figure-latex/well_plots-154.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-154.pdf>
+File: gwl_2023_files/figure-latex/well_plots-152.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-152.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1264--1265
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1371--1372
 [] 
  []
 
@@ -3713,10 +3705,10 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [163]
-File: gwl_2023_files/figure-latex/well_plots-155.pdf Graphic file (type pdf)
-<use gwl_2023_files/figure-latex/well_plots-155.pdf>
+File: gwl_2023_files/figure-latex/well_plots-153.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-153.pdf>
 
-Overfull \hbox (9.10318pt too wide) in paragraph at lines 1269--1270
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1376--1377
 [] 
  []
 
@@ -3730,8 +3722,13 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [164]
-LaTeX Font Info:    Font shape `TU/PalatinoLinotype(0)/b/n' will be
-(Font)              scaled to size 8.31161pt on input line 1275.
+File: gwl_2023_files/figure-latex/well_plots-154.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-154.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1381--1382
+[] 
+ []
+
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
@@ -3742,6 +3739,13 @@ Package fancyhdr Warning: \headheight is too small (42.67912pt):
 (fancyhdr)                \addtolength{\topmargin}{-16.40187pt}.
 
 [165]
+File: gwl_2023_files/figure-latex/well_plots-155.pdf Graphic file (type pdf)
+<use gwl_2023_files/figure-latex/well_plots-155.pdf>
+
+Overfull \hbox (9.10318pt too wide) in paragraph at lines 1386--1387
+[] 
+ []
+
 File: C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf Graphic file (type pdf)
 <use C:/Users/ANDLADLE/AppData/Local/R/win-library/4.3/envreportutils.internal/rmarkdown/templates/print_ver/resources/img/MoE_EnvReportBC.pdf>
 
@@ -3760,11 +3764,11 @@ Package rerunfilecheck Info: File `gwl_2023.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 25418 strings out of 476827
- 536471 string characters out of 5802891
- 2042177 words of memory out of 5000000
- 46864 multiletter control sequences out of 15000+600000
- 562115 words of font info for 94 fonts, out of 8000000 for 9000
+ 25440 strings out of 476827
+ 536660 string characters out of 5802891
+ 2043177 words of memory out of 5000000
+ 46883 multiletter control sequences out of 15000+600000
+ 566102 words of font info for 107 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  108i,15n,122p,10903b,527s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
