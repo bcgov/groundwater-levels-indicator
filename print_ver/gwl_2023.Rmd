@@ -81,31 +81,28 @@ colour.scale <- brewer.pal(3,"Blues")
 updateDate <- "March 2019"
 
 ```
-Up to 1 million British Columbians are estimated to consume groundwater,
-and hundreds of groundwater aquifers provide water for industries,
-municipalities, farms, and rural homeowners in British Columbia. B.C. operates a provincial [observation well network of over 200 wells](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836), which was established in 1961 to monitor groundwater availability in areas of high human use.
 
--   Observation wells are not used for domestic or commercial use, but
-instead provide monitoring information on groundwater levels over time.
+Up to 1 million British Columbians are estimated to consume groundwater. Hundreds of groundwater aquifers provide water for industries, municipalities, farms, and rural homeowners. British Columbia  operates a provincial [observation well network of over 200 wells](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836). This network was established in 1961 to track groundwater availability in areas of high human use.
+
+-   Observation wells are not used for domestic or commercial use. Rather, observation wells provide information on groundwater levels over time.
 
 -   Monitoring groundwater levels allows us to know how much groundwater
 is available given human use patterns, aquifer characteristics,
-weather and climate patterns^[1](#fn1)^. Aquifers are geological formations of permeable rock, gravel, or sand containing or conducting groundwater.
+weather and climate patterns^1^. [Aquifers](https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/groundwater-wells-aquifers/understanding-aquifers) are geological formations of permeable rock, gravel, or sand containing or conducting groundwater.
 
--   This indicator presents an analysis of long-term trends
-in groundwater levels recorded at `r nrow(attr_wells)` observation wells that have been monitored for ten years or more and that were active as of 2013.
+-  This indicator analyses long-term trends in groundwater levels recorded at `r nrow(attr_wells)` observation wells. The analyses includes observation wells that were active as of 2013 and tracked for 10 years or more.
 
 -  Groundwater level trends are summarised using three long-term trend categories: Stable (less than 3 cm/year or insignificant trend) or Increasing (3 to 5 cm/year), Moderate Rate of Decline (3 to 10 cm/year), and Large Rate of Decline (more than 10 cm/year).
 
-
 \newpage
 
-## Trends in Groundwater Levels Observed at Observation Wells
+\vspace{20pt}
+
+# Trends in Groundwater Levels Observed at Observation Wells
 
 ## Provincial Summary of Trends in Groundwater Levels
 
--   Of the `r nrow(attr_wells)` examined observation wells, `r round(sum(state.summary[c("Stable","Increasing"),"prop"]*100))`% have water levels that are stable or increasing (with `r state.summary["Increasing","n"]` wells showing increasing trends), `r round(state.summary["Moderate Rate of Decline","prop"]*100)`% of wells show a moderate rate of decline in water levels, and `r round(state.summary["Large Rate of Decline","prop"]*100)`% show a large rate of decline in water levels. Note that only wells with enough data for trend analysis are included in the following figures.
-
+-   Of the `r nrow(attr_wells)` observation wells examined, `r round(sum(state.summary[c("Stable","Increasing"),"prop"]*100))`% have water levels that are stable or increasing (with `r state.summary["Increasing","n"]` wells showing increasing trends). `r round(state.summary["Moderate Rate of Decline","prop"]*100)`% of wells show a moderate rate of decline in water levels, and `r round(state.summary["Large Rate of Decline","prop"]*100)`% show a large rate of decline. Note that only wells with enough data for trend analysis are included in the following figures.
 
 \vspace{20pt}
 
@@ -116,17 +113,7 @@ bc_bar_chart
 
 ## Regional Summary of Trends in Groundwater Levels
 
-- The number of wells in each Natural Resource Regions across B.C. varies. The highest number of observation wells is in the West Coast Region, with 62 wells. The location and status can be seen in the map below
-
-\vspace{-20pt}
-\hspace{-20pt}
-
-```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.align = 'left', fig.width = 16, fig.asp=0.75}
-# summary map
-# print(leaflet_map)
-# map = image_crop(leaflet_map, "2000x1500+100")
-plot(leaflet_map)
-```
+- The number of observation wells in each (Natural Resource Regions)[https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/ministry-of-forests-lands-and-natural-resource-operations-region-district-contacts] across B.C. varies. The highest number of observation wells is in the West Coast Region, with 62 wells, and lowest number is in the Skeena and Omineca regions (2 wells each).  
 
 \vspace{10pt}
 
@@ -136,14 +123,32 @@ regional_bar_chart
 
 \newpage
 
+The location and status for each observation well can be seen in the map below. Small (grey colour) symbols represent locations with insufficient data to estimate a trend. Opaque symbols represent stations with a signficant trend (colour represents direction and magnitude), while semi-transparent symbols represent locations with non-signficant results. 
+
+\vspace{-30pt}
+\hspace{-30pt}
+
+```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.align = 'left', fig.width = 24, fig.asp=0.75}
+# summary map
+# print(leaflet_map)
+# map = image_crop(leaflet_map, "2000x1500+100")
+plot(leaflet_map)
+```
+
+\newpage
 
 \definecolor{stable}{HTML}{`r substr(colour.scale[1], 2, 7)`}
 \definecolor{moderate}{HTML}{`r substr(colour.scale[2], 2, 7)`}
 \definecolor{large}{HTML}{`r substr(colour.scale[3], 2, 7)`}
 
+
+\vspace{20pt}
+
 ## More About Groundwater Levels
 
-Groundwater levels are sensitive to precipitation, aquifer storage capacity, recharge rate&mdash;the rate at which surface water trickles down to refill a groundwater aquifer&mdash;and human withdrawal. Groundwater level trends presented here indicate long-term changes in water level, but have not been corrected for changes in precipitation patterns or other factors. Thus, any significant trends are not necessarily directly attributable to human use. However, information on long-term trends can be useful for prompting further research and informing decision-making. 
+Groundwater levels are sensitive to rainfall, aquifer storage capacity, recharge rate&mdash;the rate at which surface water trickles down to refill a groundwater aquifer&mdash;and human use. Trends presented here show long-term changes in groundwater, but have not been corrected for the above factors. Thus, any significant trends are not necessarily due to human use alone. However, information on long-term trends can be useful for prompting further research and informing decision-making. 
+
+<!-- Groundwater levels are sensitive to precipitation, aquifer storage capacity, recharge rate&mdash;the rate at which surface water trickles down to refill a groundwater aquifer&mdash;and human withdrawal. Groundwater level trends presented here indicate long-term changes in water level, but have not been corrected for changes in precipitation patterns or other factors. Thus, any significant trends are not necessarily directly attributable to human use. However, information on long-term trends can be useful for prompting further research and informing decision-making.  -->
 
 
 ## References and Other Useful Links
@@ -199,12 +204,13 @@ from the Ground Water Wells (Spatial View) Dataset:
 
 ### Trend Analysis
 
-Trend analysis was conducted using monthly groundwater levels from each
-groundwater observation well that had ten or more years of data, fewer
+Trend analysis was conducted using groundwater observation wells that had ten or more years of data, fewer
 than 25% of monthly observations missing, and was active as of January 1,
 2008. This resulted in `r nrow(attr_wells)` wells with suitable data records for analysis. 
 
-For each month that had more than one observation, the median was taken. After the time series were constructed, each was
+Trend analyses were calculated both annually and monthly. For each month that had more than one observation, 
+the median was taken. Annual mean groundwater levels were then calculated for each year that contained values for all twelve months.
+After the time series were constructed, each was
 inspected for consecutive missing values near the
 beginning or the end of the time series, due to the strong influence of
 these regions on trend analysis. If there were more than four
@@ -231,6 +237,39 @@ the slope and the AR(1) 1s calculated for the detrended time series. The
 residuals and the trend are combined and then tested for significance
 using the Mann-Kendall trend test. These methods were implemented using
 the R package ‘zyp’ [@pkg_zyp].
+
+<!-- Trend analysis was conducted using monthly groundwater levels from each -->
+<!-- groundwater observation well that had ten or more years of data, fewer -->
+<!-- than 25% of monthly observations missing, and was active as of January 1, -->
+<!-- 2008. This resulted in `r nrow(attr_wells)` wells with suitable data records for analysis.  -->
+
+<!-- For each month that had more than one observation, the median was taken. After the time series were constructed, each was -->
+<!-- inspected for consecutive missing values near the -->
+<!-- beginning or the end of the time series, due to the strong influence of -->
+<!-- these regions on trend analysis. If there were more than four -->
+<!-- consecutive missing values in the first or last 10% of the time series, -->
+<!-- the time series was truncated to remove the missing values. Remaining  -->
+<!-- missing values were interpolated by first fitting a 12-period (i.e., -->
+<!-- monthly) basic structural time series model (BSM) to the data -->
+<!-- [@harvey1990forecasting]. Fixed-interval smoothing -->
+<!-- [@DurbinKoopman2001ts] was then applied to the fitted model to generate -->
+<!-- predicted values for the entire time series; the predicted values were -->
+<!-- substituted into the orignal time series where there were missing data. -->
+<!-- This resulted in a full monthly time series for each well, with one -->
+<!-- observation per month.  Finally, the -->
+<!-- mean annual groundwater level was calculated for each well, and trend -->
+<!-- analysis was performed using the annual values. -->
+
+<!-- Each groundwater-level time series was analyzed for trend using -->
+<!-- Trend-Free Pre-Whitening to remove lag-1 autocorrelation, which can -->
+<!-- artificially increase the probability of detecting a significant trend -->
+<!-- [@YuePilon2002autocorr]. In this method, the slope of each time series -->
+<!-- is estimated using the Theil-Sen approach [@sen1968slope]. If the -->
+<!-- estimated slope is different from zero, then the data are detrended by -->
+<!-- the slope and the AR(1) 1s calculated for the detrended time series. The -->
+<!-- residuals and the trend are combined and then tested for significance -->
+<!-- using the Mann-Kendall trend test. These methods were implemented using -->
+<!-- the R package ‘zyp’ [@pkg_zyp]. -->
 
 ## Observed Long-term Trend Categories
 
