@@ -203,6 +203,7 @@ mypal = colorFactor(palette = c("#2171b5", "#bdd7e7", "#ff7b7b", "#ff0000", "gre
 
 leaflet(options =
           leafletOptions(zoomControl = FALSE)) %>%
+  setView(lat = 55, lng = -125, zoom = 5) %>%
   addProviderTiles(providers$CartoDB,group = "CartoDB") %>%
   addPolygons(data = regions_sf,
               color = "black",
@@ -226,7 +227,7 @@ leaflet(options =
   ## save html to png
   saveWidget("temp.html", selfcontained = FALSE)
 webshot("temp.html", file = "tmp/static_leaflet.png",
-        cliprect = "viewport", zoom = 4)
+        cliprect = "viewport", zoom = 2)
 
 
 
