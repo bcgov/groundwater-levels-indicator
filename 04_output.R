@@ -100,12 +100,12 @@ input_summary <- results_viz %>%
 
 #summary df & provincial summary bar chart of categories
 bc_bar_chart <- ggplot(data=input_summary) +
-  geom_col(mapping=aes(x=prop, y=state, fill=state), width = 0.8, colour = "black") +
+  geom_col(mapping=aes(x=prop, y=state, fill=state), width = 0.4, colour = "black") +
   scale_fill_manual(values=colour.scale) +
   geom_text(aes(x=prop, y=state, label = no_wells_lab), hjust = -0.1) +
   scale_x_continuous(expand = c(0,0)) +
   expand_limits(x=c(0,105)) +
-  labs(title = "Summary of Trends in Groundwater Levels in British Columbia") +
+  # labs(title = "Summary of Trends in Groundwater Levels in British Columbia") +
   xlab("Proportion of Wells (%)") + ylab(NULL) +
   theme_soe() +
   theme(legend.position="none",
@@ -134,13 +134,13 @@ input_regional <- results_viz %>%
 require(forcats)
 #Create regional summary plot
 regional_bar_chart <- ggplot(data=input_regional) +
-  geom_col(mapping=aes(x=count, y=fct_reorder(region_name, num_wells), fill=state), width = 0.8, color = "black") +
+  geom_col(mapping=aes(x=count, y=fct_reorder(region_name, num_wells), fill=state), width = 0.4, color = "black") +
   scale_fill_manual(values=colour.scale) +
   geom_text(aes(x=num_wells + 5, y=region_name, label = num_wells_lab)) +
   scale_x_continuous(expand = c(0,0)) +
   expand_limits(x=c(0,72)) +
   guides(fill = guide_legend(reverse = TRUE))+
-  labs(title = "Summary of Trends in Groundwater Levels across \nNatural Resource Regions") +
+  # labs(title = "Summary of Trends in Groundwater Levels across \nNatural Resource Regions") +
   xlab("Number of Wells") + ylab(NULL) +
   theme_soe() +
   theme(legend.position="bottom",
@@ -173,16 +173,16 @@ save(bc_bar_chart, regional_bar_chart, file = "tmp/figures.RData")
 
 #Static map for PDF
 results_sf = results_sf %>%
-  mutate(significant = case_when(grepl("\\*", Results_All) ~ 1,
-                                 .default = 0.2),
+  mutate(significant = case_when(grepl("\\*", Results_All)|result == "Insufficient Data" ~ 1,
+                                 .default = 0.1),
          
          result = str_replace(Results_All, "\\*", ""),
          result = str_replace(result, "\\*", "")) %>%
   st_transform(crs = '+proj=longlat +datum=WGS84' ) %>%
   mutate(result = case_when(result %in% c("Too many missing observations","Recently established well") ~ "Insufficient Data",
                             .default = result)) %>%
-  mutate(size = case_when(result == "Insufficient Data" ~ 3,
-                          .default = 5)) %>%
+  mutate(size = case_when(result == "Insufficient Data" ~ 1,
+                          .default = 3)) %>%
   mutate(result = fct_relevel(factor(result), 
                               c("Increasing",
                                 "Stable",
@@ -201,10 +201,14 @@ mypal = colorFactor(palette = c("#2171b5", "#bdd7e7", "#ff7b7b", "#ff0000", "gre
                     ),
                     ordered = T)
 
+bounds = st_bbox(regions_sf) %>%
+  as.vector()
+
 leaflet(options =
           leafletOptions(zoomControl = FALSE)) %>%
-  setView(lat = 55, lng = -125, zoom = 5) %>%
-  addProviderTiles(providers$CartoDB,group = "CartoDB") %>%
+  # setView(lat = 55, lng = -125, zoom = 5) %>%
+  fitBounds(lng1 = bounds[1], lat1 = bounds[2], lng2 = bounds[3], lat2 = bounds[4]) %>%
+  addTiles(group = "Streets") %>%
   addPolygons(data = regions_sf,
               color = "black",
               fillColor = "white",
@@ -213,7 +217,7 @@ leaflet(options =
   addCircleMarkers(data = results_sf,
                    radius = ~size,
                    color = "black",
-                   weight = 0.5,
+                   weight = 0.8,
                    fillOpacity = ~significant,
                    fillColor = ~mypal(result)) %>%
  addLegend(pal = mypal,
@@ -228,10 +232,6 @@ leaflet(options =
   saveWidget("temp.html", selfcontained = FALSE)
 webshot("temp.html", file = "tmp/static_leaflet.png",
         cliprect = "viewport", zoom = 2)
-
-
-
-
 
 #Original script for leaflet web app
 # sum_data_reg <- results_viz %>%
@@ -524,7 +524,7 @@ for (w in names(wellMaps)) {
                              leafletOptions(zoomControl = FALSE)) %>%
     addProviderTiles("OpenStreetMap") %>%
     setView(lng = well$Long[1], lat = well$Lat[1],
-            zoom = 8)
+            zoom = 9)
 }
 
 #individual Obs Well ggmap plots 
