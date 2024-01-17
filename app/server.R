@@ -96,11 +96,11 @@ server <- function(input, output, session) {
       station_click('No Selection')
     }
     station_click(input$leafmap_marker_click$id)
-    if(period_rv()=="Yearly"){
+    # if(period_rv()=="Yearly"){
       shiny::updateTabsetPanel(
         inputId = 'tabset',
         selected = 'Trend Plot')
-    }
+    # }
   })
   
   #filter based on region - wells
@@ -186,7 +186,7 @@ server <- function(input, output, session) {
                        radius = ~pt_size,
                        weight = 1,
                        group="selected",
-                       fillOpacity = 0.8,
+                       fillOpacity = 1,
                        label = ~paste0("Well No. ", Well_Num, " - ",state),
                        data = map_data()) %>%
       removeControl("legend") %>%
