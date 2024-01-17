@@ -99,11 +99,6 @@ server <- function(input, output, session) {
     if(period_rv()=="Yearly"){
       shiny::updateTabsetPanel(
         inputId = 'tabset',
-        selected = 'Summary Plot')
-    }
-    else{
-      shiny::updateTabsetPanel(
-        inputId = 'tabset',
         selected = 'Trend Plot')
     }
   })
@@ -356,7 +351,7 @@ server <- function(input, output, session) {
           # print(trend_df)
           
           plot = ggplot(plot_data) +
-            ggtitle(paste0("Station Class: ",trend_data$state_short,"\n",trend_data$slope," m/year")) +
+            ggtitle(paste0("Station Class: ",trend_data$state_short,"\n",trend_data$slope*100," cm/year")) +
             geom_errorbar(aes(x = as.Date(Date), ymin = min, ymax = max, col = missing_dat), width = 0.3) +
             geom_point(aes(x = as.Date(Date), y = annual_median, col = missing_dat)) +
             scale_x_date(expand = c(0.1,0.1)) +
@@ -519,13 +514,13 @@ server <- function(input, output, session) {
       filter(Well_Num == station_click())%>%
       pull(aquifer_id)
     
-    HTML(paste0("<a href=", "https://apps.nrs.gov.bc.ca/gwells/aquifers/",
+    HTML(paste0("<a href=", "\"https://apps.nrs.gov.bc.ca/gwells/aquifers/\"target=\"_blank\"",
            aquifer_id, ">View available aquifer information</a"))
   })
   
   output$aquifer_url2 = renderText({
     
-    HTML(paste0("<a href=", "https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=b53cb0bf3f6848e79d66ffd09b74f00d&find=OBS%20WELL%20",
+    HTML(paste0("<a href=", "\"https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=b53cb0bf3f6848e79d66ffd09b74f00d&find=OBS%20WELL%20\"","target=\"_blank\"",
                 station_click(), ">View this well on the Provincial Groundwater Observation Well Network</a"))
   }) 
   
