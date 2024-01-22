@@ -66,6 +66,7 @@ library(leaflet)
 library(webshot)
 library(htmlwidgets)
 library(knitr)
+library(mapview)
 
 ## Create project directories
 if (!exists("tmp")) dir.create("tmp", showWarnings = FALSE)
