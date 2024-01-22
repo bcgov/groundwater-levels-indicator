@@ -78,11 +78,10 @@ label.colour <- "black"
 colour.scale <- brewer.pal(3,"Blues")
 
 # updateDate <- format(Sys.Date(), "%B %Y")
-updateDate <- "March 2019"
-
+updateDate <- "January 2024"
 ```
 
-Up to 1 million British Columbians are estimated to consume groundwater. Hundreds of groundwater aquifers provide water for industries, municipalities, farms, and rural homeowners. British Columbia  operates a provincial [observation well network of over 200 wells](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836). This network was established in 1961 to track groundwater availability in areas of high human use.
+Groundwater provides drinking water to 1 in 4 British Columbians. Hundreds of groundwater aquifers provide water for industries, municipalities, farms, and rural homeowners. Aquifers are geological formations of permeable rock, gravel, or sand containing or conducting groundwater. British Columbia  operates a provincial [observation well network of over 200 wells](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836). This network was established in 1961 to track groundwater availability in areas of high human use.
 
 -   Observation wells are not used for domestic or commercial use. Rather, observation wells provide information on groundwater levels over time.
 
@@ -123,7 +122,11 @@ regional_bar_chart
 
 \newpage
 
-The location and status for each observation well can be seen in the map below. Small (grey colour) symbols represent locations with insufficient data to estimate a trend. Opaque symbols represent stations with a signficant trend (colour represents direction and magnitude), while semi-transparent symbols represent locations with non-signficant results. 
+- The location and status for each observation well can be seen in the map below. Opaque symbols represent stations with a signficant trend (colour represents direction and magnitude), while semi-transparent symbols represent locations with non-signficant results. The observed long-term trends were categorized using a combination of statistical and environmental significance criteria. Based on both the significance and magnitude of the calculated trend, trends in water levels in wells were classified as exhibiting the following categories:
+  + **Stable or Increasing:** the trend was not significantly different from zero or the trend was significantly different from zero with an increasing trend or the trend was significantly different from zero with a declining trend of less than 3 cm per year.
+  + **Moderate Rate of Decline:** the trend was significantly different from zero with a declining trend of between 3 and 10 cm per year.
+  + **Large Rate of Decline:** the slope was significantly different from zero with a declining trend of more than 10 cm per year.
+
 
 \vspace{-30pt}
 \hspace{-30pt}
@@ -178,7 +181,7 @@ each file, as indicated in parentheses below.
 
 ----
 
-Published and Available On-Line at Environmental Reporting BC (`r updateDate`): <http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html>
+Published and Available Online at Environmental Reporting BC (`r updateDate`): <http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html>
 
 Email correspondence to: envreportbc@gov.bc.ca
 
