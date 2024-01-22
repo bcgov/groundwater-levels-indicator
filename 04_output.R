@@ -106,7 +106,8 @@ bc_bar_chart <- ggplot(data=input_summary) +
   scale_x_continuous(expand = c(0,0)) +
   expand_limits(x=c(0,105)) +
   # labs(title = "Summary of Trends in Groundwater Levels in British Columbia") +
-  xlab("Proportion of Wells (%)") + ylab(NULL) +
+  xlab("Proportion of Wells (%)") + 
+  ylab(NULL) +
   theme_soe() +
   theme(legend.position="none",
         plot.title = element_text(hjust = 0)) + 
@@ -173,7 +174,7 @@ save(bc_bar_chart, regional_bar_chart, file = "tmp/figures.RData")
 
 #Static map for PDF
 results_sf = results_sf %>%
-  mutate(significant = case_when(grepl("\\*", Results_All)|result == "Insufficient Data" ~ 1,
+  mutate(significant = case_when(grepl("\\*", Results_All)|Results_All == "Insufficient Data" ~ 1,
                                  .default = 0.1),
          
          result = str_replace(Results_All, "\\*", ""),
@@ -206,8 +207,8 @@ bounds = st_bbox(regions_sf) %>%
 
 leaflet(options =
           leafletOptions(zoomControl = FALSE)) %>%
-  # setView(lat = 55, lng = -125, zoom = 5) %>%
-  fitBounds(lng1 = bounds[1], lat1 = bounds[2], lng2 = bounds[3], lat2 = bounds[4]) %>%
+  setView(lat = 55, lng = -125, zoom = 5) %>%
+  # fitBounds(lng1 = bounds[1], lat1 = bounds[2], lng2 = bounds[3], lat2 = bounds[4]) %>%
   addTiles(group = "Streets") %>%
   addPolygons(data = regions_sf,
               color = "black",
