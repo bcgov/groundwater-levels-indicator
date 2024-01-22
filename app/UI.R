@@ -90,7 +90,7 @@ trend_plot_tab = card(
 # Absolute Panel with trend selection.
 trend_select_abs_panel = absolutePanel(
   id = 'trend_selector',
-  top = 400, left = 10, width = 450, #height = 800,
+  top = 480, left = 10, width = 500, #height = 800,
   draggable = F,
   tabsetPanel(
     id = 'tabset',
@@ -108,7 +108,9 @@ ui = shiny::fluidPage(
   includeCSS('www/bc_button.css'),
 
   tags$head(tags$style(
-    HTML('#trend_selector {opacity:0.9;}
+    HTML(' .tabbable > .nav > li > a {background-color: white;  color:blue}
+    .tabbable > .nav > li[class=active]    > a {background-color: white; color:black}
+    #trend_selector {opacity:0.9;}
          #trend_selector:hover{opacity:0.9;}'))),
   titlePanel("Flow Indicator"),
   # Throw in our own action button, setting class to 'my_home_button'

@@ -29,12 +29,12 @@ server <- function(input, output, session) {
   lon = input$leafmap_center[1]
 
     # Change region_rv() to 'All'
-    if(region_rv() != 'All'| zoom != 5 | lat != 50 | lon != -130){
+    if(region_rv() != 'All'| zoom != 5 | lat != 52 | lon != -133){
       region_rv('All')
       
       # Update map to BC zoom (customizable)
       leafletProxy('leafmap') |>
-        setView(lat = 50, lng = -130, zoom = 5)
+        setView(lat = 52, lng = -133, zoom = 5)
       
       updateSelectInput(session = session,
                         'region_choice',
@@ -153,17 +153,15 @@ server <- function(input, output, session) {
   
   # Map
   output$leafmap <- renderLeaflet({
-    map = leaflet() %>%
+    map = leaflet(options = leafletOptions(zoomSnap = 0.25,
+                                           zoomDelta = 0.25)) %>%
       addProviderTiles(providers$CartoDB,group = "CartoDB") %>%
-      addTiles(group = 'Streets') %>%
-      addLayersControl(baseGroups = c("CartoDB","Streets"),
-                       options = layersControlOptions(collapsed = F),
-                       position = 'topright')
+      addTiles(group = 'Streets')
     
     if(region_rv() == "All"){
       map %>%
         # set_bc_view()
-        setView(lat = 50, lng = -130, zoom = 5)
+        setView(lat = 52, lng = -133, zoom = 5)
     }
     else{
       map %>%
@@ -197,7 +195,10 @@ server <- function(input, output, session) {
                 #className = "info legend solid circle", #Css from original leaflet script
                 opacity = 1,
                 layerId = 'legend',
-                position = 'topright')
+                position = 'topright') %>%
+      addLayersControl(baseGroups = c("CartoDB","Streets"),
+                       options = layersControlOptions(collapsed = F),
+                       position = 'topright')
   })
   
   output$summaryPlot = renderPlot({
@@ -232,10 +233,10 @@ server <- function(input, output, session) {
             scale_y_reverse() +
             scale_fill_manual(name = '', labels = 'Monthly Median Groundwater Levels', values = c('Groundwater Level' = "#1E90FF")) +
             xlab("Date") +
-            ylab ("Water Level (Meters Below Ground Level)")+
+            ylab ("Water Level \n(Meters Below Ground Level)")+
             theme_minimal()+
             theme(
-              text = element_text(colour = "black", size = 11),
+              text = element_text(colour = "black", size = 13),
               panel.grid.minor.x = element_blank(),
               panel.grid.major.x = element_blank(),
               axis.line = element_line(colour="grey50"),
@@ -277,7 +278,7 @@ server <- function(input, output, session) {
             scale_x_continuous(breaks = 1:12, labels = month.abb) +
             theme_minimal() +
               theme(
-                text = element_text(colour = "black"),
+                text = element_text(colour = "black", size = 13),
                 panel.grid.minor.x = element_blank(),
                 panel.grid.major.x = element_blank(),
                 axis.line = element_line(colour="grey50"),
@@ -362,7 +363,7 @@ server <- function(input, output, session) {
                                 values = c("blue", "#A9A9A9")) +
             theme_minimal() +
             theme(
-              text = element_text(colour = "black"),
+              text = element_text(colour = "black", size = 13),
               panel.grid.minor.x = element_blank(),
               panel.grid.major.x = element_blank(),
               axis.line = element_line(colour="grey50"),
@@ -438,7 +439,7 @@ server <- function(input, output, session) {
           theme(plot.title = element_text(hjust = 0.5),
                 legend.position = "none") +
           theme(
-            text = element_text(colour = "black"),
+            text = element_text(colour = "black", size = 13),
             panel.grid.minor.x = element_blank(),
             panel.grid.major.x = element_blank(),
             axis.line = element_line(colour="grey50"),
