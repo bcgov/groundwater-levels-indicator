@@ -59,7 +59,7 @@ obs_wells_sf = obs_wells_clean %>%
       st_coordinates()) %>%
   mutate(Lat = round(Y, 4), 
          Long = round(X, 4), 
-         wellDepth_m = round(finished_well_depth * 0.3048), 
+         wellDepth_m = round(finished_well_depth * 0.3048), #ft to m
          waterDepth_m = round(static_water_level * 0.3048)) %>%
   select(EMS_ID = ems_id, 
          Well_Num = observation_well_number, 
@@ -113,7 +113,7 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period, wel
                           state = case_when(trend >= 0.1 & sig < 0.05 ~ "Large Rate of Decline",
                                             trend >= 0.03 & trend < 0.1 & sig < 0.05 ~ "Moderate Rate of Decline",
                                             trend <= -0.03 & sig < 0.05 ~ "Increasing",
-                                            TRUE ~ "Stable")) %>%
+                                            TRUE ~ "Stable and/or Non-significant")) %>%
     mutate(Well_Num = str_remove(Well_Num,'[A-Z]*'))
   
   left_join(well_attributes, wells_results, by=c("Well_Num"="Well_Num")) %>%
@@ -131,7 +131,7 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period, wel
                              is.na(trend_line_int) & (percent_missing >= 25 | last_date < latest_date) ~
                                "Too many missing observations to perform trend analysis",
                              TRUE ~ state),
-           category = case_when(state %in% c("Increasing", "Stable") ~ "Stable or Increasing", 
+           category = case_when(state %in% c("Increasing", "Stable and/or Non-significant") ~ "Stable or Increasing", 
                                 grepl("Recently|missing", state) ~ "N/A",
                                 TRUE ~ state)) %>% 
     filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date)) %>% 
@@ -204,7 +204,7 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period, we
            state = case_when(trend >= 0.1 & sig < 0.05 ~ "Large Rate of Decline",
                              trend >= 0.03 & trend < 0.1 & sig < 0.05 ~ "Moderate Rate of Decline",
                              trend <= -0.03 & sig < 0.05 ~ "Increasing",
-                             TRUE ~ "Stable"))
+                             TRUE ~ "Stable and/or Non-significant"))
     
   })
   
@@ -225,7 +225,7 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period, we
                                is.na(trend_line_int) & (percent_missing >= 25 | last_date < latest_date) ~
                                  "Too many missing observations to perform trend analysis",
                                TRUE ~ state),
-             category = case_when(state %in% c("Increasing", "Stable") ~ "Stable or Increasing", 
+             category = case_when(state %in% c("Increasing", "Stable and/or Non-significant") ~ "Stable or Increasing", 
                                   grepl("Recently|missing", state) ~ "N/A",
                                   TRUE ~ state)) %>% 
       filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date)) %>% 
