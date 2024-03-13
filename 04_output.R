@@ -13,59 +13,37 @@
 # the License.
 
 
-## Setup -------------------------------------------------------------------
+# Load data -------------------------------------------------------------------
 
 ## Source package libraries
 if (!exists(".header_sourced")) source("header.R")
 
-## Load saved data if necessary
+## Load output data from 03_analysis.R if necessary
 if (!exists("results_out"))  load("./tmp/analysis_data.RData")
 if (!exists("monthlywells_ts")) load("./tmp/clean_well_data.RData")
 if (!exists("results_sf")) load("./tmp/well_data_attributes_sf.RData")
 
-regions_sf <- read_sf("data/nr_polygons.gpkg") %>%
+
+# NR regions for mapping
+regions_sf <- bcmaps::nr_regions() %>%
   st_transform(crs = 4326) %>%
   mutate(region_name = str_remove_all(REGION_NAME, " Natural Resource Region")) %>%
   mutate(region_name = ifelse(region_name == "Thompson-Okanagan", "Thompson / Okanagan",
-                              ifelse(region_name == "Kootenay-Boundary", "Kootenay / Boundary", region_name)))
+                              ifelse(region_name == "Kootenay-Boundary", "Kootenay Boundary", region_name)))
 
-## Create Google maps?
-create_ggmaps <- TRUE
 
-## Bar chart theme
-theme_barcharts <- theme(
-  axis.text = element_text(size = 14),
-  axis.title = element_blank(), 
-  plot.title = element_text(size = 17, hjust = 0.5),
-  plot.margin = unit(c(6,8,6,2),"mm")
-)
-
-## Plot settings 
-colour.scale <- c("Increasing"="#2171b5", "Stable"="#bdd7e7",
-                  "Moderate Rate of Decline"="#ff7b7b", "Large Rate of Decline"="#ff0000") 
+# Set color scale
+colour.scale <- c("Increasing"="#2c7bb6", "Stable and/or Non-significant"="#abd9e9",
+                  "Moderate Rate of Decline"="#fdae61", "Large Rate of Decline"="#d7191c") 
 
 
 
-## Paths for saving plots
-# status.bc <- "out/figs/status-bc"
-# status.reg <- "out/figs/status-by-reg"
-# status.reg.bc <- "out/figs/status-by-reg-bc"
-# status.well <- "leaflet_map/well_plots"
-# status.reg.all <- "leaflet_map/regional_plots"
+# Select wells analyzed and create categories for visualization -----------------------------
 
-
-# #facet label function
-nLabeller <- function(n, singular, sep = " ") {
-  suffix <- ifelse(n == 1, singular, paste0(singular,"s"))
-  label <- paste(n, suffix, sep = sep)
-  label
-}
-
-## Select wells analyzed and create factors
 results_viz <- results_out[results_out$category != "N/A",] %>%
   mutate(region_name_short = str_replace(region_name, "( / )|( )", "_"), 
          state = factor(state, levels = c("Increasing", 
-                                          "Stable",
+                                          "Stable and/or Non-significant",
                                           "Moderate Rate of Decline",
                                           "Large Rate of Decline"),
                         ordered = TRUE),
@@ -74,10 +52,10 @@ results_viz <- results_out[results_out$category != "N/A",] %>%
                                                 "Large Rate of Decline"),
                            ordered = TRUE),
          col = case_when(
-           state == "Stable" ~ "#bdd7e7",
-           state == "Moderate Rate of Decline" ~ "#ff7b7b",
-           state == "Large Rate of Decline" ~ "#ff0000",
-           state == "Increasing" ~ "#2171b5"
+           state == "Stable and/or Non-significant" ~ "#abd9e9",
+           state == "Moderate Rate of Decline" ~ "#fdae61",
+           state == "Large Rate of Decline" ~ "#d7191c",
+           state == "Increasing" ~ "#2c7bb6"
          )) %>%
   mutate(Well_Name = paste0("Observation Well #", Well_Num)) %>%
   select(c(-start_year.y, -end_year.y)) %>%
@@ -87,7 +65,7 @@ results_viz <- results_out[results_out$category != "N/A",] %>%
 #save results_viz df to tmp folder for use in gwl.Rmd
 save(results_viz, file = "tmp/results_viz.RData")
 
-## Provincial & Regional Summary Plots (PDF)------------------------------
+# Provincial & Regional Summary Plots ------------------------------
 #Count the number of wells in each state and calculate the respective proportions
 
 input_summary <- results_viz %>%
@@ -115,11 +93,12 @@ bc_bar_chart <- ggplot(data=input_summary) +
         panel.grid.major.y = element_blank()) +
   scale_y_discrete(breaks = unique(input_summary$state),
                    labels = c("Increasing",
-                              "Stable",
+                              "Stable and/or Non-significant",
                               "Moderate Rate \nof Decline",
                               "Large Rate \nof Decline"))
 
-#regional summary df
+bc_bar_chart
+
 #Summarize results by region and count wells in each state
 input_regional <- results_viz %>%
   group_by(region_name) %>%
@@ -152,7 +131,7 @@ regional_bar_chart <- ggplot(data=input_regional) +
         panel.grid.major.y = element_blank()) +
   scale_y_discrete(breaks = unique(fct_reorder(input_regional$region_name,
                                                input_regional$num_wells)),
-                   labels = c("Cariboo","Kootenay/\nBoundary",
+                   labels = c("Cariboo","Kootenay\nBoundary",
                               "Northeast",
                               "Omineca",
                               "Skeena",
@@ -160,6 +139,8 @@ regional_bar_chart <- ggplot(data=input_regional) +
                               "Thompson/\nOkanagan",
                               "West Coast"))+ 
   guides(fill = guide_legend(nrow = 2))
+
+regional_bar_chart
 
 svg_px("./out/figs/bc_bar_chart_2023.svg", width = 800, height = 400)
 plot(bc_bar_chart)
@@ -170,7 +151,7 @@ plot(regional_bar_chart)
 dev.off()
 
 #save version for rmd
-save(bc_bar_chart, regional_bar_chart, file = "tmp/figures.RData")
+#save(bc_bar_chart, regional_bar_chart, file = "tmp/figures.RData")
 
 #Static map for PDF
 results_sf = results_sf %>%
@@ -186,29 +167,29 @@ results_sf = results_sf %>%
                           .default = 3)) %>%
   mutate(result = fct_relevel(factor(result), 
                               c("Increasing",
-                                "Stable",
+                                "Stable and/or Non-significant",
                                 "Moderate Rate of Decline",
                                 "Large Rate of Decline",
                                 "Insufficient Data")))
 
 #Color scheme
-mypal = colorFactor(palette = c("#2171b5", "#bdd7e7", "#ff7b7b", "#ff0000", "grey67"),
+mypal = colorFactor(palette = c("#2c7bb6", "#abd9e9", "#fdae61", "#d7191c", "grey67"),
                     domain = results_sf,
                     levels = c("Increasing",
-                               "Stable",
+                               "Stable and/or Non-significant",
                                "Moderate Rate of Decline",
                                "Large Rate of Decline",
                                "Insufficient Data"
                     ),
                     ordered = T)
 
-bounds = st_bbox(regions_sf) %>%
+bounds = st_bbox(results_sf) %>%
   as.vector()
 
 leaflet(options =
           leafletOptions(zoomControl = FALSE)) %>%
-  setView(lat = 55, lng = -125, zoom = 5) %>%
-  # fitBounds(lng1 = bounds[1], lat1 = bounds[2], lng2 = bounds[3], lat2 = bounds[4]) %>%
+  #setView(lat = 55, lng = -125, zoom = 5) %>%
+  fitBounds(lng1 = bounds[1], lat1 = bounds[2], lng2 = bounds[3], lat2 = bounds[4]) %>%
   addTiles(group = "Streets") %>%
   addPolygons(data = regions_sf,
               color = "black",
@@ -232,117 +213,9 @@ leaflet(options =
   ## save html to png
   saveWidget("temp.html", selfcontained = FALSE)
 webshot("temp.html", file = "tmp/static_leaflet.png",
-        cliprect = "viewport", zoom = 2)
-
-#Original script for leaflet web app
-# sum_data_reg <- results_viz %>%
-#   group_by(region_name, region_name_short, category) %>% #Ekaterina changed REGION_NAME to lowercase
-#   summarise(frequency = n()) %>%
-#   mutate(proportion = frequency/sum(frequency),
-#          #region_lab = paste0(gsub("(\\s)","\\\n",
-#          #                    gsub("\\s/\\s*", "/\\\n", REGION_NAME)),
-#          #                    "\n(", nLabeller(sum(frequency), "well"), ")")) %>%
-#          region_lab = paste0(region_name,
-#                              "\n(", nLabeller(sum(frequency), "well"), ")")) %>%
-#   complete(nesting(region_lab), category,
-#            fill = list(frequency = 0, proportion = 0)) #EKaterina took out nesting by region_name as well
-
-# #regional bar chart plot with percentage on y and sample size labels
-# regional_bar_chart <- ggplot(sum_data_reg,
-#                              aes(x = fct_reorder2(region_lab, category, proportion), 
-#                                  y = proportion, fill = category)) + 
-#   geom_bar(stat = 'identity', alpha = 0.7) +
-#   coord_flip() +
-#   scale_fill_manual(name = "", values = colour.scale) +
-#   scale_y_continuous(labels = percent_format(accuracy = 1),
-#                      expand = c(0, 0), limits = c(0, 1.04),
-#                      breaks = seq(0, 1, .2)) +
-#   theme_soe() +
-#   theme_barcharts +
-#   theme(panel.grid.major.y = element_blank(),
-#         axis.title.y = element_blank(),
-#         legend.text = element_text(size = 16),
-#         legend.position = "bottom",
-#         legend.direction = "vertical")
+        cliprect = "viewport", zoom = 4)
 
 
-# #combined bc & regional bar chart plots with one legend using cowplot + patchwork
-# bc_bar_nolegend <- bc_bar_chart + theme(legend.position = 'none')
-# regional_nolegend <- regional_bar_chart + theme(legend.position = 'none')
-# 
-# legend <- ggdraw(get_legend(regional_bar_chart + 
-#                               theme(legend.direction = "horizontal")))
-# 
-# combined_bc_summary <- bc_bar_nolegend + 
-#   regional_nolegend - 
-#   legend + 
-#   plot_layout(ncol = 1, heights = c(5, 0.5)) + 
-#   plot_annotation(caption = "*Note that only wells with enough data for trend analysis are included in these figures.", 
-#                   theme = theme(plot.caption = element_text(size = 14)))
-# 
-# 
-# ## Save bar chart plots for Web
-# #bc bar chart
-# png_retina(glue(status.bc, ".png"), width = 500, height = 600)
-# plot(bc_bar_chart)
-# dev.off()
-# 
-# svg_px(glue(status.bc, ".svg"), width = 500, height = 600)
-# plot(bc_bar_chart)
-# dev.off()
-# 
-# #regional bar chart
-# png_retina(glue(status.reg, ".png"), width = 500, height = 600)
-# plot(regional_bar_chart)
-# dev.off()
-# 
-# svg_px(glue(status.reg, ".svg"), width = 500, height = 600)
-# plot(regional_bar_chart)
-# dev.off()
-# 
-# #bar charts combined bc + regions
-# png_retina(glue(status.reg.bc, ".png"), width = 900, height = 600)
-# plot(combined_bc_summary)
-# dev.off()
-# 
-# svg_px(glue(status.reg.bc, ".svg"), width = 900, height = 600)
-# plot(combined_bc_summary)
-# dev.off()
-
-
-#Individual Summary Plots for Each NR region (Web only)-------------------------
-
-# Saved to a list object
-# regional_plots <- sum_data_reg %>%
-#   split(.$region_name_short) %>%
-#   map(~ ggplot(.) +
-#         geom_col(aes(category, proportion, fill = category), alpha = 0.7) +
-#         coord_flip() +
-#         scale_fill_manual(name = "", values = colour.scale) +
-#         scale_y_continuous(labels = percent_format(accuracy = 1),
-#                            expand = c(0,0), limits = c(0, 1.04),
-#                            breaks = seq(0, 1, .2)) +
-#         theme_soe() +
-#         theme_barcharts +
-#         theme(panel.grid.major.y = element_blank(),
-#               legend.position = "none",
-#               legend.text = element_text(size = 16),
-#               plot.margin = unit(c(6,12,6,2),"mm")))
-
-# To look at one plot in list object:
-# regional_plots[["Northeast"]]
-
-# To look at all the plots in the list object:
-# walk(regional_plots, ~ plot(.x))
-
-## Save individual regional bar charts
-# for (i in seq_along(regional_plots)) {
-#   svg_px(file.path(status.reg.all, 
-#                    glue("summary_", names(regional_plots)[i], ".svg")), 
-#          width = 800, height = 400)
-#   plot(regional_plots[[i]])
-#   dev.off()
-# }
 
 
 # Individual Obs Well Plots (Web & PDF) ----------------------------------------
@@ -442,7 +315,7 @@ results_map_df <- results_out %>%
   mutate(state = factor(state, 
                            levels = c("Large Rate of Decline",
                                       "Moderate Rate of Decline",
-                                      "Stable", "Increasing"),
+                                      "Stable and/or Non-significant", "Increasing"),
                            ordered = TRUE)) %>% 
   arrange(fct_rev(category)) %>% 
   bind_cols(st_as_sf(., crs = 4326, coords = c("Long", "Lat")) %>% 
@@ -450,55 +323,7 @@ results_map_df <- results_out %>%
               st_coordinates() %>%
               as_tibble()) 
 
-#lines 169-172 above:
-#convert full df to an sf object, transform projection, extract coordinates, 
-#bind coordinates back to original df (tx Andy Teucher)
 
-#hard-code colours
-
-
-#legend_order <- names(colrs)
-
-#source function for aligning sf object with ggmap object.  ## LH - error with this. Replaced with ggmap.
-# devtools::source_gist("1467691edbc1fd1f7fbbabd05957cbb5", 
-#                       filename = "ggmap_sf.R")
-# 
-# nrr_simp <-  ms_simplify(nrr_clip) %>% 
-#   st_transform(3857)
-# 
-# #plot
-# #original
-# summary_map <- ggmap_sf(ggMapBC, extent = "device") + 
-#   coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
-#   geom_sf(data = nrr_simp, fill = NA, inherit.aes = FALSE, size = 0.15) + 
-#   coord_sf(datum = NA) +
-#   geom_point(data = results_map_df, aes(x = X, y = Y, fill = state),
-#              shape = 21, size = 2, colour = "grey30") + 
-#   scale_fill_manual(values = colrs, breaks = legend_order) + 
-#   theme(legend.position = "bottom", legend.title = element_blank(),
-#         legend.direction = "vertical",
-#         legend.text = element_text(colour = "black", size = 11)) +
-#   guides(fill = guide_legend(ncol = 2))
-# plot(summary_map)
-
-# #summary_map <- ggmap_sf(ggMapBC, extent = "device") + 
-# summary_map <- ggmap(ggMapBC, extent="device") + 
-#   coord_map(xlim = c(-139, -114), ylim = c(47.8,60)) + 
-#   geom_sf(data = nrr_simp, fill = NA, inherit.aes = FALSE, size = 0.15) + 
-#   coord_sf(crs=4326) +
-#   geom_point(data = results_map_df, aes(x = Long, y = Lat, fill = state),
-#              shape = 21, size = 2, colour = "grey30") +
-#   scale_fill_manual(values = colrs, breaks = legend_order) + 
-#   theme(legend.position = "bottom", legend.title = element_blank(),
-#         legend.direction = "vertical",
-#         legend.text = element_text(colour = "black", size = 11)) +
-#   guides(fill = guide_legend(ncol = 2))
-# plot(summary_map)
-
-
-
-# #save list of well maps for gwl.Rmd
-#   save(summary_map, file="./tmp/map_data.RData")
 
 
 # Save Plots Objects------------------------------------------------------------
@@ -506,14 +331,18 @@ results_map_df <- results_out %>%
 #save plot objects to tmp folder for use in gwl.Rmd
 
 
-
 ## Individual Observation Well Maps (PDF print version)-------------------------
 
-if (create_ggmaps) {
+create_site_maps = TRUE
+
+if (!dir.exists('tmp/pngs')) dir.create('tmp/pngs')
+
+if (create_site_maps) {
 
 #create list of well maps
 wellMaps <- vector("list", length(unique(results_viz$Well_Num)))
 names(wellMaps) <- unique(as.integer(results_viz$Well_Num))
+
 for (w in names(wellMaps)) {
   well <- filter(results_viz, as.integer(Well_Num) == as.integer(w))
   # wellMaps[[w]] <- tryCatch(get_stamenmap(center = c(well$Long[1], well$Lat[1]), 
@@ -525,7 +354,7 @@ for (w in names(wellMaps)) {
                              leafletOptions(zoomControl = FALSE)) %>%
     addProviderTiles("OpenStreetMap") %>%
     setView(lng = well$Long[1], lat = well$Lat[1],
-            zoom = 9)
+            zoom = 12)
 }
 
 #individual Obs Well ggmap plots 
@@ -545,11 +374,11 @@ well_plots = well_plots %>%
                                             color = "black",
                                             radius = 6,
                                             weight = 2,
-                                            label = Well_Num)))
+                                            label = Well_Num) |> 
+                           addSimpleGraticule(interval = 20)))
 
   for (i in 1:nrow(well_plots)) {
     library(mapview)
-    ifelse(!dir.exists(file.path("tmp", "pngs")), dir.create(file.path("tmp", "pngs")), FALSE)
     well_plots$map_plot[[i]] %>%
       mapview::mapshot(file = paste0("tmp/pngs/",well_plots$Well_Num[[i]],".png"))
     print(paste0("Row ", i, " of ", nrow(well_plots)," complete"))
