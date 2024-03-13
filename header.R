@@ -22,7 +22,7 @@ if(length(package_new)) install.packages(package_new)
 
 ## Install the packages we will need from GitHub:
 package_github <- c(bcgov = "bcgroundwater", bcgov = "envreportutils", 
-                    bcgov = "bcmapsdata", thomasp85 = "patchwork")
+                    bcgov = "bcmaps", bcgov="bcdata", thomasp85 = "patchwork")
 package_new <- package_github[!(package_github %in% installed.packages()[,"Package"])]
 if(length(package_new)) {
   devtools::install_github(paste(names(package_new), package_new, sep = "/"))
