@@ -36,8 +36,10 @@ source("func.R")
 
 if(!dir.exists('data'))dir.create("data", showWarnings = FALSE)
 
+library(bcdata)
+
 # Retrieve data directly from BC Data Catalogue.
-obs_wells_in = bcdata::bcdc_get_data('e4731a85-ffca-4112-8caf-cb0a96905778') %>% 
+obs_wells_in = bcdc_get_data('e4731a85-ffca-4112-8caf-cb0a96905778') %>% 
   filter(!is.na(WELL_TAG_NUMBER),
          !is.na(WELL_STATUS)) %>% 
   collect() %>% 
