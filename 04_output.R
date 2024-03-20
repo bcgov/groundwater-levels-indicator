@@ -22,6 +22,7 @@ if (!exists(".header_sourced")) source("header.R")
 if (!exists("results_out"))  load("./tmp/analysis_data.RData")
 if (!exists("monthlywells_ts")) load("./tmp/clean_well_data.RData")
 if (!exists("results_sf")) load("./tmp/well_data_attributes_sf.RData")
+if (!exists("results_monthly")) load("./tmp/monthly_results_all.RData")
 
 
 # NR regions for mapping
@@ -93,11 +94,15 @@ bc_bar_chart <- ggplot(data=input_summary) +
         panel.grid.major.y = element_blank()) +
   scale_y_discrete(breaks = unique(input_summary$state),
                    labels = c("Increasing",
-                              "Stable and/or Non-significant",
+                              "Stable and/or \nNon-significant",
                               "Moderate Rate \nof Decline",
                               "Large Rate \nof Decline"))
 
 bc_bar_chart
+
+svg_px("./out/figs/bc_bar_chart.svg", width = 800, height = 400)
+plot(bc_bar_chart)
+dev.off()
 
 #Summarize results by region and count wells in each state
 input_regional <- results_viz %>%
@@ -142,16 +147,39 @@ regional_bar_chart <- ggplot(data=input_regional) +
 
 regional_bar_chart
 
-svg_px("./out/figs/bc_bar_chart_2023.svg", width = 800, height = 400)
-plot(bc_bar_chart)
-dev.off()
-
-svg_px("./out/figs/regional_bar_chart_2023.svg", width = 800, height = 400)
+svg_px("./out/figs/regional_bar_chart.svg", width = 800, height = 400)
 plot(regional_bar_chart)
 dev.off()
 
-#save version for rmd
-#save(bc_bar_chart, regional_bar_chart, file = "tmp/figures.RData")
+
+# Monthly Trend Summary ---------------------------------------------------
+
+monthly_viz <- results_monthly |> 
+  group_by(month, state) |> 
+  summarise (count = n()) |> 
+  filter(state != "Recently established well; time series too short for trend analysis") |> 
+  mutate(month = factor(month, levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+                                          "Oct", "Nov", "Dec")))
+
+monthly_bar_chart <- ggplot(data=monthly_viz) +
+  geom_col(mapping=aes(y=count, x= month, fill=state), width = 0.4, color = "black") +
+  scale_fill_manual(values=colour.scale) +
+  #geom_text(aes(x=num_wells + 5, y=region_name, label = num_wells_lab)) +
+  scale_y_continuous(expand = c(0,0)) +
+  #expand_limits(x=c(0,72)) +
+  #guides(fill = guide_legend(reverse = TRUE))+
+  # labs(title = "Summary of Trends in Groundwater Levels across \nNatural Resource Regions") +
+  ylab("Number of Wells") + xlab(NULL) +
+  theme_soe() +
+  theme(legend.position="bottom",
+        legend.title=element_blank(),
+        legend.direction="horizontal",
+        plot.title = element_text(hjust = 0)) +
+  theme(panel.grid.minor.y = element_blank(),
+        panel.grid.major.y = element_blank()) 
+
+
+monthly_bar_chart
 
 #Static map for PDF
 results_sf = results_sf %>%
@@ -172,51 +200,76 @@ results_sf = results_sf %>%
                                 "Large Rate of Decline",
                                 "Insufficient Data")))
 
-#Color scheme
-mypal = colorFactor(palette = c("#2c7bb6", "#abd9e9", "#fdae61", "#d7191c", "grey67"),
-                    domain = results_sf,
-                    levels = c("Increasing",
-                               "Stable and/or Non-significant",
-                               "Moderate Rate of Decline",
-                               "Large Rate of Decline",
-                               "Insufficient Data"
-                    ),
-                    ordered = T)
+# #Color scheme
+# mypal = colorFactor(palette = c("#2c7bb6", "#abd9e9", "#fdae61", "#d7191c", "grey67"),
+#                     domain = results_sf,
+#                     levels = c("Increasing",
+#                                "Stable and/or Non-significant",
+#                                "Moderate Rate of Decline",
+#                                "Large Rate of Decline",
+#                                "Insufficient Data"
+#                     ),
+#                     ordered = T)
+# 
+# bounds = st_bbox(results_sf) %>%
+#   as.vector()
+# 
+# leaflet(options =
+#           leafletOptions(zoomControl = FALSE)) %>%
+#   #setView(lat = 55, lng = -125, zoom = 5) %>%
+#   #fitBounds(lng1 = bounds[1], lat1 = bounds[2], lng2 = bounds[3], lat2 = bounds[4]) %>%
+#   addTiles(group = "Streets") %>%
+#   addPolygons(data = regions_sf,
+#               weight=1,
+#               color = "black",
+#               fill = NA) %>%
+#   addCircleMarkers(data = results_sf,
+#                    radius = ~size,
+#                    color= ~mypal(result), 
+#                    opacity = 1,
+#                    fillColor = ~mypal(result)) %>%
+#  addLegend(pal = mypal,
+#            values = ~result,
+#            title = "Groundwater Trend",
+#            data = results_sf,
+#            #className = "info legend solid circle", #Css from original leaflet script
+#            opacity = 1,
+#            layerId = 'legend',
+#            position = 'topright') %>%
+#   ## save html to png
+#   saveWidget("temp.html", selfcontained = FALSE)
+# webshot("temp.html", file = "tmp/static_leaflet.png",
+#         cliprect = "viewport", zoom = 8)
+ 
 
-bounds = st_bbox(results_sf) %>%
-  as.vector()
-
-leaflet(options =
-          leafletOptions(zoomControl = FALSE)) %>%
-  #setView(lat = 55, lng = -125, zoom = 5) %>%
-  fitBounds(lng1 = bounds[1], lat1 = bounds[2], lng2 = bounds[3], lat2 = bounds[4]) %>%
-  addTiles(group = "Streets") %>%
-  addPolygons(data = regions_sf,
-              color = "black",
-              fillColor = "white",
-              weight = 1,
-              fillOpacity = 0.2) %>%
-  addCircleMarkers(data = results_sf,
-                   radius = ~size,
-                   color = "black",
-                   weight = 0.8,
-                   fillOpacity = ~significant,
-                   fillColor = ~mypal(result)) %>%
- addLegend(pal = mypal,
-           values = ~result,
-           title = "Groundwater Trend",
-           data = results_sf,
-           #className = "info legend solid circle", #Css from original leaflet script
-           opacity = 1,
-           layerId = 'legend',
-           position = 'topright') %>%
-  ## save html to png
-  saveWidget("temp.html", selfcontained = FALSE)
-webshot("temp.html", file = "tmp/static_leaflet.png",
-        cliprect = "viewport", zoom = 4)
+# Map of Obs Well Trends --------------------------------------------------
 
 
+prov_map <- ggplot() +
+  geom_sf(data = bcmaps::bc_bound(), color = "black", fill= NA) +
+  geom_sf(data = regions_sf, color = "black", fill= NA) +
+  geom_point(data = results_sf, aes(color = result, geometry=geometry), 
+             stat = "sf_coordinates", 
+             size =3) +
+  scale_color_manual(values = c("Stable and/or Non-significant" = "#abd9e9",
+                               "Increasing" = "#2c7bb6",
+                               "Moderate Rate of Decline" = "#fdae61",
+                               "Large Rate of Decline" = "#d7191c",
+                               "Insufficient Data" = "grey67"),
+                     guide = guide_legend(theme(title = "", legend.position = "bottom", 
+                                                legend.direction = "horizontal"))) +
+  scale_x_continuous(expand = c(0,0)) +
+  scale_y_continuous(expand = c(0,0)) +
+  theme_minimal()
 
+prov_map
+
+svg_px("./out/figs/prov_map.svg", width = 400, height = 800)
+plot(prov_map)
+dev.off()
+
+#save version for rmd
+save(bc_bar_chart, regional_bar_chart, prov_map, file = "tmp/figures.RData")
 
 # Individual Obs Well Plots (Web & PDF) ----------------------------------------
 well_plots <- monthlywells_ts %>%
@@ -333,7 +386,7 @@ results_map_df <- results_out %>%
 
 ## Individual Observation Well Maps (PDF print version)-------------------------
 
-create_site_maps = TRUE
+create_site_maps = FALSE # if TRUE, all individual site maps will be created. If FALSE, code won't be run
 
 if (!dir.exists('tmp/pngs')) dir.create('tmp/pngs')
 
