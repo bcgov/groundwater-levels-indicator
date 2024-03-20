@@ -88,7 +88,7 @@ provides water for industry, municipalities, and farms.
 
 Groundwater is found underground in layers of rock, gravel, or sand
 called
-[aquifers]((<https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/groundwater-wells-aquifers/understanding-aquifers>).
+[aquifers](https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/groundwater-wells-aquifers/understanding-aquifers).
 Human usage, weather, climate, and aquifer type all impact groundwater
 levels. B.C. has a [network of \> 200 observation
 wells](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836)
@@ -221,58 +221,6 @@ use alone. However, information on long-term trends can be useful for
 prompting further research and informing decision-making.
 
 <!-- Groundwater levels are sensitive to precipitation, aquifer storage capacity, recharge rate&mdash;the rate at which surface water trickles down to refill a groundwater aquifer&mdash;and human withdrawal. Groundwater level trends presented here indicate long-term changes in water level, but have not been corrected for changes in precipitation patterns or other factors. Thus, any significant trends are not necessarily directly attributable to human use. However, information on long-term trends can be useful for prompting further research and informing decision-making.  -->
-
-## Useful Links
-
--   Visit the [Monitoring Aquifers: Provincial Observation Well Network
-    homepage](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836)
-    for more information on groundwater monitoring observation wells.
-
--   [Groundwater Wells and Aquifers
-    (GWELLS)](https://apps.nrs.gov.bc.ca/gwells/)
-
--   [Water Data & Tools for British
-    Columbia](https://www2.gov.bc.ca/gov/content?id=A9E4D7847FBC42CEB3A9E8ABAC364BD6)
-
--   [Previous B.C. State of Environment reports and indicators on
-    groundwater levels in
-    B.C.](https://www2.gov.bc.ca/gov/content?id=07DD1DCE7F784EFEBA5A26C32CB1646D)
-
-## Data
-
-The data sets are all sourced from the B.C. Data Catalogue, distributed
-under the [Open Government Licence - British
-Columbia](https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61).
-
--   [Indicator Summary Data: Long-term Trends in B.C. Groundwater
-    Levels](https://catalogue.data.gov.bc.ca/dataset/a74f1b97-17f7-499b-84e7-6455e169e425)
-
--   [Provincial Groundwater Observation Well Network - Groundwater
-    Levels
-    Data](https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685)
-
--   [Groundwater well metadata, such as location, depth, and aquifer
-    type were obtained from the Ground Water Wells (Spatial View)
-    Dataset](https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778)
-
--   [Natural Resource (NR)
-    Regions](https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f),
-    accessed with the ['bcmaps' R
-    package](https://cran.r-project.org/web/packages/bcmaps/index.html)
-
-------------------------------------------------------------------------
-
-Published and Available Online at Environmental Reporting BC
-(`r updateDate`):
-<http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html>
-
-Email correspondence to:
-[envreportbc\@gov.bc.ca](mailto:envreportbc@gov.bc.ca){.email}
-
-*Suggested Citation*:\
-Environmental Reporting BC. 2024. Long-term Trends in Groundwater Levels
-in B.C. State of Environment Reporting, Ministry of Environment and
-Climate Change Strategy, British Columbia, Canada.
 
 ## Methods
 
@@ -415,6 +363,44 @@ levels in wells were classified as exhibiting the following categories:
 Time series were not corrected for precipitation or any other climatic
 or hydrologic processes. As such, no causation for trends are implied.
 
+## Useful Links
+
+-   Visit the [Monitoring Aquifers: Provincial Observation Well Network
+    homepage](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836)
+    for more information on groundwater monitoring observation wells.
+
+-   [Groundwater Wells and Aquifers
+    (GWELLS)](https://apps.nrs.gov.bc.ca/gwells/)
+
+-   [Water Data & Tools for British
+    Columbia](https://www2.gov.bc.ca/gov/content?id=A9E4D7847FBC42CEB3A9E8ABAC364BD6)
+
+-   [Previous B.C. State of Environment reports and indicators on
+    groundwater levels in
+    B.C.](https://www2.gov.bc.ca/gov/content?id=07DD1DCE7F784EFEBA5A26C32CB1646D)
+
+## Data
+
+The data sets are all sourced from the B.C. Data Catalogue, distributed
+under the [Open Government Licence - British
+Columbia](https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61).
+
+-   [Indicator Summary Data: Long-term Trends in B.C. Groundwater
+    Levels](https://catalogue.data.gov.bc.ca/dataset/a74f1b97-17f7-499b-84e7-6455e169e425)
+
+-   [Provincial Groundwater Observation Well Network - Groundwater
+    Levels
+    Data](https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685)
+
+-   [Groundwater well metadata, such as location, depth, and aquifer
+    type were obtained from the Ground Water Wells (Spatial View)
+    Dataset](https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778)
+
+-   [Natural Resource (NR)
+    Regions](https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f),
+    accessed with the ['bcmaps' R
+    package](https://cran.r-project.org/web/packages/bcmaps/index.html)
+
 ### References
 
 -   Bronaugh, D., Werner, A., & Bronaugh, M. D. (2009). Package ‘zyp’.
@@ -438,6 +424,20 @@ or hydrologic processes. As such, no causation for trends are implied.
 -   Yue, S., Pilon, P., Phinney, B., & Cavadias, G. (2002). The
     influence of autocorrelation on the ability to detect trend in
     hydrological series. Hydrological processes, 16(9), 1807-1829.
+
+------------------------------------------------------------------------
+
+Published and Available Online at Environmental Reporting BC
+(`r updateDate`):
+<http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html>
+
+Email correspondence to:
+[envreportbc\@gov.bc.ca](mailto:envreportbc@gov.bc.ca){.email}
+
+*Suggested Citation*:\
+Environmental Reporting BC. 2024. Long-term Trends in Groundwater Levels
+in B.C. State of Environment Reporting, Ministry of Environment and
+Climate Change Strategy, British Columbia, Canada.
 
 \newpage
 
@@ -476,6 +476,8 @@ results_viz %>%
   )
 ```
 
+\newpage
+
 ## Appendix 2:
 
 ### Detailed Maps & Graphs for Groundwater Observation Wells Included in the Analysis
@@ -502,7 +504,7 @@ line.
 
 \newpage
 
-```{r well_plots, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.height = 7.5, dev = "pdf"}
+```{r well_plots, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', dev = "pdf"}
 
 # individual well plots
 load('../groundwater-levels-indicator/tmp/well_plots.RData')
@@ -556,7 +558,7 @@ for (reg in sort(unique(attr_wells$region_name))) {
     grid.arrange(mapplot + 
                    theme(
                      # text = element_text(size = 10),
-                                 plot.margin = unit(c(0,0.5,0,0.01),"cm")),
+                                 plot.margin = unit(c(0.5,0.5,0.5,0.5),"cm")),
                  monthplot[[1]] + theme(axis.text = element_text(size = 8),
                                    axis.title.x = element_blank(),
                                    plot.title = element_text(size = 10, face = "bold"),
@@ -567,7 +569,7 @@ for (reg in sort(unique(attr_wells$region_name))) {
                                    legend.box = "vertical",
                                    legend.position = "top",
                                    legend.text = element_text(size = 9),
-                                   plot.margin = unit(c(1,0.01,1,0.01),"cm"),
+                                   plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm"),
                                    legend.spacing.y = unit(-.4, 'cm')),
                  areaplot[[1]] + theme(axis.text = element_text(size = 8),
                                   axis.title.x = element_blank(),
@@ -580,7 +582,7 @@ for (reg in sort(unique(attr_wells$region_name))) {
                                   plot.title = element_text(size = 11, face = "bold"),
                                   plot.subtitle = element_text(size = 9),
                                   plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm")),
-                 layout_matrix = matrix(c(1,2,3,3), nrow = 2, byrow = TRUE))
+                 layout_matrix = matrix(c(1,2,3), nrow = 3, byrow = TRUE))
     
     cat('\\newpage ')
   }

@@ -95,5 +95,5 @@ wells_data_raw = obs_wells$observation_well_number %>%
   bind_rows()
 
 ## Save raw data objects in a temporary directory
-save(obs_wells, file = "./tmp/clean_attr_data.RData")
+save(obs_wells, file = "./tmp/well_location_data.RData")
 save(wells_data_raw, file = "./tmp/raw_well_data.RData")
