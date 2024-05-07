@@ -16,3 +16,4 @@ gwl.log
 /app/www/*
 static_leaflet.png
 temp.html
+temp_files/*
