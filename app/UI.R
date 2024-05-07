@@ -24,8 +24,8 @@ trend_select_options_tab = wellPanel(
   radioButtons(inputId = 'var_choice',
                label = 'Timespan Range',
                choices = c('All Data' = "All",
-                           '20 Years (2002 - 2022)' = "20 Years",
-                           '10 Years (2012 - 2022)' = "10 Years"
+                           '20 Years (2003 - 2023)' = "20 Years",
+                           '10 Years (2013 - 2023)' = "10 Years"
                            ),
                selected = 'All',
                inline = F)
@@ -59,21 +59,19 @@ aquifer_info_tab = card(
     conditionalPanel(
       style = "height:300px",
       condition = "output.cond == true",
-      
-      textOutput("aquifer_id"),
+      br(), 
       br(),
+      textOutput("aquifer_id"),
       br(),
       textOutput("aquifer_type"),
       br(),
-      br(),
       htmlOutput("aquifer_url"),
-      br(),
       br(),
       htmlOutput("aquifer_url2"),
       
-      tags$head(tags$style("#aquifer_id{color: red;
+      tags$head(tags$style("#aquifer_id{color: black;
                                  font-size: 20px;
-                                 font-style: italic;
+                                 font-style: bold;
                                  }"
       ))
       
@@ -105,14 +103,14 @@ ui = shiny::fluidPage(
   # Enables us to do some fancy things in javascript...
   useShinyjs(),
   # Include our own styling sheet; defined class 'my_home_button'
-  includeCSS('www/bc_button.css'),
+  #includeCSS('www/bc_button.css'),
 
   tags$head(tags$style(
     HTML(' .tabbable > .nav > li > a {background-color: white;  color:blue}
     .tabbable > .nav > li[class=active]    > a {background-color: white; color:black}
     #trend_selector {opacity:0.9;}
          #trend_selector:hover{opacity:0.9;}'))),
-  titlePanel("Flow Indicator"),
+  titlePanel("Groundwater Trend Indicator"),
   # Throw in our own action button, setting class to 'my_home_button'
   actionButton(
     'abs_button',

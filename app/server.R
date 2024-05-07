@@ -141,10 +141,10 @@ server <- function(input, output, session) {
   })
   
   #Color scheme
-  mypal = colorFactor(palette = c("#2171b5", "#bdd7e7", "#ff7b7b", "#ff0000", "grey67"),
+  mypal = colorFactor(palette = c("#2c7bb6", "#abd9e9", "#fdae61", "#d7191c", "black"),
                       domain = map_data(),
                       levels = c("Increasing",
-                                 "Stable",
+                                 "Stable and/or Non-significant",
                                  "Moderate Rate of Decline",
                                  "Large Rate of Decline",
                                  "Insufficient Data"
@@ -156,7 +156,8 @@ server <- function(input, output, session) {
     map = leaflet(options = leafletOptions(zoomSnap = 0.25,
                                            zoomDelta = 0.25)) %>%
       addProviderTiles(providers$CartoDB,group = "CartoDB") %>%
-      addTiles(group = 'Streets')
+      addTiles(group = 'Streets') |> 
+      add_bc_home_button()
     
     if(region_rv() == "All"){
       map %>%
@@ -165,7 +166,8 @@ server <- function(input, output, session) {
     }
     else{
       map %>%
-        fitBounds(as.numeric(boundary_data()$xmin)-1, as.numeric(boundary_data()$ymin)-1, as.numeric(boundary_data()$xmax)+1, as.numeric(boundary_data()$ymax)+1)
+        fitBounds(as.numeric(boundary_data()$xmin)-1, as.numeric(boundary_data()$ymin)-1, 
+                  as.numeric(boundary_data()$xmax)+1, as.numeric(boundary_data()$ymax)+1)
     }
   })
   
@@ -225,15 +227,17 @@ server <- function(input, output, session) {
           data$max_lims <- max(lims[1], max(data$value, na.rm = TRUE) + 5)
           
           ggplot(data, aes(x = as.Date(Date))) +
+            labs(title = paste0("Well Number: ", station_click()))+
             geom_ribbon(aes_string(ymin = "value",
                                    ymax = "max_lims",
                                    fill = "'Groundwater Level'"), alpha = 0.6) +
             geom_point(data = data %>% filter(nReadings==0), aes_string(y = "value", col = "'interp'")) + 
             scale_x_date(expand = c(0,0)) +
             scale_y_reverse() +
-            scale_fill_manual(name = '', labels = 'Monthly Median Groundwater Levels', values = c('Groundwater Level' = "#1E90FF")) +
+            scale_fill_manual(name = '', labels = 'Monthly Range in Groundwater Levels', 
+                              values = c('Groundwater Level' = "#1E90FF")) +
             xlab("Date") +
-            ylab ("Water Level \n(Meters Below Ground Level)")+
+            ylab ("Depth Below Ground (metres)")+
             theme_minimal()+
             theme(
               text = element_text(colour = "black", size = 13),
@@ -269,6 +273,7 @@ server <- function(input, output, session) {
 
             # print(data)
             ggplot(data) +
+            ggtitle(paste0("Well Number: ", station_click()))+
             geom_ribbon(aes(x = Month, ymax = upperCI, ymin = lowerCI),
                         fill = "#1E90FF", alpha = 0.4)+
             geom_line(aes(x = Month, y = median),
@@ -287,7 +292,7 @@ server <- function(input, output, session) {
                 plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
               theme(plot.margin = margin(10, 10, 10, 10, "points")) +
             xlab("Month") +
-            ylab("Median Water Level \n(Meters Below Ground Level)")
+            ylab("Depth Below Ground (metres)")
         }
         else {
           ggplot() +
@@ -352,7 +357,8 @@ server <- function(input, output, session) {
           # print(trend_df)
           
           plot = ggplot(plot_data) +
-            ggtitle(paste0("Station Class: ",trend_data$state_short,"\n",trend_data$slope*100," cm/year")) +
+            ggtitle(paste0("Well Number: ", station_click(), "\nStation Class: ",trend_data$state_short)) +
+            labs(subtitle = paste0(trend_data$slope," m/year")) +
             geom_errorbar(aes(x = as.Date(Date), ymin = min, ymax = max, col = missing_dat), width = 0.3) +
             geom_point(aes(x = as.Date(Date), y = annual_median, col = missing_dat)) +
             scale_x_date(expand = c(0.1,0.1)) +
@@ -369,10 +375,10 @@ server <- function(input, output, session) {
               axis.line = element_line(colour="grey50"),
               legend.position = "bottom", legend.box =  "horizontal",
               plot.title = element_text(hjust = 0),
-              plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
+              plot.subtitle = element_text(hjust = 0, face = "plain", size = 11)) +
             theme(plot.margin = margin(10, 10, 10, 10, "points")) +
             xlab("Date") +
-            ylab("Mean Water Level \n(Meters Below Ground Level)") +
+            ylab("Depth Below Ground (metres)") +
             theme(legend.position = "bottom")
           
           if(filtered_data() %>%
@@ -432,7 +438,10 @@ server <- function(input, output, session) {
         data$max_lims <- max(lims[1], max(data$value, na.rm = TRUE) + 5)
         
         plot = ggplot(monthly_data) + 
-          ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level","\nStation Class: ",trend_data$state_short,"\n",trend_data$slope," m/year")) +
+          ggtitle(paste0("Well Number: ", station_click(),"; Month: ", month(match(month_rv(),month.abb), label = T, abbr = F),
+                         " \nStation Class: ",trend_data$state_short)) +
+          labs(subtitle = paste0(trend_data$slope," m/year")) +
+          #geom_errorbar(aes(x = as.Date(Date), ymin = min, ymax = max, col = missing_dat), width = 0.3) +
           geom_point(aes(x = as.Date(Date), y = value, col = missing_dat)) +
           # ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
           theme_minimal() +
@@ -445,15 +454,15 @@ server <- function(input, output, session) {
             axis.line = element_line(colour="grey50"),
             legend.position = "bottom", legend.box =  "horizontal",
             plot.title = element_text(hjust = 0),
-            plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
+            plot.subtitle = element_text(hjust = 0, face = "plain", size = 11)) +
           theme(plot.margin = margin(10, 10, 10, 10, "points")) +
           scale_y_reverse() +
           scale_colour_manual(name = "",
-                              labels = c('Annual Median (95% Confidence Intervals)', 'Incomplete Data (Interpolated)'), 
+                              labels = c('Monthly Median', 'Incomplete Data (Interpolated)'), 
                               values = c("blue", "#A9A9A9")) +
           coord_cartesian(ylim = lims) +
           xlab("Date") +
-          ylab("Mean Water Level \n(Meters Below Ground Level)")
+          ylab("Depth Below Ground (metres)")
         
         # print(trend_data)
         # print(trend_df)
@@ -469,7 +478,7 @@ server <- function(input, output, session) {
                                     "Large Rate of Decline")){
           plot +
             geom_abline(data = trend_df, aes_string(intercept = "intercept", slope = "slope"),
-                        col = "orange")
+                        col = "#d95f02")
         }
         else{
           plot
@@ -515,13 +524,14 @@ server <- function(input, output, session) {
       filter(Well_Num == station_click())%>%
       pull(aquifer_id)
     
-    HTML(paste0("<a href=", "\"https://apps.nrs.gov.bc.ca/gwells/aquifers/\"target=\"_blank\"",
+    HTML(paste0("<a href=", "https://apps.nrs.gov.bc.ca/gwells/aquifers/",
            aquifer_id, ">View available aquifer information</a"))
   })
   
   output$aquifer_url2 = renderText({
     
-    HTML(paste0("<a href=", "\"https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=b53cb0bf3f6848e79d66ffd09b74f00d&find=OBS%20WELL%20\"","target=\"_blank\"",
+    HTML(paste0("<a href=", 
+                "https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=b53cb0bf3f6848e79d66ffd09b74f00d&find=OBS%20WELL%20",
                 station_click(), ">View this well on the Provincial Groundwater Observation Well Network</a"))
   }) 
   
