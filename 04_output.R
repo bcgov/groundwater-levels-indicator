@@ -115,6 +115,8 @@ input_regional <- results_viz %>%
   summarize(count=n()) %>%
   mutate(prop = (count/num_wells)*100) 
 
+save(input_regional, file = "tmp/input_regional.RData")
+
 
 require(forcats)
 #Create regional summary plot
@@ -166,10 +168,12 @@ monthly_bar_chart <- ggplot(data=monthly_viz) +
   scale_fill_manual(values=colour.scale) +
   #geom_text(aes(x=num_wells + 5, y=region_name, label = num_wells_lab)) +
   scale_y_continuous(expand = c(0,0)) +
+  scale_x_discrete(labels= c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
+                             "Oct", "Nov", "Dec"))+
   #expand_limits(x=c(0,72)) +
   #guides(fill = guide_legend(reverse = TRUE))+
   # labs(title = "Summary of Trends in Groundwater Levels across \nNatural Resource Regions") +
-  ylab("Number of Wells") + xlab(NULL) +
+  ylab("Number of Wells") + xlab("Month") +
   theme_soe() +
   theme(legend.position="bottom",
         legend.title=element_blank(),
@@ -180,6 +184,10 @@ monthly_bar_chart <- ggplot(data=monthly_viz) +
 
 
 monthly_bar_chart
+
+svg_px("./out/figs/monthly_bar_chart.svg", width = 400, height = 400)
+plot(monthly_bar_chart)
+dev.off()
 
 #Static map for PDF
 results_sf = results_sf %>%
@@ -269,7 +277,7 @@ plot(prov_map)
 dev.off()
 
 #save version for rmd
-save(bc_bar_chart, regional_bar_chart, prov_map, file = "tmp/figures.RData")
+save(bc_bar_chart, regional_bar_chart, prov_map, monthly_bar_chart, file = "tmp/figures.RData")
 
 # Individual Obs Well Plots (Web & PDF) ----------------------------------------
 well_plots <- monthlywells_ts %>%
