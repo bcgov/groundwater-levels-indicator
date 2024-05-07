@@ -50,6 +50,7 @@ knitr::opts_chunk$set(cache = FALSE)
 load(here("tmp", "results_viz.Rdata"))
 #load('../tmp/well_plots.RData')
 load(here("tmp","figures.RData"))
+load(here("tmp","input_regional.RData"))
 
 leaflet_map = image_read(here("tmp","static_leaflet.png"))
 
@@ -125,6 +126,25 @@ and regionally are provided below the interactive map.
     -   **Insufficient Data:** there is an observation well but there is
         not enough data to calculate.
 
+-   The location and status for each observation well can be seen in the
+    map below. The observed long-term trends were categorized using a
+    combination of statistical and environmental significance criteria.
+
+-   Additional options to view trends are available in the interactive
+    map in the online version of the indicator page. There are several
+    different options to look at trends at observations wells
+
+    -   Trend type: The user can select annual or monthly trends. The
+        figures and map below are based on annual trends of groundwater
+        levels.
+    -   Time-span: The user can select the entire length of available
+        data or can look at more recent trends over the past 10 or 20
+        years. The figures and map below include the entire length of
+        the dataset which varies from well to well. Please note that not
+        all wells will have enough data for the 20-year time-span
+        option. Also, by selecting a shorter time-span, the user is
+        choosing to exclude part of the available dataset.
+
 \newpage
 
 \vspace{40pt}
@@ -144,7 +164,7 @@ and regionally are provided below the interactive map.
     large rate of decline. Note that only wells with enough data for
     trend analysis are included in the following figures.
 
-\vspace{20pt}
+\vspace{10pt}
 
 ```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 6, fig.height = 6, fig.align = 'left'}
 bc_bar_chart
@@ -158,9 +178,8 @@ bc_bar_chart
 
 -   The number of observation wells in each [Natural Resource
     Regions](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/ministry-of-forests-lands-and-natural-resource-operations-region-district-contacts)
-    across B.C. varies. The highest number of observation wells is in
-    the West Coast Region, with 62 wells, and lowest number is in the
-    Skeena and Omineca regions (2 wells each).
+    varies. The highest number of observation wells in the West Coast Region. The
+    lowest number of observation wells is the Skeena and Omineca regions.
 
 \vspace{10pt}
 
@@ -168,46 +187,21 @@ bc_bar_chart
 regional_bar_chart
 ```
 
+
 \newpage
 
--   The location and status for each observation well can be seen in the
-    map below. Opaque symbols represent stations with a statistically
-    significant trend (colour represents direction and magnitude), while
-    semi-transparent symbols represent locations with non-significant
-    results. The observed long-term trends were categorized using a
-    combination of statistical and environmental significance criteria.
-    Based on both the significance and magnitude of the calculated
-    trend, trends in water levels in wells were classified as exhibiting
-    the following categories:
-    -   **Stable or Increasing:** the trend was not significantly
-        different from zero or the trend was significantly different
-        from zero with an increasing trend or the trend was
-        significantly different from zero with a declining trend of less
-        than 3 cm per year.
-    -   **Moderate Rate of Decline:** the trend was significantly
-        different from zero with a declining trend of between 3 and 10
-        cm per year.
-    -   **Large Rate of Decline:** the slope was significantly different
-        from zero with a declining trend of more than 10 cm per year.
+## Location and Status of Observation Wells
 
-```{=tex}
-\vspace{-30pt}
-\hspace{-30pt}
-```
-```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.align = 'left', fig.width = 28, fig.asp=0.75}
+\vspace{10pt}
+
+```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.align = 'left', out.width = "100%"}
 # summary map
-# print(leaflet_map)
-# map = image_crop(leaflet_map, "2000x1500+100")
-plot(leaflet_map)
+
+plot(prov_map)
 ```
 
 \newpage
 
-```{=tex}
-\definecolor{stable}{HTML}{`r substr(colour.scale[1], 2, 7)`}
-\definecolor{moderate}{HTML}{`r substr(colour.scale[2], 2, 7)`}
-\definecolor{large}{HTML}{`r substr(colour.scale[3], 2, 7)`}
-```
 \vspace{40pt}
 
 ## More About Groundwater Levels
@@ -251,7 +245,7 @@ for repeating the analysis presented on this page is also available on
 
 Trend analysis was conducted using groundwater observation wells that
 had ten or more years of data, fewer than 25% of monthly observations
-missing, and was active as of January 1, 2008. This resulted in
+missing, and was active as of January 1, 2013. This resulted in
 `r nrow(attr_wells)` wells with suitable data records for analysis.
 
 Trend analyses were calculated both annually and monthly. For each month
@@ -267,22 +261,22 @@ interpolated by first fitting a 12-period (i.e., monthly) basic
 structural time series model (BSM) to the data (Harvey, 1990).
 Fixed-interval smoothing (Durbin & Koopman, 2012) was then applied to
 the fitted model to generate predicted values for the entire time
-series; the predicted values were substituted into the orignal time
+series; the predicted values were substituted into the original time
 series where there were missing data. This resulted in a full monthly
 time series for each well, with one observation per month. Finally, the
 mean annual groundwater level was calculated for each well, and trend
 analysis was performed using the annual values.
 
 Each groundwater-level time series was analyzed for trend using
-Trend-Free Pre-Whitening to remove lag-1 autocorrelation, which can
-artificially increase the probability of detecting a significant trend
-(Yue *et al*. 2002). In this method, the slope of each time series is
-estimated using the Theil-Sen approach (Sen, 1968). If the estimated
-slope is different from zero, then the data are detrended by the slope
-and the AR(1) 1s calculated for the detrended time series. The residuals
-and the trend are combined and then tested for significance using the
-Mann-Kendall trend test. These methods were implemented using the R
-package ‘zyp’ (Bronaugh *et al*, 2009).
+the Zhang et al (2000) method for removing autocorrelation from time series data.  After correcting for autocorrelation, a Mann-Kendall test was conducted. In this method, the slope of each time series is estimated using the Theil-Sen approach (Sen, 1968). 
+
+*Important Changes*
+
+These methods were implemented using the R package ‘zyp’ version 0.11-1 (Bronaugh, D. & Schoeneberg, A., 2023). The analysis described above follows the Zhang *et al* (2000) method, however previous versions of this indicator used the Yue-Pilon method (Yue *et al* 2002). The methodology was modified after the Yue Pilon method was found to have very high Type-1 error rates (Buerger 2017, Zhang and Zwiers 2004). Type 1 error rates occur when the null hypothesis is falsely rejected and analysis finds significant differences where none existed. 
+
+Time series were not corrected for precipitation or any other climatic
+or hydrologic processes. As such, no causation for trends are implied.
+
 
 <!-- Trend analysis was conducted using monthly groundwater levels from each -->
 
@@ -344,24 +338,6 @@ package ‘zyp’ (Bronaugh *et al*, 2009).
 
 <!-- the R package ‘zyp’ [@pkg_zyp]. -->
 
-## Observed Long-term Trend Categories
-
-The observed long-term trends were categorized using a combination of
-statistical and environmental significance criteria. Based on both the
-significance and magnitude of the calculated trend, trends in water
-levels in wells were classified as exhibiting the following categories:
-
--   **Stable or Increasing:** the trend was not significantly different
-    from zero or the trend was significantly different from zero with an
-    increasing trend or the trend was significantly different from zero
-    with a declining trend of less than 3 cm per year.
--   **Moderate Rate of Decline:** the trend was significantly different
-    from zero with a declining trend of between 3 and 10 cm per year.
--   **Large Rate of Decline:** the slope was significantly different
-    from zero with a declining trend of more than 10 cm per year.
-
-Time series were not corrected for precipitation or any other climatic
-or hydrologic processes. As such, no causation for trends are implied.
 
 ## Useful Links
 
@@ -403,8 +379,10 @@ Columbia](https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61
 
 ### References
 
--   Bronaugh, D., Werner, A., & Bronaugh, M. D. (2009). Package ‘zyp’.
+-   Bronaugh, D. & Shoeneberg, A. (2009). Package ‘zyp: Zhang + Yue-Pilon Trends Package’.
     CRAN Repository.
+    
+-   Buerger, G., 2017. On trend detection. Hydrological Processes 31, 4039-4042.
 
 -   Durbin, J., & Koopman, S. J. (2012). Time series analysis by state
     space methods (Vol. 38). OUP Oxford.
@@ -424,6 +402,12 @@ Columbia](https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61
 -   Yue, S., Pilon, P., Phinney, B., & Cavadias, G. (2002). The
     influence of autocorrelation on the ability to detect trend in
     hydrological series. Hydrological processes, 16(9), 1807-1829.
+    
+-   Zhang, X., Vincent, L. A., Hogg, W. D., & Niitsoo, A. (2000). Temperature and precipitation trends in Canada during the 20th century. Atmosphere-ocean, 38(3), 395-429.
+
+-   Zhang, X., Zwiers, F.W., 2004. Comment on "Applicability of prewhitening to eliminate the influence of serial correlation on the Mann-Kendall test" by Sheng Yue and Chun Yuan Wang. Water
+Resources Research 40.
+
 
 ------------------------------------------------------------------------
 
@@ -443,7 +427,7 @@ Climate Change Strategy, British Columbia, Canada.
 
 ## Appendix 1
 
-### Table 1: Summary of results of trend analysis of groundwater levels
+### Table 1: Summary of *annual* results of trend analysis of groundwater levels
 
 Note that only wells with enough data for trend analysis are included.
 
@@ -504,7 +488,7 @@ line.
 
 \newpage
 
-```{r well_plots, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', dev = "pdf"}
+```{r well_plots, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.height = 8, dev = "pdf"}
 
 # individual well plots
 load('../groundwater-levels-indicator/tmp/well_plots.RData')
