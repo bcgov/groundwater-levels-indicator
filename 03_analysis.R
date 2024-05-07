@@ -212,8 +212,8 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period, we
     
     left_join(well_attributes, wells_results_bymonth[[x]], by=c("Well_Num"="Well_Num")) %>%
       mutate(dataYears = round(dataYears, 1),
-             trend_line_int = round(intercept, 4), 
-             trend_line_slope = round(trend, 4),
+             trend_line_int = round(intercept, 2), 
+             trend_line_slope = round(trend, 2),
              sig = round(sig, 4), 
              start_date = dataStart, 
              last_date = dataEnd, 
