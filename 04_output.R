@@ -23,7 +23,9 @@ if (!exists("results_out"))  load("./tmp/analysis_data.RData")
 if (!exists("monthlywells_ts")) load("./tmp/clean_well_data.RData")
 if (!exists("results_sf")) load("./tmp/well_data_attributes_sf.RData")
 if (!exists("results_monthly")) load("./tmp/monthly_results_all.RData")
-
+if (!exists("results_annual_10")) load("./tmp/results_annual_10.RData")
+if (!exists("obs_wells")) load("./tmp/well_location_data.RData")
+if (!exists("obs_well_viz")) load("./tmp/obs_well_viz.RData")
 
 # NR regions for mapping
 regions_sf <- bcmaps::nr_regions() %>%
@@ -41,17 +43,18 @@ colour.scale <- c("Increasing"="#2c7bb6", "Stable and/or Non-significant"="#abd9
 
 # Select wells analyzed and create categories for visualization -----------------------------
 
-results_viz <- results_out[results_out$category != "N/A",] %>%
+results_viz <- results_out %>%
+  filter(!is.na(trend_line_int)) |> 
   mutate(region_name_short = str_replace(region_name, "( / )|( )", "_"), 
          state = factor(state, levels = c("Increasing", 
                                           "Stable and/or Non-significant",
                                           "Moderate Rate of Decline",
                                           "Large Rate of Decline"),
                         ordered = TRUE),
-         category = factor(category, levels = c("Stable or Increasing", 
-                                                "Moderate Rate of Decline",
-                                                "Large Rate of Decline"),
-                           ordered = TRUE),
+         # category = factor(category, levels = c("Stable or Increasing", 
+         #                                        "Moderate Rate of Decline",
+         #                                        "Large Rate of Decline"),
+         #                   ordered = TRUE),
          col = case_when(
            state == "Stable and/or Non-significant" ~ "#abd9e9",
            state == "Moderate Rate of Decline" ~ "#fdae61",
@@ -61,42 +64,102 @@ results_viz <- results_out[results_out$category != "N/A",] %>%
   mutate(Well_Name = paste0("Observation Well #", Well_Num)) %>%
   select(c(-start_year.y, -end_year.y)) %>%
   rename(start_year = start_year.x) %>%
-  rename(end_year = end_year.x)
+  rename(end_year = end_year.x) 
 
-#save results_viz df to tmp folder for use in gwl.Rmd
 save(results_viz, file = "tmp/results_viz.RData")
+
+aquifer_info <- obs_well_viz |> 
+  select(Well_Num, Aquifer_Type, region_name, aquifer_id)
+
+results_viz_10 <- results_annual_10 %>%
+  filter(!is.na(trend_line_int)) |> 
+  mutate(region_name_short = str_replace(region_name, "( / )|( )", "_"), 
+         state = factor(state, levels = c("Increasing", 
+                                          "Stable and/or Non-significant",
+                                          "Moderate Rate of Decline",
+                                          "Large Rate of Decline"),
+                        ordered = TRUE),
+         # category = factor(category, levels = c("Stable or Increasing", 
+         #                                        "Moderate Rate of Decline",
+         #                                        "Large Rate of Decline"),
+         #                   ordered = TRUE),
+         col = case_when(
+           state == "Stable and/or Non-significant" ~ "#abd9e9",
+           state == "Moderate Rate of Decline" ~ "#fdae61",
+           state == "Large Rate of Decline" ~ "#d7191c",
+           state == "Increasing" ~ "#2c7bb6"
+         )) %>%
+  left_join(aquifer_info, by=c("Well_Num", "region_name")) |> 
+  mutate(Well_Name = paste0("Observation Well #", Well_Num)) 
+
+save(results_viz_10, file = "tmp/results_viz_10.RData")
+
+by_aquifer <- results_viz_10 |> 
+  mutate(aquifer_id = case_when(is.na(aquifer_id) ~ Well_Name,
+                                TRUE ~ as.character(aquifer_id))) |> 
+  group_by(aquifer_id, Aquifer_Type, state) |>
+  summarise(n_wells =n()) |> 
+  mutate(aquifer_id = paste0(aquifer_id, collapse = ", ")) |> 
+  mutate(state = paste0(state, collapse = ", ")) |> 
+  ungroup() |> 
+  group_by(aquifer_id, Aquifer_Type, state) |> 
+  summarise(n_state = n()) |> 
+  ungroup() |> 
+  mutate(state_figure = case_when(str_detect(state, ",") ~ "Mixed",
+         TRUE ~ state))
+
+write_csv(by_aquifer, "results-by-aquifer.csv")
+    
+#save results_viz df to tmp folder for use in gwl.Rmd
+save(by_aquifer, file = "tmp/by_aquifer.RData")
 
 # Provincial & Regional Summary Plots ------------------------------
 #Count the number of wells in each state and calculate the respective proportions
 
-input_summary <- results_viz %>%
-  group_by(state,col) %>%
-  summarize("count"=n()) %>%
-  mutate(total_no_wells = nrow(results_viz)) %>%
-  mutate(prop = (count/total_no_wells)*100) %>%
-  mutate("no_wells_lab" = ifelse(count>1, paste0(count, " wells"), paste0(count, " well"))) %>%
-  mutate(label_x = cumsum(count)) #Calculate the total count of wells for bar graph label
+input_summary <- by_aquifer %>%
+  group_by(state_figure) %>%
+  summarize(count=n()) %>%
+  mutate(total_aquifers = sum(count)) %>%
+  mutate(prop = (count/total_aquifers)*100) %>%
+  mutate(aquifer_lab = ifelse(count>1, paste0(count, " aquifers"), paste0(count, " aquifers"))) %>%
+  mutate(state_figure = factor(state_figure, levels = c("Increasing", 
+                                          "Stable and/or Non-significant",
+                                          "Moderate Rate of Decline",
+                                          "Large Rate of Decline",
+                                          "Mixed"),
+                        ordered = TRUE)) 
+
+colour.scale.aquifer <- c("Increasing"="#2c7bb6", "Stable and/or Non-significant"="#abd9e9",
+                  "Moderate Rate of Decline"="#fdae61", "Large Rate of Decline"="#d7191c", 
+                  "Mixed" = "darkgrey") 
+
+save(input_summary, file = "tmp/input_summary.RData")
 
 #summary df & provincial summary bar chart of categories
 bc_bar_chart <- ggplot(data=input_summary) +
-  geom_col(mapping=aes(x=prop, y=state, fill=state), width = 0.4, colour = "black") +
-  scale_fill_manual(values=colour.scale) +
-  geom_text(aes(x=prop, y=state, label = no_wells_lab), hjust = -0.1) +
+  geom_col(mapping=aes(x=prop, y=state_figure, fill=state_figure), width = 0.4, colour = "black") +
+  scale_fill_manual(values=colour.scale.aquifer,
+                    labels = c("Increasing",
+                               "Stable and/or \nNon-significant",
+                               "Moderate Rate \nof Decline",
+                               "Large Rate \nof Decline",
+                               "Mixed")) +
+  geom_text(aes(x=prop, y=state_figure, label = aquifer_lab), hjust = -0.1) +
   scale_x_continuous(expand = c(0,0)) +
   expand_limits(x=c(0,105)) +
   # labs(title = "Summary of Trends in Groundwater Levels in British Columbia") +
-  xlab("Proportion of Wells (%)") + 
+  xlab("Proportion of Aquifers (%)") + 
   ylab(NULL) +
   theme_soe() +
   theme(legend.position="none",
         plot.title = element_text(hjust = 0)) + 
   theme(panel.grid.minor.y = element_blank(),
-        panel.grid.major.y = element_blank()) +
-  scale_y_discrete(breaks = unique(input_summary$state),
-                   labels = c("Increasing",
-                              "Stable and/or \nNon-significant",
-                              "Moderate Rate \nof Decline",
-                              "Large Rate \nof Decline"))
+        panel.grid.major.y = element_blank()) #+
+  # scale_fill_discrete(breaks = unique(input_summary$state),
+  #                  labels = c("Increasing",
+  #                             "Stable and/or \nNon-significant",
+  #                             "Moderate Rate \nof Decline",
+  #                             "Large Rate \nof Decline"))
 
 bc_bar_chart
 
@@ -104,31 +167,55 @@ svg_px("./out/figs/bc_bar_chart.svg", width = 800, height = 400)
 plot(bc_bar_chart)
 dev.off()
 
-#Summarize results by region and count wells in each state
-input_regional <- results_viz %>%
-  group_by(region_name) %>%
-  mutate(num_wells=n(), # calculate wells per region
-         num_wells_lab = ifelse(num_wells>1, paste0(num_wells, " wells"), paste0(num_wells, " well")),
-         prop_tot = (num_wells/length(unique(results_viz$Well_Num)))*100) %>%
-  ungroup() %>%
-  group_by(region_name, state, col, num_wells, num_wells_lab, prop_tot) %>%
+
+by_aquifer_region <- results_viz_10 |> 
+  mutate(aquifer_id = case_when(is.na(aquifer_id) ~ Well_Name,
+                                TRUE ~ as.character(aquifer_id))) |> 
+  group_by(region_name, aquifer_id, Aquifer_Type, state) |>
+  summarise(n_wells =n()) |> 
+  mutate(aquifer_id = paste0(aquifer_id, collapse = ", ")) |> 
+  mutate(state = paste0(state, collapse = ", ")) |> 
+  ungroup() |> 
+  group_by(region_name, aquifer_id, Aquifer_Type, state) |> 
+  summarise(n_state = n()) |> 
+  ungroup() |> 
+  mutate(state_figure = case_when(str_detect(state, ",") ~ "Mixed",
+                                  TRUE ~ state))
+
+# Provincial & Regional Summary Plots ------------------------------
+#Count the number of wells in each state and calculate the respective proportions
+
+input_regional <- by_aquifer_region %>%
+  group_by(region_name, state_figure) %>%
   summarize(count=n()) %>%
-  mutate(prop = (count/num_wells)*100) 
+  mutate(total_aquifers = sum(count)) %>%
+  mutate(prop = (count/total_aquifers)*100) %>%
+  mutate(aquifer_lab = ifelse(count>1, paste0(total_aquifers, " aquifers"), paste0(total_aquifers, " aquifers"))) %>%
+  mutate(state_figure = factor(state_figure, levels = c("Increasing", 
+                                                        "Stable and/or Non-significant",
+                                                        "Moderate Rate of Decline",
+                                                        "Large Rate of Decline",
+                                                        "Mixed"),
+                               ordered = TRUE)) 
+
+colour.scale.aquifer <- c("Increasing"="#2c7bb6", "Stable and/or Non-significant"="#abd9e9",
+                          "Moderate Rate of Decline"="#fdae61", "Large Rate of Decline"="#d7191c", 
+                          "Mixed" = "darkgrey") 
 
 save(input_regional, file = "tmp/input_regional.RData")
-
 
 require(forcats)
 #Create regional summary plot
 regional_bar_chart <- ggplot(data=input_regional) +
-  geom_col(mapping=aes(x=count, y=fct_reorder(region_name, num_wells), fill=state), width = 0.4, color = "black") +
-  scale_fill_manual(values=colour.scale) +
-  geom_text(aes(x=num_wells + 5, y=region_name, label = num_wells_lab)) +
+  geom_col(mapping=aes(x=count, y=fct_reorder(region_name, total_aquifers), fill=state_figure), 
+           width = 0.4, color = "black") +
+  scale_fill_manual(values=colour.scale.aquifer) +
+  geom_text(aes(x=total_aquifers + 5, y=region_name, label = aquifer_lab)) +
   scale_x_continuous(expand = c(0,0)) +
-  expand_limits(x=c(0,72)) +
+  expand_limits(x=c(0,55)) +
   guides(fill = guide_legend(reverse = TRUE))+
   # labs(title = "Summary of Trends in Groundwater Levels across \nNatural Resource Regions") +
-  xlab("Number of Wells") + ylab(NULL) +
+  xlab("Number of Aquifers") + ylab(NULL) +
   theme_soe() +
   theme(legend.position="bottom",
         legend.title=element_blank(),
@@ -137,7 +224,7 @@ regional_bar_chart <- ggplot(data=input_regional) +
   theme(panel.grid.minor.y = element_blank(),
         panel.grid.major.y = element_blank()) +
   scale_y_discrete(breaks = unique(fct_reorder(input_regional$region_name,
-                                               input_regional$num_wells)),
+                                               input_regional$total_aquifers)),
                    labels = c("Cariboo","Kootenay\nBoundary",
                               "Northeast",
                               "Omineca",
@@ -145,7 +232,7 @@ regional_bar_chart <- ggplot(data=input_regional) +
                               "South Coast",
                               "Thompson/\nOkanagan",
                               "West Coast"))+ 
-  guides(fill = guide_legend(nrow = 2))
+  guides(fill = guide_legend(nrow = 3))
 
 regional_bar_chart
 
@@ -157,9 +244,12 @@ dev.off()
 # Monthly Trend Summary ---------------------------------------------------
 
 monthly_viz <- results_monthly |> 
+  filter(state == "Increasing" |
+           state == "Stable and/or Non-significant" |
+           state =="Moderate Rate of Decline" |
+           state =="Large Rate of Decline") |> 
   group_by(month, state) |> 
   summarise (count = n()) |> 
-  filter(state != "Recently established well; time series too short for trend analysis") |> 
   mutate(month = factor(month, levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
                                           "Oct", "Nov", "Dec")))
 
@@ -197,7 +287,8 @@ results_sf = results_sf %>%
          result = str_replace(Results_All, "\\*", ""),
          result = str_replace(result, "\\*", "")) %>%
   st_transform(crs = '+proj=longlat +datum=WGS84' ) %>%
-  mutate(result = case_when(result %in% c("Too many missing observations","Recently established well") ~ "Insufficient Data",
+  mutate(result = case_when(result %in% c("Too many missing observations","Recently established well",
+                                          "Well not active in 2013", "NA") ~ "Insufficient Data",
                             .default = result)) %>%
   mutate(size = case_when(result == "Insufficient Data" ~ 1,
                           .default = 3)) %>%
@@ -206,7 +297,8 @@ results_sf = results_sf %>%
                                 "Stable and/or Non-significant",
                                 "Moderate Rate of Decline",
                                 "Large Rate of Decline",
-                                "Insufficient Data")))
+                                "Insufficient Data"))) |> 
+  filter(result != "Insufficient Data")
 
 # #Color scheme
 # mypal = colorFactor(palette = c("#2c7bb6", "#abd9e9", "#fdae61", "#d7191c", "grey67"),
@@ -258,7 +350,7 @@ prov_map <- ggplot() +
   geom_sf(data = regions_sf, color = "black", fill= NA) +
   geom_point(data = results_sf, aes(color = result, geometry=geometry), 
              stat = "sf_coordinates", 
-             size =3) +
+             size =2) +
   scale_color_manual(values = c("Stable and/or Non-significant" = "#abd9e9",
                                "Increasing" = "#2c7bb6",
                                "Moderate Rate of Decline" = "#fdae61",
@@ -394,7 +486,7 @@ results_map_df <- results_out %>%
 
 ## Individual Observation Well Maps (PDF print version)-------------------------
 
-create_site_maps = FALSE # if TRUE, all individual site maps will be created. If FALSE, code won't be run
+create_site_maps = TRUE # if TRUE, all individual site maps will be created. If FALSE, code won't be run
 
 if (!dir.exists('tmp/pngs')) dir.create('tmp/pngs')
 
@@ -416,34 +508,34 @@ for (w in names(wellMaps)) {
     addProviderTiles("OpenStreetMap") %>%
     setView(lng = well$Long[1], lat = well$Lat[1],
             zoom = 12)
-}
+  }
 
 #individual Obs Well ggmap plots 
-well_plots <- well_plots %>% 
-  mutate(Well_Num = as.integer(Well_Num))
-
-leaflets = tibble(Well_Num = as.integer(names(wellMaps)), 
-                  maps = wellMaps)
-
-well_plots = well_plots %>%
-  left_join(leaflets, by = "Well_Num") %>%
-  mutate(map_plot = pmap(list(Long, Lat, colour, maps),
-                         ~ ..4 %>%
-                           addCircleMarkers(lng = ..1, lat = ..2, fillColor = ..3, 
-                                            opacity = 1,
-                                            fillOpacity = 1,
-                                            color = "black",
-                                            radius = 6,
-                                            weight = 2,
-                                            label = Well_Num) |> 
-                           addSimpleGraticule(interval = 20)))
-
-  for (i in 1:nrow(well_plots)) {
-    library(mapview)
-    well_plots$map_plot[[i]] %>%
-      mapview::mapshot(file = paste0("tmp/pngs/",well_plots$Well_Num[[i]],".png"))
-    print(paste0("Row ", i, " of ", nrow(well_plots)," complete"))
-  }
+  well_plots <- well_plots %>% 
+    mutate(Well_Num = as.integer(Well_Num))
+  
+  leaflets = tibble(Well_Num = as.integer(names(wellMaps)), 
+                    maps = wellMaps)
+  
+  well_plots = well_plots %>%
+    left_join(leaflets, by = "Well_Num") %>%
+    mutate(map_plot = pmap(list(Long, Lat, colour, maps),
+                           ~ ..4 %>%
+                             addCircleMarkers(lng = ..1, lat = ..2, fillColor = ..3, 
+                                              opacity = 1,
+                                              fillOpacity = 1,
+                                              color = "black",
+                                              radius = 6,
+                                              weight = 2,
+                                              label = Well_Num) |> 
+                             addSimpleGraticule(interval = 20)))
+  
+    for (i in 1:nrow(well_plots)) {
+      library(mapview)
+      well_plots$map_plot[[i]] %>%
+        mapview::mapshot(file = paste0("tmp/pngs/",well_plots$Well_Num[[i]],".png"))
+      print(paste0("Row ", i, " of ", nrow(well_plots)," complete"))
+    }
 
   # 
   # mutate(map_plot = pmap(list(Long, Lat, colour, maps), 
