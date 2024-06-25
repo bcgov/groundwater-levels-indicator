@@ -51,6 +51,7 @@ load(here("tmp", "results_viz.Rdata"))
 #load('../tmp/well_plots.RData')
 load(here("tmp","figures.RData"))
 load(here("tmp","input_regional.RData"))
+load(here("tmp","by_aquifer.RData"))
 
 leaflet_map = image_read(here("tmp","static_leaflet.png"))
 
@@ -149,20 +150,22 @@ and regionally are provided below the interactive map.
 
 \vspace{40pt}
 
-# Trends in Groundwater Levels Observed at Observation Wells
+# Trends in Groundwater Levels Observed by Aquifers
 
-## Provincial Summary of Trends in Groundwater Levels
+## Provincial Summary of Trends in Groundwater Levels (10 year trends)
 
--   Of the `r nrow(attr_wells)` observation wells examined,
-    `r round(sum(state.summary[c("Stable and/or Non-significant","Increasing"),"prop"]*100))`%
+- The `r nrow(results_viz_10)` observation wells assessed are located in`r nrow(by_aquifer)`aquifers. The results of 10 year trend analysis for observation wells were grouped by aquifer. The 10 year results are used to compare across aquifers as each well has a different time span of data. 
+-   Of the `r nrow(by_aquifer)` observation wells examined,
+    `r round(sum(input_summary[c("Stable and/or Non-significant","Increasing"),"prop"]*100))`%
     have water levels that are stable, non-significant trends, or
-    increasing (with `r state.summary["Increasing","n"]` wells showing
+    increasing (with `r input_summary["Increasing","n"]` wells showing
     increasing trends).
-    `r round(state.summary["Moderate Rate of Decline","prop"]*100)`% of
+    `r round(input_summary["Moderate Rate of Decline","prop"]*100)`% of
     wells show a moderate rate of decline in water levels, and
-    `r round(state.summary["Large Rate of Decline","prop"]*100)`% show a
+    `r round(input_summary["Large Rate of Decline","prop"]*100)`% show a
     large rate of decline. Note that only wells with enough data for
     trend analysis are included in the following figures.
+- As each 
 
 \vspace{10pt}
 
@@ -176,10 +179,10 @@ bc_bar_chart
 
 ## Regional Summary of Trends in Groundwater Levels
 
--   The number of observation wells in each [Natural Resource
+-   The number of aquifers we assessed in each [Natural Resource
     Regions](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/ministry-of-forests-lands-and-natural-resource-operations-region-district-contacts)
-    varies. The highest number of observation wells in the West Coast Region. The
-    lowest number of observation wells is the Skeena and Omineca regions.
+    varies. The highest number of aquifers assessed were in the West Coast Region. The
+    lowest number of aquifers is the Skeena and Omineca regions.
 
 \vspace{10pt}
 
@@ -244,7 +247,7 @@ for repeating the analysis presented on this page is also available on
 ### Trend Analysis
 
 Trend analysis was conducted using groundwater observation wells that
-had ten or more years of data, fewer than 25% of monthly observations
+had ten or more years of data, fewer than 15% of monthly observations
 missing, and was active as of January 1, 2013. This resulted in
 `r nrow(attr_wells)` wells with suitable data records for analysis.
 
@@ -256,8 +259,9 @@ each was inspected for consecutive missing values near the beginning or
 the end of the time series, due to the strong influence of these regions
 on trend analysis. If there were more than four consecutive missing
 values in the first or last 10% of the time series, the time series was
-truncated to remove the missing values. Remaining missing values were
-interpolated by first fitting a 12-period (i.e., monthly) basic
+truncated to remove the missing values. 
+
+Remaining missing values were interpolated by first fitting a 12-period (i.e., monthly) basic
 structural time series model (BSM) to the data (Harvey, 1990).
 Fixed-interval smoothing (Durbin & Koopman, 2012) was then applied to
 the fitted model to generate predicted values for the entire time
@@ -272,7 +276,7 @@ the Zhang et al (2000) method for removing autocorrelation from time series data
 
 *Important Changes*
 
-These methods were implemented using the R package ‘zyp’ version 0.11-1 (Bronaugh, D. & Schoeneberg, A., 2023). The analysis described above follows the Zhang *et al* (2000) method, however previous versions of this indicator used the Yue-Pilon method (Yue *et al* 2002). The methodology was modified after the Yue Pilon method was found to have very high Type-1 error rates (Buerger 2017, Zhang and Zwiers 2004). Type 1 error rates occur when the null hypothesis is falsely rejected and analysis finds significant differences where none existed. 
+These methods were implemented using the R package ‘zyp’ version 0.11-1 (Bronaugh, D. & Schoeneberg, A., 2023). The analysis described above follows the Zhang *et al* (2000) method, however previous versions of this indicator used the Yue-Pilon method (Yue *et al* 2002). The methods were modified after the Yue Pilon method was found to have very high Type-1 error rates (Buerger 2017, Zhang and Zwiers 2004). Type 1 error rates occur when the null hypothesis is falsely rejected and analysis finds significant differences where none existed. 
 
 Time series were not corrected for precipitation or any other climatic
 or hydrologic processes. As such, no causation for trends are implied.
@@ -439,9 +443,10 @@ Note that only wells with enough data for trend analysis are included.
 results_viz %>%
   mutate(nYears = round(nYears)) %>%
   select(`Well Number` = Well_Num,
+         `Result` = state,
          `Aquifer Type`= Aquifer_Type,
          `Region Name` = region_name,
-         `Monitoring Length (Years)` = nYears,
+         `Years Monitored` = nYears,
          `Intercept` = trend_line_int,
          `Slope` = trend_line_slope,
          `p-value` = sig) %>%
@@ -488,7 +493,7 @@ line.
 
 \newpage
 
-```{r well_plots, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis', fig.height = 8, dev = "pdf"}
+```{r well_plots, echo=FALSE, error=FALSE, fig.height=8, message=FALSE, warning=FALSE, results='asis', eval=FALSE}
 
 # individual well plots
 load('../groundwater-levels-indicator/tmp/well_plots.RData')
@@ -532,17 +537,17 @@ for (reg in sort(unique(attr_wells$region_name))) {
     #            " to ", format(well.attr$last_date, format = "%B %d %Y"), ". \\newline",
     #            "\\newline"))
     well = as.integer(well)
-    mapplot <- filter(well_plots, Well_Num == well) %>% pull(map_plot)
-    mapplot = readPNG(here(paste0("tmp/pngs/",well,".png")))
-      mapplot = ggdraw() +
-      draw_image(mapplot)
+    #mapplot <- filter(well_plots, Well_Num == well) %>% pull(map_plot)
+    # mapplot = readPNG(here(paste0("tmp/pngs/",well,".png")))
+    #   mapplot = ggdraw() +
+    #   draw_image(mapplot)
     monthplot <- filter(well_plots, Well_Num == well) %>% pull(month_plot)
     areaplot <- filter(well_plots, Well_Num == well) %>% pull(area_plot)
     
-    grid.arrange(mapplot + 
-                   theme(
+    grid.arrange(#mapplot + 
+                   #theme(
                      # text = element_text(size = 10),
-                                 plot.margin = unit(c(0.5,0.5,0.5,0.5),"cm")),
+                                 #plot.margin = unit(c(0.5,0.5,0.5,0.5),"cm")),
                  monthplot[[1]] + theme(axis.text = element_text(size = 8),
                                    axis.title.x = element_blank(),
                                    plot.title = element_text(size = 10, face = "bold"),

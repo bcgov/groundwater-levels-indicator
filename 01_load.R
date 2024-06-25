@@ -1,4 +1,4 @@
-# Copyright 2023 Province of British Columbia
+# Copyright 2024 Province of British Columbia
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -9,6 +9,7 @@
 # Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and limitations under the License.
+
 
 
 #######################################################################################
@@ -45,13 +46,15 @@ obs_wells_in = bcdc_get_data('e4731a85-ffca-4112-8caf-cb0a96905778') %>%
   collect() %>% 
   setNames(snakecase::to_snake_case(colnames(.)))
 
+#Create 
+
 ##Filter out observations with no observation well status or number (the vast majority!)
 #Join the natural resource region names etc. to data
 
 obs_wells = obs_wells_in %>% 
   # filter(!is.na(observation_well_status)) %>% 
   # filter(!is.na(observation_well_number)) %>% 
-  st_join(nr_regions()) %>% 
+  st_join(bcmaps::nr_regions()) %>% 
   #Make column names 'R-friendly'
   setNames(snakecase::to_snake_case(colnames(.))) %>% 
   #Narrow down columns.

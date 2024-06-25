@@ -19,6 +19,8 @@ if (!exists(".header_sourced")) source("header.R")
 if (!exists("wells_data_raw")) load("./tmp/raw_well_data.RData")
 if (!exists("obs_wells")) load("./tmp/clean_attr_data.RData")
 
+library(lubridate)
+
 ## Clean raw groundwater level data
 wells_data_prep <- wells_data_raw %>%
   rename("Date" = Time, "GWL" = Value) %>%
@@ -51,20 +53,23 @@ wells_prep <- wells_data_filtered %>%
   filter(Date <= as.POSIXct("2023-01-01")) %>% 
   mutate(EMS_ID = Well_Num) %>%  
   group_by(Well_Num1 = Well_Num) %>%
+  filter(n_distinct(GWL)>10) %>%
   nest()
 
 # well data in last 10 years
 wells_prep_10 <- wells_data_filtered %>%
-  filter(Date <= as.POSIXct("2023-01-01") & Date >= as.POSIXct("2013-01-01") ) %>% 
+  filter(Date <= as.POSIXct("2023-12-31") & Date >= as.POSIXct("2013-01-01")) %>% 
   mutate(EMS_ID = Well_Num) %>%  
   group_by(Well_Num1 = Well_Num) %>%
+  filter(n_distinct(GWL)>10)%>%
   nest()
 
 # well data in last 20 years
 wells_prep_20 <- wells_data_filtered %>%
-  filter(Date <= as.POSIXct("2023-01-01") & Date >= as.POSIXct("2003-01-01") ) %>% 
+  filter(Date <= as.POSIXct("2023-12-31") & Date >= as.POSIXct("2003-01-01")) %>% 
   mutate(EMS_ID = Well_Num) %>%  
   group_by(Well_Num1 = Well_Num) %>%
+  filter(n_distinct(GWL)>10) |> 
   nest()
 
 
@@ -116,6 +121,7 @@ wells_ts_20 <- mutate(wells_month_20, data = map(data, ~make_well_ts(.x)))
 # has data gaps that are sufficiently large to be a problem. The below function recreates
 # the data gap checking logic and adds a column to the wells_ts object 
 # indicating whether or not the well had data gaps.
+
 wells_ts = wells_ts$data %>% 
   map( ~ {
     .x %>% 
