@@ -12,9 +12,9 @@
 
 
 ## Install the packages we will need from CRAN:
-package_list <- c("dplyr", "rgdal", "sp", "ggplot2", "stringr", #"zoo"
+package_list <- c("dplyr", "sp", "ggplot2", "stringr", #"zoo"
                   "grid", "scales", #ggmap", 
-                  "devtools", "rvest", "RColorBrewer",
+                  "devtools", "rvest", "RColorBrewer", "mapview",
                   "purrr", "sf", "gridExtra", "bcmaps", "scales", "forcats",
                   "rmapshaper", "janitor", "readr", "cowplot", "glue", "lubridate")
 package_new <- package_list[!(package_list %in% installed.packages()[,"Package"])]
@@ -44,7 +44,7 @@ library(purrr)
 library(tidyr)
 library(bcgroundwater)
 library(sp)
-library(rgdal)
+#library(rgdal)
 library(rvest)
 library(stringr)
 library(bcmaps)
@@ -63,7 +63,7 @@ library(glue)
 library(patchwork)
 library(cowplot)
 library(leaflet)
-library(webshot)
+#library(webshot)
 library(htmlwidgets)
 library(knitr)
 library(mapview)
