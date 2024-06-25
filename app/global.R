@@ -6,13 +6,15 @@ library(envreportutils)
 library(shinyjs)
 library(ggtext)
 library(htmltools)
+library(ggthemes)
 
 ## Load data
 results_out <- read.csv("www/gw_well_results.csv") %>%
-  mutate(state_short = ifelse(state == "Recently established well; time series too short for trend analysis",
-                              "Insufficient Data", 
-                              ifelse(state == "Too many missing observations to perform trend analysis",
-                                                          "Insufficient Data", state))) %>%
+  mutate(state_short = case_when(state == "Recently established well; time series too short for trend analysis" ~ "Insufficient Data",
+                              state == "Too many missing observations to perform trend analysis" ~ "Insufficient Data",
+                              is.na(state) ~ "Insufficient Data",
+                              state== "Well not active in 2013" ~ "Insufficient Data",
+                              TRUE ~ state)) %>%
   mutate(slope = -1*trend_line_slope) %>% #This is reversed due to how slope is reported (meters below ground surface)
   mutate(state_short = fct_relevel(factor(state_short), 
                                    c("Increasing",
