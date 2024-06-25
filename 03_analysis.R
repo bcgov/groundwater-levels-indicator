@@ -31,7 +31,7 @@ if (!exists("monthlywells_ts_20")) load("./tmp/clean_well_data_20.RData")
 if (!exists("monthlywells_ts_mean")) load("./tmp/clean_well_data_mean.RData")
 if (!exists("monthlywells_ts_10_mean")) load("./tmp/clean_well_data_10_mean.RData")
 if (!exists("monthlywells_ts_20_mean")) load("./tmp/clean_well_data_20_mean.RData")
-if (!exists("obs_wells_clean")) load("./tmp/clean_well_attr.RData")
+if (!exists("obs_wells")) load("./tmp/clean_well_attr.RData")
 
 # =========================================================================== #
 # CHRIS CODE ADDENDUM #
@@ -70,12 +70,12 @@ obs_wells_sf = obs_wells_clean %>%
          wellDepth_m, waterDepth_m, 
          start_year, end_year)
 
-obs_wells <- obs_wells_sf %>%
+obs_well_viz <- obs_wells_sf %>%
   st_drop_geometry() 
 
 ## Define function to produce annual mean trend results
-summary_function_annual <- function(df, latest_date, MK_method, time_period, well_attributes){
-  
+summary_function_annual <- function(df, latest_date, MK_method, time_period, 
+                                    well_attributes, minimum_years){
   options(dplyr.summarise.inform = FALSE)
   #Produce summary statistics
     welldata_attr <- df %>%
@@ -90,16 +90,18 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period, wel
     # Only use wells with relatively current data and less than 25% missing monthly observations
     # Note wells were previously filtered by more than 10 years of data prior to the
     # time series analysis in the 02_clean.R script
-  wells_nums <- filter(welldata_attr, 
-                       percent_missing < 25, 
-                       dataEnd > latest_date) %>% 
-                       pull(Well_Num)
+    wells_nums <- filter(welldata_attr, 
+                         percent_missing < 15, 
+                         dataEnd > latest_date,
+                         dataYears > minimum_years) %>% 
+      pull(Well_Num)
   
   #Calculate annual means for trend analysis
   annualwells_ts <- df %>%
     group_by(EMS_ID, Well_Num, Year) %>%
     summarize(mean_GWL = mean(med_GWL), SD = sd(med_GWL), n_months = n()) %>%
-    filter(Well_Num %in% wells_nums, n_months == 12)
+    filter(Well_Num %in% wells_nums) |> 
+    filter(n_months > 11)
   
   ## Perform the analysis
   results_annual <- gwl_zyp_test(dataframe = annualwells_ts, byID = "Well_Num", 
@@ -110,10 +112,11 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period, wel
   wells_results <- full_join(results_annual, welldata_attr, by = "Well_Num")
   
   wells_results <- mutate(wells_results,
-                          state = case_when(trend >= 0.1 & sig < 0.05 ~ "Large Rate of Decline",
-                                            trend >= 0.03 & trend < 0.1 & sig < 0.05 ~ "Moderate Rate of Decline",
-                                            trend <= -0.03 & sig < 0.05 ~ "Increasing",
-                                            TRUE ~ "Stable and/or Non-significant")) %>%
+                          state = case_when(trend >= 0.1 & sig <= 0.05 ~ "Large Rate of Decline",
+                                            trend >= 0.03 & trend < 0.1 & sig <= 0.05 ~ "Moderate Rate of Decline",
+                                            trend <= -0.03 & sig <= 0.05 ~ "Increasing",
+                                            (trend > -0.03 & trend < 0.03) | sig > 0.05 ~ "Stable and/or Non-significant",
+                                            TRUE ~ "NA")) %>%
     mutate(Well_Num = str_remove(Well_Num,'[A-Z]*'))
   
   left_join(well_attributes, wells_results, by=c("Well_Num"="Well_Num")) %>%
@@ -126,28 +129,26 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period, wel
            nYears = dataYears, 
            percent_missing = round(percent_missing, 1)) %>%
     mutate(Well_Name = paste0("Observation Well #", Well_Num), 
-           state = case_when(is.na(trend_line_int) & (start_year > latest_date | is.na(last_date)) ~ 
+           state = case_when(is.na(trend_line_int) & (start_year > latest_date) ~ 
                                "Recently established well; time series too short for trend analysis",
-                             is.na(trend_line_int) & (percent_missing >= 25 | last_date < latest_date) ~
+                             last_date < latest_date ~ "Well not active in 2013", 
+                             end_year < 2013 ~ "Well not active in 2013",
+                             is.na(trend_line_int) & (nYears < minimum_years) ~
+                                                        "Insufficient Data",
+                             is.na(trend_line_int) & (percent_missing >= 15) ~
                                "Too many missing observations to perform trend analysis",
-                             TRUE ~ state),
-           category = case_when(state %in% c("Increasing", "Stable and/or Non-significant") ~ "Stable or Increasing", 
-                                grepl("Recently|missing", state) ~ "N/A",
-                                TRUE ~ state)) %>% 
-    filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date)) %>% 
+                             TRUE ~ state)) %>% 
     select(Well_Num, 
            region_name, 
            start_year, end_year,
-           start_date, last_date, nYears, percent_missing, trend_line_int, trend_line_slope, sig, state, category) %>%
+           start_date, last_date, nYears, percent_missing, trend_line_int, trend_line_slope, sig, state) %>%
     mutate(time_scale = time_period, period = "Yearly", month = "NA") %>%
     select(Well_Num, everything())
-
-  
 }
 
 
 ## Define function to produce monthly trend results
-summary_function_monthly <- function(df, latest_date, MK_method, time_period, well_attributes){
+summary_function_monthly <- function(df, latest_date, MK_method, time_period, well_attributes, minimum_years){
   
   options(dplyr.summarise.inform = FALSE)
   
@@ -166,8 +167,9 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period, we
   # Note wells were previously filtered by more than 10 years of data prior to the
   # time series analysis in the 02_clean.R script
   wells_nums <- filter(welldata_attr, 
-                       percent_missing < 25, 
-                       dataEnd > latest_date) %>% 
+                       percent_missing < 15, 
+                       dataEnd > latest_date,
+                       dataYears > minimum_years) %>% 
     pull(Well_Num)
   
   #Separate out wells by month
@@ -177,8 +179,8 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period, we
   bymonth_ts <- lapply(1:length(months), function(x) {
     
     df %>%
-      filter(., Month==x) 
-    
+      filter(., Month==x) %>%
+      filter(., Well_Num %in% wells_nums)
   })
   
   ## Perform the analysis
@@ -201,10 +203,11 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period, we
   wells_results_bymonth <- lapply(1:length(bymonth_ts), function(x) {
     
     mutate(wells_results_bymonth[[x]],
-           state = case_when(trend >= 0.1 & sig < 0.05 ~ "Large Rate of Decline",
-                             trend >= 0.03 & trend < 0.1 & sig < 0.05 ~ "Moderate Rate of Decline",
-                             trend <= -0.03 & sig < 0.05 ~ "Increasing",
-                             TRUE ~ "Stable and/or Non-significant"))
+           state = case_when(trend >= 0.1 & sig <= 0.05 ~ "Large Rate of Decline",
+                             trend >= 0.03 & trend < 0.1 & sig <= 0.05 ~ "Moderate Rate of Decline",
+                             trend <= -0.03 & sig <= 0.05 ~ "Increasing",
+                             (trend > -0.03 & trend < 0.03) | sig > 0.05 ~ "Stable and/or Non-significant",
+                             TRUE ~ "NA"))
     
   })
   
@@ -222,53 +225,44 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period, we
       mutate(Well_Name = paste0("Observation Well #", Well_Num), 
              state = case_when(is.na(trend_line_int) & (start_year > latest_date | is.na(last_date)) ~ 
                                  "Recently established well; time series too short for trend analysis",
-                               is.na(trend_line_int) & (percent_missing >= 25 | last_date < latest_date) ~
+                               last_date < latest_date ~ "Well not active in 2013", 
+                               end_year < 2013 ~ "Well not active in 2013",
+                               is.na(trend_line_int) & (nYears < minimum_years) ~
+                                                          "Insufficient Data", 
+                               is.na(trend_line_int) & (percent_missing >= 15 | last_date < latest_date) ~
                                  "Too many missing observations to perform trend analysis",
-                               TRUE ~ state),
-             category = case_when(state %in% c("Increasing", "Stable and/or Non-significant") ~ "Stable or Increasing", 
-                                  grepl("Recently|missing", state) ~ "N/A",
-                                  TRUE ~ state)) %>% 
-      filter(!(state == "Too many missing observations to perform trend analysis" & last_date < latest_date)) %>% 
+                               TRUE ~ state)) %>% 
       select(Well_Num, 
              region_name, 
              start_year, end_year,
-             start_date, last_date, nYears, percent_missing, trend_line_int, trend_line_slope, sig, state, category) %>%
+             start_date, last_date, nYears, percent_missing, trend_line_int, trend_line_slope, sig, state) %>%
       mutate(time_scale = time_period, period = "Monthly", month = month.abb[x]) %>%
       select(Well_Num, everything())
     
   })
   
-  well_results_out <<- do.call("rbind", results_out_bymonth) 
+  well_results_out <<- do.call("rbind.data.frame", results_out_bymonth) 
 }
 
 #Produce annual result data set for all years
-results_annual <- summary_function_annual(monthlywells_ts, "2013-01-01", "zhang", "All", obs_wells)
+results_annual <- summary_function_annual(monthlywells_ts, "2012-12-31", "zhang", "All", obs_well_viz, 9.9)
 
-#Filter out wells with too many missing observations and end date earlier than the defined "latest date"
-#Note this step is necessary because the 10 and 20 year data subsets do not have the necessary
-#attributes to pick out the filter conditions in the function (already filtered for date less than 10 years old)
-wells_list <- results_annual %>% pull(Well_Num)
 
 #Produce remaining results data sets
-results_annual_10 <- summary_function_annual(monthlywells_ts_10, "2013-01-01", "zhang", "10 Years", obs_wells) %>%
-  filter(Well_Num %in% wells_list)
-results_annual_20 <- summary_function_annual(monthlywells_ts_20, "2013-01-01", "zhang", "20 Years", obs_wells) %>%
-  filter(Well_Num %in% wells_list)
+results_annual_10 <- summary_function_annual(monthlywells_ts_10, "2012-12-31", "zhang", "10 Years", obs_well_viz, 9.9) 
+results_annual_20 <- summary_function_annual(monthlywells_ts_20, "2012-12-31", "zhang", "20 Years", obs_well_viz, 17.9) 
 
-results_monthly <- summary_function_monthly(monthlywells_ts_mean, "2013-01-01", "zhang", "All", obs_wells) %>%
-  filter(Well_Num %in% wells_list)
-results_monthly_10 <- summary_function_monthly(monthlywells_ts_10_mean, "2013-01-01", "zhang", "10 Years", obs_wells) %>%
-  filter(Well_Num %in% wells_list)
-results_monthly_20 <- summary_function_monthly(monthlywells_ts_20_mean, "2013-01-01", "zhang", "20 Years", obs_wells) %>%
-  filter(Well_Num %in% wells_list)
+results_monthly <- summary_function_monthly(monthlywells_ts_mean, "2012-12-31", "zhang", "All", obs_well_viz, 9.9) 
+results_monthly_10 <- summary_function_monthly(monthlywells_ts_10_mean, "2012-12-31", "zhang", "10 Years", obs_well_viz, 8.9) 
+results_monthly_20 <- summary_function_monthly(monthlywells_ts_20_mean, "2012-12-31", "zhang", "20 Years", obs_well_viz, 17.9) 
 
 #Produce output files
 #Results table for shiny app
 results_for_app <- rbind(results_annual, results_annual_10, results_annual_20, results_monthly, results_monthly_10, results_monthly_20) %>%
-  select(Well_Num, region_name, trend_line_slope, trend_line_int, state, category, period, month, time_scale) 
+  select(Well_Num, region_name, trend_line_slope, trend_line_int, state, period, month, time_scale) 
 
 #Results table for RMarkdown charts (all data annual means only)
-results_out <- left_join(results_annual, obs_wells, by=c("Well_Num" = "Well_Num", "region_name"="region_name"))
+results_out <- left_join(results_annual, obs_well_viz, by=c("Well_Num" = "Well_Num", "region_name"="region_name"))
 
 #Results table for RMarkdown
 pivot_table <- rbind(results_annual, results_annual_10, results_annual_20) %>%
@@ -289,7 +283,7 @@ pivot_table <- rbind(results_annual, results_annual_10, results_annual_20) %>%
                                (Results_20yrs == "Too many missing observations" | Results_20yrs == "Recently established well"),
                              "remove", "keep"))
 
-results_for_table <- left_join(results_annual, obs_wells, by=c("Well_Num" = "Well_Num", "region_name"="region_name")) %>%
+results_for_table <- left_join(results_annual, obs_well_viz, by=c("Well_Num" = "Well_Num", "region_name"="region_name")) %>%
   mutate(Well_Name = paste0("Observation Well #", Well_Num)) %>%
   select(EMS_ID, Well_Num, Well_Name, Aquifer_Type, 
          REGION_NAME = region_name, 
@@ -326,3 +320,5 @@ save(results_for_app, file = "./tmp/analysis_data_for_app.RData")
 save(results_for_table, file = "./tmp/well_data_attributes.RData")
 save(results_sf, file = "./tmp/well_data_attributes_sf.RData")
 save(results_monthly, file = "./tmp/monthly_results_all.RData")
+save(results_annual_10, file = "./tmp/results_annual_10.RData")
+save(obs_well_viz, file = "./tmp/obs_well_viz.RData")
