@@ -50,7 +50,7 @@ obs_wells_clean <- right_join(obs_wells, well_data_range, by=c("observation_well
 # Nest data by Well_Num. As we don't have EMS_IDS, use Well_Num
 # so we get a clear idea of which well has convergence issues
 wells_prep <- wells_data_filtered %>%
-  filter(Date <= as.POSIXct("2023-01-01")) %>% 
+  filter(Date <= as.POSIXct("2023-12-31")) %>% 
   mutate(EMS_ID = Well_Num) %>%  
   group_by(Well_Num1 = Well_Num) %>%
   filter(n_distinct(GWL)>10) %>%

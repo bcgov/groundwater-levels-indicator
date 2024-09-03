@@ -100,16 +100,14 @@ to track groundwater availability in aquifers.These observation wells
 are not used for domestic or commercial purposes.
 
 This indicator shows a trend analysis of groundwater levels in
-observation wells over time. The results are provided in a interactive
-map below and in a static version of the indicator linked at the bottom
-of the page. Summary figures of the trends observed across the province
-and regionally are provided below the interactive map.
+observation wells over time. The results by well are displayed in a map below and in an [interactive map online](https://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html). Summary figures of the trends observed across the province
+and regionally are provided below.
 
--   Wells that have been monitored for \> 10 years and were active as of
-    2013 are analyzed in this indicator. There are `r nrow(attr_wells)`
+-   Wells that have been monitored for \> 10 years, have fewer than 15% missing observations, and were active as of
+    2013 are analyzed in this indicator. There are `r nrow(results_viz)`
     observation wells within the network that met the necessary screening criteria (i.e. sufficient data) and were assessed for changes
     over time. The location of the wells and the trend results are
-    provided in the interactive map below.
+    provided in the map below.
 
 -   The results are categorized by the statistical significance and
     magnitude of the change in groundwater levels over time. The
@@ -465,7 +463,7 @@ results_viz %>%
 
 \newpage
 
-### Table 2: Summary of 10-year results of trend analysis of groundwater levels
+### Table 2: Summary of 10-year (2013 - 2023) results of trend analysis of groundwater levels
 
 Wells with 10 complete years of data for trend analysis are included.
 
@@ -505,19 +503,9 @@ results_viz_10 %>%
 
 ### Detailed Maps & Graphs for Groundwater Observation Wells Included in the Analysis
 
-Three plots were created for each examined groundwater observation well,
-including a map of the well’s location (upper left).
+Three plots were included for each groundwater observation well that met the data requirements for data analysis. The plots included for each well include 10-year trends, all-data trends, and a monthly hydrograph. 
 
-The graph to the right of the map shows monthly groundwater levels
-relative to the annual average water level. This illustrates the
-seasonal nature of water levels recorded in that well—many wells will
-have higher than average water levels in the spring, and lower than
-average levels in the late summer and fall. The shaded blue area shows
-the range of variation within which 90% of water level observations in
-that month fall.
-
-The bottom plot—called a "hydrograph"—on each page shows the monthly
-groundwater levels for the history of the well, with light grey dots
+The 10-year and all-data plots show the history of the groundwater level over the relevant time period.  The blue line shows measured groundwater depth over time. The light grey dots
 show missing values which were interpolated (see Methods). The trend
 category is provided below the title—if the trend is significant, based
 on a combination of statistical and environmental significance
@@ -525,12 +513,39 @@ criteria—the calculated change in annual average groundwater levels is
 provided (meters per year) and visually represented by an orange trend
 line.
 
+The graph at the bottom of the page shows monthly groundwater levels
+relative to the annual average water level. This illustrates the
+seasonal nature of water levels recorded in that well—many wells will
+have higher than average water levels in the spring, and lower than
+average levels in the late summer and fall. The shaded blue area shows
+the range of variation within which 90% of water level observations in
+that month fall.
+
+
+
 \newpage
 
-```{r well_plots, echo=FALSE, error=FALSE, fig.height=8, message=FALSE, warning=FALSE, results='asis', eval=FALSE}
+```{r well_plots, echo=FALSE, error=FALSE, fig.height=6, message=FALSE, warning=FALSE, results='asis', eval=TRUE}
 
 # individual well plots
+app_wells_10 <- results_viz_10 |> 
+  pull(Well_Num)
+
+app_wells <- results_viz |> 
+  pull(Well_Num)
+
+pdf_wells <- intersect(app_wells_10, app_wells)
+
 load('../groundwater-levels-indicator/tmp/well_plots.RData')
+
+well_plots <- well_plots |> 
+  filter(Well_Num %in% pdf_wells)
+  
+load('../groundwater-levels-indicator/tmp/well_plots_10.RData')
+
+well_plots_10 <- well_plots_10 |> 
+  filter(Well_Num %in% pdf_wells)
+  
 
 knitr_latex_char <- function(x) {
   y <- gsub("\\\\", "\\\\textbackslash{}", x) # backslash has to be first!
@@ -542,17 +557,17 @@ knitr_latex_char <- function(x) {
 
 # theme_set(base_theme)
 
-for (reg in sort(unique(attr_wells$region_name))) {
+for (reg in sort(unique(well_plots$region_name))) {
   cat(paste0('\\subsection{',reg," Region",'}'))
-  regdata <- filter(attr_wells, region_name == reg)
+  regdata <- filter(well_plots, region_name == reg) 
   
-  for (well in regdata$Well_Num) {
-    if (is.na(well)) next
+  for (well in pdf_wells) {
+    #if (is.na(well)) next
     
-    wellname <- filter(regdata, Well_Num == well) %>%
+    wellname <- filter(well_plots, Well_Num == well) %>%
       pull(Well_Name)
     
-    aquifer_id <- filter(regdata, Well_Num == well) %>%
+    aquifer_id <- filter(well_plots, Well_Num == well) %>%
       pull(aquifer_id)
     
     cat(paste0('\\subsubsection*{',reg,": ",
@@ -576,36 +591,70 @@ for (reg in sort(unique(attr_wells$region_name))) {
     #   mapplot = ggdraw() +
     #   draw_image(mapplot)
     monthplot <- filter(well_plots, Well_Num == well) %>% pull(month_plot)
+    areaplot_10 <- filter(well_plots_10, Well_Num == well) %>% pull(area_plot)
     areaplot <- filter(well_plots, Well_Num == well) %>% pull(area_plot)
     
-    grid.arrange(#mapplot + 
+    plot(well_plots$area_plot[[well]])
+    # monthplot + theme(axis.text = element_text(size = 8),
+    #                                axis.title.x = element_blank(),
+    #                                plot.title = element_text(size = 10, face = "bold"),
+    #                                axis.title.y = element_text(size = 8,
+    #                                                            hjust = 0.5,
+    #                                                            vjust = 1,
+    #                                                            face = "bold"),
+    #                                legend.box = "vertical",
+    #                                legend.position = "top",
+    #                                legend.text = element_text(size = 9),
+    #                                plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm"),
+    #                                legend.spacing.y = unit(-.4, 'cm'))
+    
+    # areaplot_10[[1]]
+    # 
+    # areaplot[[1]]
+    
+    # grid.arrange(monthplot[[1]], areaplot_10[[1]], areaplot[[1]],
+    #              nrow=3)
+      
+      #mapplot + 
                    #theme(
                      # text = element_text(size = 10),
                                  #plot.margin = unit(c(0.5,0.5,0.5,0.5),"cm")),
-                 monthplot[[1]] + theme(axis.text = element_text(size = 8),
-                                   axis.title.x = element_blank(),
-                                   plot.title = element_text(size = 10, face = "bold"),
-                                   axis.title.y = element_text(size = 8,
-                                                               hjust = 0.5,
-                                                               vjust = 1,
-                                                               face = "bold"),
-                                   legend.box = "vertical",
-                                   legend.position = "top",
-                                   legend.text = element_text(size = 9),
-                                   plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm"),
-                                   legend.spacing.y = unit(-.4, 'cm')),
-                 areaplot[[1]] + theme(axis.text = element_text(size = 8),
-                                  axis.title.x = element_blank(),
-                                  axis.title.y = element_text(size = 8,
-                                                              hjust = 0.5,
-                                                              vjust = 1,
-                                                              face = "bold"),
-                                  legend.text = element_text(size = 9),
-                                  legend.position = ("bottom"),
-                                  plot.title = element_text(size = 11, face = "bold"),
-                                  plot.subtitle = element_text(size = 9),
-                                  plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm")),
-                 layout_matrix = matrix(c(1,2,3), nrow = 3, byrow = TRUE))
+                 # monthplot[[1]]+ theme(axis.text = element_text(size = 8),
+                 #                   axis.title.x = element_blank(),
+                 #                   plot.title = element_text(size = 10, face = "bold"),
+                 #                   axis.title.y = element_text(size = 8,
+                 #                                               hjust = 0.5,
+                 #                                               vjust = 1,
+                 #                                               face = "bold"),
+                 #                   legend.box = "vertical",
+                 #                   legend.position = "top",
+                 #                   legend.text = element_text(size = 9),
+                 #                   plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm"),
+                 #                   legend.spacing.y = unit(-.4, 'cm')),
+                  # areaplot_10[[1]] + theme(axis.text = element_text(size = 8),
+                  #                 axis.title.x = element_blank(),
+                  #                 axis.title.y = element_text(size = 8,
+                  #                                             hjust = 0.5,
+                  #                                             vjust = 1,
+                  #                                             face = "bold"),
+                  #                 legend.text = element_text(size = 9),
+                  #                 legend.position = ("bottom"),
+                  #                 plot.title = element_text(size = 11, face = "bold"),
+                  #                 plot.subtitle = element_text(size = 9),
+                  #                 plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm")),
+                  # areaplot[[1]] + theme(axis.text = element_text(size = 8),
+                  #                 axis.title.x = element_blank(),
+                  #                 axis.title.y = element_text(size = 8,
+                  #                                             hjust = 0.5,
+                  #                                             vjust = 1,
+                  #                                             face = "bold"),
+                  #                 legend.text = element_text(size = 9),
+                  #                 legend.position = ("bottom"),
+                  #                 plot.title = element_text(size = 11, face = "bold"),
+                  #                 plot.subtitle = element_text(size = 9),
+                  #                 plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm")),
+                 #layout_matrix = matrix(c(1,2,3), nrow = 3, byrow = TRUE))
+    
     
     cat('\\newpage ')
   }
