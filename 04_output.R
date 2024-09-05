@@ -21,6 +21,7 @@ if (!exists(".header_sourced")) source("header.R")
 ## Load output data from 03_analysis.R if necessary
 if (!exists("results_out"))  load("./tmp/analysis_data.RData")
 if (!exists("monthlywells_ts")) load("./tmp/clean_well_data.RData")
+if (!exists("monthlywells_ts_10")) load("./tmp/clean_well_data_10.RData")
 if (!exists("results_sf")) load("./tmp/well_data_attributes_sf.RData")
 if (!exists("results_monthly")) load("./tmp/monthly_results_all.RData")
 if (!exists("results_annual_10")) load("./tmp/results_annual_10.RData")
@@ -137,18 +138,18 @@ save(input_summary, file = "tmp/input_summary.RData")
 
 #summary df & provincial summary bar chart of categories
 bc_bar_chart <- ggplot(data=input_summary) +
-  geom_col(mapping=aes(x=prop, y=state_figure, fill=state_figure), width = 0.4, colour = "black") +
+  geom_col(mapping=aes(x=count, y=state_figure, fill=state_figure), width = 0.4, colour = "black") +
   scale_fill_manual(values=colour.scale.aquifer,
                     labels = c("Increasing",
                                "Stable and/or \nNon-significant",
                                "Moderate Rate \nof Decline",
                                "Large Rate \nof Decline",
                                "Mixed")) +
-  geom_text(aes(x=prop, y=state_figure, label = aquifer_lab), hjust = -0.1) +
+  geom_text(aes(x=count, y=state_figure, label = aquifer_lab), hjust = -0.1) +
   scale_x_continuous(expand = c(0,0)) +
-  expand_limits(x=c(0,105)) +
+  expand_limits(x=c(0,110)) +
   # labs(title = "Summary of Trends in Groundwater Levels in British Columbia") +
-  xlab("Proportion of Aquifers (%)") + 
+  xlab("Number of Aquifers") + 
   ylab(NULL) +
   theme_soe() +
   theme(legend.position="none",
@@ -210,10 +211,10 @@ regional_bar_chart <- ggplot(data=input_regional) +
   geom_col(mapping=aes(x=count, y=fct_reorder(region_name, total_aquifers), fill=state_figure), 
            width = 0.4, color = "black") +
   scale_fill_manual(values=colour.scale.aquifer) +
-  geom_text(aes(x=total_aquifers + 5, y=region_name, label = aquifer_lab)) +
+  geom_text(aes(x=total_aquifers + 5, y=region_name, label = aquifer_lab), size = 4) +
   scale_x_continuous(expand = c(0,0)) +
   expand_limits(x=c(0,55)) +
-  guides(fill = guide_legend(reverse = TRUE))+
+  guides(fill = guide_legend(reverse = TRUE, nrow=2))+
   # labs(title = "Summary of Trends in Groundwater Levels across \nNatural Resource Regions") +
   xlab("Number of Aquifers") + ylab(NULL) +
   theme_soe() +
@@ -231,12 +232,10 @@ regional_bar_chart <- ggplot(data=input_regional) +
                               "Skeena",
                               "South Coast",
                               "Thompson/\nOkanagan",
-                              "West Coast"))+ 
-  guides(fill = guide_legend(nrow = 3))
-
+                              "West Coast"))
 regional_bar_chart
 
-svg_px("./out/figs/regional_bar_chart.svg", width = 800, height = 400)
+svg_px("./out/figs/regional_bar_chart.svg", width = 800, height = 600)
 plot(regional_bar_chart)
 dev.off()
 
@@ -360,11 +359,16 @@ prov_map <- ggplot() +
                                                 legend.direction = "horizontal"))) +
   scale_x_continuous(expand = c(0,0)) +
   scale_y_continuous(expand = c(0,0)) +
-  theme_minimal()
+  theme_minimal() +
+  guides(fill = guide_legend(nrow=2))+
+  theme(legend.position="bottom",
+        legend.title=element_blank(),
+        legend.direction="horizontal",
+        plot.title = element_text(hjust = 0)) 
 
 prov_map
 
-svg_px("./out/figs/prov_map.svg", width = 400, height = 800)
+svg_px("./out/figs/prov_map.svg", width = 500, height = 900)
 plot(prov_map)
 dev.off()
 
@@ -373,44 +377,257 @@ save(bc_bar_chart, regional_bar_chart, prov_map, monthly_bar_chart, file = "tmp/
 
 # Individual Obs Well Plots (Web & PDF) ----------------------------------------
 well_plots <- monthlywells_ts %>%
-  mutate(Well_Num1 = Well_Num) %>% # both top level and nested data need Well_Num
-  nest(-Well_Num1) %>% 
-  rename(Well_Num = Well_Num1) %>%
-  right_join(results_viz, by = c("Well_Num")) %>%
-  mutate(colour = col,
-         state_chr = as.character(state),
-         month_plot = map(data, ~gwl_monthly_plot(dataframe = .x, splines = TRUE,
-                                                  save = FALSE)),
-         area_plot = pmap(list(data, trend_line_slope, trend_line_int, state_chr, sig),
-                          ~gwl_area_plot(data = ..1, trend = ..2, intercept = ..3,
-                                         trend_category = ..4, sig = ..5,
-                                         showInterpolated = TRUE, save = FALSE,
-                                         mkperiod = "annual", 
-                                         show_stable_line = FALSE) +
-                            theme(plot.title = element_text(lineheight = 1,
-                                                            margin = margin(b = -10)),
-                                  plot.subtitle = element_blank(),
-                                  axis.title.x = element_blank(),
-                                  plot.margin = unit(c(5, 1, 2, 5), units = "pt"),
-                                  legend.box.spacing = unit(c(0, 0, 0, 0), units = "pt"),
-                                  legend.margin = margin(0, 0, 0, 0),
-                                  legend.position = "top")))
+  #mutate(Well_Num1 = Well_Num) %>% # both top level and nested data need Well_Num
+  #nest(-Well_Num1) %>% 
+  #rename(Well_Num = Well_Num1) %>%
+  #nest(Well_Num) |> 
+  left_join(results_viz, by = c("Well_Num")) #%>%
+  # mutate(colour = col,
+  #        state_chr = as.character(state),
+  #        month_plot = map(data, ~gwl_monthly_plot(dataframe = .x, splines = TRUE,
+  #                                                 save = FALSE)),
+  #        area_plot = pmap(list(data, trend_line_slope, trend_line_int, state_chr, sig),
+  #                         ~gwl_area_plot(data = ..1, trend = ..2, intercept = ..3,
+  #                                        trend_category = ..4, sig = ..5,
+  #                                        showInterpolated = TRUE, save = FALSE,
+  #                                        mkperiod = "annual", 
+  #                                        show_stable_line = FALSE) +
+  #                           theme(plot.title = element_text(lineheight = 1,
+  #                                                           margin = margin(b = -10)),
+  #                                 plot.subtitle = element_blank(),
+  #                                 axis.title.x = element_blank(),
+  #                                 plot.margin = unit(c(5, 1, 2, 5), units = "pt"),
+  #                                 legend.box.spacing = unit(c(0, 0, 0, 0), units = "pt"),
+  #                                 legend.margin = margin(0, 0, 0, 0),
+  #                                 legend.position = "top")))
+
+well_plots_10 <- monthlywells_ts_10 |> 
+  #mutate(Well_Num1 = Well_Num) %>% # both top level and nested data need Well_Num
+  #nest(-Well_Num1) %>% 
+  #rename(Well_Num = Well_Num1) %>%
+  left_join(results_viz_10, by = c("Well_Num")) 
+  # mutate(colour = col,
+  #        state_chr = as.character(state),
+  #        area_plot = pmap(list(data, trend_line_slope, trend_line_int, state_chr, sig),
+  #                         ~gwl_area_plot(data = ..1, trend = ..2, intercept = ..3,
+  #                                        trend_category = ..4, sig = ..5,
+  #                                        showInterpolated = TRUE, save = FALSE,
+  #                                        mkperiod = "annual", 
+  #                                        show_stable_line = FALSE) +
+  #                           theme(plot.title = element_text(lineheight = 1,
+  #                                                           margin = margin(b = -10)),
+  #                                 plot.subtitle = element_blank(),
+  #                                 axis.title.x = element_blank(),
+  #                                 plot.margin = unit(c(5, 1, 2, 5), units = "pt"),
+  #                                 legend.box.spacing = unit(c(0, 0, 0, 0), units = "pt"),
+  #                                 legend.margin = margin(0, 0, 0, 0),
+  #                                 legend.position = "top")))
+# a <- gwl_aplot(well_plots_10, intercept = well_plots_10$trend_line_int, 
+#                slope = well_plots_10$trend_line_slope, sig = well_plots_10$sig, 
+#                state_short = well_plots_10$state,
+#                well = well, reg = reg)
+
+save(well_plots, file = "tmp/well_plots.RData")
+
+save(well_plots_10, file = "tmp/well_plots_10.RData")
+
+gwl_aplot <- function(data, intercept, slope, sig, state_short, well, reg, trend_type) {
+  
+  if(nrow(data) >0) {
+    maxgwl = max(data$med_GWL, na.rm = TRUE)
+    mingwl = min(data$med_GWL, na.rm = TRUE)
+    gwlrange = maxgwl - mingwl
+    midgwl = (maxgwl + mingwl) / 2
+    lims  = c(midgwl + gwlrange, midgwl - gwlrange)
+    data$max_lims <- max(lims[1], max(data$med_GWL, na.rm = TRUE) + 5)
+    
+    plot_data = data %>%
+      group_by(Year) %>%
+      summarize(
+        annual_median = median(med_GWL),
+        n_months = n(),
+        missing_dat = case_when(any(nReadings == 0) ~ "missing", T ~ "complete"),
+        max = quantile(med_GWL, 0.975),
+        min = quantile(med_GWL, 0.025)
+      ) %>%
+      mutate(Date = as.Date(paste0(Year, "-01-01"))) %>%
+      select(Date, annual_median, missing_dat, min, max)
+  }
+  
+  int.well = intercept + slope * as.numeric(min(as.Date(data$Date)))
+  
+  trend_df = data.frame(int.well, slope)
+  # print(trend_data)
+  # print(trend_df)
+  
+  plot = ggplot(plot_data) +
+    ggtitle(paste0(trend_type, "\nStation Class: ", state_short)) +
+    labs(subtitle = paste0(slope, " m/year; p:value ", sig)) +
+    geom_errorbar(aes(
+      x = as.Date(Date),
+      ymin = min,
+      ymax = max,
+      col = missing_dat
+    ), width = 0.3) +
+    geom_point(aes(x = as.Date(Date), y = annual_median, col = missing_dat)) +
+    scale_x_date(expand = c(0.1, 0.1)) +
+    scale_y_reverse(expand = c(0, 0)) +
+    coord_cartesian(ylim = lims) +
+    scale_colour_manual(
+      name = "",
+      labels = c(
+        'Annual Median (95% Confidence Intervals)',
+        'Incomplete Data (Interpolated)'
+      ),
+      values = c("blue", "#A9A9A9")
+    ) +
+    theme_minimal() +
+    theme(
+      text = element_text(colour = "black", size = 13),
+      panel.grid.minor.x = element_blank(),
+      panel.grid.major.x = element_blank(),
+      axis.line = element_line(colour = "grey50"),
+      legend.position = "bottom",
+      legend.box =  "horizontal",
+      plot.title = element_text(hjust = 0),
+      plot.subtitle = element_text(hjust = 0, face = "plain", size = 11)
+    ) +
+    theme(plot.margin = margin(10, 10, 0, 10, "points")) +
+    xlab("Date") +
+    ylab("Depth Below Ground (metres)") +
+    theme(legend.position = "bottom")
+  
+  if(unique(state_short) %in% c("Increasing", "Moderate Rate of Decline", "Large Rate of Decline")) {
+    plot +
+      geom_abline(data = trend_df,
+                  aes(intercept = -int.well, slope = slope),
+                  col = "orange")
+  }
+  
+  plot
+}
 
 
-## Print Obs Well Plots
-# for (i in seq_len(nrow(well_plots))) {
-#   # # Month plots
-#   # svg_px(file.path(status.well,
-#   #                  glue("month_", well_plots$Well_Num[i], ".svg")),
-#   #        width = 350, height = 220)
-#   # plot(well_plots$month_plot[[i]])
-#   # dev.off()
+status.well <- "out/figs/"
+
+for (well in pdf_wells) {
+  if (is.na(well)) next
+  
+  # wellname <- filter(well_plots, Well_Num == well) %>%
+  #   pull(Well_Name)
+  
+  # aquifer_id <- filter(well_plots, Well_Num == well) %>%
+  #   pull(aquifer_id)
+  # 
+  # cat(paste0('\\subsubsection*{',reg,": ",
+  #            knitr_latex_char(wellname),
+  #            '}'))
+  # 
+  # cat(paste0('\\subsubsection*{',"Associated aquifer number: ",
+  #            knitr_latex_char(aquifer_id),
+  #            '}'))
+  #mapplot <- filter(well_plots, Well_Num == well) %>% pull(map_plot)
+  # mapplot = readPNG(here(paste0("tmp/pngs/",well,".png")))
+  #   mapplot = ggdraw() +
+  #   draw_image(mapplot)
+  monthplot <- filter(well_plots, Well_Num == well) 
+  areaplot_10 <- filter(well_plots_10, Well_Num == well)
+  areaplot <- filter(well_plots, Well_Num == well)
+  #%>% unnest(col=c(gropd_df))
+  # a_10 <- gwl_area_plot(areaplot_10, areaplot_10$trend_line_slope, areaplot_10$trend_line_int,
+  #                       areaplot_10$state, areaplot_10$sig, showInterpolated = TRUE, save = FALSE,
+  #                       mkperiod = "annual", show_stable_line = FALSE)
+  # areaplot <- filter(well_plots, Well_Num == well) #%>% unnest(col=c(data))
+  # a_10 <- gwl_area_plot(areaplot)
+  
+  m <- gwl_monthly_plot(monthplot)
+  
+  a_10 <- gwl_aplot(areaplot_10, intercept = areaplot_10$trend_line_int, 
+                    slope = areaplot_10$trend_line_slope, sig = areaplot_10$sig, 
+                    state_short = areaplot_10$state,
+                    well = well, reg = reg, trend_type = "10-year Trend (2013-2023) ")
+  
+  a <- gwl_aplot(areaplot, intercept = areaplot$trend_line_int, 
+                 slope = areaplot$trend_line_slope, sig = areaplot$sig, 
+                 state_short = areaplot$state,
+                 well = well, reg = reg,  trend_type = "All available data")
+  
+  g <- grid.arrange(#m, a_10, a,
+    m + theme(text = element_text(size = 6),
+              axis.title.y = element_text(size = 5,
+                                          hjust = 0.5,
+                                          vjust = 1),
+              legend.position = ("bottom"),
+              plot.title = element_text(size = 6),
+              plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
+    a_10 + theme(axis.text = element_text(size = 4),
+                 axis.title.x = element_blank(),
+                 axis.title.y = element_text(size = 5,
+                                             hjust = 0.5,
+                                             vjust = 1),
+                 legend.text = element_text(size = 5),
+                 legend.position = ("bottom"),
+                 plot.title = element_text(size = 6),
+                 plot.subtitle = element_text(size = 5),
+                 plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
+    a + theme(axis.text = element_text(size = 4),
+              axis.title.x = element_blank(),
+              axis.title.y = element_text(size = 5,
+                                          hjust = 0.5,
+                                          vjust = 1),
+              legend.text = element_text(size = 5),
+              legend.position = ("bottom"),
+              plot.title = element_text(size = 6),
+              plot.subtitle = element_text(size = 5),
+              plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
+    layout_matrix = matrix(c(1,2,3), nrow = 3, byrow = TRUE))
+  
+  g
+  
+  ggsave(g, file=paste0(status.well, "combined_fig_", well,".png"), width = 11, height = 15, units = "cm")
+  #png(file=paste0(status.well, "combined_fig_", well,".png"), width = 700, height = 1000)
+  dev.off()
+  print(well)
+}
+  
+
+
+# Print Obs Well Plots
+
+# status.well <- "out/figs"
+# app_wells_10 <- results_viz_10 |> 
+#   pull(Well_Num)
+# 
+# app_wells <- results_viz |> 
+#   pull(Well_Num)
+# 
+# pdf_wells <- as.integer(intersect(app_wells_10, app_wells))
+# 
+# well_plots <-  well_plots |> 
+#   filter(Well_Num %in% pdf_wells)
+# 
+# for (i in seq_len(nrow(well_plots$Well_Num))) {
+#   # Month plots
 #   
+#   
+#   png_retina(file.path(status.well,
+#                    glue("month_", well_plots$Well_Num[i], ".png")),
+#          width = 350, height = 220)
+#   plot(well_plots$month_plot[[i]])
+#   dev.off()
+# 
 #   # Area plots
-#   svg_px(file.path(status.well,
-#                    glue("area_", well_plots$Well_Num[i], ".svg")),
+#   png_retina(file.path(status.well,
+#                    glue("area_", well_plots$Well_Num[i], ".png")),
 #          width = 600, height = 200)
 #   plot(well_plots$area_plot[[i]])
+#   dev.off()
+#   
+#   # Area plots, 10-yr
+#   png_retina(file.path(status.well,
+#                    glue("area_10_", well_plots_10$Well_Num[i], ".png")),
+#          width = 600, height = 200)
+#   plot(well_plots_10$area_plot[[i]])
 #   dev.off()
 # }
 
