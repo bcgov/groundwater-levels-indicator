@@ -188,7 +188,8 @@ server <- function(input, output, session) {
                        group="selected",
                        fillOpacity = 1,
                        label = ~paste0("Well No. ", Well_Num, " - ",state),
-                       data = map_data()) %>%
+                       data = map_data(),
+                       clusterOptions = markerClusterOptions(maxClusterRadius = 0.000001)) %>%
       removeControl("legend") %>%
       addLegend(pal = mypal,
                 values = ~state_short,
@@ -345,7 +346,7 @@ server <- function(input, output, session) {
           slope = trend_data %>%
             pull(trend_line_slope)
           slope = - as.numeric(slope)/365
-          
+            
           intercept = filtered_data() %>%
             filter(Well_Num == station_click()) %>%
             pull(trend_line_int)
@@ -358,7 +359,7 @@ server <- function(input, output, session) {
           
           plot = ggplot(plot_data) +
             ggtitle(paste0("Well Number: ", station_click(), "\nStation Class: ",trend_data$state_short)) +
-            labs(subtitle = paste0(trend_data$slope," m/year")) +
+            labs(subtitle = paste0(trend_data$slope," m/year ", trend_data$sig_state)) +
             geom_errorbar(aes(x = as.Date(Date), ymin = min, ymax = max, col = missing_dat), width = 0.3) +
             geom_point(aes(x = as.Date(Date), y = annual_median, col = missing_dat)) +
             scale_x_date(expand = c(0.1,0.1)) +
@@ -440,7 +441,7 @@ server <- function(input, output, session) {
         plot = ggplot(monthly_data) + 
           ggtitle(paste0("Well Number: ", station_click(),"; Month: ", month(match(month_rv(),month.abb), label = T, abbr = F),
                          " \nStation Class: ",trend_data$state_short)) +
-          labs(subtitle = paste0(trend_data$slope," m/year")) +
+          labs(subtitle = paste0(trend_data$slope," m/year ", trend_data$sig_state)) +
           #geom_errorbar(aes(x = as.Date(Date), ymin = min, ymax = max, col = missing_dat), width = 0.3) +
           geom_point(aes(x = as.Date(Date), y = value, col = missing_dat)) +
           # ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
