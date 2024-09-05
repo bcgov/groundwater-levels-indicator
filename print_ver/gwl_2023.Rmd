@@ -84,7 +84,6 @@ updateDate <- format(Sys.Date(), "%B %Y")
 
 ```
 
-\vspace{40pt}
 
 Groundwater is an essential source of water for British Columbians. One
 in four people in B.C. rely on groundwater for drinking water. It also
@@ -104,9 +103,9 @@ observation wells over time. The results by well are displayed in a map below an
 and regionally are provided below.
 
 -   Wells that have been monitored for \> 10 years, have fewer than 15% missing observations, and were active as of
-    2013 are analyzed in this indicator. There are `r nrow(results_viz)`
-    observation wells within the network that met the necessary screening criteria (i.e. sufficient data) and were assessed for changes
-    over time. The location of the wells and the trend results are
+    2013 are analyzed in this indicator. 
+- There are multiple options to look at trends in groundwater levels in the online interactive version of this indicator. There are different data requirements for each trend option selected and the number of wells assessed varies.This assessment includes results from the 10-year (2013-2023) trend analysis and the all available data trend analysis. 
+- The location of the wells and the trend results are
     provided in the map below.
 
 -   The results are categorized by the statistical significance and
@@ -156,12 +155,13 @@ and regionally are provided below.
 
 - The `r nrow(results_viz_10)` observation wells assessed are located in `r nrow(by_aquifer)` aquifers. The results of 10 year trend analysis for observation wells were grouped by aquifer. The results are grouped by aquifer as some aquifers have multiple wells with the same trending results which may skew the provincial and regional summary. 
 - The 10 year results are used to compare across aquifers as each well has a different time span of data. 
+- The "Mixed" category introduced below occurs when an aquifer has multiple observation wells with different trending categories (i.e. an aquifer has one well with "Stable and/or Non-significant" results and one with "Increasing" results).
 -   Of the `r nrow(by_aquifer)` aquifers examined,
     `r round(input_summary |> filter(state_figure == "Stable and/or Non-significant") |> extract("prop"))`% of results were stable and/or non-significant trends. Increasing trends were detected in `r round(input_summary |> filter(state_figure == "Increasing") |> extract("prop"))` % of aquifers. `r round(input_summary |> filter(state_figure == "Moderate Rate of Decline") |> extract("prop"))`% of
     aquifers show a moderate rate of decline in water levels, and
     `r round(input_summary |> filter(state_figure == "Large Rate of Decline") |> extract("prop"))`% of aquifers show a
     large rate of decline. Note that only wells with enough data for
-    trend analysis are included in the following figures. There are `r round(input_summary |> filter(state_figure == "Mixed") |> extract("prop"))`% of aquifers that have observation wells with different trend results
+    trend analysis are included in the following figures.
 
 
 \vspace{10pt}
@@ -243,9 +243,9 @@ for repeating the analysis presented on this page is also available on
 
 ### Trend Analysis
 
-Trend analysis was conducted using groundwater observation wells that
+Trend analysis was considered for groundwater observation wells that
 had ten or more complete years of data (data from each month of the year), had fewer than 15% missing observations, and were active as of January 1, 2013. This resulted in
-`r nrow(attr_wells)` wells with suitable data records for analysis.For each trend option selected, the amount of data missing was calculated separately which led to several cases where there was enough data for one time period but not another (for example, a 10-year trend was calculated for a well but there was too much missing data to calculate a trend for the entire time series). 
+`r nrow(attr_wells)` wells with suitable data records for analysis for the "All-Data" trending option.For each trend option selected, the amount of data missing was calculated separately which led to several cases where there was enough data for one time period but not another (for example, a 10-year trend was calculated for a well but there was too much missing data to calculate a trend for the entire time series). To standardize the 10-year (2013 - 2023) and 20-year (2003 - 2023) trend analysis, data from each month of the year was required from each year in the timespan. 
 
 Trend analyses were calculated both annually and monthly. For each month
 that had more than one observation, the median was taken. Annual mean
@@ -525,7 +525,7 @@ that month fall.
 
 \newpage
 
-```{r well_plots, echo=FALSE, error=FALSE, fig.height=6, message=FALSE, warning=FALSE, results='asis', eval=TRUE}
+```{r well_plots, echo=FALSE, error=FALSE, out.width="100%", message=FALSE, warning=FALSE, results='asis', eval=TRUE}
 
 # individual well plots
 app_wells_10 <- results_viz_10 |> 
@@ -536,12 +536,14 @@ app_wells <- results_viz |>
 
 pdf_wells <- intersect(app_wells_10, app_wells)
 
-load('../groundwater-levels-indicator/tmp/well_plots.RData')
+#load('../groundwater-levels-indicator/tmp/well_plots.RData')
+load(here("tmp", "well_plots.Rdata"))
 
 well_plots <- well_plots |> 
   filter(Well_Num %in% pdf_wells)
   
-load('../groundwater-levels-indicator/tmp/well_plots_10.RData')
+#load('../groundwater-levels-indicator/tmp/well_plots_10.RData')
+load(here("tmp", "well_plots_10.Rdata"))
 
 well_plots_10 <- well_plots_10 |> 
   filter(Well_Num %in% pdf_wells)
@@ -555,14 +557,14 @@ knitr_latex_char <- function(x) {
   return(y)
 }
 
-# theme_set(base_theme)
+status.well <- "out/figs/"
 
 for (reg in sort(unique(well_plots$region_name))) {
   cat(paste0('\\subsection{',reg," Region",'}'))
   regdata <- filter(well_plots, region_name == reg) 
   
   for (well in pdf_wells) {
-    #if (is.na(well)) next
+    if (is.na(well)) next
     
     wellname <- filter(well_plots, Well_Num == well) %>%
       pull(Well_Name)
@@ -578,85 +580,14 @@ for (reg in sort(unique(well_plots$region_name))) {
                knitr_latex_char(aquifer_id),
                '}'))
     
-    # cat(paste0("This provincial groundwater observation well is drilled into a ",
-    #            well.attr$AQUIFER_TYPE, 
-    #            " aquifer to a depth of ", well.attr$wellDepth_m, 
-    #            " metres. The well has a monitoring period of record from ", 
-    #            format(well.attr$start_date, format = "%B %d %Y"), 
-    #            " to ", format(well.attr$last_date, format = "%B %d %Y"), ". \\newline",
-    #            "\\newline"))
-    well = as.integer(well)
-    #mapplot <- filter(well_plots, Well_Num == well) %>% pull(map_plot)
-    # mapplot = readPNG(here(paste0("tmp/pngs/",well,".png")))
-    #   mapplot = ggdraw() +
-    #   draw_image(mapplot)
-    monthplot <- filter(well_plots, Well_Num == well) %>% pull(month_plot)
-    areaplot_10 <- filter(well_plots_10, Well_Num == well) %>% pull(area_plot)
-    areaplot <- filter(well_plots, Well_Num == well) %>% pull(area_plot)
+    #cat(paste0(file=paste0(status.well, "combined_fig_", well,".png")))
+    status.well<- here("out")
     
-    plot(well_plots$area_plot[[well]])
-    # monthplot + theme(axis.text = element_text(size = 8),
-    #                                axis.title.x = element_blank(),
-    #                                plot.title = element_text(size = 10, face = "bold"),
-    #                                axis.title.y = element_text(size = 8,
-    #                                                            hjust = 0.5,
-    #                                                            vjust = 1,
-    #                                                            face = "bold"),
-    #                                legend.box = "vertical",
-    #                                legend.position = "top",
-    #                                legend.text = element_text(size = 9),
-    #                                plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm"),
-    #                                legend.spacing.y = unit(-.4, 'cm'))
-    
-    # areaplot_10[[1]]
-    # 
-    # areaplot[[1]]
-    
-    # grid.arrange(monthplot[[1]], areaplot_10[[1]], areaplot[[1]],
-    #              nrow=3)
-      
-      #mapplot + 
-                   #theme(
-                     # text = element_text(size = 10),
-                                 #plot.margin = unit(c(0.5,0.5,0.5,0.5),"cm")),
-                 # monthplot[[1]]+ theme(axis.text = element_text(size = 8),
-                 #                   axis.title.x = element_blank(),
-                 #                   plot.title = element_text(size = 10, face = "bold"),
-                 #                   axis.title.y = element_text(size = 8,
-                 #                                               hjust = 0.5,
-                 #                                               vjust = 1,
-                 #                                               face = "bold"),
-                 #                   legend.box = "vertical",
-                 #                   legend.position = "top",
-                 #                   legend.text = element_text(size = 9),
-                 #                   plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm"),
-                 #                   legend.spacing.y = unit(-.4, 'cm')),
-                  # areaplot_10[[1]] + theme(axis.text = element_text(size = 8),
-                  #                 axis.title.x = element_blank(),
-                  #                 axis.title.y = element_text(size = 8,
-                  #                                             hjust = 0.5,
-                  #                                             vjust = 1,
-                  #                                             face = "bold"),
-                  #                 legend.text = element_text(size = 9),
-                  #                 legend.position = ("bottom"),
-                  #                 plot.title = element_text(size = 11, face = "bold"),
-                  #                 plot.subtitle = element_text(size = 9),
-                  #                 plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm")),
-                  # areaplot[[1]] + theme(axis.text = element_text(size = 8),
-                  #                 axis.title.x = element_blank(),
-                  #                 axis.title.y = element_text(size = 8,
-                  #                                             hjust = 0.5,
-                  #                                             vjust = 1,
-                  #                                             face = "bold"),
-                  #                 legend.text = element_text(size = 9),
-                  #                 legend.position = ("bottom"),
-                  #                 plot.title = element_text(size = 11, face = "bold"),
-                  #                 plot.subtitle = element_text(size = 9),
-                  #                 plot.margin = unit(c(0.5,0.5,0.5,0.01),"cm")),
-                 #layout_matrix = matrix(c(1,2,3), nrow = 3, byrow = TRUE))
-    
+    x <- png::readPNG(paste0(status.well, "/figs/combined_fig_", well,".png"))
+    cat(paste0(x))
     
     cat('\\newpage ')
+     
   }
   
 }
