@@ -1,16 +1,7 @@
-# Copyright 2018 Province of British Columbia
+# Copyright 2024 Province of British Columbia
 # 
-# Licensed under the Apache License, Version 2.0 (the "License"); you may not
-# use this file except in compliance with the License. You may obtain a copy of
-# the License at
-# 
-# http://www.apache.org/licenses/LICENSE-2.0
-# 
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-# License for the specific language governing permissions and limitations under
-# the License.
+# This work is licensed under the Creative Commons Attribution 4.0 International License.
+# To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/.
 
 
 # Load data -------------------------------------------------------------------
@@ -81,10 +72,6 @@ results_viz_10 <- results_annual_10 %>%
                                           "Moderate Rate of Decline",
                                           "Large Rate of Decline"),
                         ordered = TRUE),
-         # category = factor(category, levels = c("Stable or Increasing", 
-         #                                        "Moderate Rate of Decline",
-         #                                        "Large Rate of Decline"),
-         #                   ordered = TRUE),
          col = case_when(
            state == "Stable and/or Non-significant" ~ "#abd9e9",
            state == "Moderate Rate of Decline" ~ "#fdae61",
@@ -157,12 +144,7 @@ bc_bar_chart <- ggplot(data=input_summary) +
   theme(legend.position="none",
         plot.title = element_text(hjust = 0)) + 
   theme(panel.grid.minor.y = element_blank(),
-        panel.grid.major.y = element_blank()) #+
-  # scale_fill_discrete(breaks = unique(input_summary$state),
-  #                  labels = c("Increasing",
-  #                             "Stable and/or \nNon-significant",
-  #                             "Moderate Rate \nof Decline",
-  #                             "Large Rate \nof Decline"))
+        panel.grid.major.y = element_blank()) 
 
 bc_bar_chart
 
@@ -358,9 +340,6 @@ prov_map <- ggplot() +
                                 "Increasing",
                                 "Moderate Rate of Decline",
                                 "Large Rate of Decline")) +
-                     # guide = guide_legend(theme(title = "", legend.position = "bottom", 
-                     #                            legend.direction = "horizontal", 
-                     #                            nrow=2))) +
   scale_x_continuous(expand = c(0,0)) +
   scale_y_continuous(expand = c(0,0)) +
   theme_minimal() +
@@ -382,10 +361,6 @@ save(bc_bar_chart, regional_bar_chart, prov_map, monthly_bar_chart, file = "tmp/
 
 # Individual Obs Well Plots (Web & PDF) ----------------------------------------
 well_plots <- monthlywells_ts %>%
-  #mutate(Well_Num1 = Well_Num) %>% # both top level and nested data need Well_Num
-  #nest(-Well_Num1) %>% 
-  #rename(Well_Num = Well_Num1) %>%
-  #nest(Well_Num) |> 
   left_join(results_viz, by = c("Well_Num")) #%>%
   # mutate(colour = col,
   #        state_chr = as.character(state),
@@ -535,33 +510,10 @@ stn_plots <- list()
 for (well in pdf_wells) {
   if (is.na(well)) next
   
-  # wellname <- filter(well_plots, Well_Num == well) %>%
-  #   pull(Well_Name)
-  
-  # aquifer_id <- filter(well_plots, Well_Num == well) %>%
-  #   pull(aquifer_id)
-  # 
-  # cat(paste0('\\subsubsection*{',reg,": ",
-  #            knitr_latex_char(wellname),
-  #            '}'))
-  # 
-  # cat(paste0('\\subsubsection*{',"Associated aquifer number: ",
-  #            knitr_latex_char(aquifer_id),
-  #            '}'))
-  #mapplot <- filter(well_plots, Well_Num == well) %>% pull(map_plot)
-  # mapplot = readPNG(here(paste0("tmp/pngs/",well,".png")))
-  #   mapplot = ggdraw() +
-  #   draw_image(mapplot)
   monthplot <- filter(well_plots, Well_Num == well) 
   areaplot_10 <- filter(well_plots_10, Well_Num == well)
   areaplot <- filter(well_plots, Well_Num == "398")
-  #%>% unnest(col=c(gropd_df))
-  # a_10 <- gwl_area_plot(areaplot_10, areaplot_10$trend_line_slope, areaplot_10$trend_line_int,
-  #                       areaplot_10$state, areaplot_10$sig, showInterpolated = TRUE, save = FALSE,
-  #                       mkperiod = "annual", show_stable_line = FALSE)
-  # areaplot <- filter(well_plots, Well_Num == well) #%>% unnest(col=c(data))
-  # a_10 <- gwl_area_plot(areaplot)
-  
+
   m <- gwl_monthly_plot(monthplot)
   
   a_10 <- gwl_aplot(areaplot_10, intercept = areaplot_10$trend_line_int, 
@@ -579,41 +531,7 @@ for (well in pdf_wells) {
   
   stn_plots[[well]][["area"]] <- a
   
-  # g <- grid.arrange(#m, a_10, a,
-  #   m + theme(text = element_text(size = 6),
-  #             axis.title.y = element_text(size = 5,
-  #                                         hjust = 0.5,
-  #                                         vjust = 1),
-  #             legend.position = ("bottom"),
-  #             plot.title = element_text(size = 6),
-  #             plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
-  #   a_10 + theme(axis.text = element_text(size = 4),
-  #                axis.title.x = element_blank(),
-  #                axis.title.y = element_text(size = 5,
-  #                                            hjust = 0.5,
-  #                                            vjust = 1),
-  #                legend.text = element_text(size = 5),
-  #                legend.position = ("bottom"),
-  #                plot.title = element_text(size = 6),
-  #                plot.subtitle = element_text(size = 5),
-  #                plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
-  #   a + theme(axis.text = element_text(size = 4),
-  #             axis.title.x = element_blank(),
-  #             axis.title.y = element_text(size = 5,
-  #                                         hjust = 0.5,
-  #                                         vjust = 1),
-  #             legend.text = element_text(size = 5),
-  #             legend.position = ("bottom"),
-  #             plot.title = element_text(size = 6),
-  #             plot.subtitle = element_text(size = 5),
-  #             plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
-  #   layout_matrix = matrix(c(1,2,3), nrow = 3, byrow = TRUE))
-  # 
-  # g
-  # 
-  # ggsave(g, file=paste0(status.well, "combined_fig_", well,".png"), width = 11, height = 15, units = "cm")
-  # #png(file=paste0(status.well, "combined_fig_", well,".png"), width = 700, height = 1000)
-  # dev.off()
+  
   print(well)
 }
   
