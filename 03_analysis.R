@@ -90,7 +90,7 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period,
       nObs = n(),
       nMissing = length(med_GWL[nReadings == 0]),
       percent_missing = round(nMissing / nObs * 100, 1)) |> 
-    mutate(max_missing_years = case_when(dataYears <= 10 ~ 0,
+    mutate(max_missing_years = case_when(dataYears <= 10 ~ 1,
                                          dataYears > 10 & dataYears <= 14.9  ~ 1,
                                          dataYears > 14.9 & dataYears <= 19.9  ~ 3,
                                          dataYears > 19.9 ~ 5
@@ -200,7 +200,7 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period,
               nMissing = length(mean_GWL[nReadings == 0]), #Changed to mean_GWL
               percent_missing = round(nMissing/nObs*100, 1)) |>
     ungroup() |> 
-    mutate(max_missing_years = case_when(dataYears <= 10 ~ 0,
+    mutate(max_missing_years = case_when(dataYears <= 10 ~ 1,
                                          dataYears > 10 & dataYears <= 14.9  ~ 1,
                                          dataYears > 14.9 & dataYears <= 19.9  ~ 3,
                                          dataYears > 19.9 ~ 5)) |> 
@@ -309,7 +309,9 @@ results_monthly_20 <- summary_function_monthly(monthlywells_ts_20_mean, "2012-12
 #Produce output files
 #Results table for shiny app
 results_for_app <- rbind(results_annual, results_annual_10, results_annual_20, results_monthly, results_monthly_10, results_monthly_20) %>%
-  select(Well_Num, region_name, trend_line_slope, trend_line_int, state, period, month, time_scale) 
+  select(Well_Num, region_name, trend_line_slope, trend_line_int, sig, state, period, month, time_scale) |> 
+  mutate(sig_state = case_when(sig <= 0.05 ~"Significant",
+                               sig > 0.05 ~ "Not Significant"))
 
 #Results table for RMarkdown charts (all data annual means only)
 results_out <- left_join(results_annual, obs_well_viz, by=c("Well_Num" = "Well_Num", "region_name"="region_name"))
@@ -317,8 +319,8 @@ results_out <- left_join(results_annual, obs_well_viz, by=c("Well_Num" = "Well_N
 #Results table for RMarkdown
 pivot_table <- rbind(results_annual, results_annual_10, results_annual_20) %>%
   mutate(sig_symbol = case_when(sig < 0.01 ~"**",
-                                sig >= 0.01 & sig < 0.05 ~"*",
-                                sig >= 0.05 | is.na(sig) ~"")) %>%
+                                sig >= 0.01 & sig <= 0.05 ~"*",
+                                sig > 0.05 | is.na(sig) ~"")) %>%
   mutate(state_short = ifelse(state == "Recently established well; time series too short for trend analysis",
                               "Recently established well", ifelse(state == "Too many missing observations to perform trend analysis",
                                                                   "Too many missing observations", state))) %>% 

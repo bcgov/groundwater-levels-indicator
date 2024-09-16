@@ -65,7 +65,8 @@ results_viz <- results_out %>%
   mutate(Well_Name = paste0("Observation Well #", Well_Num)) %>%
   select(c(-start_year.y, -end_year.y)) %>%
   rename(start_year = start_year.x) %>%
-  rename(end_year = end_year.x) 
+  rename(end_year = end_year.x) |> 
+  arrange(region_name, Well_Num)
 
 save(results_viz, file = "tmp/results_viz.RData")
 
@@ -91,7 +92,8 @@ results_viz_10 <- results_annual_10 %>%
            state == "Increasing" ~ "#2c7bb6"
          )) %>%
   left_join(aquifer_info, by=c("Well_Num", "region_name")) |> 
-  mutate(Well_Name = paste0("Observation Well #", Well_Num)) 
+  mutate(Well_Name = paste0("Observation Well #", Well_Num)) |> 
+  arrange(region_name, Well_Num)
 
 save(results_viz_10, file = "tmp/results_viz_10.RData")
 
@@ -227,8 +229,8 @@ regional_bar_chart <- ggplot(data=input_regional) +
   scale_y_discrete(breaks = unique(fct_reorder(input_regional$region_name,
                                                input_regional$total_aquifers)),
                    labels = c("Cariboo","Kootenay\nBoundary",
-                              "Northeast",
-                              "Omineca",
+                              #"Northeast",
+                              #"Omineca",
                               "Skeena",
                               "South Coast",
                               "Thompson/\nOkanagan",
@@ -289,15 +291,13 @@ results_sf = results_sf %>%
   mutate(result = case_when(result %in% c("Too many missing observations","Recently established well",
                                           "Well not active in 2013", "NA") ~ "Insufficient Data",
                             .default = result)) %>%
-  mutate(size = case_when(result == "Insufficient Data" ~ 1,
-                          .default = 3)) %>%
+  filter(result != "Insufficient Data") |> 
+  filter(result != "Large data gaps present in time series") |> 
   mutate(result = fct_relevel(factor(result), 
                               c("Increasing",
                                 "Stable and/or Non-significant",
                                 "Moderate Rate of Decline",
-                                "Large Rate of Decline",
-                                "Insufficient Data"))) |> 
-  filter(result != "Insufficient Data")
+                                "Large Rate of Decline"))) 
 
 # #Color scheme
 # mypal = colorFactor(palette = c("#2c7bb6", "#abd9e9", "#fdae61", "#d7191c", "grey67"),
@@ -353,20 +353,25 @@ prov_map <- ggplot() +
   scale_color_manual(values = c("Stable and/or Non-significant" = "#abd9e9",
                                "Increasing" = "#2c7bb6",
                                "Moderate Rate of Decline" = "#fdae61",
-                               "Large Rate of Decline" = "#d7191c",
-                               "Insufficient Data" = "grey67"),
-                     guide = guide_legend(theme(title = "", legend.position = "bottom", 
-                                                legend.direction = "horizontal"))) +
+                               "Large Rate of Decline" = "#d7191c"),
+                     breaks = c("Stable and/or Non-significant",
+                                "Increasing",
+                                "Moderate Rate of Decline",
+                                "Large Rate of Decline")) +
+                     # guide = guide_legend(theme(title = "", legend.position = "bottom", 
+                     #                            legend.direction = "horizontal", 
+                     #                            nrow=2))) +
   scale_x_continuous(expand = c(0,0)) +
   scale_y_continuous(expand = c(0,0)) +
   theme_minimal() +
-  guides(fill = guide_legend(nrow=2))+
   theme(legend.position="bottom",
         legend.title=element_blank(),
-        legend.direction="horizontal",
-        plot.title = element_text(hjust = 0)) 
+        #legend.direction="horizontal",
+        plot.title = element_text(hjust = 0)) +
+  guides(color = guide_legend(nrow=2))
 
 prov_map
+
 
 svg_px("./out/figs/prov_map.svg", width = 500, height = 900)
 plot(prov_map)
@@ -431,7 +436,7 @@ save(well_plots, file = "tmp/well_plots.RData")
 
 save(well_plots_10, file = "tmp/well_plots_10.RData")
 
-gwl_aplot <- function(data, intercept, slope, sig, state_short, well, reg, trend_type) {
+gwl_aplot <- function(data, sig, state_short, well, reg, trend_type) {
   
   if(nrow(data) >0) {
     maxgwl = max(data$med_GWL, na.rm = TRUE)
@@ -440,7 +445,9 @@ gwl_aplot <- function(data, intercept, slope, sig, state_short, well, reg, trend
     midgwl = (maxgwl + mingwl) / 2
     lims  = c(midgwl + gwlrange, midgwl - gwlrange)
     data$max_lims <- max(lims[1], max(data$med_GWL, na.rm = TRUE) + 5)
-    
+    int.well = (-1 * data$trend_line_int) + data$trend_line_slope * as.numeric(min(as.Date(data$Date)))
+    slope = data$trend_line_slope
+      
     plot_data = data %>%
       group_by(Year) %>%
       summarize(
@@ -454,15 +461,16 @@ gwl_aplot <- function(data, intercept, slope, sig, state_short, well, reg, trend
       select(Date, annual_median, missing_dat, min, max)
   }
   
-  int.well = intercept + slope * as.numeric(min(as.Date(data$Date)))
+  # int.well = -intercept + slope * as.numeric(min(as.Date(data$Date)))
+  # slope = slope
   
-  trend_df = data.frame(int.well, slope)
+  # trend_df = data.frame(int.well, slope)
   # print(trend_data)
   # print(trend_df)
   
   plot = ggplot(plot_data) +
     ggtitle(paste0(trend_type, "\nStation Class: ", state_short)) +
-    labs(subtitle = paste0(slope, " m/year; p:value ", sig)) +
+    labs(subtitle = paste0(slope, " m/year; p value: ", sig)) +
     geom_errorbar(aes(
       x = as.Date(Date),
       ymin = min,
@@ -497,18 +505,32 @@ gwl_aplot <- function(data, intercept, slope, sig, state_short, well, reg, trend
     ylab("Depth Below Ground (metres)") +
     theme(legend.position = "bottom")
   
-  if(unique(state_short) %in% c("Increasing", "Moderate Rate of Decline", "Large Rate of Decline")) {
-    plot +
-      geom_abline(data = trend_df,
-                  aes(intercept = -int.well, slope = slope),
-                  col = "orange")
-  }
-  
   plot
+  
+  if(as.character(unique(state_short)) %in% c("Increasing", 
+                              "Moderate Rate of Decline",
+                              "Large Rate of Decline")){
+    plot +
+      geom_abline(intercept = int.well, slope = slope,
+                  col = "#d95f02")
+  } else{
+    plot
+    }
+
 }
 
 
 status.well <- "out/figs/"
+
+app_wells_10 <- results_viz_10 |>
+  pull(Well_Num)
+
+app_wells <- results_viz |> 
+  pull(Well_Num)
+
+pdf_wells <- intersect(app_wells_10, app_wells)
+
+stn_plots <- list()
 
 for (well in pdf_wells) {
   if (is.na(well)) next
@@ -532,7 +554,7 @@ for (well in pdf_wells) {
   #   draw_image(mapplot)
   monthplot <- filter(well_plots, Well_Num == well) 
   areaplot_10 <- filter(well_plots_10, Well_Num == well)
-  areaplot <- filter(well_plots, Well_Num == well)
+  areaplot <- filter(well_plots, Well_Num == "398")
   #%>% unnest(col=c(gropd_df))
   # a_10 <- gwl_area_plot(areaplot_10, areaplot_10$trend_line_slope, areaplot_10$trend_line_int,
   #                       areaplot_10$state, areaplot_10$sig, showInterpolated = TRUE, save = FALSE,
@@ -547,50 +569,55 @@ for (well in pdf_wells) {
                     state_short = areaplot_10$state,
                     well = well, reg = reg, trend_type = "10-year Trend (2013-2023) ")
   
-  a <- gwl_aplot(areaplot, intercept = areaplot$trend_line_int, 
-                 slope = areaplot$trend_line_slope, sig = areaplot$sig, 
+  a <- gwl_aplot(areaplot, sig = areaplot$sig, 
                  state_short = areaplot$state,
                  well = well, reg = reg,  trend_type = "All available data")
   
-  g <- grid.arrange(#m, a_10, a,
-    m + theme(text = element_text(size = 6),
-              axis.title.y = element_text(size = 5,
-                                          hjust = 0.5,
-                                          vjust = 1),
-              legend.position = ("bottom"),
-              plot.title = element_text(size = 6),
-              plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
-    a_10 + theme(axis.text = element_text(size = 4),
-                 axis.title.x = element_blank(),
-                 axis.title.y = element_text(size = 5,
-                                             hjust = 0.5,
-                                             vjust = 1),
-                 legend.text = element_text(size = 5),
-                 legend.position = ("bottom"),
-                 plot.title = element_text(size = 6),
-                 plot.subtitle = element_text(size = 5),
-                 plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
-    a + theme(axis.text = element_text(size = 4),
-              axis.title.x = element_blank(),
-              axis.title.y = element_text(size = 5,
-                                          hjust = 0.5,
-                                          vjust = 1),
-              legend.text = element_text(size = 5),
-              legend.position = ("bottom"),
-              plot.title = element_text(size = 6),
-              plot.subtitle = element_text(size = 5),
-              plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
-    layout_matrix = matrix(c(1,2,3), nrow = 3, byrow = TRUE))
+  stn_plots[[well]][["month"]] <- m
   
-  g
+  stn_plots[[well]][["a_10"]] <- a_10
   
-  ggsave(g, file=paste0(status.well, "combined_fig_", well,".png"), width = 11, height = 15, units = "cm")
-  #png(file=paste0(status.well, "combined_fig_", well,".png"), width = 700, height = 1000)
-  dev.off()
+  stn_plots[[well]][["area"]] <- a
+  
+  # g <- grid.arrange(#m, a_10, a,
+  #   m + theme(text = element_text(size = 6),
+  #             axis.title.y = element_text(size = 5,
+  #                                         hjust = 0.5,
+  #                                         vjust = 1),
+  #             legend.position = ("bottom"),
+  #             plot.title = element_text(size = 6),
+  #             plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
+  #   a_10 + theme(axis.text = element_text(size = 4),
+  #                axis.title.x = element_blank(),
+  #                axis.title.y = element_text(size = 5,
+  #                                            hjust = 0.5,
+  #                                            vjust = 1),
+  #                legend.text = element_text(size = 5),
+  #                legend.position = ("bottom"),
+  #                plot.title = element_text(size = 6),
+  #                plot.subtitle = element_text(size = 5),
+  #                plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
+  #   a + theme(axis.text = element_text(size = 4),
+  #             axis.title.x = element_blank(),
+  #             axis.title.y = element_text(size = 5,
+  #                                         hjust = 0.5,
+  #                                         vjust = 1),
+  #             legend.text = element_text(size = 5),
+  #             legend.position = ("bottom"),
+  #             plot.title = element_text(size = 6),
+  #             plot.subtitle = element_text(size = 5),
+  #             plot.margin = unit(c(0.5,0.5,0,0.5),"cm")),
+  #   layout_matrix = matrix(c(1,2,3), nrow = 3, byrow = TRUE))
+  # 
+  # g
+  # 
+  # ggsave(g, file=paste0(status.well, "combined_fig_", well,".png"), width = 11, height = 15, units = "cm")
+  # #png(file=paste0(status.well, "combined_fig_", well,".png"), width = 700, height = 1000)
+  # dev.off()
   print(well)
 }
   
-
+write_rds(stn_plots, "out/print_stn_plots.rds")
 
 # Print Obs Well Plots
 
@@ -703,7 +730,7 @@ results_map_df <- results_out %>%
 
 ## Individual Observation Well Maps (PDF print version)-------------------------
 
-create_site_maps = TRUE # if TRUE, all individual site maps will be created. If FALSE, code won't be run
+create_site_maps = FALSE # if TRUE, all individual site maps will be created. If FALSE, code won't be run
 
 if (!dir.exists('tmp/pngs')) dir.create('tmp/pngs')
 
