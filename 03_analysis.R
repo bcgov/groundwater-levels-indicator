@@ -16,6 +16,7 @@
 # 1 observation per month using the 02_clean.R script
 
 
+# Library & data load, spatial data prep ----------------------------------
 
 ## Source package libraries
 if (!exists(".header_sourced")) source("header.R")
@@ -32,26 +33,9 @@ if (!exists("monthlywells_ts_10_mean")) load("./tmp/clean_well_data_10_mean.RDat
 if (!exists("monthlywells_ts_20_mean")) load("./tmp/clean_well_data_20_mean.RData")
 if (!exists("obs_wells")) load("./tmp/clean_well_attr.RData")
 
-# =========================================================================== #
-# CHRIS CODE ADDENDUM #
-# I removed a section of code that took a long time to run to produce the 
-# three "..._mean" files above. They just seemed to have 2 columns with the same 
-# values but different column names. I'll remake those dataframes here... 
-# ideally, we should remove these extraneous tables, however.
-# 
-# monthlywells_ts_mean = monthlywells_ts |> dplyr::rename('mean_GWL' = med_GWL,
-#                                                         'dev_mean_GWL' = dev_med_GWL)
-# 
-# monthlywells_ts_10_mean = monthlywells_ts_10 |> dplyr::rename('mean_GWL' = med_GWL,
-#                                                         'dev_mean_GWL' = dev_med_GWL)
-# 
-# monthlywells_ts_20_mean = monthlywells_ts_20 |> dplyr::rename('mean_GWL' = med_GWL,
-#                                                         'dev_mean_GWL' = dev_med_GWL)
 
-# CHRIS CODE ADDENDUM END #
-# =========================================================================== #
+## Get the coordinates from the obs_wells object, revert from sf to table
 
-## Get the coordinates from the obs_wells object, revert from sf to table.
 obs_wells_sf = obs_wells_clean %>% 
   bind_cols(
     obs_wells_clean %>% st_transform(crs=4326) %>% 
@@ -72,10 +56,8 @@ obs_wells_sf = obs_wells_clean %>%
 obs_well_viz <- obs_wells_sf %>%
   st_drop_geometry() 
 
-
-# MK test - function ------------------------------------------------------
-
-## Define function to produce annual mean trend results
+# Define function to produce annual mean MK trend results -----------------
+## 
 summary_function_annual <- function(df, latest_date, MK_method, time_period, 
                                     well_attributes, minimum_years, complete_years){
   
@@ -183,8 +165,8 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period,
   b
 }
 
+# Define function to produce monthly MK trend results ---------------------
 
-## Define function to produce monthly trend results
 summary_function_monthly <- function(df, latest_date, MK_method, time_period, 
                                      well_attributes, minimum_years){
   
@@ -217,22 +199,6 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period,
                        dataYears > minimum_years,
                        nMissing <= max_missing_years) %>% 
     pull(well_month)
-  
-    # missing_years_data <- df |> 
-    #   group_by(EMS_ID, Well_Num, Year, Month) %>%
-    #   mutate(n_months_missing = length(mean_GWL[nReadings == 0])) |> 
-    #   ungroup() |> 
-    #   group_by(EMS_ID, Well_Num, Month) |> 
-    #   summarize(n_missing_total = sum(n_months_missing),
-    #             n_months = n(),
-    #             missing_perc = (n_missing_total/n_months) * 100) |> 
-    #   ungroup() |> 
-    #   left_join(select(welldata_attr, Well_Num, max_missing_years), by = c("EMS_ID", "Well_Num")) 
-    
-    # missing_years <- missing_years_data |> 
-    #   filter(n_missing_total <= max_missing_years) |> 
-    #   unite(well_month, c("Well_Num", "Month"), remove = FALSE) |> 
-    #   pull(well_month)
   
     bymonth_ts  <- df |> 
       unite(well_month, c("Well_Num", "Month"), remove = FALSE) |>
@@ -285,15 +251,13 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period,
 }
 
 
-# MK trending analysis  ---------------------------------------------------
+# Conduct MK trending analysis  ---------------------------------------------------
 
-
-#Produce annual result data set for all years
+## Produce annual result data set for all years
 results_annual <- summary_function_annual(monthlywells_ts, "2012-12-31", "zhang",
                                           "All", obs_well_viz, 9.9, 34)
 
-
-#Produce remaining results data sets
+## Produce remaining results data sets
 results_annual_10 <- summary_function_annual(monthlywells_ts_10, "2012-12-31",
                                              "zhang", "10 Years", obs_well_viz, 9.9, 34) 
 results_annual_20 <- summary_function_annual(monthlywells_ts_20, "2012-12-31",
@@ -306,7 +270,9 @@ results_monthly_10 <- summary_function_monthly(monthlywells_ts_10_mean, "2012-12
 results_monthly_20 <- summary_function_monthly(monthlywells_ts_20_mean, "2012-12-31",
                                                "zhang", "20 Years", obs_well_viz, 17.9) 
 
-#Produce output files
+
+# Produce output files ----------------------------------------------------
+
 #Results table for shiny app
 results_for_app <- rbind(results_annual, results_annual_10, results_annual_20, results_monthly, results_monthly_10, results_monthly_20) %>%
   select(Well_Num, region_name, trend_line_slope, trend_line_int, sig, state, period, month, time_scale) |> 
