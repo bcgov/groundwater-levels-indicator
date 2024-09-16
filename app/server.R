@@ -359,7 +359,7 @@ server <- function(input, output, session) {
           
           plot = ggplot(plot_data) +
             ggtitle(paste0("Well Number: ", station_click(), "\nStation Class: ",trend_data$state_short)) +
-            labs(subtitle = paste0(trend_data$slope," m/year ", trend_data$sig_state)) +
+            labs(subtitle = paste0(trend_data$slope, " m/year Trend: ", trend_data$sig_state))+
             geom_errorbar(aes(x = as.Date(Date), ymin = min, ymax = max, col = missing_dat), width = 0.3) +
             geom_point(aes(x = as.Date(Date), y = annual_median, col = missing_dat)) +
             scale_x_date(expand = c(0.1,0.1)) +
@@ -409,7 +409,7 @@ server <- function(input, output, session) {
                            var_rv() == "20 Years" ~ Well_Num == station_click() & Year >=2003,
                            T ~ Well_Num == station_click())) %>%
           # filter(Month == match(month_rv(),month.abb)) %>%
-          filter(stat == "median") %>%
+          filter(stat == "mean") %>%
           mutate(missing_dat = case_when(nReadings == 0 ~ "missing",
                                          T~ "complete"))
         
@@ -441,7 +441,7 @@ server <- function(input, output, session) {
         plot = ggplot(monthly_data) + 
           ggtitle(paste0("Well Number: ", station_click(),"; Month: ", month(match(month_rv(),month.abb), label = T, abbr = F),
                          " \nStation Class: ",trend_data$state_short)) +
-          labs(subtitle = paste0(trend_data$slope," m/year ", trend_data$sig_state)) +
+          labs(subtitle = paste0(trend_data$slope," m/year Trend: ", trend_data$sig_state)) +
           #geom_errorbar(aes(x = as.Date(Date), ymin = min, ymax = max, col = missing_dat), width = 0.3) +
           geom_point(aes(x = as.Date(Date), y = value, col = missing_dat)) +
           # ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
@@ -459,7 +459,7 @@ server <- function(input, output, session) {
           theme(plot.margin = margin(10, 10, 10, 10, "points")) +
           scale_y_reverse() +
           scale_colour_manual(name = "",
-                              labels = c('Monthly Median', 'Incomplete Data (Interpolated)'), 
+                              labels = c('Monthly Mean', 'Incomplete Data (Interpolated)'), 
                               values = c("blue", "#A9A9A9")) +
           coord_cartesian(ylim = lims) +
           xlab("Date") +
