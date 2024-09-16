@@ -73,12 +73,12 @@ wells_prep_20 <- wells_data_filtered %>%
   nest()
 
 
-# Create monthly time series for each well --------------------------------
+# Create a monthly time series for each well ------------------------------
 
 # Get time series, remove consecutive strings of missing values from the
 # beginning and end of each time series, interpolate over missing values
 
-#This step takes ~20-30 minutes
+#This step takes several minutes
 
 wells_month <- mutate(wells_prep, data = map(data, ~monthly_values(.x)))
 wells_ts <- mutate(wells_month, data = map(data, ~make_well_ts(.x)))
@@ -91,34 +91,14 @@ wells_ts_10 <- mutate(wells_month_10, data = map(data, ~make_well_ts(.x)))
 wells_month_20 <- mutate(wells_prep_20, data = map(data, ~monthly_values(.x)))
 wells_ts_20 <- mutate(wells_month_20, data = map(data, ~make_well_ts(.x)))
 
-# # Take the 'data' dataframe that was nested out and filter for last 10 years.
-# wells_month_10 = wells_month$data |> 
-#   bind_rows() |> 
-#   filter(Year >= lubridate::year(Sys.Date()) - 10) |> 
-#   mutate(Well_Num1 = Well_Num) |>
-#   group_by(Well_Num1) |>
-#   # group_by(Well_Num) |> 
-#   dplyr::group_nest() #Unsure if necessary, but this makes the data like it was before.
-# 
-# wells_ts_10 <- mutate(wells_month_10, data = map(data, ~make_well_ts(.x)))
-# 
-# # Same thing but for last 20 years.
-# wells_month_20 = wells_month$data |> 
-#   bind_rows() |> 
-#   filter(Year >= lubridate::year(Sys.Date()) - 20) |> 
-#   mutate(Well_Num1 = Well_Num) |>
-#   group_by(Well_Num1) |>
-#   # group_by(Well_Num) |> 
-#   dplyr::group_nest() #Unsure if necessary, but this makes the data like it was before.
-# 
-# wells_ts_20 <- mutate(wells_month_20, data = map(data, ~make_well_ts(.x)))
-# 
-# 
-# # CHRIS CODE ADDENDUM END #
-# # =========================================================================== #
+
+
+# Identify and remove data gaps at the start or end of timeseries ---------
+
 
 # {bcgroundwater} function 'make_well_ts' outputs to the console whether or not a well 
-# has data gaps that are sufficiently large to be a problem. The below function recreates
+# has data gaps at the start or end of timeseries that are sufficiently large to be a problem. 
+# The below function recreates
 # the data gap checking logic and adds a column to the wells_ts object 
 # indicating whether or not the well had data gaps.
 
@@ -144,10 +124,6 @@ wells_ts = wells_ts$data %>%
 wells_ts_10 = wells_ts_10$data %>% 
   map( ~ {
     .x %>% 
-      # Add a column that indicates if either the top 10% or bottom 10% of records for a well
-      # has NA for the groundwater level. This new column 'data_missing' is TRUE if data gaps
-      # are identified in the top 10% or bottom 10% of records (we glance at top or bottom 10%
-      # as a good estimate of data completeness in general for each well)
       cbind(.x %>% slice_head(prop = 0.1) %>% 
               bind_rows(.x %>% slice_tail(prop = 0.1)) %>% 
               filter(is.na(med_GWL)) %>%
@@ -163,10 +139,6 @@ wells_ts_10 = wells_ts_10$data %>%
 wells_ts_20 = wells_ts_20$data %>% 
   map( ~ {
     .x %>% 
-      # Add a column that indicates if either the top 10% or bottom 10% of records for a well
-      # has NA for the groundwater level. This new column 'data_missing' is TRUE if data gaps
-      # are identified in the top 10% or bottom 10% of records (we glance at top or bottom 10%
-      # as a good estimate of data completeness in general for each well)
       cbind(.x %>% slice_head(prop = 0.1) %>% 
               bind_rows(.x %>% slice_tail(prop = 0.1)) %>% 
               filter(is.na(med_GWL)) %>%
@@ -187,30 +159,10 @@ monthlywells_ts_10 <- unnest(wells_ts_10, data)
 # last 20 years
 monthlywells_ts_20 <- unnest(wells_ts_20, data)
 
-#Do not filter for now
 
-# wells_with_data_issues = monthlywells_ts %>% 
-#   filter(data_missing == T) %>% 
-#   select(EMS_ID) %>% 
-#   distinct() %>% 
-#   pull(EMS_ID)
-# 
-# wells_with_data_issues_10 = monthlywells_ts_10 %>% 
-#   filter(data_missing == T) %>% 
-#   select(EMS_ID) %>% 
-#   distinct() %>% 
-#   pull(EMS_ID)
-# 
-# monthlywells_ts = monthlywells_ts %>% 
-#   filter(!EMS_ID %in% wells_with_data_issues)
-# 
-# monthlywells_ts_10 = monthlywells_ts_10 %>% 
-#   filter(!EMS_ID %in% wells_with_data_issues_10)
+# Functions to calc annual and monthly data summaries --------
 
-###########
-#Add calculation of mean monthly values for monthly summaries in addition to median values for annual mean
-
-#Define new function based on monthly_values function (add to bcgroundwater package?)
+#Define new function based on monthly_values function
 monthly_values_mean <- function(df) {
   
   if (!is.data.frame(df)) stop("df must be a dataframe")
@@ -242,7 +194,8 @@ monthly_values_mean <- function(df) {
   return(monthlywell)
 }
 
-#Define new function based on make_well_ts function (add to bcgroundwater package?)
+#Define new function based on make_well_ts function
+
 make_well_ts_mean <- function(df, trim = TRUE, head = 0.1, tail = 0.9 , n_consec = 4) {
   
   well <- df[1, "EMS_ID"]
@@ -298,9 +251,11 @@ make_well_ts_mean <- function(df, trim = TRUE, head = 0.1, tail = 0.9 , n_consec
   return(well.ts)
 }
 
-# =========================================================================== #
-# To calculate monthly means - previous section used median values
-# 
+
+# Calculate timeseries medians and means ----------------------------------
+
+
+
 wells_month_mean <- mutate(wells_prep, data = map(data, ~monthly_values_mean(.x)))
 wells_ts_mean <- mutate(wells_month_mean, data = map(data, ~make_well_ts_mean(.x)))
 # 

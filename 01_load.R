@@ -11,8 +11,8 @@
 # See the License for the specific language governing permissions and limitations under the License.
 
 
+# Script purpose  ---------------------------------------------------------
 
-#######################################################################################
 # This script uses the bcgroundwater R package (https://github.com/bcgov/bcgroundwater)
 # to download groundwater level data from the B.C. Data Catalogue 
 # (https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685), 
@@ -28,8 +28,10 @@
 # https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778
 # Natural Resource (NR) Regions: 
 # https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f
-########################################################################################
 
+
+
+# Load required packages and download well metadata --------------------
 
 ## Source package libraries and the bcdc_map() function
 if (!exists(".header_sourced")) source("header.R")
@@ -45,8 +47,6 @@ obs_wells_in = bcdc_get_data('e4731a85-ffca-4112-8caf-cb0a96905778') %>%
          !is.na(WELL_STATUS)) %>% 
   collect() %>% 
   setNames(snakecase::to_snake_case(colnames(.)))
-
-#Create 
 
 ##Filter out observations with no observation well status or number (the vast majority!)
 #Join the natural resource region names etc. to data
@@ -76,11 +76,13 @@ obs_wells = obs_wells_in %>%
   #Remove any duplicated observation well numbers.
   filter(!duplicated(observation_well_number))
 
+
+# Download all observation well data   --------------------------------------------
+
 # Download all data for wells from https://www.env.gov.bc.ca/wsd/data_searches/obswell/map/data/
 # If the url for a given well doesn't work, the code creates an empty data.frame to 
 # make sure such a result can still be combined with the successful data reading attempts. In this way,
 # the function does not break if one or more wells has no available data to download.
-
 
 wells_data_raw = obs_wells$observation_well_number %>% 
   map( ~ {
@@ -97,6 +99,9 @@ wells_data_raw = obs_wells$observation_well_number %>%
   }) %>% 
   bind_rows()
 
-## Save raw data objects in a temporary directory
+
+
+# Save raw data objects in tmp directory ----------------------------------
+
 save(obs_wells, file = "./tmp/well_location_data.RData")
 save(wells_data_raw, file = "./tmp/raw_well_data.RData")
