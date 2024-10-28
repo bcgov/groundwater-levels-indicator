@@ -64,7 +64,7 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period,
   options(dplyr.summarise.inform = FALSE)
   #Produce summary statistics
   welldata_attr <- df %>%
-    group_by(EMS_ID, Well_Num) %>%
+    group_by(Well_Num) %>%
     summarise(
       dataStart = as.Date(min(Date)),
       dataEnd = as.Date(max(Date)),
@@ -90,15 +90,15 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period,
   
   # pull missing years
   missing_years_data <- df |> 
-    group_by(EMS_ID, Well_Num, Year) %>%
+    group_by(Well_Num, Year) %>%
     mutate(n_months_missing = length(med_GWL[nReadings == 0])) |> 
     ungroup() |> 
-    group_by(EMS_ID, Well_Num, Year, n_months_missing) |> 
+    group_by(Well_Num, Year, n_months_missing) |> 
     summarize(n_months = n()) |> 
     filter(n_months >= 8) |> 
     mutate(year_complete = (n_months_missing/n_months)*100) |> 
     ungroup() |> 
-    group_by(EMS_ID, Well_Num) |> 
+    group_by(Well_Num) |> 
     mutate(count_exceeds = sum(year_complete > complete_years),
            max = max(year_complete)) |> 
     summarise(max_count = max(count_exceeds)) |> 
@@ -113,7 +113,7 @@ summary_function_annual <- function(df, latest_date, MK_method, time_period,
   annualwells_ts <- df %>%
     filter(Well_Num %in% wells_nums) |> 
     filter(Well_Num %in% missing_years) |> 
-    group_by(EMS_ID, Well_Num, Year) |> 
+    group_by(Well_Num, Year) |> 
     summarize(mean_GWL = mean(med_GWL), SD = sd(med_GWL), 
               n_months = n()) 
   
@@ -255,20 +255,20 @@ summary_function_monthly <- function(df, latest_date, MK_method, time_period,
 
 ## Produce annual result data set for all years
 results_annual <- summary_function_annual(monthlywells_ts, "2012-12-31", "zhang",
-                                          "All", obs_well_viz, 9.9, 34)
+                                          "All", obs_well_viz, 9.6, 34)
 
 ## Produce remaining results data sets
 results_annual_10 <- summary_function_annual(monthlywells_ts_10, "2012-12-31",
-                                             "zhang", "10 Years", obs_well_viz, 9.9, 34) 
+                                             "zhang", "10 Years", obs_well_viz, 9.6, 34) 
 results_annual_20 <- summary_function_annual(monthlywells_ts_20, "2012-12-31",
-                                             "zhang", "20 Years", obs_well_viz, 17.9, 34) 
+                                             "zhang", "20 Years", obs_well_viz, 17.6, 34) 
 
 results_monthly <- summary_function_monthly(monthlywells_ts_mean, "2012-12-31",
-                                            "zhang", "All", obs_well_viz, 9.9) 
+                                            "zhang", "All", obs_well_viz, 9.6) 
 results_monthly_10 <- summary_function_monthly(monthlywells_ts_10_mean, "2012-12-31",
-                                               "zhang", "10 Years", obs_well_viz, 9.9) 
+                                               "zhang", "10 Years", obs_well_viz, 9.6) 
 results_monthly_20 <- summary_function_monthly(monthlywells_ts_20_mean, "2012-12-31",
-                                               "zhang", "20 Years", obs_well_viz, 17.9) 
+                                               "zhang", "20 Years", obs_well_viz, 17.6) 
 
 
 # Produce output files ----------------------------------------------------
