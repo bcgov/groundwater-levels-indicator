@@ -151,13 +151,16 @@ wells_ts_20 = wells_ts_20$data %>%
   nest()
 
 # Unnest data for full timeseries
-monthlywells_ts <- unnest(wells_ts, data)
+monthlywells_ts <- unnest(wells_ts, data) |> 
+  mutate(yearmonth = as.character(yearmonth))
 
 # last 10 years
-monthlywells_ts_10 <- unnest(wells_ts_10, data)
+monthlywells_ts_10 <- unnest(wells_ts_10, data)|> 
+  mutate(yearmonth = as.character(yearmonth))
 
 # last 20 years
-monthlywells_ts_20 <- unnest(wells_ts_20, data)
+monthlywells_ts_20 <- unnest(wells_ts_20, data)|> 
+  mutate(yearmonth = as.character(yearmonth))
 
 
 # Functions to calc annual and monthly data summaries --------
@@ -196,7 +199,7 @@ monthly_values_mean <- function(df) {
 
 #Define new function based on make_well_ts function
 
-make_well_ts_mean <- function(df, trim = TRUE, head = 0.1, tail = 0.9 , n_consec = 4) {
+make_well_ts_mean <- function(df, trim = TRUE, head = 0.1, tail = 0.9 , n_consec = 7) {
   
   well <- df[1, "EMS_ID"]
   
@@ -269,13 +272,16 @@ wells_month_20_mean <- mutate(wells_prep_20, data = map(data, ~monthly_values_me
 wells_ts_20_mean <- mutate(wells_month_20_mean, data = map(data, ~make_well_ts_mean(.x)))
 
 # # Unnest data for full timeseries
-monthlywells_ts_mean <- unnest(wells_ts_mean, data)
+monthlywells_ts_mean <- unnest(wells_ts_mean, data) |> 
+  mutate(yearmonth = as.character(yearmonth))
 # 
 # # last 10 years
-monthlywells_ts_10_mean <- unnest(wells_ts_10_mean, data)
+monthlywells_ts_10_mean <- unnest(wells_ts_10_mean, data) |> 
+  mutate(yearmonth = as.character(yearmonth))
 # 
 # # last 20 years
-monthlywells_ts_20_mean <- unnest(wells_ts_20_mean, data)
+monthlywells_ts_20_mean <- unnest(wells_ts_20_mean, data) |> 
+  mutate(yearmonth = as.character(yearmonth))
 
 
 #Add on data gap checking later if desired

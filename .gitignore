@@ -15,7 +15,7 @@ README.html
 gwl.log
 /app/www/*
 static_leaflet.png
-temp.html
+*temp.html
 temp_files/*
 *.csv
-results-by-aquifer.csv
+*results-by-aquifer.csv
