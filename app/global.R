@@ -14,6 +14,7 @@ results_out <- read.csv("www/gw_well_results.csv") %>%
                               state == "Too many missing observations to perform trend analysis" ~ "Insufficient Data",
                               is.na(state) ~ "Insufficient Data",
                               state== "Well not active in 2013" ~ "Insufficient Data",
+                              state=="Large data gaps present in time series" ~ "Insufficient Data",
                               TRUE ~ state)) %>%
   mutate(slope = -1*trend_line_slope) %>% #This is reversed due to how slope is reported (meters below ground surface)
   mutate(state_short = fct_relevel(factor(state_short), 

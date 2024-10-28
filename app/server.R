@@ -271,22 +271,20 @@ server <- function(input, output, session) {
                            T ~ Well_Num == station_click())) %>%
           filter(stat == "median") %>%
           group_by(Month) %>%
-          summarise(median = mean(dev_med_GWL, na.rm = TRUE),
-                    dev_Q5 = stats::quantile(dev_med_GWL, prob = 0.05,
-                                             na.rm = TRUE),
-                    dev_Q95 = stats::quantile(dev_med_GWL, prob = 0.95,
-                                              na.rm = TRUE))
+          summarise(median = mean(value),
+                    lowerCI = quantile(value, prob = 0.05),
+                    upperCI = quantile(value, prob = 0.95))
+        
         if(nrow(data) >0){
 
             # print(data)
             ggplot(data) +
             ggtitle(paste0("Well Number: ", station_click()))+
-            geom_ribbon(aes(x = Month, ymax = dev_Q95, ymin = devQ5),
-                        fill = "#1E90FF", alpha = 0.4)+
-            geom_line(aes(x = Month, y = median),
-                      col = "black",
+            geom_ribbon(aes(x = Month, ymax = upperCI, ymin = lowerCI, fill = "''"),
+                        alpha = 0.4)+
+            geom_line(aes(x = Month, y = median, col = "''"),
                       linewidth = 1)+
-              scale_y_reverse() +
+            scale_y_reverse() +
             scale_x_continuous(breaks = 1:12, labels = month.abb) +
             theme_minimal() +
               theme(
@@ -297,12 +295,11 @@ server <- function(input, output, session) {
                 legend.position = "bottom", legend.box =  "horizontal",
                 plot.title = element_text(hjust = 0.5),
                 plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
-              theme(plot.margin = margin(10, 10, 10, 10, "points")) +
-            scale_colour_manual(name = '', values = "#1E90FF",
-                                labels = c("Mean Deviation from Yearly Average"),
-                                guide = "legend") +
             scale_fill_manual(name = '', values = "#1E90FF", guide = 'legend',
                               labels = c('Range of 90% of Water Levels')) +
+            scale_colour_manual(name = '', values = "black",
+                                labels = c("Median"),
+                                guide = "legend") +
             xlab("Month") +
             ylab("Depth Below Ground (metres)")
         }
@@ -536,8 +533,15 @@ server <- function(input, output, session) {
       filter(Well_Num == station_click())%>%
       pull(aquifer_id)
     
-    HTML(paste0("<a href=", "https://apps.nrs.gov.bc.ca/gwells/aquifers/",
+    if(is.na(aquifer_id)) {
+      
+      print("Aquifer information unavailable") 
+      
+    }else{
+      
+      HTML(paste0("<a href=", "https://apps.nrs.gov.bc.ca/gwells/aquifers/",
            aquifer_id, ">View available aquifer information</a"))
+    }
   })
   
   output$aquifer_url2 = renderText({
