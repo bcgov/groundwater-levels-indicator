@@ -68,16 +68,24 @@ aquifer_info_tab = card(
       htmlOutput("aquifer_url"),
       br(),
       htmlOutput("aquifer_url2"),
+      br(),
+      htmlOutput("disclaimer"),
       
       tags$head(tags$style("#aquifer_id{color: black;
                                  font-size: 20px;
                                  font-style: bold;
                                  }"
-      ))
+      ),
+      tags$p(tags$style("#disclaimer{color: red;
+                                 font-size: 12px;
+                                 font-style: italic;
+                                 }"
+      )
+      )
       
     )
   )
-)
+))
 
 trend_plot_tab = card(
   card_body(
