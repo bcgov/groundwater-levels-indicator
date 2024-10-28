@@ -131,10 +131,6 @@ and regionally are provided below.
     -   **Insufficient Data:** there is an observation well but there is
         not enough data to calculate.
 
--   The location and status for each observation well can be seen in the
-    map below. The observed long-term trends were categorized using a
-    combination of statistical and environmental significance criteria.
-
 -   Additional options to view trends are available in the interactive
     map in the online version of the indicator page. There are several
     different options to look at trends at observations wells
@@ -162,7 +158,7 @@ and regionally are provided below.
 - The 10 year results are used to compare across aquifers as each well has a different time span of data. 
 - The "Mixed" category introduced below occurs when an aquifer has multiple observation wells with different trending categories (i.e. an aquifer has one well with "Stable and/or Non-significant" results and one with "Increasing" results).
 -   Of the `r nrow(by_aquifer)` aquifers examined,
-    `r round(input_summary |> filter(state_figure == "Stable and/or Non-significant") |> extract("prop"))`% of results were stable and/or non-significant trends. Increasing trends were detected in `r round(input_summary |> filter(state_figure == "Increasing") |> extract("prop"))` % of aquifers. `r round(input_summary |> filter(state_figure == "Moderate Rate of Decline") |> extract("prop"))`% of
+    `r round(input_summary |> filter(state_figure == "Stable and/or Non-significant") |> extract("prop"))`% of results were stable and/or non-significant trends. Increasing trends were detected in `r round(input_summary |> filter(state_figure == "Increasing") |> extract("prop"))`% of aquifers. `r round(input_summary |> filter(state_figure == "Moderate Rate of Decline") |> extract("prop"))`% of
     aquifers show a moderate rate of decline in water levels, and
     `r round(input_summary |> filter(state_figure == "Large Rate of Decline") |> extract("prop"))`% of aquifers show a
     large rate of decline. Note that only wells with enough data for
@@ -171,7 +167,7 @@ and regionally are provided below.
 
 \vspace{10pt}
 
-```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 5, fig.height = 9, fig.align = 'left'}
+```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, out.width = "100%", fig.align = 'left'}
 bc_bar_chart
 ```
 
@@ -181,7 +177,7 @@ bc_bar_chart
 
 ## Regional Summary of Trends in Groundwater Levels (10 year trends)
 
--   The number of aquifers we assessed in each [Natural Resource
+-   The number of aquifers assessed in each [Natural Resource
     Regions](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/ministry-of-forests-lands-and-natural-resource-operations-region-district-contacts)
     varies. The highest number of aquifers assessed were in the West Coast Region. The
     lowest number of aquifers is the Skeena and Omineca regions.
@@ -194,7 +190,7 @@ regional_bar_chart
 
 \newpage
 
-## Location and Status of Observation Wells
+## Location and Status of Observation Wells (All Available Data)
 
 \vspace{10pt}
 
@@ -247,15 +243,15 @@ for repeating the analysis presented on this page is also available on
 
 ### Data Filtering and Imputation
 
-We completed several data filtering steps prior to trend analysis. The data filtering ensures that each well has sufficient observations for trend analysis and does not have large data gaps. There are more strict data requirements for shorter timeseries (e.g. the 10-yr analysis). The steps we used for filtering data and the order they were conducted is below. 
+We completed several data filtering steps prior to trend analysis. The data filtering ensures that each well has sufficient observations for trend analysis and does not have large data gaps. There are stricter data requirements for shorter timeseries (e.g. the 10-yr analysis). The steps we used for filtering data and the order they were conducted are listed below. 
 
-- After the time series were constructed, we inspected each each for consecutive missing values near the beginning or the end of the time series, due to the strong influence of these regions
+- After the time series were constructed, we inspected each well for consecutive missing values near the beginning or the end of the time series, due to the strong influence of these regions
 on trend analysis. If there were more than four consecutive missing
 values in the first or last 10% of the time series, the time series was
 truncated to remove the missing values.
 - Wells with more than 15% missing data over the timeseries were excluded. 
 - For the 10-year timeseries, each year needed at least 8 months of collected data. This is to avoid including years where monitoring ended in the first few months of the year or started near the end. 
-- To avoid including wells with large data gaps in the middle of the timeseries, we applied a limit of years that could be missing. The limit for 10-15 year was 1 missing year, 15-19 years was 3 missing years, and the 20 + years limit was 5 missing years. 
+- To avoid including wells with large data gaps in the middle of the timeseries, we applied a limit of years that could be missing. The limit for 10-15 years was 1 missing year, 15-19 years was 3 missing years, and the 20 + years limit was 5 missing years. 
 - Any missing data in the timeseries remaining was then interpolated. 
 - We applied the same procedure for the monthly analysis but instead of requirements applying to the year period, we applied them to the month in question. 
 
@@ -270,9 +266,9 @@ mean annual groundwater level and mean monthly groundwater levels for applicable
 
 ### Trend Analysis
 
-We considered trend analysis was considered for groundwater observation wells that
+Trend analysis was considered for groundwater observation wells that
 had ten or more complete years of data, met the data requirements detailed above, and were active as of January 1, 2013. This resulted in
-`r nrow(attr_wells)` wells with suitable data records for analysis for the "All-Data" trending option. For each trend option selected, the amount of data missing was calculated separately which led to several cases where there was enough data for one time period but not another (for example, a 10-year trend was calculated for a well but there was too much missing data to calculate a trend for the entire time series). To standardize the 10-year (2013 - 2023) and 20-year (2003 - 2023) trend analysis, We set a requirement for 10 years of data for the 10-year analysis and 18 years of data for the 20 year analysis to avoid having a well with 11 years of data being assessed in both categories. 
+`r nrow(attr_wells)` wells with suitable data records for analysis for the "All-Data" trending option. For each trend option selected, the amount of data missing was calculated separately which led to several cases where there was enough data for one time period but not another (for example, a 10-year trend was calculated for a well but there was too much missing data to calculate a trend for the entire time series). To standardize the 10-year (2013 - 2023) and 20-year (2003 - 2023) trend analyses, we set a requirement for 10 years of data for the 10-year analysis and 18 years of data for the 20-year analysis to avoid having a well with 11 years of data being assessed in both categories. 
 
 We conducted trend analysis both annually and monthly. For the annual analysis, a median value was calculated for each month that had more than one observation. The annual mean groundwater level was then calculated for each year that contained a sufficient number of monthly values in the year. For the monthly analysis, a mean value was calculated for each month in the year. The monthly trend analyses were conducted on mean groundwater levels found in a particular month over the time series (i.e. January). 
 
@@ -288,7 +284,7 @@ The minimum amount of missing data was lowered from 25% in the previous version 
 
 *Note on Trend Significance*
 
-In the results on the online map version and in the following table, there are instances where a decreasing or increasing trend is visually observed but the change over time is not significantly significant. When a trend is not statistically significant, it means the observed pattern was not clear enough to rule out the trend occurring by random chance (i.e. the null hypothesis of no trend is accepted). We used a p-value of 0.05 which translates to a <5% chance the observed trend happened by random chance. When a trend is not significant, you should be cautious about interpreting the presence and magnitude of a visual trend. High variability in data points, sample size, magnitude of the trend, and other factors impact the p-value. When using trend results to make decisions, p-values are one of several important considerations and should not be solely relied on. More details on the trends results are available in Appendix A. 
+In the results on the online map version and in the following table, there are instances where a decreasing or increasing trend is visually observed but the change over time is not statistically significant. When a trend is not statistically significant, it means the observed pattern was not clear enough to rule out the trend occurring by random chance (i.e. the null hypothesis of no trend is accepted). We used a p-value of 0.05 which translates to a <5% chance the observed trend happened by random chance. When a trend is not significant, you should be cautious about interpreting the presence and magnitude of a visual trend. High variability in data points, sample size, magnitude of the trend, and other factors impact the p-value. When using trend results to make decisions, p-values are one of several important considerations and should not be solely relied on. More details on the trends results are available in Appendix A. 
 
 
 <!-- Trend analysis was conducted using monthly groundwater levels from each -->
@@ -461,6 +457,7 @@ results_viz %>%
          `p-value` = sig) %>%
   arrange(`Region Name`, `Well No`) %>%
   knitr::kable(format = "latex",
+               digits = 2,
                booktabs = TRUE,
                longtable = TRUE,
                linesep = "",
@@ -497,6 +494,7 @@ results_viz_10 %>%
          `p-value` = sig) %>%
   arrange(`Region Name`, `Well No`) %>%
   knitr::kable(format = "latex",
+               digits = 2,
                booktabs = TRUE,
                longtable = TRUE,
                linesep = "",
@@ -524,7 +522,7 @@ average levels in the late summer and fall. The shaded blue area shows
 the range of variation within which 90% of water level observations in
 that month fall.
 
-The all-data and 10-year plots show the history of the groundwater level over the relevant time period.  The blue line shows measured groundwater depth over time. The light grey dots
+The all-data and 10-year plots show the history of the groundwater levels over the relevant time period.  The blue line shows measured groundwater depth over time. The light grey dots
 show missing values which were interpolated (see Methods). The trend
 category is provided below the title—if the trend is significant, based
 on a combination of statistical and environmental significance
