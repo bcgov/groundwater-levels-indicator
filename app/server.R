@@ -37,7 +37,7 @@ server <- function(input, output, session) {
         setView(lat = 52, lng = -133, zoom = 5)
       
       updateSelectInput(session = session,
-                        'region_choice',
+                        'All',
                         selected = 'All')
     }
   })
@@ -112,8 +112,9 @@ server <- function(input, output, session) {
     }
     else{
       wells_sf_full %>%
-        filter(REGION_NAME == region_rv()) %>%
-        left_join(filtered_data())
+        right_join(filtered_data(), by = "Well_Num")
+        #filter(REGION_NAME == region_rv()) %>%
+        #left_join(filtered_data())
     }
   })
   
@@ -189,7 +190,8 @@ server <- function(input, output, session) {
                        fillOpacity = 1,
                        label = ~paste0("Well No. ", Well_Num, " - ",state),
                        data = map_data(),
-                       clusterOptions = markerClusterOptions(maxClusterRadius = 0.000001)) %>%
+                       clusterOptions = markerClusterOptions(maxClusterRadius = 0.000001,
+                                                             spiderfyDistanceMultiplier = 2)) %>%
       removeControl("legend") %>%
       addLegend(pal = mypal,
                 values = ~state_short,
@@ -220,22 +222,24 @@ server <- function(input, output, session) {
           filter(stat == "median")
         
         if(nrow(data) >0){
+          
           maxgwl = max(data$value, na.rm = TRUE)
           mingwl = min(data$value, na.rm = TRUE)
           gwlrange = maxgwl - mingwl
           midgwl = (maxgwl + mingwl)/2
           lims  = c(midgwl + gwlrange, midgwl - gwlrange)
           data$max_lims <- max(lims[1], max(data$value, na.rm = TRUE) + 5)
-          
+
+
           ggplot(data, aes(x = as.Date(Date))) +
             labs(title = paste0("Well Number: ", station_click()))+
             geom_ribbon(aes_string(ymin = "value",
                                    ymax = "max_lims",
                                    fill = "'Groundwater Level'"), alpha = 0.6) +
-            geom_point(data = data %>% filter(nReadings==0), aes_string(y = "value", col = "'interp'")) + 
+            geom_point(data = data %>% filter(nReadings==0), aes_string(y = "value", col = "'interp'")) +
             scale_x_date(expand = c(0,0)) +
             scale_y_reverse() +
-            scale_fill_manual(name = '', labels = 'Monthly Range in Groundwater Levels', 
+            scale_fill_manual(name = '', labels = 'Monthly Range in Groundwater Levels',
                               values = c('Groundwater Level' = "#1E90FF")) +
             xlab("Date") +
             ylab ("Depth Below Ground (metres)")+
@@ -267,15 +271,17 @@ server <- function(input, output, session) {
                            T ~ Well_Num == station_click())) %>%
           filter(stat == "median") %>%
           group_by(Month) %>%
-          summarise(median = median(value),
-                    upperCI = quantile(value, 0.975),
-                    lowerCI = quantile(value, 0.025))
+          summarise(median = mean(dev_med_GWL, na.rm = TRUE),
+                    dev_Q5 = stats::quantile(dev_med_GWL, prob = 0.05,
+                                             na.rm = TRUE),
+                    dev_Q95 = stats::quantile(dev_med_GWL, prob = 0.95,
+                                              na.rm = TRUE))
         if(nrow(data) >0){
 
             # print(data)
             ggplot(data) +
             ggtitle(paste0("Well Number: ", station_click()))+
-            geom_ribbon(aes(x = Month, ymax = upperCI, ymin = lowerCI),
+            geom_ribbon(aes(x = Month, ymax = dev_Q95, ymin = devQ5),
                         fill = "#1E90FF", alpha = 0.4)+
             geom_line(aes(x = Month, y = median),
                       col = "black",
@@ -292,6 +298,11 @@ server <- function(input, output, session) {
                 plot.title = element_text(hjust = 0.5),
                 plot.subtitle = element_text(hjust = 0.5, face = "plain", size = 11)) +
               theme(plot.margin = margin(10, 10, 10, 10, "points")) +
+            scale_colour_manual(name = '', values = "#1E90FF",
+                                labels = c("Mean Deviation from Yearly Average"),
+                                guide = "legend") +
+            scale_fill_manual(name = '', values = "#1E90FF", guide = 'legend',
+                              labels = c('Range of 90% of Water Levels')) +
             xlab("Month") +
             ylab("Depth Below Ground (metres)")
         }
@@ -533,7 +544,14 @@ server <- function(input, output, session) {
     
     HTML(paste0("<a href=", 
                 "https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=b53cb0bf3f6848e79d66ffd09b74f00d&find=OBS%20WELL%20",
-                station_click(), ">View this well on the Provincial Groundwater Observation Well Network</a"))
+                station_click(),
+                ">View this well on the Provincial Groundwater Observation Well Network</a"))
+  }) 
+  
+  output$disclaimer = renderText({
+    
+    print("Note: The external links above must be opened in a new browser tab or window ")
+    
   }) 
   
   # create a condition you use in the ui
