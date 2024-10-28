@@ -43,10 +43,6 @@ results_viz <- results_out %>%
                                           "Moderate Rate of Decline",
                                           "Large Rate of Decline"),
                         ordered = TRUE),
-         # category = factor(category, levels = c("Stable or Increasing", 
-         #                                        "Moderate Rate of Decline",
-         #                                        "Large Rate of Decline"),
-         #                   ordered = TRUE),
          col = case_when(
            state == "Stable and/or Non-significant" ~ "#abd9e9",
            state == "Moderate Rate of Decline" ~ "#fdae61",
@@ -54,7 +50,7 @@ results_viz <- results_out %>%
            state == "Increasing" ~ "#2c7bb6"
          )) %>%
   mutate(Well_Name = paste0("Observation Well #", Well_Num)) %>%
-  select(c(-start_year.y, -end_year.y)) %>%
+  select(c(-start_year.y, -end_year.y, -EMS_ID)) %>%
   rename(start_year = start_year.x) %>%
   rename(end_year = end_year.x) |> 
   arrange(region_name, Well_Num)
@@ -127,7 +123,8 @@ save(input_summary, file = "tmp/input_summary.RData")
 
 #summary df & provincial summary bar chart of categories
 bc_bar_chart <- ggplot(data=input_summary) +
-  geom_col(mapping=aes(x=count, y=state_figure, fill=state_figure), width = 0.4, colour = "black") +
+  geom_col(mapping=aes(x=count, y=state_figure, fill=state_figure), 
+           width = 0.4, colour = "black") +
   scale_fill_manual(values=colour.scale.aquifer,
                     labels = c("Increasing",
                                "Stable and/or \nNon-significant",
@@ -137,7 +134,6 @@ bc_bar_chart <- ggplot(data=input_summary) +
   geom_text(aes(x=count, y=state_figure, label = aquifer_lab), hjust = -0.1) +
   scale_x_continuous(expand = c(0,0)) +
   expand_limits(x=c(0,110)) +
-  # labs(title = "Summary of Trends in Groundwater Levels in British Columbia") +
   xlab("Number of Aquifers") + 
   ylab(NULL) +
   theme_soe() +
@@ -175,7 +171,7 @@ input_regional <- by_aquifer_region %>%
   summarize(count=n()) %>%
   mutate(total_aquifers = sum(count)) %>%
   mutate(prop = (count/total_aquifers)*100) %>%
-  mutate(aquifer_lab = ifelse(count>1, paste0(total_aquifers, " aquifers"), paste0(total_aquifers, " aquifers"))) %>%
+  mutate(aquifer_lab = paste0(total_aquifers, " aquifers")) %>%
   mutate(state_figure = factor(state_figure, levels = c("Increasing", 
                                                         "Stable and/or Non-significant",
                                                         "Moderate Rate of Decline",
@@ -195,12 +191,13 @@ regional_bar_chart <- ggplot(data=input_regional) +
   geom_col(mapping=aes(x=count, y=fct_reorder(region_name, total_aquifers), fill=state_figure), 
            width = 0.4, color = "black") +
   scale_fill_manual(values=colour.scale.aquifer) +
-  geom_text(aes(x=total_aquifers + 5, y=region_name, label = aquifer_lab), size = 4) +
+  geom_label(aes(x=total_aquifers, y=region_name, label = aquifer_lab),
+            hjust = -0.1, label.size = 0) +
   scale_x_continuous(expand = c(0,0)) +
   expand_limits(x=c(0,55)) +
   guides(fill = guide_legend(reverse = TRUE, nrow=2))+
-  # labs(title = "Summary of Trends in Groundwater Levels across \nNatural Resource Regions") +
-  xlab("Number of Aquifers") + ylab(NULL) +
+  xlab("Number of Aquifers") + 
+  ylab(NULL) +
   theme_soe() +
   theme(legend.position="bottom",
         legend.title=element_blank(),
@@ -209,14 +206,14 @@ regional_bar_chart <- ggplot(data=input_regional) +
   theme(panel.grid.minor.y = element_blank(),
         panel.grid.major.y = element_blank()) +
   scale_y_discrete(breaks = unique(fct_reorder(input_regional$region_name,
-                                               input_regional$total_aquifers)),
-                   labels = c("Cariboo","Kootenay\nBoundary",
-                              #"Northeast",
-                              #"Omineca",
-                              "Skeena",
-                              "South Coast",
-                              "Thompson/\nOkanagan",
-                              "West Coast"))
+                                             input_regional$total_aquifers)),
+                 labels = c("Cariboo","Kootenay\nBoundary",
+                            #"Northeast",
+                            #"Omineca",
+                            "Skeena",
+                            "South Coast",
+                            "Thompson/\nOkanagan",
+                            "West Coast"))
 regional_bar_chart
 
 svg_px("./out/figs/regional_bar_chart.svg", width = 800, height = 600)
@@ -243,9 +240,6 @@ monthly_bar_chart <- ggplot(data=monthly_viz) +
   scale_y_continuous(expand = c(0,0)) +
   scale_x_discrete(labels= c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", 
                              "Oct", "Nov", "Dec"))+
-  #expand_limits(x=c(0,72)) +
-  #guides(fill = guide_legend(reverse = TRUE))+
-  # labs(title = "Summary of Trends in Groundwater Levels across \nNatural Resource Regions") +
   ylab("Number of Wells") + xlab("Month") +
   theme_soe() +
   theme(legend.position="bottom",
@@ -281,58 +275,17 @@ results_sf = results_sf %>%
                                 "Moderate Rate of Decline",
                                 "Large Rate of Decline"))) 
 
-# #Color scheme
-# mypal = colorFactor(palette = c("#2c7bb6", "#abd9e9", "#fdae61", "#d7191c", "grey67"),
-#                     domain = results_sf,
-#                     levels = c("Increasing",
-#                                "Stable and/or Non-significant",
-#                                "Moderate Rate of Decline",
-#                                "Large Rate of Decline",
-#                                "Insufficient Data"
-#                     ),
-#                     ordered = T)
-# 
-# bounds = st_bbox(results_sf) %>%
-#   as.vector()
-# 
-# leaflet(options =
-#           leafletOptions(zoomControl = FALSE)) %>%
-#   #setView(lat = 55, lng = -125, zoom = 5) %>%
-#   #fitBounds(lng1 = bounds[1], lat1 = bounds[2], lng2 = bounds[3], lat2 = bounds[4]) %>%
-#   addTiles(group = "Streets") %>%
-#   addPolygons(data = regions_sf,
-#               weight=1,
-#               color = "black",
-#               fill = NA) %>%
-#   addCircleMarkers(data = results_sf,
-#                    radius = ~size,
-#                    color= ~mypal(result), 
-#                    opacity = 1,
-#                    fillColor = ~mypal(result)) %>%
-#  addLegend(pal = mypal,
-#            values = ~result,
-#            title = "Groundwater Trend",
-#            data = results_sf,
-#            #className = "info legend solid circle", #Css from original leaflet script
-#            opacity = 1,
-#            layerId = 'legend',
-#            position = 'topright') %>%
-#   ## save html to png
-#   saveWidget("temp.html", selfcontained = FALSE)
-# webshot("temp.html", file = "tmp/static_leaflet.png",
-#         cliprect = "viewport", zoom = 8)
- 
-
 # Map of Obs Well Trends --------------------------------------------------
-
 
 prov_map <- ggplot() +
   geom_sf(data = bcmaps::bc_bound(), color = "black", fill= NA) +
   geom_sf(data = regions_sf, color = "black", fill= NA) +
-  geom_point(data = results_sf, aes(color = result, geometry=geometry), 
+  geom_point(data = results_sf, aes(fill = result, geometry=geometry), 
+             shape=21,
+             color= "black",
              stat = "sf_coordinates", 
-             size =2) +
-  scale_color_manual(values = c("Stable and/or Non-significant" = "#abd9e9",
+             size =3) +
+  scale_fill_manual(values = c("Stable and/or Non-significant" = "#abd9e9",
                                "Increasing" = "#2c7bb6",
                                "Moderate Rate of Decline" = "#fdae61",
                                "Large Rate of Decline" = "#d7191c"),
@@ -347,7 +300,7 @@ prov_map <- ggplot() +
         legend.title=element_blank(),
         #legend.direction="horizontal",
         plot.title = element_text(hjust = 0)) +
-  guides(color = guide_legend(nrow=2))
+  guides(fill = guide_legend(nrow=2))
 
 prov_map
 
@@ -359,53 +312,12 @@ dev.off()
 #save version for rmd
 save(bc_bar_chart, regional_bar_chart, prov_map, monthly_bar_chart, file = "tmp/figures.RData")
 
-# Individual Obs Well Plots (Web & PDF) ----------------------------------------
+              # Individual Obs Well Plots (Web & PDF) ----------------------------------------
 well_plots <- monthlywells_ts %>%
-  left_join(results_viz, by = c("Well_Num")) #%>%
-  # mutate(colour = col,
-  #        state_chr = as.character(state),
-  #        month_plot = map(data, ~gwl_monthly_plot(dataframe = .x, splines = TRUE,
-  #                                                 save = FALSE)),
-  #        area_plot = pmap(list(data, trend_line_slope, trend_line_int, state_chr, sig),
-  #                         ~gwl_area_plot(data = ..1, trend = ..2, intercept = ..3,
-  #                                        trend_category = ..4, sig = ..5,
-  #                                        showInterpolated = TRUE, save = FALSE,
-  #                                        mkperiod = "annual", 
-  #                                        show_stable_line = FALSE) +
-  #                           theme(plot.title = element_text(lineheight = 1,
-  #                                                           margin = margin(b = -10)),
-  #                                 plot.subtitle = element_blank(),
-  #                                 axis.title.x = element_blank(),
-  #                                 plot.margin = unit(c(5, 1, 2, 5), units = "pt"),
-  #                                 legend.box.spacing = unit(c(0, 0, 0, 0), units = "pt"),
-  #                                 legend.margin = margin(0, 0, 0, 0),
-  #                                 legend.position = "top")))
+  left_join(results_viz, by = c("Well_Num")) 
 
 well_plots_10 <- monthlywells_ts_10 |> 
-  #mutate(Well_Num1 = Well_Num) %>% # both top level and nested data need Well_Num
-  #nest(-Well_Num1) %>% 
-  #rename(Well_Num = Well_Num1) %>%
   left_join(results_viz_10, by = c("Well_Num")) 
-  # mutate(colour = col,
-  #        state_chr = as.character(state),
-  #        area_plot = pmap(list(data, trend_line_slope, trend_line_int, state_chr, sig),
-  #                         ~gwl_area_plot(data = ..1, trend = ..2, intercept = ..3,
-  #                                        trend_category = ..4, sig = ..5,
-  #                                        showInterpolated = TRUE, save = FALSE,
-  #                                        mkperiod = "annual", 
-  #                                        show_stable_line = FALSE) +
-  #                           theme(plot.title = element_text(lineheight = 1,
-  #                                                           margin = margin(b = -10)),
-  #                                 plot.subtitle = element_blank(),
-  #                                 axis.title.x = element_blank(),
-  #                                 plot.margin = unit(c(5, 1, 2, 5), units = "pt"),
-  #                                 legend.box.spacing = unit(c(0, 0, 0, 0), units = "pt"),
-  #                                 legend.margin = margin(0, 0, 0, 0),
-  #                                 legend.position = "top")))
-# a <- gwl_aplot(well_plots_10, intercept = well_plots_10$trend_line_int, 
-#                slope = well_plots_10$trend_line_slope, sig = well_plots_10$sig, 
-#                state_short = well_plots_10$state,
-#                well = well, reg = reg)
 
 save(well_plots, file = "tmp/well_plots.RData")
 
@@ -420,39 +332,38 @@ gwl_aplot <- function(data, sig, state_short, well, reg, trend_type) {
     midgwl = (maxgwl + mingwl) / 2
     lims  = c(midgwl + gwlrange, midgwl - gwlrange)
     data$max_lims <- max(lims[1], max(data$med_GWL, na.rm = TRUE) + 5)
-    int.well = (-1 * data$trend_line_int) + data$trend_line_slope * as.numeric(min(as.Date(data$Date)))
-    slope = data$trend_line_slope
+    slope = unique(-1 * data$trend_line_slope)
+
+    slope.well = data %>%
+      pull(trend_line_slope)
+    slope.well = - as.numeric(slope.well)/365
+    
+    intercept.well = data %>%
+      pull(trend_line_int)
+    
+    int.well = intercept.well + slope.well * as.numeric(min(as.Date(data$Date)))
+    
+    trend_df = data.frame(int.well, slope.well)
       
     plot_data = data %>%
       group_by(Year) %>%
-      summarize(
+      summarise(
         annual_median = median(med_GWL),
-        n_months = n(),
         missing_dat = case_when(any(nReadings == 0) ~ "missing", T ~ "complete"),
         max = quantile(med_GWL, 0.975),
         min = quantile(med_GWL, 0.025)
       ) %>%
       mutate(Date = as.Date(paste0(Year, "-01-01"))) %>%
-      select(Date, annual_median, missing_dat, min, max)
+      select(Date, Year, annual_median, missing_dat, min, max)
   }
   
-  # int.well = -intercept + slope * as.numeric(min(as.Date(data$Date)))
-  # slope = slope
   
-  # trend_df = data.frame(int.well, slope)
-  # print(trend_data)
-  # print(trend_df)
-  
-  plot = ggplot(plot_data) +
+  plot = ggplot(plot_data, aes(x = Date, y = annual_median, col = missing_dat, ymin = min,
+                               ymax = max)) +
     ggtitle(paste0(trend_type, "\nStation Class: ", state_short)) +
     labs(subtitle = paste0(slope, " m/year; p value: ", sig)) +
-    geom_errorbar(aes(
-      x = as.Date(Date),
-      ymin = min,
-      ymax = max,
-      col = missing_dat
-    ), width = 0.3) +
-    geom_point(aes(x = as.Date(Date), y = annual_median, col = missing_dat)) +
+    geom_point() +
+    geom_errorbar(width = 0.3) +
     scale_x_date(expand = c(0.1, 0.1)) +
     scale_y_reverse(expand = c(0, 0)) +
     coord_cartesian(ylim = lims) +
@@ -486,8 +397,8 @@ gwl_aplot <- function(data, sig, state_short, well, reg, trend_type) {
                               "Moderate Rate of Decline",
                               "Large Rate of Decline")){
     plot +
-      geom_abline(intercept = int.well, slope = slope,
-                  col = "#d95f02")
+      geom_abline(data = trend_df, 
+                  aes(intercept = - int.well, slope = slope.well), col = "orange")
   } else{
     plot
     }
@@ -503,7 +414,7 @@ app_wells_10 <- results_viz_10 |>
 app_wells <- results_viz |> 
   pull(Well_Num)
 
-pdf_wells <- intersect(app_wells_10, app_wells)
+pdf_wells <- intersect(app_wells_10, app_wells) 
 
 stn_plots <- list()
 
@@ -512,12 +423,11 @@ for (well in pdf_wells) {
   
   monthplot <- filter(well_plots, Well_Num == well) 
   areaplot_10 <- filter(well_plots_10, Well_Num == well)
-  areaplot <- filter(well_plots, Well_Num == "398")
+  areaplot <- filter(well_plots, Well_Num == well)
 
   m <- gwl_monthly_plot(monthplot)
   
-  a_10 <- gwl_aplot(areaplot_10, intercept = areaplot_10$trend_line_int, 
-                    slope = areaplot_10$trend_line_slope, sig = areaplot_10$sig, 
+  a_10 <- gwl_aplot(areaplot_10, sig = areaplot_10$sig, 
                     state_short = areaplot_10$state,
                     well = well, reg = reg, trend_type = "10-year Trend (2013-2023) ")
   
@@ -537,45 +447,6 @@ for (well in pdf_wells) {
   
 write_rds(stn_plots, "out/print_stn_plots.rds")
 
-# Print Obs Well Plots
-
-# status.well <- "out/figs"
-# app_wells_10 <- results_viz_10 |> 
-#   pull(Well_Num)
-# 
-# app_wells <- results_viz |> 
-#   pull(Well_Num)
-# 
-# pdf_wells <- as.integer(intersect(app_wells_10, app_wells))
-# 
-# well_plots <-  well_plots |> 
-#   filter(Well_Num %in% pdf_wells)
-# 
-# for (i in seq_len(nrow(well_plots$Well_Num))) {
-#   # Month plots
-#   
-#   
-#   png_retina(file.path(status.well,
-#                    glue("month_", well_plots$Well_Num[i], ".png")),
-#          width = 350, height = 220)
-#   plot(well_plots$month_plot[[i]])
-#   dev.off()
-# 
-#   # Area plots
-#   png_retina(file.path(status.well,
-#                    glue("area_", well_plots$Well_Num[i], ".png")),
-#          width = 600, height = 200)
-#   plot(well_plots$area_plot[[i]])
-#   dev.off()
-#   
-#   # Area plots, 10-yr
-#   png_retina(file.path(status.well,
-#                    glue("area_10_", well_plots_10$Well_Num[i], ".png")),
-#          width = 600, height = 200)
-#   plot(well_plots_10$area_plot[[i]])
-#   dev.off()
-# }
-
 
 ## Map Summary (for PDF print version)------------------------------------------
 
@@ -589,39 +460,8 @@ nrr_simp <-  ms_simplify(nrr_clip) %>%
 # Save nrr_simp for use in shiny app
 write_sf(nrr_simp, "app/www/nr_polygons.gpkg")
 
-
 #Provincial summary map
 styles <- 'feature:all|element:all|saturation:-75' 
-
-# Get British Columbia basemap
-# You will likely need to get an API key from google and enable it for the 
-# Maps Static API to get basemaps using ggmap. 
-# See help in ?ggmap::register_google and/or 
-# https://cloud.google.com/maps-platform/
-# If you save the key in your .Renviron file as a variable called `GMAP_KEY`
-# the following will work, otherwise just supply your key directly.
-
-#ggmap::register_google(Sys.getenv("GMAP_KEY"))
-BCextent <- c(-139,48,-114,60)
-names(BCextent) <- c("left", "bottom", "right", "top")
-
-fourCorners <- expand.grid(
-  as.data.frame(matrix(BCextent, ncol = 2, byrow = TRUE,
-                       dimnames = list(NULL, c("Long", "Lat"))))
-)
-
-BCcenter <- c(mean(BCextent[c("left","right")]), 
-              mean(BCextent[c("top","bottom")]))
-
-#if (!nzchar("GMAP_KEY")) {
-  # ggMapBC <- get_stadiamap(bbox = BCextent, zoom = 5, scale = 1, 
-  #                          maptype = 'stamen_terrain')
-  
-  
-# } else {
-#   ggMapBC <- get_map(location = BCextent, zoom = 5, scale = 1, maptype = "terrain",
-#                      source = "stamen")
-# }
 
 
 #tweak df for map plot
@@ -637,77 +477,4 @@ results_map_df <- results_out %>%
               st_transform(3857) %>%
               st_coordinates() %>%
               as_tibble()) 
-
-
-
-
-# Save Plots Objects------------------------------------------------------------
-
-#save plot objects to tmp folder for use in gwl.Rmd
-
-
-## Individual Observation Well Maps (PDF print version)-------------------------
-
-create_site_maps = FALSE # if TRUE, all individual site maps will be created. If FALSE, code won't be run
-
-if (!dir.exists('tmp/pngs')) dir.create('tmp/pngs')
-
-if (create_site_maps) {
-
-#create list of well maps
-wellMaps <- vector("list", length(unique(results_viz$Well_Num)))
-names(wellMaps) <- unique(as.integer(results_viz$Well_Num))
-
-for (w in names(wellMaps)) {
-  well <- filter(results_viz, as.integer(Well_Num) == as.integer(w))
-  # wellMaps[[w]] <- tryCatch(get_stamenmap(center = c(well$Long[1], well$Lat[1]), 
-  #                                         zoom = 8, 
-  #                                         maptype = 'terrain-background',
-  #                                         style = styles), 
-  #                           error = function(e) NULL)
-  wellMaps[[w]] <- leaflet(options =
-                             leafletOptions(zoomControl = FALSE)) %>%
-    addProviderTiles("OpenStreetMap") %>%
-    setView(lng = well$Long[1], lat = well$Lat[1],
-            zoom = 12)
-  }
-
-#individual Obs Well ggmap plots 
-  well_plots <- well_plots %>% 
-    mutate(Well_Num = as.integer(Well_Num))
-  
-  leaflets = tibble(Well_Num = as.integer(names(wellMaps)), 
-                    maps = wellMaps)
-  
-  well_plots = well_plots %>%
-    left_join(leaflets, by = "Well_Num") %>%
-    mutate(map_plot = pmap(list(Long, Lat, colour, maps),
-                           ~ ..4 %>%
-                             addCircleMarkers(lng = ..1, lat = ..2, fillColor = ..3, 
-                                              opacity = 1,
-                                              fillOpacity = 1,
-                                              color = "black",
-                                              radius = 6,
-                                              weight = 2,
-                                              label = Well_Num) |> 
-                             addSimpleGraticule(interval = 20)))
-  
-    for (i in 1:nrow(well_plots)) {
-      library(mapview)
-      well_plots$map_plot[[i]] %>%
-        mapview::mapshot(file = paste0("tmp/pngs/",well_plots$Well_Num[[i]],".png"))
-      print(paste0("Row ", i, " of ", nrow(well_plots)," complete"))
-    }
-
-  # 
-  # mutate(map_plot = pmap(list(Long, Lat, colour, maps), 
-  #                        ~ plot_point_with_inset(long = ..1, lat = ..2,
-  #                                                pointColour = ..3,
-  #                                                bigMap = ..4,
-  #                                                overviewMap = ggMapBC,
-  #                                                overviewExtent = BCextent)))
-#save for use in .Rmd
-save(well_plots, file = "tmp/well_plots.RData")
-
-}
 
