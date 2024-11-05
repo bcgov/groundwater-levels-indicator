@@ -83,6 +83,7 @@ wells_prep_20 <- wells_data_filtered %>%
 wells_month <- mutate(wells_prep, data = map(data, ~monthly_values(.x)))
 wells_ts <- mutate(wells_month, data = map(data, ~make_well_ts(.x)))
 
+
 # ## last 10 years
 wells_month_10 <- mutate(wells_prep_10, data = map(data, ~monthly_values(.x)))
 wells_ts_10 <- mutate(wells_month_10, data = map(data, ~make_well_ts(.x)))
@@ -119,6 +120,7 @@ wells_ts = wells_ts$data %>%
   bind_rows() %>% 
   group_by(EMS_ID) %>% 
   nest()
+
 
 ## last 10 years
 wells_ts_10 = wells_ts_10$data %>% 

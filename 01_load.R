@@ -39,6 +39,7 @@ source("func.R")
 
 if(!dir.exists('data'))dir.create("data", showWarnings = FALSE)
 
+
 library(bcdata)
 
 # Retrieve data directly from BC Data Catalogue.
@@ -47,6 +48,7 @@ obs_wells_in = bcdc_get_data('e4731a85-ffca-4112-8caf-cb0a96905778') %>%
          !is.na(WELL_STATUS)) %>% 
   collect() %>% 
   setNames(snakecase::to_snake_case(colnames(.)))
+
 
 ##Filter out observations with no observation well status or number (the vast majority!)
 #Join the natural resource region names etc. to data
@@ -75,6 +77,7 @@ obs_wells = obs_wells_in %>%
   mutate(aquifer_type = factor(aquifer_type, levels = c("Bedrock","Sand and Gravel","Unknown"))) %>% 
   #Remove any duplicated observation well numbers.
   filter(!duplicated(observation_well_number))
+
 
 
 # Download all observation well data   --------------------------------------------
