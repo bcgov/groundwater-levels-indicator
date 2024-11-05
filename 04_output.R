@@ -94,7 +94,7 @@ by_aquifer <- results_viz_10 |>
   mutate(state_figure = case_when(str_detect(state, ",") ~ "Mixed",
          TRUE ~ state))
 
-write_csv(by_aquifer, "results-by-aquifer.csv")
+write_csv(by_aquifer, "tmp/results-by-aquifer.csv")
     
 #save results_viz df to tmp folder for use in gwl.Rmd
 save(by_aquifer, file = "tmp/by_aquifer.RData")
