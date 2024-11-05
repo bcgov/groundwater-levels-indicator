@@ -33,6 +33,10 @@ There are four core scripts that are required for the analysis, they need to be 
 - 03_visualize.R
 - 04_output.R
 
+### Groundwater Levels shinyapp
+
+The app/ folder contains code to launch a shinyapp for an interactive data visualization found on the [indicator website](https://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html).
+
 ## Getting Help or Reporting an Issue
 
 To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/groundwater-levels-indicator/issues/).
@@ -45,7 +49,7 @@ Please note that this project is released with a [Contributor Code of Conduct](C
 
 ## License
 
-    Copyright 2018 Province of British Columbia
+    Copyright 2024 Province of British Columbia
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

@@ -12,18 +12,17 @@
 
 
 ## Install the packages we will need from CRAN:
-package_list <- c("dplyr", "rgdal", "sp", "ggplot2", "stringr", #"lubridate", "zoo"
+package_list <- c("dplyr", "sp", "ggplot2", "stringr", #"zoo"
                   "grid", "scales", #ggmap", 
-                  "devtools", "rvest", "RColorBrewer",
+                  "devtools", "rvest", "RColorBrewer", "mapview",
                   "purrr", "sf", "gridExtra", "bcmaps", "scales", "forcats",
-                  "rmapshaper", "janitor", "readr", "cowplot", "glue")
+                  "rmapshaper", "janitor", "readr", "cowplot", "glue", "lubridate")
 package_new <- package_list[!(package_list %in% installed.packages()[,"Package"])]
 if(length(package_new)) install.packages(package_new)
 
-
 ## Install the packages we will need from GitHub:
 package_github <- c(bcgov = "bcgroundwater", bcgov = "envreportutils", 
-                    bcgov = "bcmapsdata", thomasp85 = "patchwork")
+                    bcgov = "bcmaps", bcgov="bcdata", thomasp85 = "patchwork")
 package_new <- package_github[!(package_github %in% installed.packages()[,"Package"])]
 if(length(package_new)) {
   devtools::install_github(paste(names(package_new), package_new, sep = "/"))
@@ -45,7 +44,7 @@ library(purrr)
 library(tidyr)
 library(bcgroundwater)
 library(sp)
-library(rgdal)
+#library(rgdal)
 library(rvest)
 library(stringr)
 library(bcmaps)
@@ -63,6 +62,11 @@ library(readr)
 library(glue)
 library(patchwork)
 library(cowplot)
+library(leaflet)
+#library(webshot)
+library(htmlwidgets)
+library(knitr)
+library(mapview)
 
 ## Create project directories
 if (!exists("tmp")) dir.create("tmp", showWarnings = FALSE)
@@ -73,4 +77,3 @@ if (!exists("leaflet_map/regional_plots")) dir.create("leaflet_map/regional_plot
 
 ## Invisible header object
 .header_sourced <- TRUE
-

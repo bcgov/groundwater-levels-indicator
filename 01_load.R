@@ -1,4 +1,4 @@
-# Copyright 2018 Province of British Columbia
+# Copyright 2024 Province of British Columbia
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,7 +11,8 @@
 # See the License for the specific language governing permissions and limitations under the License.
 
 
-#######################################################################################
+# Script purpose  ---------------------------------------------------------
+
 # This script uses the bcgroundwater R package (https://github.com/bcgov/bcgroundwater)
 # to download groundwater level data from the B.C. Data Catalogue 
 # (https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685), 
@@ -27,9 +28,10 @@
 # https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778
 # Natural Resource (NR) Regions: 
 # https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f
-# Here we automatically grab the NR Regions using the 'bcmaps' R package 
-########################################################################################
 
+
+
+# Load required packages and download well metadata --------------------
 
 ## Source package libraries and the bcdc_map() function
 if (!exists(".header_sourced")) source("header.R")
@@ -37,28 +39,31 @@ source("func.R")
 
 if(!dir.exists('data'))dir.create("data", showWarnings = FALSE)
 
-## CHRIS ADDITION - START ##
 
-# Original download link broken. Attempting to get data directly from BC Data Catalogue.
-obs_wells = bcdata::bcdc_query_geodata('groundwater-wells') %>% 
+library(bcdata)
+
+# Retrieve data directly from BC Data Catalogue.
+obs_wells_in = bcdc_get_data('e4731a85-ffca-4112-8caf-cb0a96905778') %>% 
   filter(!is.na(WELL_TAG_NUMBER),
          !is.na(WELL_STATUS)) %>% 
   collect() %>% 
   setNames(snakecase::to_snake_case(colnames(.)))
 
-obs_wells = obs_wells %>% 
-  ##Filter out observations with no observation well status or number (the vast majority!)
+
+##Filter out observations with no observation well status or number (the vast majority!)
+#Join the natural resource region names etc. to data
+
+obs_wells = obs_wells_in %>% 
   # filter(!is.na(observation_well_status)) %>% 
   # filter(!is.na(observation_well_number)) %>% 
-  #Join the natural resource region names etc. to data
-  st_join(nr_regions() %>% dplyr::select(-id)) %>% 
+  st_join(bcmaps::nr_regions()) %>% 
   #Make column names 'R-friendly'
   setNames(snakecase::to_snake_case(colnames(.))) %>% 
   #Narrow down columns.
-  dplyr::select(observation_well_number, id, 
+  dplyr::select(observation_well_number, ems_id, 
                 well_tag_number, construction_end_date, #general_remarks, other_information,
                 observation_well_status, aquifer_type = aquifer_material,
-                aquifer_id,
+                aquifer_id, total_depth_drilled,
                 finished_well_depth, static_water_level, region_name, feature_area_sqm) %>% 
   # Clean up natural resource region name and aquifer type text fields.
   mutate(region_name = str_remove_all(region_name, " Natural Resource Region"),
@@ -73,10 +78,15 @@ obs_wells = obs_wells %>%
   #Remove any duplicated observation well numbers.
   filter(!duplicated(observation_well_number))
 
+
+
+# Download all observation well data   --------------------------------------------
+
 # Download all data for wells from https://www.env.gov.bc.ca/wsd/data_searches/obswell/map/data/
 # If the url for a given well doesn't work, the code creates an empty data.frame to 
 # make sure such a result can still be combined with the successful data reading attempts. In this way,
 # the function does not break if one or more wells has no available data to download.
+
 wells_data_raw = obs_wells$observation_well_number %>% 
   map( ~ {
     tryCatch(read_csv(paste0("https://www.env.gov.bc.ca/wsd/data_searches/obswell/map/data/OW",.x,"-data.csv")), 
@@ -92,8 +102,9 @@ wells_data_raw = obs_wells$observation_well_number %>%
   }) %>% 
   bind_rows()
 
-## CHRIS ADDITION - END ##
 
-## Save raw data objects in a temporary directory
-save(obs_wells, file = "./tmp/clean_attr_data.RData")
+
+# Save raw data objects in tmp directory ----------------------------------
+
+save(obs_wells, file = "./tmp/well_location_data.RData")
 save(wells_data_raw, file = "./tmp/raw_well_data.RData")

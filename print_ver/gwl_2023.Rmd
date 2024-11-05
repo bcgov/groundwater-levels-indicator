@@ -1,0 +1,646 @@
+---
+topic: "water"
+title: "Long-Term Trends in Groundwater Levels in B.C."
+output: envreportutils.internal::print_ver
+header-includes:
+  - \usepackage{xcolor,colortbl}
+  - \usepackage{longtable, booktabs}
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{=html}
+<!--
+Copyright 2018 Province of British Columbia
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
+-->
+```
+```{r setup, echo = FALSE, warning = FALSE, message = FALSE, cache = FALSE}
+
+library(dplyr)
+library(ggplot2)
+library(grid)
+library(RColorBrewer)
+library(scales)
+library(bcgroundwater)
+library(envreportutils)
+library(gridExtra)
+library(xtable)
+library(lubridate)
+library(forcats)
+library(here)
+library(magick)
+library(png)
+library(cowplot)
+library(magrittr)
+library(readr)
+library(purrr)
+
+knitr::opts_chunk$set(cache = FALSE)
+
+# load('../tmp/clean_well_data.RData')
+# load('../tmp/analysis_data.RData')
+load(here("tmp", "results_viz.Rdata"))
+#load('../tmp/well_plots.RData')
+load(here("tmp","figures.RData"))
+load(here("tmp","input_regional.RData"))
+load(here("tmp","by_aquifer.RData"))
+load(here("tmp","input_summary.RData"))
+load(here("tmp", "results_viz_10.Rdata"))
+load(here("tmp", "obs_well_viz.RData"))
+
+stn_plots <- read_rds(here("out/print_stn_plots.rds"))
+
+leaflet_map = image_read(here("tmp","static_leaflet.png"))
+
+attr_wells <- results_viz
+
+theme_set(theme_classic() +
+            theme(text = element_text(colour = "black"),
+                  axis.line = element_blank(),
+                  axis.ticks = element_blank(),
+                  panel.grid.major = element_line(colour = "grey85", size = 0.5,
+                                                linetype = 1),
+                  panel.grid.minor = element_line(colour = "grey90", size = 0.5,
+                                                linetype = 1),
+                  panel.grid.major.x = element_blank(),
+                  panel.spacing = unit(0.6, "lines"),
+                  plot.title = element_text(vjust = 2, hjust = 0.5),
+                  axis.title = element_text(vjust = 0.1),
+                  legend.position = "bottom", legend.title = element_blank(),
+                  legend.text = element_text(size = 12),
+                  axis.text.x = element_blank(),
+                  strip.background = element_blank()))
+
+label.colour <- "black" 
+colour.scale <- brewer.pal(3,"Blues")
+
+updateDate <- format(Sys.Date(), "%B %Y")
+
+```
+
+
+Groundwater is an essential source of water for British Columbians. One
+in four people in B.C. rely on groundwater for drinking water. It also
+provides water for industry, municipalities, and farms.
+
+Groundwater is found underground in layers of rock, gravel, or sand
+called
+[aquifers](https://www2.gov.bc.ca/gov/content/environment/air-land-water/water/groundwater-wells-aquifers/understanding-aquifers).
+Human usage, weather, climate, and aquifer type all impact groundwater
+levels. B.C. has a [network of \> 200 observation
+wells](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836)
+to track groundwater availability in aquifers.These observation wells
+are not used for domestic or commercial purposes.
+
+This indicator shows a trend analysis of groundwater levels in
+observation wells over time. The results by well are displayed in a map below and in an [interactive map online](https://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html). Summary figures of the trends observed across the province
+and regionally are provided below.
+
+-   Wells that have been monitored for 10 or more years, have fewer than 15% missing observations, and were active as of
+    2013 are analyzed in this indicator. 
+- There are multiple options to look at trends in groundwater levels in the online interactive version of this indicator. There are different data requirements for each trend option selected and the number of wells assessed varies.This assessment includes results from the 10-year (2013-2023) trend analysis and the all available data trend analysis. 
+- The location of the wells and the trend results are
+    provided in the map below.
+
+-   The results are categorized by the statistical significance and
+    magnitude of the change in groundwater levels over time. The
+    categories are:
+
+    -   **Increasing:** the trend was significantly different from zero
+        with an increasing trend of 3 or greater cm per year.
+    -   **Stable and/or Non-significant:** the trend was not
+        significantly different from zero or the trend was significantly
+        different from zero with a trend (increasing or decreasing) of
+        less than 3 cm per year.
+    -   **Moderate Rate of Decline:** the trend was significantly
+        different from zero with a declining trend of between 3 and 10
+        cm per year.
+    -   **Large Rate of Decline:** the slope was significantly different
+        from zero with a declining trend of more than 10 cm per year.
+    -   **Insufficient Data:** there is an observation well but there is
+        not enough data to calculate.
+
+-   Additional options to view trends are available in the interactive
+    map in the online version of the indicator page. There are several
+    different options to look at trends at observations wells
+
+    -   Trend type: The user can select annual or monthly trends. The
+        figures and map below are based on annual trends of groundwater
+        levels.
+    -   Time-span: The user can select the entire length of available
+        data or can look at more recent trends over the past 10 or 20
+        years. The figures and map below include the entire length of
+        the dataset which varies from well to well. Please note that not
+        all wells will have enough data for the 20-year time-span
+        option. Also, by selecting a shorter time-span, the user is
+        choosing to exclude part of the available dataset.
+
+\newpage
+
+\vspace{40pt}
+
+# Trends in Groundwater Levels Observed by Aquifers
+
+## Provincial Summary of Trends in Groundwater Levels (10 year trends)
+
+- The results of 10 year trend analysis for observation wells were grouped by aquifer. The results are grouped by aquifer as some aquifers have multiple wells with the same trending results which may skew the provincial and regional summary. The `r nrow(results_viz_10)` observation wells that had adequate data and were assessed for trends are located in `r nrow(by_aquifer)` aquifers. 
+- The 10 year results are used to compare across aquifers as each well has a different time span of data. 
+- The "Mixed" category introduced below occurs when an aquifer has multiple observation wells with different trending categories (i.e. an aquifer has one well with "Stable and/or Non-significant" results and one with "Increasing" results).
+-   Of the `r nrow(by_aquifer)` aquifers examined,
+    `r round(input_summary |> filter(state_figure == "Stable and/or Non-significant") |> extract("prop"))`% of results were stable and/or non-significant trends. Increasing trends were detected in `r round(input_summary |> filter(state_figure == "Increasing") |> extract("prop"))`% of aquifers. `r round(input_summary |> filter(state_figure == "Moderate Rate of Decline") |> extract("prop"))`% of
+    aquifers show a moderate rate of decline in water levels, and
+    `r round(input_summary |> filter(state_figure == "Large Rate of Decline") |> extract("prop"))`% of aquifers show a
+    large rate of decline. Note that only wells with enough data for
+    trend analysis are included in the following figures.
+
+
+\vspace{10pt}
+
+```{r bc-bar, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, out.width = "100%", fig.align = 'left'}
+bc_bar_chart
+```
+
+\newpage
+
+\vspace{40pt}
+
+## Regional Summary of Trends in Groundwater Levels (10 year trends)
+
+-   The number of aquifers assessed in each [Natural Resource
+    Regions](https://www2.gov.bc.ca/gov/content/industry/forestry/managing-our-forest-resources/ministry-of-forests-lands-and-natural-resource-operations-region-district-contacts)
+    varies. The highest number of aquifers assessed were in the West Coast Region. The
+    lowest number of aquifers is the Skeena and Omineca regions.
+
+\vspace{10pt}
+
+```{r region, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, out.width = "100%", fig.align = 'left'}
+regional_bar_chart
+```
+
+\newpage
+
+## Location and Status of Observation Wells (All Available Data)
+
+\vspace{10pt}
+
+```{r overview_map, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, fig.width = 8, fig.height = 11, fig.align = 'left'}
+# summary map
+
+prov_map
+```
+
+\newpage
+
+\vspace{40pt}
+
+## More About Groundwater Levels
+
+Groundwater levels are sensitive to rainfall, aquifer storage capacity,
+recharge rate—the rate at which surface water trickles down to refill a
+groundwater aquifer—and human use. Trends presented here show long-term
+changes in groundwater, but have not been corrected for the above
+factors. Thus, any significant trends are not necessarily due to human
+use alone. Information on long-term trends can be useful for
+prompting further research and informing decision-making.
+
+<!-- Groundwater levels are sensitive to precipitation, aquifer storage capacity, recharge rate&mdash;the rate at which surface water trickles down to refill a groundwater aquifer&mdash;and human withdrawal. Groundwater level trends presented here indicate long-term changes in water level, but have not been corrected for changes in precipitation patterns or other factors. Thus, any significant trends are not necessarily directly attributable to human use. However, information on long-term trends can be useful for prompting further research and informing decision-making.  -->
+
+## Methods
+
+[**R**](http://www.r-project.org) package and code: We have developed an
+R package to facilitate working with, analyzing, and visualizing British
+Columbia groundwater level data. Download the 'bcgroundwater' package
+from [GitHub](https://github.com/bcgov/bcgroundwater). The source code
+for repeating the analysis presented on this page is also available on
+[GitHub](https://github.com/bcgov/groundwater-levels-indicator).
+
+<!-- ### Data -->
+
+<!-- The data sets are all sourced from the B.C. Data Catalogue, distributed under the [Open Government Licence - British Columbia](https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61). -->
+
+<!-- -  Provincial Groundwater Observation Well Network - Groundwater Levels Data:  -->
+
+<!-- <https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685> -->
+
+<!-- - Groundwater well metadata, such as location, depth, and aquifer type were obtained -->
+
+<!-- from the Ground Water Wells (Spatial View) Dataset: -->
+
+<!-- <https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778> -->
+
+<!-- - Natural Resource (NR) Regions, accessed with the ['bcmaps' R package](https://cran.r-project.org/web/packages/bcmaps/index.html): <https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f> -->
+
+### Data Filtering and Imputation
+
+We completed several data filtering steps prior to trend analysis. The data filtering ensures that each well has sufficient observations for trend analysis and does not have large data gaps. There are stricter data requirements for shorter timeseries (e.g. the 10-yr analysis). The steps we used for filtering data and the order they were conducted are listed below. 
+
+- After the time series were constructed, we inspected each well for consecutive missing values near the beginning or the end of the time series, due to the strong influence of these regions
+on trend analysis. If there were more than four consecutive missing
+values in the first or last 10% of the time series, the time series was
+truncated to remove the missing values.
+- Wells with more than 15% missing data over the timeseries were excluded. 
+- For the 10-year timeseries, each year needed at least 8 months of collected data. This is to avoid including years where monitoring ended in the first few months of the year or started near the end. 
+- To avoid including wells with large data gaps in the middle of the timeseries, we applied a limit of years that could be missing. The limit for 10-15 years was 1 missing year, 15-19 years was 3 missing years, and the 20 + years limit was 5 missing years. 
+- Any missing data in the timeseries remaining was then interpolated. 
+- We applied the same procedure for the monthly analysis but instead of requirements applying to the year period, we applied them to the month in question. 
+
+We interpolated the remaining missing values by first fitting a 12-period (i.e., monthly) basic structural time series model (BSM) to the data (Harvey, 1990).
+Fixed-interval smoothing (Durbin & Koopman, 2012) was then applied to
+the fitted model to generate predicted values for the entire time
+series; the predicted values were substituted into the original time
+series where there were missing data. This resulted in a full monthly
+time series for each well, with one observation per month. Finally, we calculated the
+mean annual groundwater level and mean monthly groundwater levels for applicable months, and performed trend analysis.
+
+
+### Trend Analysis
+
+Trend analysis was considered for groundwater observation wells that
+had ten or more complete years of data, met the data requirements detailed above, and were active as of January 1, 2013. This resulted in
+`r nrow(attr_wells)` wells with suitable data records for analysis for the "All-Data" trending option. For each trend option selected, the amount of data missing was calculated separately which led to several cases where there was enough data for one time period but not another (for example, a 10-year trend was calculated for a well but there was too much missing data to calculate a trend for the entire time series). To standardize the 10-year (2013 - 2023) and 20-year (2003 - 2023) trend analyses, we set a requirement for 10 years of data for the 10-year analysis and 18 years of data for the 20-year analysis to avoid having a well with 11 years of data being assessed in both categories. 
+
+We conducted trend analysis both annually and monthly. For the annual analysis, a median value was calculated for each month that had more than one observation. The annual mean groundwater level was then calculated for each year that contained a sufficient number of monthly values in the year. For the monthly analysis, a mean value was calculated for each month in the year. The monthly trend analyses were conducted on mean groundwater levels found in a particular month over the time series (i.e. January). 
+
+We used the Zhang et al. (2000) method of trend analysis as detailed in the `zyp` R Package (Bronaugh and Schoeneberg 2023). The Zhang method first assesses and removes significant autocorrelation in the timeseries and then conducts Mann Kendall test using Theil Sen approach to determine the magnitude of the trend. 
+
+Time series were not corrected for precipitation or any other climatic or hydrologic processes. As such, no causation for trends are implied.
+
+*Important Changes*
+
+These methods were implemented using the R package ‘zyp’ version 0.11-1 (Bronaugh, D. & Schoeneberg, A., 2023). The analysis described above follows the Zhang *et al* (2000) method, however previous versions of this indicator used the Yue-Pilon method (Yue *et al* 2002). The methods were modified after the Yue Pilon method was found to have very high Type-1 error rates (Buerger 2017, Zhang and Zwiers 2004). Type 1 error rates occur when the null hypothesis is falsely rejected and analysis finds significant differences where none existed. 
+
+The minimum amount of missing data was lowered from 25% in the previous version of the indicator to 15% in this updated version. 
+
+*Note on Trend Significance*
+
+In the results on the online map version and in the following table, there are instances where a decreasing or increasing trend is visually observed but the change over time is not statistically significant. When a trend is not statistically significant, it means the observed pattern was not clear enough to rule out the trend occurring by random chance (i.e. the null hypothesis of no trend is accepted). We used a p-value of 0.05 which translates to a <5% chance the observed trend happened by random chance. When a trend is not significant, you should be cautious about interpreting the presence and magnitude of a visual trend. High variability in data points, sample size, magnitude of the trend, and other factors impact the p-value. When using trend results to make decisions, p-values are one of several important considerations and should not be solely relied on. More details on the trends results are available in Appendix A. 
+
+
+<!-- Trend analysis was conducted using monthly groundwater levels from each -->
+
+<!-- groundwater observation well that had ten or more years of data, fewer -->
+
+<!-- than 25% of monthly observations missing, and was active as of January 1, -->
+
+<!-- 2008. This resulted in `r nrow(attr_wells)` wells with suitable data records for analysis.  -->
+
+<!-- For each month that had more than one observation, the median was taken. After the time series were constructed, each was -->
+
+<!-- inspected for consecutive missing values near the -->
+
+<!-- beginning or the end of the time series, due to the strong influence of -->
+
+<!-- these regions on trend analysis. If there were more than four -->
+
+<!-- consecutive missing values in the first or last 10% of the time series, -->
+
+<!-- the time series was truncated to remove the missing values. Remaining  -->
+
+<!-- missing values were interpolated by first fitting a 12-period (i.e., -->
+
+<!-- monthly) basic structural time series model (BSM) to the data -->
+
+<!-- [@harvey1990forecasting]. Fixed-interval smoothing -->
+
+<!-- [@DurbinKoopman2001ts] was then applied to the fitted model to generate -->
+
+<!-- predicted values for the entire time series; the predicted values were -->
+
+<!-- substituted into the orignal time series where there were missing data. -->
+
+<!-- This resulted in a full monthly time series for each well, with one -->
+
+<!-- observation per month.  Finally, the -->
+
+<!-- mean annual groundwater level was calculated for each well, and trend -->
+
+<!-- analysis was performed using the annual values. -->
+
+<!-- Each groundwater-level time series was analyzed for trend using -->
+
+<!-- Trend-Free Pre-Whitening to remove lag-1 autocorrelation, which can -->
+
+<!-- artificially increase the probability of detecting a significant trend -->
+
+<!-- [@YuePilon2002autocorr]. In this method, the slope of each time series -->
+
+<!-- is estimated using the Theil-Sen approach [@sen1968slope]. If the -->
+
+<!-- estimated slope is different from zero, then the data are detrended by -->
+
+<!-- the slope and the AR(1) 1s calculated for the detrended time series. The -->
+
+<!-- residuals and the trend are combined and then tested for significance -->
+
+<!-- using the Mann-Kendall trend test. These methods were implemented using -->
+
+<!-- the R package ‘zyp’ [@pkg_zyp]. -->
+
+
+## Useful Links
+
+-   Visit the [Monitoring Aquifers: Provincial Observation Well Network
+    homepage](https://www2.gov.bc.ca/gov/content?id=B03D0994BB5C4F98B6F7D4FD8610C836)
+    for more information on groundwater monitoring observation wells.
+
+-   [Groundwater Wells and Aquifers
+    (GWELLS)](https://apps.nrs.gov.bc.ca/gwells/)
+
+-   [Water Data & Tools for British
+    Columbia](https://www2.gov.bc.ca/gov/content?id=A9E4D7847FBC42CEB3A9E8ABAC364BD6)
+
+-   [Previous B.C. State of Environment reports and indicators on
+    groundwater levels in
+    B.C.](https://www2.gov.bc.ca/gov/content?id=07DD1DCE7F784EFEBA5A26C32CB1646D)
+
+## Data
+
+The data sets are all sourced from the B.C. Data Catalogue, distributed
+under the [Open Government Licence - British
+Columbia](https://www2.gov.bc.ca/gov/content?id=A519A56BC2BF44E4A008B33FCF527F61).
+
+-   [Indicator Summary Data: Long-term Trends in B.C. Groundwater
+    Levels](https://catalogue.data.gov.bc.ca/dataset/a74f1b97-17f7-499b-84e7-6455e169e425)
+
+-   [Provincial Groundwater Observation Well Network - Groundwater
+    Levels
+    Data](https://catalogue.data.gov.bc.ca/dataset/57c55f10-cf8e-40bb-aae0-2eff311f1685)
+
+-   [Groundwater well metadata, such as location, depth, and aquifer
+    type were obtained from the Ground Water Wells (Spatial View)
+    Dataset](https://catalogue.data.gov.bc.ca/dataset/e4731a85-ffca-4112-8caf-cb0a96905778)
+
+-   [Natural Resource (NR)
+    Regions](https://catalogue.data.gov.bc.ca/dataset/dfc492c0-69c5-4c20-a6de-2c9bc999301f),
+    accessed with the ['bcmaps' R
+    package](https://cran.r-project.org/web/packages/bcmaps/index.html)
+
+### References
+
+-   Bronaugh, D. & Shoeneberg, A. (2009). Package ‘zyp: Zhang + Yue-Pilon Trends Package’.
+    CRAN Repository.
+    
+-   Buerger, G., 2017. On trend detection. Hydrological Processes 31, 4039-4042.
+
+-   Durbin, J., & Koopman, S. J. (2012). Time series analysis by state
+    space methods (Vol. 38). OUP Oxford.
+
+-   [Gurdak, J.J., R.T. Hanson, and T.R. Green. 2009. Effects of Climate
+    Variability and Change on Groundwater Resources of the United
+    States. United States Geological Survey. Fact Sheet 2009–3074.
+    (PDF)](https://pubs.usgs.gov/fs/2009/3074/pdf/FS09-3074.pdf)
+
+-   Harvey, A. C. (1990). Forecasting, structural time series models and
+    the Kalman filter.
+
+-   Sen, P. K. (1968). Estimates of the regression coefficient based on
+    Kendall's tau. Journal of the American statistical association,
+    63(324), 1379-1389.
+
+-   Yue, S., Pilon, P., Phinney, B., & Cavadias, G. (2002). The
+    influence of autocorrelation on the ability to detect trend in
+    hydrological series. Hydrological processes, 16(9), 1807-1829.
+    
+-   Zhang, X., Vincent, L. A., Hogg, W. D., & Niitsoo, A. (2000). Temperature and precipitation trends in Canada during the 20th century. Atmosphere-ocean, 38(3), 395-429.
+
+-   Zhang, X., Zwiers, F.W., 2004. Comment on "Applicability of prewhitening to eliminate the influence of serial correlation on the Mann-Kendall test" by Sheng Yue and Chun Yuan Wang. Water
+Resources Research 40.
+
+
+------------------------------------------------------------------------
+
+Published and Available Online at Environmental Reporting BC
+(`r updateDate`):
+<http://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html>
+
+Email correspondence to:
+[envreportbc\@gov.bc.ca](mailto:envreportbc@gov.bc.ca){.email}
+
+*Suggested Citation*:\
+Environmental Reporting BC. 2024. Long-term Trends in Groundwater Levels
+in B.C. State of Environment Reporting, Ministry of Environment and
+Climate Change Strategy, British Columbia, Canada.
+
+\newpage
+
+## Appendix 1 - Trending Results in Tables
+
+### Table 1: Summary of annual results of trend analysis of groundwater levels
+
+Wells with 10 or more complete years of data for trend analysis are included. All available years are included in analysis. 
+
+\small
+
+```{r table, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis'}
+
+# observation well table
+results_viz %>%
+  mutate(nYears = round(nYears)) %>%
+  select(`Well No` = Well_Num,
+         `Result` = state,
+         `Aquifer Type`= Aquifer_Type,
+         `Region Name` = region_name,
+         `Years` = nYears,
+         `Intercept` = trend_line_int,
+         `Slope` = trend_line_slope,
+         `p-value` = sig) %>%
+  arrange(`Region Name`, `Well No`) %>%
+  knitr::kable(format = "latex",
+               digits = 2,
+               booktabs = TRUE,
+               longtable = TRUE,
+               linesep = "",
+               align = "l",
+               # col.names = linebreak(column_names, align = "l"),
+               escape = FALSE) %>%
+  kableExtra::kable_styling(
+    position = "left",
+    latex_options = c("striped", "repeat_header"),
+    stripe_color = "gray!15"
+  )
+```
+
+\newpage
+
+### Table 2: Summary of 10-year (2013 - 2023) results of trend analysis of groundwater levels
+
+Wells with 10 complete years of data for trend analysis are included.
+
+\small
+
+```{r table_2, echo = FALSE, warning = FALSE, error = FALSE, message = FALSE, results = 'asis'}
+
+# observation well table
+results_viz_10 %>%
+  mutate(nYears = round(nYears)) %>%
+  select(`Well No` = Well_Num,
+         `Result` = state,
+         `Aquifer Type`= Aquifer_Type,
+         `Region Name` = region_name,
+         #`Years` = nYears,
+         `Intercept` = trend_line_int,
+         `Slope` = trend_line_slope,
+         `p-value` = sig) %>%
+  arrange(`Region Name`, `Well No`) %>%
+  knitr::kable(format = "latex",
+               digits = 2,
+               booktabs = TRUE,
+               longtable = TRUE,
+               linesep = "",
+               align = "l",
+               # col.names = linebreak(column_names, align = "l"),
+               escape = FALSE) %>%
+  kableExtra::kable_styling(
+    position = "left",
+    latex_options = c("striped", "repeat_header"),
+    stripe_color = "gray!15"
+  )
+```
+
+\newpage
+
+## Appendix 2: Detailed Graphs for Groundwater Observation Wells Included in the Analysis
+
+Three plots were included for each groundwater observation well that met the data requirements for data analysis. The plots included for each well include a monthly hydrograph, all-data trends, and 10-year trends. Only wells that had both all-data and 10-yr trend options were included. 
+
+The first plot shows monthly groundwater levels
+relative to the annual average water level. This illustrates the
+seasonal nature of water levels recorded in that well—many wells will
+have higher than average water levels in the spring, and lower than
+average levels in the late summer and fall. The shaded blue area shows
+the range of variation within which 90% of water level observations in
+that month fall.
+
+The all-data and 10-year plots show the history of the groundwater levels over the relevant time period.  The blue line shows measured groundwater depth over time. The light grey dots
+show missing values which were interpolated (see Methods). The trend
+category is provided below the title—if the trend is significant, based
+on a combination of statistical and environmental significance
+criteria—the calculated change in annual average groundwater levels is
+provided (meters per year) and visually represented by an orange trend
+line.
+
+\newpage
+
+```{r well_plots, echo=FALSE, error=FALSE, out.width="100%", message=FALSE, warning=FALSE, results='asis', eval=FALSE}
+
+# individual well plots
+app_wells_10 <- results_viz_10 |> 
+  pull(Well_Num)
+
+app_wells <- results_viz |> 
+  pull(Well_Num)
+
+pdf_wells <- intersect(app_wells_10, app_wells)
+
+#load('../groundwater-levels-indicator/tmp/well_plots.RData')
+load(here("tmp", "well_plots.Rdata"))
+
+well_plots <- well_plots |> 
+  filter(Well_Num %in% pdf_wells)
+  
+#load('../groundwater-levels-indicator/tmp/well_plots_10.RData')
+load(here("tmp", "well_plots_10.Rdata"))
+
+well_plots_10 <- well_plots_10 |> 
+  filter(Well_Num %in% pdf_wells)
+  
+
+knitr_latex_char <- function(x) {
+  y <- gsub("\\\\", "\\\\textbackslash{}", x) # backslash has to be first!
+  y <- gsub("([#$%&_])", "\\\\\\1", y) # Doesn't deal with { or } because of function{}
+  y <- gsub("\\^", "\\\\textasciicircum{}", y)
+  y <- gsub("~", "\\\\textasciitilde{}", y)
+  return(y)
+}
+
+status.well <- "out/figs/"
+
+for (reg in sort(unique(well_plots$region_name))) {
+  cat(paste0('\\subsection{',reg," Region",'}'))
+  regdata <- filter(well_plots, region_name == reg) 
+  
+  for (well in pdf_wells) {
+    if (is.na(well)) next
+    
+    wellname <- filter(well_plots, Well_Num == well) %>%
+      pull(Well_Name)
+    
+    aquifer_id <- filter(well_plots, Well_Num == well) %>%
+      pull(aquifer_id)
+    
+    cat(paste0('\\subsubsection*{',reg,": ",
+               knitr_latex_char(wellname),
+               '}'))
+    
+    cat(paste0('\\subsubsection*{',"Associated aquifer number: ",
+               knitr_latex_char(aquifer_id),
+               '}'))
+    
+    #cat(paste0(file=paste0(status.well, "combined_fig_", well,".png")))
+    status.well<- here("out")
+    
+    x <- png::readPNG(paste0(status.well, "/figs/combined_fig_", well,".png"))
+    cat(paste0(x))
+    
+    cat('\\newpage ')
+     
+  }
+  
+}
+```
+
+```{r appendix-2, echo=FALSE, results='asis', fig.width = 9, fig.asp = 0.4}
+
+knitr_latex_char <- function(x) {
+  y <- gsub("\\\\", "\\\\textbackslash{}", x) # backslash has to be first!
+  y <- gsub("([#$%&_])", "\\\\\\1", y) # Doesn't deal with { or } because of function{}
+  y <- gsub("\\^", "\\\\textasciicircum{}", y)
+  y <- gsub("~", "\\\\textasciitilde{}", y)
+  return(y)
+}
+
+obs_well_viz <- obs_well_viz |> 
+  arrange(region_name, Well_Num)
+
+iwalk(stn_plots, ~ {
+  
+  stn = filter(obs_well_viz, Well_Num == .y)
+  
+  # Airzone & Site block
+  cat("\\hrule")
+  cat("\\textbf{Region:} ", stn$region_name[1], "\\newline")
+  cat("\\textbf{Observation Well Number:} ", stn$Well_Num[1], "\\newline")
+  cat("\\textbf{Aquifer Number:} ", stn$aquifer_id[1], "\\textbf{Aquifer Type:} ",
+  knitr_latex_char(stn$Aquifer_Type[1]), "\\newline")
+  cat("\\vspace{-0.2cm} \n \n \\hrule \n \n \\vspace{0.5cm}")
+  
+  # Month - Plot
+  plot(.x[["month"]])
+  cat("\n \n \\vspace{0.5cm} \n ") # Need line breaks or \vspace applies to next line
+  
+  # Area - Plot
+  plot(.x[["area"]])
+  cat("\n \n \\vspace{0.5cm} \n ")
+  
+  # Area 10- Plot
+  plot(.x[["a_10"]])
+  cat("\n \n \\vspace{0.5cm} \n ")
+  
+  cat("\\newpage")
+  
+})
+
+
+```
+
