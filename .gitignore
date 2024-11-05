@@ -19,3 +19,4 @@ temp.html
 temp_files/
 *.csv
 *results-by-aquifer.csv
+app/rsconnect/*
