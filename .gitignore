@@ -2,8 +2,8 @@
 .Rhistory
 .RData
 print_ver/*.pdf
-/out
-/tmp
+out/
+tmp/
 README.html
 /print_ver/gwl_cache/
 /print_ver/gwl_files/
@@ -15,7 +15,7 @@ README.html
 gwl.log
 /app/www/*
 static_leaflet.png
-*temp.html
-temp_files/*
+temp.html
+temp_files/
 *.csv
 *results-by-aquifer.csv
