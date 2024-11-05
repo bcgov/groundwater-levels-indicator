@@ -35,7 +35,7 @@ There are four core scripts that are required for the analysis, they need to be 
 
 ### Groundwater Levels shinyapp
 
-The app folder contains code to launch a shinyapp for an interactive data visualization found on the [indicator website](https://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html)
+The app/ folder contains code to launch a shinyapp for an interactive data visualization found on the [indicator website](https://www.env.gov.bc.ca/soe/indicators/water/groundwater-levels.html).
 
 ## Getting Help or Reporting an Issue
 
