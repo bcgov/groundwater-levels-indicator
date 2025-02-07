@@ -24,7 +24,15 @@ results_out <- read.csv("www/gw_well_results.csv") %>%
                                      "Large Rate of Decline",
                                      "Insufficient Data"))) %>%
   mutate(pt_size = case_when(state_short == "Insufficient Data" ~ 2,
-                             .default = 5))
+                             .default = 5),
+         state_add = case_when(state_short == "Stable and/or Non-significant" 
+                               & sig_state == "Significant" ~ "Stable",
+                               state_short == "Stable and/or Non-significant" 
+                               & sig_state == "Not Significant" ~ "Not Significant",
+                               state_short == "Stable and/or Non-significant" 
+                               & (trend_line_slope > -0.03 & trend_line_slope < 0.03) ~ "Stable and Non-significant",
+                               TRUE ~ state_short
+         ))
 
 levels(results_out$state_short)
 

@@ -362,33 +362,62 @@ server <- function(input, output, session) {
           int.well = intercept + slope * as.numeric(min(as.Date(data$Date)))
           
           trend_df = data.frame(int.well, slope)
-          # print(trend_data)
-          # print(trend_df)
+          
+          # extract sig value for trend
+          sig_state = filtered_data() %>%
+            filter(Well_Num == station_click()) |> 
+            pull(sig_state)
           
           plot = ggplot(plot_data) +
-            ggtitle(paste0("Well Number: ", station_click(), "\nStation Class: ",trend_data$state_short)) +
-            labs(subtitle = paste0(trend_data$slope, " m/year Trend: ", trend_data$sig_state))+
-            geom_errorbar(aes(x = as.Date(Date), ymin = min, ymax = max, col = missing_dat), width = 0.3) +
+            ggtitle(paste0(
+              "Well Number: ",
+              station_click(),
+              "\nStation Class: ",
+              trend_data$state_add
+            )) +
+            labs(
+              subtitle = paste0(
+                "Slope: ",
+                round(trend_data$slope, 2),
+                " m/year; p-value: ",
+                round(trend_data$sig, 2),
+                "; Trend: ",
+                trend_data$sig_state
+              )
+            ) +
+            geom_errorbar(aes(
+              x = as.Date(Date),
+              ymin = min,
+              ymax = max,
+              col = missing_dat
+            ), width = 0.3) +
             geom_point(aes(x = as.Date(Date), y = annual_median, col = missing_dat)) +
-            scale_x_date(expand = c(0.1,0.1)) +
-            scale_y_reverse(expand = c(0,0)) + 
+            scale_x_date(expand = c(0.1, 0.1)) +
+            scale_y_reverse(expand = c(0, 0)) +
             coord_cartesian(ylim = lims) +
-            scale_colour_manual(name = "",
-                                labels = c('Annual Median (95% Confidence Intervals)', 'Incomplete Data (Interpolated)'), 
-                                values = c("blue", "#A9A9A9")) +
+            scale_colour_manual(
+              name = "",
+              labels = c(
+                'Annual Median (95% Confidence Intervals)',
+                'Incomplete Data (Interpolated)'
+              ),
+              values = c("blue", "#A9A9A9")
+            ) +
             theme_minimal() +
             theme(
+              plot.margin = margin(10, 10, 10, 10, "points"),
               text = element_text(colour = "black", size = 13),
               panel.grid.minor.x = element_blank(),
               panel.grid.major.x = element_blank(),
-              axis.line = element_line(colour="grey50"),
-              legend.position = "bottom", legend.box =  "horizontal",
+              axis.line = element_line(colour = "grey50"),
+              legend.position = "bottom",
+              legend.box =  "horizontal",
               plot.title = element_text(hjust = 0),
-              plot.subtitle = element_text(hjust = 0, face = "plain", size = 11)) +
-            theme(plot.margin = margin(10, 10, 10, 10, "points")) +
+              plot.subtitle = element_text(hjust = 0, face = "plain", size = 11, 
+                                           color = ifelse(trend_data$sig > 0.05, 'black', 'red'))
+            ) +
             xlab("Date") +
-            ylab("Depth Below Ground (metres)") +
-            theme(legend.position = "bottom")
+            ylab("Depth Below Ground (metres)") 
           
           if(filtered_data() %>%
              filter(Well_Num == station_click()) %>%
@@ -448,23 +477,22 @@ server <- function(input, output, session) {
         
         plot = ggplot(monthly_data) + 
           ggtitle(paste0("Well Number: ", station_click(),"; Month: ", month(match(month_rv(),month.abb), label = T, abbr = F),
-                         " \nStation Class: ",trend_data$state_short)) +
-          labs(subtitle = paste0(trend_data$slope," m/year Trend: ", trend_data$sig_state)) +
+                         " \nStation Class: ",trend_data$state_add)) +
+          labs(subtitle = paste0("Slope: ", round(trend_data$slope, 2), " m/year; p-value: ", 
+                                 round(trend_data$sig,2), "; Trend: ", trend_data$sig_state))+
           #geom_errorbar(aes(x = as.Date(Date), ymin = min, ymax = max, col = missing_dat), width = 0.3) +
           geom_point(aes(x = as.Date(Date), y = value, col = missing_dat)) +
           # ggtitle(paste0(month(match(month_rv(),month.abb), label = T, abbr = F), " Mean Water Level"))  +
           theme_minimal() +
-          theme(plot.title = element_text(hjust = 0.5),
-                legend.position = "none") +
-          theme(
-            text = element_text(colour = "black", size = 13),
-            panel.grid.minor.x = element_blank(),
-            panel.grid.major.x = element_blank(),
-            axis.line = element_line(colour="grey50"),
-            legend.position = "bottom", legend.box =  "horizontal",
-            plot.title = element_text(hjust = 0),
-            plot.subtitle = element_text(hjust = 0, face = "plain", size = 11)) +
-          theme(plot.margin = margin(10, 10, 10, 10, "points")) +
+          theme(text = element_text(colour = "black", size = 13),
+                panel.grid.minor.x = element_blank(),
+                panel.grid.major.x = element_blank(),
+                axis.line = element_line(colour="grey50"),
+                legend.position = "bottom", legend.box =  "horizontal",
+                plot.title = element_text(hjust = 0),
+                plot.margin = margin(10, 10, 10, 10, "points"),
+                plot.subtitle = element_text(hjust = 0, face = "plain", size = 11, 
+                                             color = ifelse(trend_data$sig > 0.05, 'black', 'red'))) +
           scale_y_reverse() +
           scale_colour_manual(name = "",
                               labels = c('Monthly Mean', 'Incomplete Data (Interpolated)'), 
@@ -473,12 +501,6 @@ server <- function(input, output, session) {
           xlab("Date") +
           ylab("Depth Below Ground (metres)")
         
-        # print(trend_data)
-        # print(trend_df)
-        # print(min(as.Date(data$Date)))
-        # print(as.numeric(min(as.Date(data$Date))))
-        # print(lims)
-        # print(monthly_data$Date)
         
         if(filtered_data() %>%
            filter(Well_Num == station_click()) %>%

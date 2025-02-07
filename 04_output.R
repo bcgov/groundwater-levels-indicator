@@ -466,13 +466,11 @@ styles <- 'feature:all|element:all|saturation:-75'
 
 #tweak df for map plot
 results_map_df <- results_out %>% 
-  filter(category != "N/A") %>%
   mutate(state = factor(state, 
                            levels = c("Large Rate of Decline",
                                       "Moderate Rate of Decline",
                                       "Stable and/or Non-significant", "Increasing"),
                            ordered = TRUE)) %>% 
-  arrange(fct_rev(category)) %>% 
   bind_cols(st_as_sf(., crs = 4326, coords = c("Long", "Lat")) %>% 
               st_transform(3857) %>%
               st_coordinates() %>%
