@@ -156,7 +156,7 @@ server <- function(input, output, session) {
   output$leafmap <- renderLeaflet({
     map = leaflet(options = leafletOptions(zoomSnap = 0.25,
                                            zoomDelta = 0.25)) %>%
-      addProviderTiles(providers$CartoDB,group = "CartoDB") %>%
+      addProviderTiles(providers$Esri.WorldGrayCanvas, group = "Esri World Gray") %>%
       addTiles(group = 'Streets') |> 
       add_bc_home_button()
     
@@ -201,9 +201,10 @@ server <- function(input, output, session) {
                 opacity = 1,
                 layerId = 'legend',
                 position = 'topright') %>%
-      addLayersControl(baseGroups = c("CartoDB","Streets"),
-                       options = layersControlOptions(collapsed = F),
-                       position = 'topright')
+      addLayersControl(
+                baseGroups = c("Esri World Gray", "Streets"),
+                options = layersControlOptions(collapsed = FALSE),
+                position = 'topright')
   })
   
   output$summaryPlot = renderPlot({
